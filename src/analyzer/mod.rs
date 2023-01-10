@@ -1,0 +1,284 @@
+use crate::DEFAULT_SCHEMA;
+use crate::ast::*;
+
+use self::err::*;
+
+mod block;
+mod err;
+mod indexer;
+
+#[derive(Debug, PartialEq, Clone, Default)]
+pub struct SemanticSchemaBlock {
+  /// Overall description of the project. This is optional. The file must contain one or zero 'Project' block.
+  pub project: Option<project::ProjectBlock>,
+  /// Table block.
+  pub tables: Vec<table::TableBlock>,
+  /// TableGroup block.
+  pub table_groups: Vec<table_group::TableGroupBlock>,
+  /// Ref block.
+  pub refs: Vec<block::IndexedRefBlock>,
+  /// Enums block.
+  pub enums: Vec<enums::EnumBlock>,
+  /// Identifier and alias indexer.
+  pub indexer: indexer::Indexer,
+}
+
+type TableRefTuple = (Vec<block::IndexedRefBlock>, Vec<block::IndexedRefBlock>, Vec<block::IndexedRefBlock>);
+
+impl SemanticSchemaBlock {
+  /// Gets a table block's relation (ref to, ref by, ref self).
+  pub fn get_table_refs(&self, table_ident: &table::TableIdent) -> TableRefTuple {
+    let mut ref_to_blocks = vec![];
+    let mut ref_by_blocks = vec![];
+    let mut ref_self_blocks = vec![];
+
+    let eq = |table_ident: &table::TableIdent, ref_ident: &refs::RefIdent| {
+      table_ident.schema == ref_ident.schema && table_ident.name == ref_ident.table
+    };
+
+    for ref_block in self.refs.iter() {
+      let lhs_ident = self.indexer.refer_ref_alias(&ref_block.lhs);
+      let rhs_ident = self.indexer.refer_ref_alias(&ref_block.rhs);
+
+      if eq(&table_ident, &lhs_ident) && eq(&table_ident, &rhs_ident) {
+        ref_self_blocks.push(ref_block.clone())
+      }
+      else if eq(&table_ident, &lhs_ident) {
+        ref_to_blocks.push(ref_block.clone())
+      }
+      else if eq(&table_ident, &rhs_ident) {
+        ref_by_blocks.push(ref_block.clone())
+      }
+    }
+
+    (ref_to_blocks, ref_by_blocks, ref_self_blocks)
+  }
+}
+
+impl schema::SchemaBlock<'_> {
+  pub fn analyze(self) -> AnalyzingResult<SemanticSchemaBlock> {
+    let Self {
+      span_range,
+      input,
+      project,
+      tables,
+      table_groups,
+      refs,
+      enums,
+    } = self;
+
+    // check project block
+    if let Some(project_block) = &project {
+
+    } else {
+      throw_err(Err::ProjectSettingNotFound, span_range, input)?
+    }
+
+    // collect tables
+    let mut indexer = indexer::Indexer::default();
+    let mut indexed_refs: Vec<_> = refs.into_iter().map(block::IndexedRefBlock::from).collect();
+
+    // index inside the table itself
+    let tables = tables.into_iter().map(|mut table| {
+      for col in table.cols.iter() {
+        if col.settings.is_pk {
+          if !table.indexer.pk_list.is_empty() {
+            panic!("pk_dup");
+          }
+          if col.settings.is_nullable {
+            panic!("nullable_pk");
+          }
+          if !col.r#type.arrays.is_empty() {
+            panic!("array_pk");
+          }
+          
+          table.indexer.pk_list.push(col.name.clone())
+        }
+        if col.settings.is_unique {
+          table.indexer.unique_list.push(col.name.clone())
+        }
+      }
+
+      if let Some(indexes_block) = &table.indexes {
+        for def in indexes_block.defs.iter() {
+          let idents: Vec<_> = def.idents.iter().map(|ident| {
+            match ident {
+              indexes::IndexesIdent::String(s) => s.clone(),
+              indexes::IndexesIdent::Expr(e) => panic!("indexes expression is not supported")
+            }
+          }).collect();
+
+          if let Some(settings) = &def.settings {
+            // FIXME: throw error when pk and unique key are together
+            if settings.is_pk {
+              if !table.indexer.pk_list.is_empty() {
+                panic!("pk_dup");
+              }
+
+              table.indexer.pk_list.extend(idents)
+            } else if settings.is_unique {
+              // FIXME: furthur validation
+              
+              table.indexer.unique_list.extend(idents)
+            }
+
+            if let Some(name) = &settings.name {
+              panic!("indexes_name is not supported")
+            }
+            if let Some(indexes_type) = &settings.r#type {
+              panic!("indexes_type is not supported")
+            }
+          } else {
+            table.indexer.indexed_list.extend(idents)
+          }
+        }
+      }
+
+      table
+    }).collect();
+    
+    // start indexing the schema
+    indexer.index_table(&tables);
+    indexer.index_enums(&enums);
+    indexer.index_table_groups(&table_groups);
+
+    // collect refs from tables
+    for table in &tables {
+      for col in &table.cols {
+        let indexed_ref = block::IndexedRefBlock::from_inline(
+          col.settings.refs.clone(),
+          table.ident.clone(),
+          col.name.clone()
+        );
+
+        indexed_refs.extend(indexed_ref);
+      }
+    }
+
+    // validate table type
+    let tables = tables.into_iter().map(|table| {
+      let cols = table.cols.into_iter().map(|col| {
+        let type_name = col.r#type.type_name;
+
+        if type_name == table::ColumnTypeName::Undef {
+          panic!("undef_table_field")
+        }
+        if !col.r#type.arrays.is_empty() {
+          panic!("arrays type is not supported")
+        }
+
+        let type_name = if let table::ColumnTypeName::Raw(raw) = type_name {
+          if let Ok(valid) = table::ColumnTypeName::match_type(&raw) {
+            if col.r#type.args.is_empty() {
+              valid
+            } else {
+              // validate args (if has)
+              match valid {
+                table::ColumnTypeName::VarChar | table::ColumnTypeName::Char => {
+                  if col.r#type.args.len() != 1 {
+                    panic!("varchar_incompatible_args")
+                  }
+
+                  col.r#type.args.iter().fold(valid, |acc, arg| {
+                    if let table::Value::Integer(_) = arg {
+                      acc
+                    } else {
+                      panic!("varchar_args_is_not_integer")
+                    }
+                  })
+                },
+                table::ColumnTypeName::Decimal => {
+                  if col.r#type.args.len() != 2 {
+                    panic!("decimal_incompatible_args")
+                  }
+
+                  col.r#type.args.iter().fold(valid, |acc, arg| {
+                    if let table::Value::Integer(_) = arg {
+                      acc
+                    } else {
+                      panic!("decimal_args_is_not_integer")
+                    }
+                  })
+                },
+                _ => panic!("invalid args usage")
+              }
+            }
+          } else {
+            let default = if let Some(default) = &col.settings.default {
+              vec![default.to_string()]
+            } else {
+              vec![]
+            };
+
+            // TODO: add support for enum with schema
+            if let Err(msg) = indexer.lookup_enum_values(&None, &raw, &default) {
+              panic!("'{}' is an invalid type", msg)
+            } else {
+              table::ColumnTypeName::Enum(raw)
+            }
+          }
+        } else {
+          panic!("preprecessing_type_is_not_raw")
+        };
+        
+        table::TableColumn {
+          r#type: table::ColumnType {
+            type_name,
+            ..col.r#type
+          },
+          ..col
+        }
+      }).collect();
+
+      table::TableBlock {
+        cols,
+        ..table
+      }
+    }).collect();
+
+    // validate ref
+    for indexed_ref in indexed_refs.clone().into_iter() {
+      match indexed_ref.rel {
+        refs::Relation::One2Many => panic!("one-to-many relation is unsupported"),
+        refs::Relation::Many2Many => panic!("many-to-many relation is unsupported"),
+        _ => ()
+      }
+
+      if let Err(msg) = indexed_ref.validate_ref_type(&tables, &indexer) {
+        panic!("{}", msg)
+      }
+
+      for r in indexed_refs.iter() {
+        if r.lhs.compositions.len() != 1 || r.rhs.compositions.len() != 1 {
+          panic!("composite reference is unsupported")
+        }
+        if r.lhs.compositions.len() != r.rhs.compositions.len() {
+          panic!("composite reference must have the same length")
+        }
+      }
+
+      let count = indexed_refs.iter().fold(0, |acc, other_indexed_ref| {
+        if indexed_ref.eq_lhs(&other_indexed_ref, &indexer) {
+          acc + 1
+        } else {
+          acc
+        }
+      });
+
+      if count != 1 {
+        panic!("dedup_relation_decl")
+      }
+    }
+
+    Ok(
+      SemanticSchemaBlock {
+        project,
+        tables,
+        table_groups,
+        refs: indexed_refs,
+        enums,
+        indexer,
+      }
+    )
+  }
+}

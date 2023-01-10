@@ -1,0 +1,38 @@
+Project sea_orm_codegen {
+  database_type: 'PostgreSQL'
+}
+
+Table cake {
+  id int [pk, increment]
+  name text [null]
+}
+
+Table vendor {
+  id int [pk, increment]
+  name varchar
+  fruit_id text [ref: > fruit.id, null]
+}
+
+Table fruit {
+  id int [pk, increment]
+  name varchar
+  cake_id int [ref: > cake.id, null]
+}
+
+Table filling {
+  id int [pk, increment]
+  name varchar
+}
+
+Table cake_filling {
+  cake_id int
+  filling_id int
+
+  indexes {
+    (cake_id, filling_id) [pk]
+  }
+}
+
+Ref: cake_filling.cake_id > cake.id [delete: cascade, update: cascade]
+
+Ref: cake_filling.filling_id > filling.id [delete: cascade, update: cascade]

@@ -1,0 +1,101 @@
+WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
+COMMENT = _{ single_line_comment | multi_line_comment }
+
+// comments
+single_line_comment = { "//" ~ (!"\n" ~ ANY)* }
+multi_line_comment = { "/*" ~ (!"*/" ~ ANY)* ~ "*/" }
+
+// literals
+double_quoted_value = @{ (!"\"" ~ ANY)* }
+double_quoted_string = { "\"" ~ double_quoted_value ~ "\"" }
+single_quoted_value = @{ (!"'" ~ ANY)* }
+single_quoted_string = { "'" ~ single_quoted_value ~ "'"}
+backquoted_quoted_value = @{ (!"`" ~ ANY)* }
+backquoted_quoted_string = { "`" ~ backquoted_quoted_value ~ "`" }
+triple_quoted_value = @{ (!"'''" ~ ANY)* }
+triple_quoted_string = { "'''" ~ triple_quoted_value ~ "'''" }
+
+var = @{ ASCII_ALPHA ~ (ASCII_ALPHANUMERIC | "_")* }
+
+ident = { var | double_quoted_string }
+
+// values
+string_value = { triple_quoted_string | single_quoted_string }
+integer = @{ ASCII_DIGIT+ }
+decimal = @{ ASCII_DIGIT+ ~ "." ~ ASCII_DIGIT* }
+number_value = { decimal | integer }
+boolean_value = @{ "true" | "false" | "null" }
+hex_value = @{ "#" ~ (ASCII_HEX_DIGIT{3}){1,2} }
+value = { string_value | backquoted_quoted_string | boolean_value | number_value | hex_value }
+
+// top-level ident
+decl_ident = { ident ~ ("." ~ ident)? }
+
+// ref block
+relation = @{ "<>" | "-" | ">" | "<" }
+rel_action = @{ "cascade" | "restrict" | "set null" | "set default" | "no action" }
+rel_update = { "update" ~ ":" ~ rel_action }
+rel_delete = { "delete" ~ ":" ~ rel_action }
+rel_attribute = { rel_update | rel_delete }
+rel_settings = { "[" ~ (rel_attribute ~ ("," ~ rel_attribute)*)? ~ "]" }
+ref_composition = { ident | ("(" ~ ident ~ ("," ~ ident)* ~ ")") }
+ref_ident = { ident ~ "." ~ (ident ~ ".")? ~ ref_composition }
+ref_inline = { "ref" ~ ":" ~ relation ~ ref_ident }
+ref_stmt = { ref_ident ~ relation ~ ref_ident ~ rel_settings? }
+ref_short = { ^"Ref" ~ ":" ~ ref_stmt }
+ref_block = { ^"Ref" ~ "{" ~ ref_stmt ~ "}" }
+ref_decl = { ref_block | ref_short }
+
+// note block
+note_inline = { "note" ~ ":" ~ string_value }
+note_short = { ^"Note" ~ ":" ~ string_value }
+note_block = { ^"Note" ~ "{" ~ string_value ~ "}" }
+note_decl = { note_short | note_block }
+
+// indexes block
+indexes_type_value = @{ "btree" | "gin" | "gist" | "hash" }
+indexes_type = { "type" ~ ":" ~ indexes_type_value }
+indexes_name = { "name" ~ ":" ~ double_quoted_string }
+indexes_attribute_key = @{ "unique" | "pk" }
+indexes_attribute = { indexes_attribute_key | indexes_type | indexes_name | note_inline }
+indexes_settings = { "[" ~ (indexes_attribute ~ ("," ~ indexes_attribute)*)? ~ "]" }
+indexes_ident = { ident | backquoted_quoted_string }
+indexes_multi = { "(" ~ (indexes_ident ~ ("," ~ indexes_ident)*)? ~ ")" ~ indexes_settings? }
+indexes_single = { indexes_ident ~ indexes_settings? }
+indexes_block = { "{" ~ (indexes_single | indexes_multi)* ~ "}" }
+indexes_decl = { ^"Indexes" ~ indexes_block }
+
+// enum block
+enum_attribute = { note_inline }
+enum_settings = { "[" ~ (enum_attribute ~ ("," ~ enum_attribute)*)? ~ "]" }
+enum_value = { ident ~ enum_settings? }
+enum_block = { "{" ~ enum_value* ~ "}" }
+enum_decl = { ^"Enum " ~ decl_ident ~ enum_block }
+
+// table block
+col_default = { "default" ~ ":" ~ value }
+col_attribute_key = @{ "unique" | "primary key" | "pk" | "null" | "not null" | "increment" }
+col_attribute = { col_attribute_key | col_default | note_inline | ref_inline }
+col_settings = { "[" ~ (col_attribute ~ ("," ~ col_attribute)*)? ~ "]" }
+col_type_arg = { "(" ~ (value ~ ("," ~ value)*)? ~ ")" }
+col_type_array = { "[" ~ integer? ~ "]" }
+col_type_unquoted = { var ~ col_type_arg? }
+col_type_quoted = { "\"" ~ double_quoted_value ~ col_type_arg? ~ col_type_array* ~ "\"" }
+col_type = { col_type_unquoted | col_type_quoted }
+table_attribute = { var ~ ":" ~ value }
+table_settings = { "[" ~ (table_attribute ~ ("," ~ table_attribute)*)? ~ "]" }
+table_col = { ident ~ col_type ~ col_settings? }
+table_block = { "{" ~ (table_col | note_decl | indexes_decl)* ~ "}" }
+table_alias = { ^"as " ~ ident }
+table_decl = { ^"Table " ~ decl_ident ~ table_alias? ~ table_settings?  ~ table_block }
+
+// table group block
+table_group_block = { "{" ~ decl_ident* ~ "}" }
+table_group_decl = { ^"TableGroup " ~ ident ~ table_group_block }
+
+// project block
+project_stmt = { var ~ ":" ~ string_value }
+project_block = { "{" ~ (note_decl | project_stmt)* ~ "}" }
+project_decl = { ^"Project " ~ ident ~ project_block }
+
+schema = { SOI ~ (project_decl | table_decl | enum_decl | ref_decl | table_group_decl)* ~ EOI }
