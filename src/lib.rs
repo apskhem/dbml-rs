@@ -5,10 +5,10 @@ use std::{fs, path::Path, io::Result};
 
 #[macro_use] extern crate pest_derive;
 
-mod analyzer;
-mod ast;
-mod parser;
-mod utils;
+pub mod analyzer;
+pub mod ast;
+pub mod parser;
+pub mod utils;
 
 pub const DEFAULT_SCHEMA: &'static str = "public";
 

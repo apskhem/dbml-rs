@@ -9,7 +9,7 @@ DBML parser implemented in Rust programming language.
 ## How to use it?
 
 ```rust
-crate dbml_rs::*;
+use dbml_rs::*;
 
 fn main() {
   let result = parse_file("path/to/your/file.dbml");
