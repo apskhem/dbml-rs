@@ -8,23 +8,19 @@ pub struct IndexedRefBlock {
   pub rel: refs::Relation,
   pub lhs: refs::RefIdent,
   pub rhs: refs::RefIdent,
-  pub settings: Option<refs::RelationSettings>
+  pub settings: Option<refs::RefSettings>
 }
 
 impl IndexedRefBlock {
-  pub fn from_inline(ref_blocks: Vec<refs::RefBlock>, table_ident: table::TableIdent, col_name: String) -> Vec<Self> {
+  pub fn from_inline(ref_blocks: Vec<refs::RefInline>, table_ident: table::TableIdent, col_name: String) -> Vec<Self> {
     ref_blocks.into_iter().map(|ref_block| {
       let table_ident = table_ident.clone();
       let col_name = col_name.clone();
 
-      let refs::RefBlock {
+      let refs::RefInline {
         rel,
         rhs,
-        settings,
-        ..
       } = ref_block;
-
-      // TODO: handle the unwrap
   
       let lhs = refs::RefIdent {
         schema: table_ident.schema,
@@ -36,7 +32,7 @@ impl IndexedRefBlock {
         rel,
         lhs,
         rhs,
-        settings
+        settings: None
       }.normalize()
     }).collect()
   }
@@ -49,32 +45,36 @@ impl IndexedRefBlock {
     let lhs_ident = indexer.refer_ref_alias(&self.lhs);
     let rhs_ident = indexer.refer_ref_alias(&self.rhs);
 
+    if lhs_ident.compositions.len() != rhs_ident.compositions.len() {
+      return Err(format!("relation composition must have number of fields equal in both side"));
+    }
+
     indexer.lookup_table_fields(&lhs_ident.schema, &lhs_ident.table, &lhs_ident.compositions)?;
     indexer.lookup_table_fields(&rhs_ident.schema, &rhs_ident.table, &rhs_ident.compositions)?;
 
     let lhs_table = tables.iter().find(|table| {
       table.ident.schema == lhs_ident.schema && table.ident.name == lhs_ident.table
-    }).unwrap();
+    }).ok_or_else(|| format!("cannot find lhs table"))?;
 
     let rhs_table = tables.iter().find(|table| {
       table.ident.schema == rhs_ident.schema && table.ident.name == rhs_ident.table
-    }).unwrap();
+    }).ok_or_else(|| format!("cannot find rhs table"))?;
 
     let field_pairs = lhs_ident.compositions.iter().zip(rhs_ident.compositions.iter());
 
     for (l, r) in field_pairs.into_iter() {
-      let l_field = lhs_table.cols.iter().find(|col| &col.name == l).unwrap();
-      let r_field = rhs_table.cols.iter().find(|col| &col.name == r).unwrap();
+      let l_field = lhs_table.cols.iter().find(|col| &col.name == l).ok_or_else(|| format!("cannot find l col"))?;
+      let r_field = rhs_table.cols.iter().find(|col| &col.name == r).ok_or_else(|| format!("cannot find r col"))?;
 
       if l_field.r#type != r_field.r#type {
-        return Err(format!("reference column type is mismatched"))
+        return Err(format!("reference (composite) column type is mismatched"))
       }
     }
 
     Ok(())
   }
 
-  pub fn eq_lhs(&self, other: &Self, indexer: &indexer::Indexer) -> bool {
+  pub fn eq(&self, other: &Self, indexer: &indexer::Indexer) -> bool {
     let self_ident = indexer.refer_ref_alias(&self.lhs);
     let other_ident = indexer.refer_ref_alias(&other.lhs);
 
@@ -96,11 +96,9 @@ impl From<refs::RefBlock> for IndexedRefBlock {
       settings
     } = ref_block;
 
-    // TODO: handle the unwrap
-
     Self {
       rel,
-      lhs: lhs.unwrap(),
+      lhs,
       rhs,
       settings
     }.normalize()

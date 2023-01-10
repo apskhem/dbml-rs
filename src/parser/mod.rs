@@ -1,5 +1,8 @@
 mod err;
 
+use std::collections::HashMap;
+use std::str::FromStr;
+
 use err::*;
 
 use pest::Parser;
@@ -13,12 +16,13 @@ use crate::ast::refs::*;
 use crate::ast::table::*;
 use crate::ast::table_group::*;
 use crate::ast::schema::*;
+use crate::utils::s2r;
 
 #[derive(Parser)]
 #[grammar = "src/dbml.pest"]
 struct DBMLParser;
 
-pub fn parse(input: &str) -> ParsingResult<SchemaBlock> {
+pub fn parse(input: &str) -> ParserResult<SchemaBlock> {
   let pairs = DBMLParser::parse(Rule::schema, input)?;
 
   for pair in pairs {
@@ -33,9 +37,8 @@ pub fn parse(input: &str) -> ParsingResult<SchemaBlock> {
   unreachable!("unhandled parsing error!");
 }
 
-fn parse_schema<'a>(pair: Pair<Rule>, input: &'a str) -> ParsingResult<SchemaBlock<'a>> {
-  let span = pair.as_span();
-  let init = SchemaBlock::new(&input, span.start()..span.end());
+fn parse_schema<'a>(pair: Pair<Rule>, input: &'a str) -> ParserResult<SchemaBlock<'a>> {
+  let init = SchemaBlock::new(&input, s2r(pair.as_span()));
 
   pair.into_inner().try_fold(init, |mut acc, p1| {
     match p1.as_rule() {
@@ -52,8 +55,10 @@ fn parse_schema<'a>(pair: Pair<Rule>, input: &'a str) -> ParsingResult<SchemaBlo
   })
 }
 
-fn parse_project_decl(pair: Pair<Rule>) -> ParsingResult<ProjectBlock> {
-  pair.into_inner().try_fold(ProjectBlock::default(), |mut acc, p1| {
+fn parse_project_decl(pair: Pair<Rule>) -> ParserResult<ProjectBlock> {
+  let init = ProjectBlock::from(pair.as_span());
+
+  pair.into_inner().try_fold(init, |mut acc, p1| {
     match p1.as_rule() {
       Rule::ident => {
         acc.name = parse_ident(p1)?
@@ -62,15 +67,21 @@ fn parse_project_decl(pair: Pair<Rule>) -> ParsingResult<ProjectBlock> {
         p1.into_inner().try_for_each(|p2| {
           match p2.as_rule() {
             Rule::project_stmt => {
-              let p2_cloned = p2.clone();
-              let (key, value) = parse_project_stmt(p2)?;
+              let (key, value) = parse_project_stmt(p2.clone())?;
 
               match key.as_str() {
-                "database_type" => acc.database_type = project::DatabaseType::match_type(&value),
-                _ => throw_msg(format!("'{}' key is invalid inside project_block", key), p2_cloned)?,
+                "database_type" => {
+                  acc.database_type = match project::DatabaseType::from_str(&value) {
+                    Ok(val) => val,
+                    Err(msg) => throw_msg(msg, p2)?
+                  }
+                },
+                _ => throw_msg(format!("'{}' key is invalid inside project_block", key), p2)?,
               }
             },
-            Rule::note_decl => acc.note = Some(parse_note_decl(p2)?),
+            Rule::note_decl => {
+              acc.note = Some(parse_note_decl(p2)?)
+            },
             _ => throw_rules(&[Rule::project_stmt, Rule::note_decl], p2)?,
           };
 
@@ -84,7 +95,7 @@ fn parse_project_decl(pair: Pair<Rule>) -> ParsingResult<ProjectBlock> {
   })
 }
 
-fn parse_project_stmt(pair: Pair<Rule>) -> ParsingResult<(String, String)> {
+fn parse_project_stmt(pair: Pair<Rule>) -> ParserResult<(String, String)> {
   pair.into_inner().try_fold((String::new(), String::new()), |mut acc, p1| {
     match p1.as_rule() {
       Rule::var => acc.0 = p1.as_str().to_string(),
@@ -96,7 +107,7 @@ fn parse_project_stmt(pair: Pair<Rule>) -> ParsingResult<(String, String)> {
   })
 }
 
-fn parse_table_decl(pair: Pair<Rule>) -> ParsingResult<TableBlock> {
+fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
   pair.into_inner().try_fold(TableBlock::default(), |mut acc, p1| {
     match p1.as_rule() {
       Rule::decl_ident => {
@@ -127,7 +138,7 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParsingResult<TableBlock> {
         })?
       },
       Rule::table_settings => {
-        // TODO:
+        acc.settings = Some(parse_table_settings(p1)?);
       },
       _ => throw_rules(&[Rule::decl_ident, Rule::table_alias, Rule::table_block, Rule::table_settings], p1)?,
     }
@@ -136,7 +147,41 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParsingResult<TableBlock> {
   })
 }
 
-fn parse_table_col(pair: Pair<Rule>) -> ParsingResult<TableColumn> {
+fn parse_table_settings(pair: Pair<Rule>) -> ParserResult<HashMap<String, Value>> {
+  pair.into_inner().try_fold(HashMap::new(), |mut acc, p2| {
+    match p2.as_rule() {
+      Rule::table_attribute => {
+        let p2_cloned = p2.clone();
+        let mut s_key = None;
+        let mut s_val = None;
+        
+        for p3 in p2.into_inner() {
+          if s_key.is_none() {
+            s_key = Some(p3.as_str().to_string());
+          }
+          else if s_val.is_none() {
+            s_val = Some(parse_value(p3)?);
+          }
+          else {
+            throw_rules(&[Rule::table_attribute], p3)?
+          }
+        }
+        
+        let (s_key, s_val) = match (s_key, s_val) {
+          (Some(k), Some(v)) => (k, v),
+          _ => throw_rules(&[Rule::table_attribute], p2_cloned)?
+        };
+
+        acc.insert(s_key, s_val);
+      },
+      _ => throw_rules(&[Rule::table_attribute], p2)?,
+    }
+
+    Ok(acc)
+  })
+}
+
+fn parse_table_col(pair: Pair<Rule>) -> ParserResult<TableColumn> {
   pair.into_inner().try_fold(TableColumn::default(), |mut acc, p1| {
     match p1.as_rule() {
       Rule::ident => {
@@ -155,7 +200,7 @@ fn parse_table_col(pair: Pair<Rule>) -> ParsingResult<TableColumn> {
   })
 }
 
-fn parse_col_type(pair: Pair<Rule>) -> ParsingResult<ColumnType> {
+fn parse_col_type(pair: Pair<Rule>) -> ParserResult<ColumnType> {
   let mut out = ColumnType::default();
 
   for p1 in pair.into_inner() {
@@ -200,7 +245,7 @@ fn parse_col_type(pair: Pair<Rule>) -> ParsingResult<ColumnType> {
   Ok(out)
 }
 
-fn parse_col_type_arg(pair: Pair<Rule>) -> ParsingResult<Vec<Value>> {
+fn parse_col_type_arg(pair: Pair<Rule>) -> ParserResult<Vec<Value>> {
   pair.into_inner().try_fold(vec![], |mut acc, p1| {
     match p1.as_rule() {
       Rule::value => {
@@ -213,7 +258,7 @@ fn parse_col_type_arg(pair: Pair<Rule>) -> ParsingResult<Vec<Value>> {
   })
 }
 
-fn parse_col_settings(pair: Pair<Rule>) -> ParsingResult<ColumnSettings> {
+fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
   pair.into_inner().try_fold(ColumnSettings::default(), |mut acc, p1| {
     match p1.as_rule() {
       Rule::col_attribute => {
@@ -241,7 +286,7 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParsingResult<ColumnSettings> {
               acc.note = Some(parse_note_inline(p2)?)
             },
             Rule::ref_inline => {
-              acc.refs.push(parse_ref_stmt_inline(p2)?)
+              acc.refs.push(parse_ref_inline(p2)?)
             },
             _ => throw_rules(&[Rule::col_attribute_key, Rule::col_default, Rule::note_inline, Rule::ref_inline], p2)?,
           }
@@ -254,7 +299,7 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParsingResult<ColumnSettings> {
   })
 }
 
-fn parse_enum_decl(pair: Pair<Rule>) -> ParsingResult<EnumBlock> {
+fn parse_enum_decl(pair: Pair<Rule>) -> ParserResult<EnumBlock> {
   pair.into_inner().try_fold(EnumBlock::default(), |mut acc, p1| {
     match p1.as_rule() {
       Rule::decl_ident => {
@@ -273,7 +318,7 @@ fn parse_enum_decl(pair: Pair<Rule>) -> ParsingResult<EnumBlock> {
   })
 }
 
-fn parse_enum_block(pair: Pair<Rule>) -> ParsingResult<Vec<EnumValue>> {
+fn parse_enum_block(pair: Pair<Rule>) -> ParserResult<Vec<EnumValue>> {
   pair.into_inner().try_fold(vec![], |mut acc, p1| {
     match p1.as_rule() {
       Rule::enum_value => {
@@ -286,7 +331,7 @@ fn parse_enum_block(pair: Pair<Rule>) -> ParsingResult<Vec<EnumValue>> {
   })
 }
 
-fn parse_enum_value(pair: Pair<Rule>) -> ParsingResult<EnumValue> {
+fn parse_enum_value(pair: Pair<Rule>) -> ParserResult<EnumValue> {
   pair.into_inner().try_fold(EnumValue::default(), |mut acc, p1| {
     match p1.as_rule() {
       Rule::ident => {
@@ -316,14 +361,14 @@ fn parse_enum_value(pair: Pair<Rule>) -> ParsingResult<EnumValue> {
   })
 }
 
-fn parse_ref_decl(pair: Pair<Rule>) -> ParsingResult<RefBlock> {
+fn parse_ref_decl(pair: Pair<Rule>) -> ParserResult<RefBlock> {
   for p1 in pair.into_inner() {
     match p1.as_rule() {
       Rule::ref_block | Rule::ref_short => {
         for p2 in p1.into_inner() {
           match p2.as_rule() {
             Rule::ref_stmt => {
-              return parse_ref_stmt_inline(p2)
+              return parse_ref_stmt(p2)
             },
             _ => throw_rules(&[Rule::ref_stmt], p2)?,
           }
@@ -336,21 +381,21 @@ fn parse_ref_decl(pair: Pair<Rule>) -> ParsingResult<RefBlock> {
   unreachable!("something went wrong parsing ref_decl!")
 }
 
-fn parse_ref_stmt_inline(pair: Pair<Rule>) -> ParsingResult<RefBlock> {
+// FIXME: to be fixed
+fn parse_ref_stmt(pair: Pair<Rule>) -> ParserResult<RefBlock> {
   pair.into_inner().try_fold(RefBlock::default(), |mut acc, p1| {
     match p1.as_rule() {
       Rule::relation => {
-        acc.rel = if let Ok(rel) = Relation::match_type(p1.as_str()) {
-          rel
-        } else {
-          throw_msg(format!("'{:?}' type is not supported!", p1.as_str()), p1)?
+        acc.rel = match Relation::from_str(p1.as_str()) {
+          Ok(rel) => rel,
+          Err(_) => throw_msg(format!("'{:?}' type is not supported!", p1.as_str()), p1)?
         }
       },
       Rule::ref_ident => {
         let value = parse_ref_ident(p1)?;
 
         if acc.rel == Relation::Undef {
-          acc.lhs = Some(value);
+          acc.lhs = value;
         } else {
           acc.rhs = value;
         }
@@ -365,7 +410,26 @@ fn parse_ref_stmt_inline(pair: Pair<Rule>) -> ParsingResult<RefBlock> {
   })
 }
 
-fn parse_ref_ident(pair: Pair<Rule>) -> ParsingResult<RefIdent> {
+fn parse_ref_inline(pair: Pair<Rule>) -> ParserResult<RefInline> {
+  pair.into_inner().try_fold(RefInline::default(), |mut acc, p1| {
+    match p1.as_rule() {
+      Rule::relation => {
+        acc.rel = match Relation::from_str(p1.as_str()) {
+          Ok(rel) => rel,
+          Err(_) => throw_msg(format!("'{:?}' type is not supported!", p1.as_str()), p1)?
+        }
+      },
+      Rule::ref_ident => {
+        acc.rhs = parse_ref_ident(p1)?;
+      },
+      _ => throw_rules(&[Rule::relation, Rule::ref_ident], p1)?,
+    }
+
+    Ok(acc)
+  })
+}
+
+fn parse_ref_ident(pair: Pair<Rule>) -> ParserResult<RefIdent> {
   let mut out = RefIdent::default();
   let mut tmp_tokens = vec![];
   
@@ -400,7 +464,7 @@ fn parse_ref_ident(pair: Pair<Rule>) -> ParsingResult<RefIdent> {
   Ok(out)
 }
 
-fn parse_table_group_decl(pair: Pair<Rule>) -> ParsingResult<TableGroupBlock> {
+fn parse_table_group_decl(pair: Pair<Rule>) -> ParserResult<TableGroupBlock> {
   pair.into_inner().try_fold(TableGroupBlock::default(), |mut acc, p1| {
     match p1.as_rule() {
       Rule::ident => {
@@ -430,20 +494,26 @@ fn parse_table_group_decl(pair: Pair<Rule>) -> ParsingResult<TableGroupBlock> {
   })
 }
 
-fn parse_rel_settings(pair: Pair<Rule>) -> ParsingResult<RelationSettings> {
-  pair.into_inner().try_fold(RelationSettings::default(), |mut acc, p1| {
+fn parse_rel_settings(pair: Pair<Rule>) -> ParserResult<RefSettings> {
+  pair.into_inner().try_fold(RefSettings::default(), |mut acc, p1| {
     match p1.as_rule() {
       Rule::rel_attribute => {
         for p2 in p1.into_inner() {
           match p2.as_rule() {
             Rule::rel_update  => {
               for p3 in p2.into_inner() {
-                acc.on_update = Some(RelationAction::match_type(p3.as_str()))
+                acc.on_update = match ReferentialAction::from_str(p3.as_str()) {
+                  Ok(val) => Some(val),
+                  Err(_) => throw_rules(&[Rule::rel_update], p3)?,
+                }
               }
             },
             Rule::rel_delete  => {
               for p3 in p2.into_inner() {
-                acc.on_delete = Some(RelationAction::match_type(p3.as_str()))
+                acc.on_delete = match ReferentialAction::from_str(p3.as_str()) {
+                  Ok(val) => Some(val),
+                  Err(_) => throw_rules(&[Rule::rel_delete], p3)?,
+                }
               }
             },
             _ => throw_rules(&[Rule::rel_update, Rule::rel_delete], p2)?,
@@ -457,7 +527,7 @@ fn parse_rel_settings(pair: Pair<Rule>) -> ParsingResult<RelationSettings> {
   })
 }
 
-fn parse_note_decl(pair: Pair<Rule>) -> ParsingResult<String> {
+fn parse_note_decl(pair: Pair<Rule>) -> ParserResult<String> {
   for p1 in pair.into_inner() {
     match p1.as_rule() {
       Rule::note_short | Rule::note_block => {
@@ -477,7 +547,7 @@ fn parse_note_decl(pair: Pair<Rule>) -> ParsingResult<String> {
   unreachable!("something went wrong parsing note_decl!")
 }
 
-fn parse_note_inline(pair: Pair<Rule>) -> ParsingResult<String> {
+fn parse_note_inline(pair: Pair<Rule>) -> ParserResult<String> {
   pair.into_inner().try_fold(String::new(), |_, p1| {
     match p1.as_rule() {
       Rule::string_value => {
@@ -488,7 +558,7 @@ fn parse_note_inline(pair: Pair<Rule>) -> ParsingResult<String> {
   })
 }
 
-fn parse_indexes_decl(pair: Pair<Rule>) -> ParsingResult<IndexesBlock> {
+fn parse_indexes_decl(pair: Pair<Rule>) -> ParserResult<IndexesBlock> {
   for p1 in pair.into_inner() {
     match p1.as_rule() {
       Rule::indexes_block => {
@@ -501,7 +571,7 @@ fn parse_indexes_decl(pair: Pair<Rule>) -> ParsingResult<IndexesBlock> {
   unreachable!("something went wrong parsing indexes_decl!")
 }
 
-fn parse_indexes_block(pair: Pair<Rule>) -> ParsingResult<IndexesBlock> {
+fn parse_indexes_block(pair: Pair<Rule>) -> ParserResult<IndexesBlock> {
   pair.into_inner().try_fold(IndexesBlock::default(), |mut acc, p1| {
     match p1.as_rule() {
       Rule::indexes_single | Rule::indexes_multi => {
@@ -514,7 +584,7 @@ fn parse_indexes_block(pair: Pair<Rule>) -> ParsingResult<IndexesBlock> {
   })
 }
 
-fn parse_indexes_single_multi(pair: Pair<Rule>) -> ParsingResult<IndexesDef> {
+fn parse_indexes_single_multi(pair: Pair<Rule>) -> ParserResult<IndexesDef> {
   pair.into_inner().try_fold(IndexesDef::default(), |mut acc, p1| {
     match p1.as_rule() {
       Rule::indexes_ident => {
@@ -530,7 +600,7 @@ fn parse_indexes_single_multi(pair: Pair<Rule>) -> ParsingResult<IndexesDef> {
   })
 }
 
-fn parse_indexes_ident(pair: Pair<Rule>) -> ParsingResult<IndexesIdent> {
+fn parse_indexes_ident(pair: Pair<Rule>) -> ParserResult<IndexesIdent> {
   for p1 in pair.into_inner() {
     match p1.as_rule() {
       Rule::ident => {
@@ -555,7 +625,7 @@ fn parse_indexes_ident(pair: Pair<Rule>) -> ParsingResult<IndexesIdent> {
   unreachable!("something went wrong at indexes_ident");
 }
 
-fn parse_indexes_settings(pair: Pair<Rule>) -> ParsingResult<IndexesSettings> {
+fn parse_indexes_settings(pair: Pair<Rule>) -> ParserResult<IndexesSettings> {
   pair.into_inner().try_fold(IndexesSettings::default(), |mut acc, p1| {
     match p1.as_rule() {
       Rule::indexes_attribute => {
@@ -569,14 +639,19 @@ fn parse_indexes_settings(pair: Pair<Rule>) -> ParsingResult<IndexesSettings> {
               }
             },
             Rule::indexes_type => {
-              acc.r#type = p2.into_inner().fold(None, |_, p3| Some(IndexesType::match_type(p3.as_str())))
+              acc.r#type = p2
+                .into_inner()
+                .try_fold(None, |_, p3| {
+                  match IndexesType::from_str(p3.as_str()) {
+                    Ok(val) => Ok(Some(val)),
+                    Err(msg) => throw_msg(msg, p3)?
+                  }
+                })?
             },
             Rule::indexes_name => {
-              p2.into_inner().try_for_each(|p3| {
+              p2.into_inner().for_each(|p3| {
                 acc.name = Some(p3.into_inner().as_str().to_string());
-
-                Ok(())
-              })?
+              })
             },
             Rule::note_inline => {
               acc.note = Some(parse_note_inline(p2)?)
@@ -592,7 +667,7 @@ fn parse_indexes_settings(pair: Pair<Rule>) -> ParsingResult<IndexesSettings> {
   })
 }
 
-fn parse_string_value(pair: Pair<Rule>) -> ParsingResult<String> {
+fn parse_string_value(pair: Pair<Rule>) -> ParserResult<String> {
   let mut out = String::new();
   
   for p1 in pair.into_inner() {
@@ -624,7 +699,7 @@ fn parse_string_value(pair: Pair<Rule>) -> ParsingResult<String> {
   Ok(out)
 }
 
-fn parse_value(pair: Pair<Rule>) -> ParsingResult<Value> {
+fn parse_value(pair: Pair<Rule>) -> ParserResult<Value> {
   for p1 in pair.into_inner() {
     match p1.as_rule() {
       Rule::string_value => {
@@ -636,14 +711,16 @@ fn parse_value(pair: Pair<Rule>) -> ParsingResult<Value> {
         for p2 in p1.into_inner() {
           match p2.as_rule() {
             Rule::decimal => {
-              let value = p2.as_str().parse::<f32>().unwrap();
-
-              return Ok(Value::Decimal(value))
+              return match p2.as_str().parse::<f32>() {
+                Ok(val) => Ok(Value::Decimal(val)),
+                Err(err) => throw_msg(err.to_string(), p2)?,
+              };
             },
             Rule::integer => {
-              let value = p2.as_str().parse::<i32>().unwrap();
-
-              return Ok(Value::Integer(value))
+              return match p2.as_str().parse::<i32>() {
+                Ok(val) => Ok(Value::Integer(val)),
+                Err(err) => throw_msg(err.to_string(), p2)?,
+              };
             },
             _ => throw_rules(&[Rule::decimal, Rule::integer], p2)?,
           }
@@ -660,7 +737,7 @@ fn parse_value(pair: Pair<Rule>) -> ParsingResult<Value> {
         }
       },
       Rule::hex_value => {
-        return Ok(Value::Expr(p1.as_str().to_string()))
+        return Ok(Value::HexColor(p1.as_str().to_string()))
       },
       Rule::backquoted_quoted_string => {
         return Ok(Value::Expr(p1.into_inner().as_str().to_string()))
@@ -678,7 +755,7 @@ fn parse_value(pair: Pair<Rule>) -> ParsingResult<Value> {
   unreachable!("something went wrong at value!")
 }
 
-fn parse_decl_ident(pair: Pair<Rule>) -> ParsingResult<(Option<String>, String)> {
+fn parse_decl_ident(pair: Pair<Rule>) -> ParserResult<(Option<String>, String)> {
   let mut tmp_tokens = vec![];
 
   for p1 in pair.into_inner() {
@@ -701,7 +778,7 @@ fn parse_decl_ident(pair: Pair<Rule>) -> ParsingResult<(Option<String>, String)>
   Ok((schema, name))
 }
 
-fn parse_ident(pair: Pair<Rule>) -> ParsingResult<String> {
+fn parse_ident(pair: Pair<Rule>) -> ParserResult<String> {
   for p1 in pair.into_inner() {
     return match p1.as_rule() {
       Rule::var => {

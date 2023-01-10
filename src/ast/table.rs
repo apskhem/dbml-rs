@@ -1,4 +1,4 @@
-use std::ops::Range;
+use std::{ops::Range, str::FromStr, collections::HashMap};
 
 use super::*;
 
@@ -9,7 +9,8 @@ pub struct TableBlock {
   pub ident: TableIdent,
   pub note: Option<String>,
   pub indexes: Option<indexes::IndexesBlock>,
-  pub indexer: TableIndexer
+  pub settings: Option<HashMap<String, Value>>,
+  pub meta_indexer: TableIndexer
 }
 
 #[derive(Debug, PartialEq, Clone, Default)]
@@ -41,7 +42,7 @@ pub enum Value {
   Integer(i32),
   Decimal(f32),
   Bool(bool),
-  Hex(String),
+  HexColor(String),
   Expr(String),
   Null
 }
@@ -53,7 +54,7 @@ impl ToString for Value {
       Self::Integer(val) => format!("{}", val),
       Self::Decimal(val) => format!("{}", val),
       Self::Bool(val) => format!("{}", val),
-      Self::Hex(val) => format!("{}", val),
+      Self::HexColor(val) => format!("{}", val),
       Self::Expr(val) => format!("{}", val),
       Self::Null => format!("null")
     }
@@ -86,9 +87,11 @@ pub enum ColumnTypeName {
   Decimal
 }
 
-impl ColumnTypeName {
-  pub fn match_type(value: &str) -> Result<Self, ()> {
-    match value {
+impl FromStr for ColumnTypeName {
+  type Err = ();
+
+  fn from_str(s: &str) -> Result<Self, Self::Err> {
+    match s {
       "char" => Ok(Self::Char),
       "varchar" => Ok(Self::VarChar),
       "smallint" => Ok(Self::SmallInt),
@@ -116,38 +119,6 @@ impl ColumnTypeName {
       _ => Err(()),
     }
   }
-
-  pub fn to_col_type(&self, args: &Vec<Value>) -> Option<String> {
-    let str_arg_vec: Vec<_> = args.iter().map(|arg| arg.to_string()).collect();
-    let str_arg = if str_arg_vec.len() == 0 {
-      format!("None")
-    } else if str_arg_vec.len() == 1 {
-      format!("Some({})", str_arg_vec.join(", "))
-    } else {
-      format!("Some(({}))", str_arg_vec.join(", "))
-    };
-
-    match self {
-      Self::Char => Some(format!("Char({})", str_arg)),
-      Self::VarChar => Some(format!("String({})", str_arg)),
-      Self::SmallInt => Some(format!("SmallInteger")),
-      Self::Integer => Some(format!("Integer")),
-      Self::BigInt => Some(format!("BigInteger")),
-      Self::Real => Some(format!("Float")),
-      Self::DoublePrecision => Some(format!("Double")),
-      Self::Bool => Some(format!("Boolean")),
-      Self::ByteArray => Some(format!("Binary")),
-      Self::Date => Some(format!("Date")),
-      Self::Text => Some(format!("Text")),
-      Self::Time => Some(format!("Time")),
-      Self::Timestamp => Some(format!("DateTime")),
-      Self::Timestampz => Some(format!("TimestampWithTimeZone")),
-      Self::Uuid => Some(format!("Uuid")),
-      Self::Json => Some(format!("Json")),
-      Self::Decimal => Some(format!("Decimal({})", str_arg)),
-      _ => None
-    }
-  }
 }
 
 #[derive(Debug, PartialEq, Clone, Default)]
@@ -159,7 +130,7 @@ pub struct ColumnSettings {
   pub is_incremental: bool,
   pub note: Option<String>,
   pub default: Option<Value>,
-  pub refs: Vec<refs::RefBlock>
+  pub refs: Vec<refs::RefInline>
 }
 
 #[derive(Debug, PartialEq, Clone, Default)]

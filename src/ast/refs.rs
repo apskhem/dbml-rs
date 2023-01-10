@@ -1,9 +1,17 @@
+use std::str::FromStr;
+
+#[derive(Debug, PartialEq, Eq, Clone, Default)]
+pub struct RefInline {
+  pub rel: Relation,
+  pub rhs: RefIdent
+}
+
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct RefBlock {
   pub rel: Relation,
-  pub lhs: Option<RefIdent>,
+  pub lhs: RefIdent,
   pub rhs: RefIdent,
-  pub settings: Option<RelationSettings>
+  pub settings: Option<RefSettings>
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
@@ -15,9 +23,11 @@ pub enum Relation {
   Many2Many
 }
 
-impl Relation {
-  pub fn match_type(value: &str) -> Result<Self, ()> {
-    match value {
+impl FromStr for Relation {
+  type Err = ();
+
+  fn from_str(s: &str) -> Result<Self, Self::Err> {
+    match s {
       "<" => Ok(Self::One2Many),
       ">" => Ok(Self::Many2One),
       "-" => Ok(Self::One2One),
@@ -35,7 +45,7 @@ pub struct RefIdent {
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
-pub enum RelationAction {
+pub enum ReferentialAction {
   NoAction,
   Cascade,
   Restrict,
@@ -43,20 +53,22 @@ pub enum RelationAction {
   SetDefault
 }
 
-impl RelationAction {
-  pub fn match_type(value: &str) -> Self {
-    match value {
-      "no action" => Self::NoAction,
-      "cascade" => Self::Cascade,
-      "restrict" => Self::Restrict,
-      "set null" => Self::SetNull,
-      "set default" => Self::SetDefault,
-      _ => unreachable!("'{:?}' type is not supported!", value),
+impl FromStr for ReferentialAction {
+  type Err = ();
+
+  fn from_str(s: &str) -> Result<Self, Self::Err> {
+    match s {
+      "no action" => Ok(Self::NoAction),
+      "cascade" => Ok(Self::Cascade),
+      "restrict" => Ok(Self::Restrict),
+      "set null" => Ok(Self::SetNull),
+      "set default" => Ok(Self::SetDefault),
+      _ => Err(()),
     }
   }
 }
 
-impl ToString for RelationAction {
+impl ToString for ReferentialAction {
   fn to_string(&self) -> String {
     match self {
       Self::NoAction => format!("no action"),
@@ -69,7 +81,7 @@ impl ToString for RelationAction {
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
-pub struct RelationSettings {
-  pub on_delete: Option<RelationAction>,
-  pub on_update: Option<RelationAction>,
+pub struct RefSettings {
+  pub on_delete: Option<ReferentialAction>,
+  pub on_update: Option<ReferentialAction>,
 }

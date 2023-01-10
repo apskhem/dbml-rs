@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 use crate::DEFAULT_SCHEMA;
 use crate::ast::*;
 
@@ -56,7 +58,7 @@ impl SemanticSchemaBlock {
 }
 
 impl schema::SchemaBlock<'_> {
-  pub fn analyze(self) -> AnalyzingResult<SemanticSchemaBlock> {
+  pub fn analyze(self) -> AnalyzerResult<SemanticSchemaBlock> {
     let Self {
       span_range,
       input,
@@ -68,10 +70,9 @@ impl schema::SchemaBlock<'_> {
     } = self;
 
     // check project block
-    if let Some(project_block) = &project {
-
-    } else {
-      throw_err(Err::ProjectSettingNotFound, span_range, input)?
+    match &project {
+      Some(project_block) => (),
+      _ => throw_err(Err::ProjectSettingNotFound, span_range, input)?
     }
 
     // collect tables
@@ -82,7 +83,7 @@ impl schema::SchemaBlock<'_> {
     let tables = tables.into_iter().map(|mut table| {
       for col in table.cols.iter() {
         if col.settings.is_pk {
-          if !table.indexer.pk_list.is_empty() {
+          if !table.meta_indexer.pk_list.is_empty() {
             panic!("pk_dup");
           }
           if col.settings.is_nullable {
@@ -92,10 +93,10 @@ impl schema::SchemaBlock<'_> {
             panic!("array_pk");
           }
           
-          table.indexer.pk_list.push(col.name.clone())
+          table.meta_indexer.pk_list.push(col.name.clone())
         }
         if col.settings.is_unique {
-          table.indexer.unique_list.push(col.name.clone())
+          table.meta_indexer.unique_list.push(col.name.clone())
         }
       }
 
@@ -111,15 +112,15 @@ impl schema::SchemaBlock<'_> {
           if let Some(settings) = &def.settings {
             // FIXME: throw error when pk and unique key are together
             if settings.is_pk {
-              if !table.indexer.pk_list.is_empty() {
+              if !table.meta_indexer.pk_list.is_empty() {
                 panic!("pk_dup");
               }
 
-              table.indexer.pk_list.extend(idents)
+              table.meta_indexer.pk_list.extend(idents)
             } else if settings.is_unique {
               // FIXME: furthur validation
               
-              table.indexer.unique_list.extend(idents)
+              table.meta_indexer.unique_list.extend(idents)
             }
 
             if let Some(name) = &settings.name {
@@ -129,7 +130,7 @@ impl schema::SchemaBlock<'_> {
               panic!("indexes_type is not supported")
             }
           } else {
-            table.indexer.indexed_list.extend(idents)
+            table.meta_indexer.indexed_list.extend(idents)
           }
         }
       }
@@ -168,7 +169,7 @@ impl schema::SchemaBlock<'_> {
         }
 
         let type_name = if let table::ColumnTypeName::Raw(raw) = type_name {
-          if let Ok(valid) = table::ColumnTypeName::match_type(&raw) {
+          if let Ok(valid) = table::ColumnTypeName::from_str(&raw) {
             if col.r#type.args.is_empty() {
               valid
             } else {
@@ -204,17 +205,15 @@ impl schema::SchemaBlock<'_> {
               }
             }
           } else {
-            let default = if let Some(default) = &col.settings.default {
-              vec![default.to_string()]
-            } else {
-              vec![]
+            let default = match &col.settings.default {
+              Some(default) => vec![default.to_string()],
+              _ => vec![]
             };
 
             // TODO: add support for enum with schema
-            if let Err(msg) = indexer.lookup_enum_values(&None, &raw, &default) {
-              panic!("'{}' is an invalid type", msg)
-            } else {
-              table::ColumnTypeName::Enum(raw)
+            match indexer.lookup_enum_values(&None, &raw, &default) {
+              Ok(_) => table::ColumnTypeName::Enum(raw),
+              Err(msg) => panic!("'{}' is an invalid type", msg)
             }
           }
         } else {
@@ -258,7 +257,7 @@ impl schema::SchemaBlock<'_> {
       }
 
       let count = indexed_refs.iter().fold(0, |acc, other_indexed_ref| {
-        if indexed_ref.eq_lhs(&other_indexed_ref, &indexer) {
+        if indexed_ref.eq(&other_indexed_ref, &indexer) {
           acc + 1
         } else {
           acc

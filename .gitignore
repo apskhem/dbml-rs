@@ -1,2 +1,5 @@
 /target
 /src/main.rs
+
+makefile
+log.txt

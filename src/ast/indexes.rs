@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct IndexesBlock {
   pub defs: Vec<IndexesDef>
@@ -32,14 +34,16 @@ pub enum IndexesType {
   Hash
 }
 
-impl IndexesType {
-  pub fn match_type(value: &str) -> Self {
-    match value {
-      "btree" => Self::BTree,
-      "gin" => Self::Gin,
-      "gist" => Self::Gist,
-      "hash" => Self::Hash,
-      _ => unreachable!("'{:?}' type is not supported!", value),
+impl FromStr for IndexesType {
+  type Err = String;
+
+  fn from_str(s: &str) -> Result<Self, Self::Err> {
+    match s {
+      "btree" => Ok(Self::BTree),
+      "gin" => Ok(Self::Gin),
+      "gist" => Ok(Self::Gist),
+      "hash" => Ok(Self::Hash),
+      _ => Err(format!("'{:?}' type is not supported!", s)),
     }
   }
 }
