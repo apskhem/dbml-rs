@@ -63,11 +63,13 @@ impl ToString for Value {
 
 #[derive(Debug, PartialEq, Clone, Default)]
 pub enum ColumnTypeName {
-  /// The initial value (default)
+  /// The initial value (default).
   #[default] Undef,
   /// The type is waiting to be parsed and validated.
   Raw(String),
   Enum(String),
+  Bit,
+  Varbit,
   Char,
   VarChar,
   SmallInt,
@@ -92,8 +94,13 @@ impl FromStr for ColumnTypeName {
 
   fn from_str(s: &str) -> Result<Self, Self::Err> {
     match s {
+      "bit" => Ok(Self::Bit),
+      "varbit" => Ok(Self::Varbit),
+      "bit varying" => Ok(Self::Varbit),
       "char" => Ok(Self::Char),
+      "character" => Ok(Self::Char),
       "varchar" => Ok(Self::VarChar),
+      "character varying" => Ok(Self::VarChar),
       "smallint" => Ok(Self::SmallInt),
       "int2" => Ok(Self::SmallInt),
       "integer" => Ok(Self::Integer),
@@ -104,6 +111,7 @@ impl FromStr for ColumnTypeName {
       "real" => Ok(Self::Real),
       "float4" => Ok(Self::Real),
       "float8" => Ok(Self::DoublePrecision),
+      "double precision" => Ok(Self::DoublePrecision),
       "bool" => Ok(Self::Bool),
       "boolean" => Ok(Self::Bool),
       "bytea" => Ok(Self::ByteArray),

@@ -1,7 +1,7 @@
 # DBML parser for Rust
 
 ![MSRV](https://img.shields.io/badge/rustc-1.59+-ab6000.svg)
-![MIT or Apache 2.0 licensed](https://img.shields.io/crates/l/actix-web.svg)
+![MIT or Apache 2.0 licensed](https://img.shields.io/crates/l/dbml-rs.svg)
 ![unsafe forbidden](https://img.shields.io/badge/unsafe-forbidden-success.svg)
 
 DBML parser implemented in Rust programming language.
