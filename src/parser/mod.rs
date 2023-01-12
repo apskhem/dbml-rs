@@ -724,13 +724,11 @@ fn parse_value(pair: Pair<Rule>) -> ParserResult<Value> {
         }
       },
       Rule::boolean_value => {
-        for p2 in p1.into_inner() {
-          return match p2.as_str() {
-            "true" => Ok(Value::Bool(true)),
-            "false" => Ok(Value::Bool(false)),
-            "null" => Ok(Value::Null),
-            _ => throw_msg(format!("'{}' is incompatible with boolean value", p2.as_str()), p2)?,
-          }
+        return match p1.as_str() {
+          "true" => Ok(Value::Bool(true)),
+          "false" => Ok(Value::Bool(false)),
+          "null" => Ok(Value::Null),
+          _ => throw_msg(format!("'{}' is incompatible with boolean value", p1.as_str()), p1)?,
         }
       },
       Rule::hex_value => {

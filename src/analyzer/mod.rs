@@ -221,6 +221,27 @@ impl schema::SchemaBlock<'_> {
           },
           _ => panic!("preprecessing_type_is_not_raw")
         };
+
+        // TODO: add more validation
+        if let Some(default_value) = &col.settings.default {
+          match default_value {
+            table::Value::String(_) => (),
+            table::Value::Integer(_) => (),
+            table::Value::Decimal(_) => (),
+            table::Value::Bool(_) => {
+              if ![table::ColumnTypeName::Bool].contains(&type_name) {
+                panic!("defualt value is not associated with declared type")
+              }
+            },
+            table::Value::HexColor(_) => (),
+            table::Value::Expr(_) => (),
+            table::Value::Null => {
+              if !col.settings.is_nullable {
+                panic!("default value cannot be null in non-nullable field")
+              }
+            },
+          }
+        }
         
         table::TableColumn {
           r#type: table::ColumnType {
