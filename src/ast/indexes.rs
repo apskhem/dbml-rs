@@ -43,7 +43,7 @@ impl FromStr for IndexesType {
       "gin" => Ok(Self::Gin),
       "gist" => Ok(Self::Gist),
       "hash" => Ok(Self::Hash),
-      _ => Err(format!("'{:?}' type is not supported!", s)),
+      _ => Err(format!("'{}' type is not supported!", s)),
     }
   }
 }

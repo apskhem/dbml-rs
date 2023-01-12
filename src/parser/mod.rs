@@ -208,10 +208,7 @@ fn parse_col_type(pair: Pair<Rule>) -> ParserResult<ColumnType> {
       Rule::col_type_quoted | Rule::col_type_unquoted => {
         for p2 in p1.into_inner() {
           match p2.as_rule() {
-            Rule::var => {
-              out.type_name = ColumnTypeName::Raw(p2.as_str().to_string())
-            },
-            Rule::double_quoted_value => {
+            Rule::var | Rule::spaced_var => {
               out.type_name = ColumnTypeName::Raw(p2.as_str().to_string())
             },
             Rule::col_type_arg => {
@@ -223,7 +220,7 @@ fn parse_col_type(pair: Pair<Rule>) -> ParserResult<ColumnType> {
                   Rule::integer => {
                     let val = match p3.as_str().parse::<usize>() {
                       Ok(val) => Some(val),
-                      _ => throw_msg("cannot parse the value into usize", p3)?
+                      Err(err) => throw_msg(err.to_string(), p3)?
                     };
 
                     Ok(val)
@@ -234,7 +231,7 @@ fn parse_col_type(pair: Pair<Rule>) -> ParserResult<ColumnType> {
 
               out.arrays.push(val)
             },
-            _ => throw_rules(&[Rule::var, Rule::col_type_arg], p2)?,
+            _ => throw_rules(&[Rule::var, Rule::spaced_var, Rule::col_type_arg, Rule::col_type_array], p2)?,
           }
         }
       },
@@ -388,7 +385,7 @@ fn parse_ref_stmt(pair: Pair<Rule>) -> ParserResult<RefBlock> {
       Rule::relation => {
         acc.rel = match Relation::from_str(p1.as_str()) {
           Ok(rel) => rel,
-          Err(_) => throw_msg(format!("'{:?}' type is not supported!", p1.as_str()), p1)?
+          Err(err) => throw_msg(err, p1)?
         }
       },
       Rule::ref_ident => {
@@ -416,7 +413,7 @@ fn parse_ref_inline(pair: Pair<Rule>) -> ParserResult<RefInline> {
       Rule::relation => {
         acc.rel = match Relation::from_str(p1.as_str()) {
           Ok(rel) => rel,
-          Err(_) => throw_msg(format!("'{:?}' type is not supported!", p1.as_str()), p1)?
+          Err(err) => throw_msg(err, p1)?
         }
       },
       Rule::ref_ident => {

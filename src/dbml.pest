@@ -16,6 +16,7 @@ triple_quoted_value = @{ (!"'''" ~ ANY)* }
 triple_quoted_string = { "'''" ~ triple_quoted_value ~ "'''" }
 
 var = @{ ASCII_ALPHA ~ (ASCII_ALPHANUMERIC | "_")* }
+spaced_var = @{ ASCII_ALPHA ~ (ASCII_ALPHANUMERIC | "_" | " ")* }
 
 ident = { var | double_quoted_string }
 
@@ -80,7 +81,7 @@ col_settings = { "[" ~ (col_attribute ~ ("," ~ col_attribute)*)? ~ "]" }
 col_type_arg = { "(" ~ (value ~ ("," ~ value)*)? ~ ")" }
 col_type_array = { "[" ~ integer? ~ "]" }
 col_type_unquoted = { var ~ col_type_arg? }
-col_type_quoted = { "\"" ~ double_quoted_value ~ col_type_arg? ~ col_type_array* ~ "\"" }
+col_type_quoted = { "\"" ~ spaced_var ~ col_type_arg? ~ col_type_array* ~ "\"" }
 col_type = { col_type_unquoted | col_type_quoted }
 table_attribute = { var ~ ":" ~ value }
 table_settings = { "[" ~ (table_attribute ~ ("," ~ table_attribute)*)? ~ "]" }

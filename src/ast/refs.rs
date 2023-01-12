@@ -24,7 +24,7 @@ pub enum Relation {
 }
 
 impl FromStr for Relation {
-  type Err = ();
+  type Err = String;
 
   fn from_str(s: &str) -> Result<Self, Self::Err> {
     match s {
@@ -32,7 +32,7 @@ impl FromStr for Relation {
       ">" => Ok(Self::Many2One),
       "-" => Ok(Self::One2One),
       "<>" => Ok(Self::Many2Many),
-      _ => Err(()),
+      _ => Err(format!("incorrect relation symbol '{}'", s)),
     }
   }
 }

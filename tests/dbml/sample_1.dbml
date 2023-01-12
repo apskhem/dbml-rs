@@ -12,7 +12,7 @@ TableGroup order {
 Table users {
   id integer [pk]
   age integer [default: 10]
-  username varchar
+  username "character varying[]"
   role varchar
   created_at timestamp
   referral_id integer [ref: > users.id, null]

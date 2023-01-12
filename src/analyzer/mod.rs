@@ -102,36 +102,31 @@ impl schema::SchemaBlock<'_> {
 
       if let Some(indexes_block) = &table.indexes {
         for def in indexes_block.defs.iter() {
-          let idents: Vec<_> = def.idents.iter().map(|ident| {
-            match ident {
-              indexes::IndexesIdent::String(s) => s.clone(),
-              indexes::IndexesIdent::Expr(e) => panic!("indexes expression is not supported")
-            }
-          }).collect();
+          let idents: Vec<_> = def.idents.iter().filter_map(|id| {
+            if let indexes::IndexesIdent::String(s) = id { Some(s) } else { None }
+          }).cloned().collect();
 
-          if let Some(settings) = &def.settings {
-            // FIXME: throw error when pk and unique key are together
-            if settings.is_pk {
-              if !table.meta_indexer.pk_list.is_empty() {
-                panic!("pk_dup");
+
+          match &def.settings {
+            Some(settings) => {
+              if settings.is_pk && settings.is_unique {
+                panic!("primary key is already unique");
               }
-
-              table.meta_indexer.pk_list.extend(idents)
-            } else if settings.is_unique {
-              // FIXME: furthur validation
-              
-              table.meta_indexer.unique_list.extend(idents)
-            }
-
-            if let Some(name) = &settings.name {
-              panic!("indexes_name is not supported")
-            }
-            if let Some(indexes_type) = &settings.r#type {
-              panic!("indexes_type is not supported")
-            }
-          } else {
-            table.meta_indexer.indexed_list.extend(idents)
-          }
+  
+              if settings.is_pk {
+                if !table.meta_indexer.pk_list.is_empty() {
+                  panic!("pk_dup");
+                }
+  
+                table.meta_indexer.pk_list.extend(idents)
+              } else if settings.is_unique {
+                // FIXME: furthur validation
+                
+                table.meta_indexer.unique_list.extend(idents)
+              }
+            },
+            None => table.meta_indexer.indexed_list.extend(idents)
+          };
         }
       }
 
@@ -164,60 +159,67 @@ impl schema::SchemaBlock<'_> {
         if type_name == table::ColumnTypeName::Undef {
           panic!("undef_table_field")
         }
-        if !col.r#type.arrays.is_empty() {
-          panic!("arrays type is not supported")
-        }
 
-        let type_name = if let table::ColumnTypeName::Raw(raw) = type_name {
-          if let Ok(valid) = table::ColumnTypeName::from_str(&raw) {
-            if col.r#type.args.is_empty() {
-              valid
-            } else {
-              // validate args (if has)
-              match valid {
-                table::ColumnTypeName::VarChar | table::ColumnTypeName::Char => {
-                  if col.r#type.args.len() != 1 {
-                    panic!("varchar_incompatible_args")
+        let type_name = match type_name {
+          table::ColumnTypeName::Raw(raw_type) => {
+            match table::ColumnTypeName::from_str(&raw_type) {
+              Ok(type_name) => {
+                if col.r#type.args.is_empty() {
+                  type_name
+                } else {
+                  // validate args (if has)
+                  match type_name {
+                    table::ColumnTypeName::VarChar
+                    | table::ColumnTypeName::Char => {
+                      if col.r#type.args.len() != 1 {
+                        panic!("varchar_incompatible_args")
+                      }
+    
+                      col.r#type.args.iter().fold(type_name, |acc, arg| {
+                        match arg {
+                          table::Value::Integer(_) => acc,
+                          _ => panic!("varchar_args_is_not_integer")
+                        }
+                      })
+                    },
+                    table::ColumnTypeName::Decimal => {
+                      if col.r#type.args.len() != 2 {
+                        panic!("decimal_incompatible_args")
+                      }
+    
+                      col.r#type.args.iter().fold(type_name, |acc, arg| {
+                        match arg {
+                          table::Value::Integer(_) => acc,
+                          _ => panic!("decimal_args_is_not_integer")
+                        }
+                      })
+                    },
+                    _ => panic!("invalid args usage")
                   }
+                }
+              },
+              Err(_) => {
+                let default_enum = match &col.settings.default {
+                  Some(default) => vec![default.to_string()],
+                  _ => vec![]
+                };
+                
+                let splited: Vec<_> = raw_type.split(".").collect();
 
-                  col.r#type.args.iter().fold(valid, |acc, arg| {
-                    if let table::Value::Integer(_) = arg {
-                      acc
-                    } else {
-                      panic!("varchar_args_is_not_integer")
-                    }
-                  })
-                },
-                table::ColumnTypeName::Decimal => {
-                  if col.r#type.args.len() != 2 {
-                    panic!("decimal_incompatible_args")
-                  }
-
-                  col.r#type.args.iter().fold(valid, |acc, arg| {
-                    if let table::Value::Integer(_) = arg {
-                      acc
-                    } else {
-                      panic!("decimal_args_is_not_integer")
-                    }
-                  })
-                },
-                _ => panic!("invalid args usage")
+                let (enum_schema, enum_name) = match splited.len() {
+                  2 => (Some(splited[0].to_string()), splited[1].to_string()),
+                  1 => (None, raw_type),
+                  _ => panic!("incorrect enum field format")
+                };
+                
+                match indexer.lookup_enum_values(&enum_schema, &enum_name, &default_enum) {
+                  Ok(_) => table::ColumnTypeName::Enum(enum_name),
+                  Err(msg) => panic!("'{}' is an invalid type", msg)
+                }
               }
             }
-          } else {
-            let default = match &col.settings.default {
-              Some(default) => vec![default.to_string()],
-              _ => vec![]
-            };
-
-            // TODO: add support for enum with schema
-            match indexer.lookup_enum_values(&None, &raw, &default) {
-              Ok(_) => table::ColumnTypeName::Enum(raw),
-              Err(msg) => panic!("'{}' is an invalid type", msg)
-            }
-          }
-        } else {
-          panic!("preprecessing_type_is_not_raw")
+          },
+          _ => panic!("preprecessing_type_is_not_raw")
         };
         
         table::TableColumn {
@@ -229,6 +231,22 @@ impl schema::SchemaBlock<'_> {
         }
       }).collect();
 
+      if let Some(block) = &table.indexes {
+        for def in block.defs.iter() {
+          if def.idents.is_empty() {
+            panic!("indexes def (..) cannot be empty")
+          }
+
+          for ident in def.idents.iter() {
+            if let indexes::IndexesIdent::String(id_string) = ident {
+              indexer
+                .lookup_table_fields(&table.ident.schema, &table.ident.name, &vec![id_string.clone()])
+                .unwrap_or_else(|x| panic!("{}", x));
+            }
+          }
+        }
+      }
+
       table::TableBlock {
         cols,
         ..table
@@ -237,32 +255,20 @@ impl schema::SchemaBlock<'_> {
 
     // validate ref
     for indexed_ref in indexed_refs.clone().into_iter() {
-      match indexed_ref.rel {
-        refs::Relation::One2Many => panic!("one-to-many relation is unsupported"),
-        refs::Relation::Many2Many => panic!("many-to-many relation is unsupported"),
-        _ => ()
-      }
-
       if let Err(msg) = indexed_ref.validate_ref_type(&tables, &indexer) {
         panic!("{}", msg)
       }
 
       for r in indexed_refs.iter() {
-        if r.lhs.compositions.len() != 1 || r.rhs.compositions.len() != 1 {
-          panic!("composite reference is unsupported")
-        }
         if r.lhs.compositions.len() != r.rhs.compositions.len() {
           panic!("composite reference must have the same length")
         }
       }
 
-      let count = indexed_refs.iter().fold(0, |acc, other_indexed_ref| {
-        if indexed_ref.eq(&other_indexed_ref, &indexer) {
-          acc + 1
-        } else {
-          acc
-        }
-      });
+      let count = indexed_refs
+        .iter()
+        .filter(|other_indexed_ref| indexed_ref.eq(other_indexed_ref, &indexer))
+        .count();
 
       if count != 1 {
         panic!("dedup_relation_decl")
