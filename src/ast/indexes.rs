@@ -7,7 +7,7 @@ pub struct IndexesBlock {
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct IndexesDef {
-  pub idents: Vec<IndexesIdent>,
+  pub cols: Vec<IndexesColumnType>,
   pub settings: Option<IndexesSettings>,
 }
 
@@ -21,7 +21,7 @@ pub struct IndexesSettings {
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
-pub enum IndexesIdent {
+pub enum IndexesColumnType {
   String(String),
   Expr(String)
 }

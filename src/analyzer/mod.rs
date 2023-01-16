@@ -102,8 +102,8 @@ impl schema::SchemaBlock<'_> {
 
       if let Some(indexes_block) = &table.indexes {
         for def in indexes_block.defs.iter() {
-          let idents: Vec<_> = def.idents.iter().filter_map(|id| {
-            if let indexes::IndexesIdent::String(s) = id { Some(s) } else { None }
+          let idents: Vec<_> = def.cols.iter().filter_map(|id| {
+            if let indexes::IndexesColumnType::String(s) = id { Some(s) } else { None }
           }).cloned().collect();
 
 
@@ -254,12 +254,12 @@ impl schema::SchemaBlock<'_> {
 
       if let Some(block) = &table.indexes {
         for def in block.defs.iter() {
-          if def.idents.is_empty() {
+          if def.cols.is_empty() {
             panic!("indexes def (..) cannot be empty")
           }
 
-          for ident in def.idents.iter() {
-            if let indexes::IndexesIdent::String(id_string) = ident {
+          for ident in def.cols.iter() {
+            if let indexes::IndexesColumnType::String(id_string) = ident {
               indexer
                 .lookup_table_fields(&table.ident.schema, &table.ident.name, &vec![id_string.clone()])
                 .unwrap_or_else(|x| panic!("{}", x));

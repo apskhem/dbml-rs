@@ -585,7 +585,7 @@ fn parse_indexes_single_multi(pair: Pair<Rule>) -> ParserResult<IndexesDef> {
   pair.into_inner().try_fold(IndexesDef::default(), |mut acc, p1| {
     match p1.as_rule() {
       Rule::indexes_ident => {
-        acc.idents.push(parse_indexes_ident(p1)?)
+        acc.cols.push(parse_indexes_ident(p1)?)
       },
       Rule::indexes_settings => {
         acc.settings = Some(parse_indexes_settings(p1)?)
@@ -597,19 +597,19 @@ fn parse_indexes_single_multi(pair: Pair<Rule>) -> ParserResult<IndexesDef> {
   })
 }
 
-fn parse_indexes_ident(pair: Pair<Rule>) -> ParserResult<IndexesIdent> {
+fn parse_indexes_ident(pair: Pair<Rule>) -> ParserResult<IndexesColumnType> {
   for p1 in pair.into_inner() {
     match p1.as_rule() {
       Rule::ident => {
         let value = parse_ident(p1)?;
-        return Ok(IndexesIdent::String(value))
+        return Ok(IndexesColumnType::String(value))
       },
       Rule::backquoted_quoted_string => {
         for p2 in p1.into_inner() {
           match p2.as_rule() {
             Rule::backquoted_quoted_value => {
               let value = p2.as_str().to_string();
-              return Ok(IndexesIdent::Expr(value))
+              return Ok(IndexesColumnType::Expr(value))
             },
             _ => throw_rules(&[Rule::backquoted_quoted_value], p2)?,
           }
