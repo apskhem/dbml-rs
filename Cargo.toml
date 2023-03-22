@@ -1,6 +1,6 @@
 [package]
 name = "dbml-rs"
-version = "0.1.0-beta.1"
+version = "0.1.0-beta.2"
 edition = "2021"
 description = "DBML Parser for Rust."
 license = "MIT OR Apache-2.0"
@@ -8,6 +8,9 @@ repository = "https://github.com/apskhem/dbml-rs"
 readme = "README.md"
 authors = ["Apisit Ritreungroj <cyber1.record@gmail.com>"]
 keywords = ["parser", "parse", "dbml"]
+exclude = [
+  "tests/*",
+]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
