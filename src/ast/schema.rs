@@ -4,7 +4,7 @@ use super::*;
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct SchemaBlock<'a> {
-  pub span_range: Range<usize>,
+  pub span_range: SpanRange,
   /// Input source content.
   pub input: &'a str,
   /// Overall description of the project. This is optional. The file must contain one or zero 'Project' block.

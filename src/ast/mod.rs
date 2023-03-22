@@ -1,6 +1,10 @@
+use std::ops::Range;
+
 use pest::Span;
 use pest::iterators::Pair;
 use crate::parser::Rule;
+
+type SpanRange = Range<usize>;
 
 pub mod enums;
 pub mod indexes;

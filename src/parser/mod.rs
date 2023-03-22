@@ -1,6 +1,5 @@
 mod err;
 
-use std::collections::HashMap;
 use std::str::FromStr;
 
 use err::*;
@@ -25,16 +24,17 @@ struct DBMLParser;
 pub fn parse(input: &str) -> ParserResult<SchemaBlock> {
   let pairs = DBMLParser::parse(Rule::schema, input)?;
 
-  for pair in pairs {
-    match pair.as_rule() {
-      Rule::schema => {
-        return Ok(parse_schema(pair, input)?);
-      },
-      _ => throw_rules(&[Rule::schema], pair)?
-    }
-  }
+  let pair = pairs
+    .into_iter()
+    .next()
+    .ok_or_else(|| unreachable!("unhandled parsing error!"))?;
 
-  unreachable!("unhandled parsing error!");
+  match pair.as_rule() {
+    Rule::schema => {
+      return Ok(parse_schema(pair, input)?);
+    },
+    _ => throw_rules(&[Rule::schema], pair)?
+  }
 }
 
 fn parse_schema<'a>(pair: Pair<Rule>, input: &'a str) -> ParserResult<SchemaBlock<'a>> {
@@ -96,7 +96,9 @@ fn parse_project_decl(pair: Pair<Rule>) -> ParserResult<ProjectBlock> {
 }
 
 fn parse_project_stmt(pair: Pair<Rule>) -> ParserResult<(String, String)> {
-  pair.into_inner().try_fold((String::new(), String::new()), |mut acc, p1| {
+  let init = (String::new(), String::new());
+
+  pair.into_inner().try_fold(init, |mut acc, p1| {
     match p1.as_rule() {
       Rule::var => acc.0 = p1.as_str().to_string(),
       Rule::string_value => acc.1 = parse_string_value(p1)?,
@@ -147,8 +149,10 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
   })
 }
 
-fn parse_table_settings(pair: Pair<Rule>) -> ParserResult<HashMap<String, Value>> {
-  pair.into_inner().try_fold(HashMap::new(), |mut acc, p2| {
+fn parse_table_settings(pair: Pair<Rule>) -> ParserResult<Vec<(String, Value)>> {
+  let init = vec![];
+
+  pair.into_inner().try_fold(init, |mut acc, p2| {
     match p2.as_rule() {
       Rule::table_attribute => {
         let p2_cloned = p2.clone();
@@ -172,7 +176,7 @@ fn parse_table_settings(pair: Pair<Rule>) -> ParserResult<HashMap<String, Value>
           _ => throw_rules(&[Rule::table_attribute], p2_cloned)?
         };
 
-        acc.insert(s_key, s_val);
+        acc.push((s_key, s_val));
       },
       _ => throw_rules(&[Rule::table_attribute], p2)?,
     }
@@ -556,16 +560,17 @@ fn parse_note_inline(pair: Pair<Rule>) -> ParserResult<String> {
 }
 
 fn parse_indexes_decl(pair: Pair<Rule>) -> ParserResult<IndexesBlock> {
-  for p1 in pair.into_inner() {
-    match p1.as_rule() {
-      Rule::indexes_block => {
-        return parse_indexes_block(p1)
-      },
-      _ => throw_rules(&[Rule::indexes_block], p1)?,
-    }
-  }
+  let p1 = pair
+    .into_inner()
+    .next()
+    .ok_or_else(|| unreachable!("something went wrong parsing indexes_decl!"))?;
 
-  unreachable!("something went wrong parsing indexes_decl!")
+  match p1.as_rule() {
+    Rule::indexes_block => {
+      parse_indexes_block(p1)
+    },
+    _ => throw_rules(&[Rule::indexes_block], p1)?,
+  }
 }
 
 fn parse_indexes_block(pair: Pair<Rule>) -> ParserResult<IndexesBlock> {
@@ -598,28 +603,32 @@ fn parse_indexes_single_multi(pair: Pair<Rule>) -> ParserResult<IndexesDef> {
 }
 
 fn parse_indexes_ident(pair: Pair<Rule>) -> ParserResult<IndexesColumnType> {
-  for p1 in pair.into_inner() {
-    match p1.as_rule() {
-      Rule::ident => {
-        let value = parse_ident(p1)?;
-        return Ok(IndexesColumnType::String(value))
-      },
-      Rule::backquoted_quoted_string => {
-        for p2 in p1.into_inner() {
-          match p2.as_rule() {
-            Rule::backquoted_quoted_value => {
-              let value = p2.as_str().to_string();
-              return Ok(IndexesColumnType::Expr(value))
-            },
-            _ => throw_rules(&[Rule::backquoted_quoted_value], p2)?,
-          }
-        }
-      },
-      _ => throw_rules(&[Rule::ident, Rule::backquoted_quoted_string], p1)?,
-    }
-  }
+  let p1 = pair
+    .into_inner()
+    .next()
+    .ok_or_else(|| unreachable!("something went wrong at indexes_ident"))?;
 
-  unreachable!("something went wrong at indexes_ident");
+  match p1.as_rule() {
+    Rule::ident => {
+      let value = parse_ident(p1)?;
+      Ok(IndexesColumnType::String(value))
+    },
+    Rule::backquoted_quoted_string => {
+      let p2 = p1
+        .into_inner()
+        .next()
+        .ok_or_else(|| unreachable!("something went wrong at indexes_ident"))?;
+
+      match p2.as_rule() {
+        Rule::backquoted_quoted_value => {
+          let value = p2.as_str().to_string();
+          Ok(IndexesColumnType::Expr(value))
+        },
+        _ => throw_rules(&[Rule::backquoted_quoted_value], p2)?,
+      }
+    },
+    _ => throw_rules(&[Rule::ident, Rule::backquoted_quoted_string], p1)?,
+  }
 }
 
 fn parse_indexes_settings(pair: Pair<Rule>) -> ParserResult<IndexesSettings> {
@@ -697,57 +706,60 @@ fn parse_string_value(pair: Pair<Rule>) -> ParserResult<String> {
 }
 
 fn parse_value(pair: Pair<Rule>) -> ParserResult<Value> {
-  for p1 in pair.into_inner() {
-    match p1.as_rule() {
-      Rule::string_value => {
-        let value = parse_string_value(p1)?;
+  let p1 = pair
+    .into_inner()
+    .next()
+    .ok_or_else(|| unreachable!("something went wrong at value!"))?;
 
-        return Ok(Value::String(value));
-      },
-      Rule::number_value => {
-        for p2 in p1.into_inner() {
-          match p2.as_rule() {
-            Rule::decimal => {
-              return match p2.as_str().parse::<f32>() {
-                Ok(val) => Ok(Value::Decimal(val)),
-                Err(err) => throw_msg(err.to_string(), p2)?,
-              };
-            },
-            Rule::integer => {
-              return match p2.as_str().parse::<i32>() {
-                Ok(val) => Ok(Value::Integer(val)),
-                Err(err) => throw_msg(err.to_string(), p2)?,
-              };
-            },
-            _ => throw_rules(&[Rule::decimal, Rule::integer], p2)?,
+  match p1.as_rule() {
+    Rule::string_value => {
+      let value = parse_string_value(p1)?;
+
+      Ok(Value::String(value))
+    },
+    Rule::number_value => {
+      let p2 = p1
+        .into_inner()
+        .next()
+        .ok_or_else(|| unreachable!("something went wrong at value!"))?;
+
+      match p2.as_rule() {
+        Rule::decimal => {
+          match p2.as_str().parse::<f32>() {
+            Ok(val) => Ok(Value::Decimal(val)),
+            Err(err) => throw_msg(err.to_string(), p2)?,
           }
-        }
-      },
-      Rule::boolean_value => {
-        return match p1.as_str() {
-          "true" => Ok(Value::Bool(true)),
-          "false" => Ok(Value::Bool(false)),
-          "null" => Ok(Value::Null),
-          _ => throw_msg(format!("'{}' is incompatible with boolean value", p1.as_str()), p1)?,
-        }
-      },
-      Rule::hex_value => {
-        return Ok(Value::HexColor(p1.as_str().to_string()))
-      },
-      Rule::backquoted_quoted_string => {
-        return Ok(Value::Expr(p1.into_inner().as_str().to_string()))
-      },
-      _ => throw_rules(&[
-        Rule::string_value,
-        Rule::number_value,
-        Rule::boolean_value,
-        Rule::hex_value,
-        Rule::backquoted_quoted_string
-      ], p1)?,
-    }
+        },
+        Rule::integer => {
+          match p2.as_str().parse::<i32>() {
+            Ok(val) => Ok(Value::Integer(val)),
+            Err(err) => throw_msg(err.to_string(), p2)?,
+          }
+        },
+        _ => throw_rules(&[Rule::decimal, Rule::integer], p2)?,
+      }
+    },
+    Rule::boolean_value => {
+      if let Ok(v) = Value::from_str(p1.as_str()) {
+        Ok(v)
+      } else {
+        throw_msg(format!("'{}' is incompatible with boolean value", p1.as_str()), p1)?
+      }
+    },
+    Rule::hex_value => {
+      Ok(Value::HexColor(p1.as_str().to_string()))
+    },
+    Rule::backquoted_quoted_string => {
+      Ok(Value::Expr(p1.into_inner().as_str().to_string()))
+    },
+    _ => throw_rules(&[
+      Rule::string_value,
+      Rule::number_value,
+      Rule::boolean_value,
+      Rule::hex_value,
+      Rule::backquoted_quoted_string
+    ], p1)?,
   }
-
-  unreachable!("something went wrong at value!")
 }
 
 fn parse_decl_ident(pair: Pair<Rule>) -> ParserResult<(Option<String>, String)> {
@@ -774,17 +786,18 @@ fn parse_decl_ident(pair: Pair<Rule>) -> ParserResult<(Option<String>, String)> 
 }
 
 fn parse_ident(pair: Pair<Rule>) -> ParserResult<String> {
-  for p1 in pair.into_inner() {
-    return match p1.as_rule() {
-      Rule::var => {
-        Ok(p1.as_str().to_string())
-      },
-      Rule::double_quoted_string => {
-        Ok(p1.into_inner().as_str().to_string())
-      },
-      _ => throw_rules(&[Rule::var, Rule::double_quoted_string], p1)?,
-    }
-  }
+  let p1 = pair
+    .into_inner()
+    .next()
+    .ok_or_else(|| unreachable!("something went wrong at ident!"))?;
 
-  unreachable!("something went wrong at ident!")
+  match p1.as_rule() {
+    Rule::var => {
+      Ok(p1.as_str().to_string())
+    },
+    Rule::double_quoted_string => {
+      Ok(p1.into_inner().as_str().to_string())
+    },
+    _ => throw_rules(&[Rule::var, Rule::double_quoted_string], p1)?,
+  }
 }

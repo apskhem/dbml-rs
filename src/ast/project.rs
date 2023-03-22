@@ -1,6 +1,6 @@
-use std::{str::FromStr, ops::Range};
+use std::str::FromStr;
 
-use pest::Span;
+use super::*;
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub enum DatabaseType {
@@ -27,7 +27,7 @@ impl FromStr for DatabaseType {
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct ProjectBlock {
-  pub span_range: Range<usize>,
+  pub span_range: SpanRange,
   pub name: String,
   pub database_type: DatabaseType,
   pub note: Option<String>

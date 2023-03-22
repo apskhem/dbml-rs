@@ -1,21 +1,21 @@
-use std::{ops::Range, str::FromStr, collections::HashMap};
+use std::str::FromStr;
 
 use super::*;
 
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct TableBlock {
-  pub span_range: Range<usize>,
+  pub span_range: SpanRange,
   pub cols: Vec<TableColumn>,
   pub ident: TableIdent,
   pub note: Option<String>,
   pub indexes: Option<indexes::IndexesBlock>,
-  pub settings: Option<HashMap<String, Value>>,
+  pub settings: Option<Vec<(String, Value)>>,
   pub meta_indexer: TableIndexer
 }
 
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct ColumnType {
-  pub span_range: Range<usize>,
+  pub span_range: SpanRange,
   pub type_name: ColumnTypeName,
   pub args: Vec<Value>,
   pub arrays: Vec<Option<usize>>,
@@ -23,7 +23,7 @@ pub struct ColumnType {
 
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct TableColumn {
-  pub span_range: Range<usize>,
+  pub span_range: SpanRange,
   pub name: String,
   pub r#type: ColumnType,
   pub settings: ColumnSettings,
@@ -45,6 +45,19 @@ pub enum Value {
   HexColor(String),
   Expr(String),
   Null
+}
+
+impl FromStr for Value {
+  type Err = ();
+
+  fn from_str(s: &str) -> Result<Self, Self::Err> {
+    match s {
+      "true" => Ok(Value::Bool(true)),
+      "false" => Ok(Value::Bool(false)),
+      "null" => Ok(Value::Null),
+      _ => Err(()),
+    }
+  }
 }
 
 impl ToString for Value {
@@ -182,7 +195,7 @@ impl FromStr for ColumnTypeName {
 
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct ColumnSettings {
-  pub span_range: Range<usize>,
+  pub span_range: SpanRange,
   pub is_pk: bool,
   pub is_unique: bool,
   pub is_nullable: bool,
@@ -194,7 +207,7 @@ pub struct ColumnSettings {
 
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct TableIdent {
-  pub span_range: Range<usize>,
+  pub span_range: SpanRange,
   pub name: String,
   pub schema: Option<String>,
   pub alias: Option<String>

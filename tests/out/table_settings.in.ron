@@ -60,11 +60,14 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: Some(
-                {
-                    "headerColor": HexColor(
-                        "#555",
+                [
+                    (
+                        "headerColor",
+                        HexColor(
+                            "#555",
+                        ),
                     ),
-                },
+                ],
             ),
             meta_indexer: TableIndexer {
                 pk_list: [],
@@ -129,11 +132,14 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: Some(
-                {
-                    "note": String(
-                        "name is required",
+                [
+                    (
+                        "note",
+                        String(
+                            "name is required",
+                        ),
                     ),
-                },
+                ],
             ),
             meta_indexer: TableIndexer {
                 pk_list: [],
@@ -220,14 +226,20 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: Some(
-                {
-                    "note": String(
-                        "product must have price",
+                [
+                    (
+                        "headerColor",
+                        HexColor(
+                            "#17DACC",
+                        ),
                     ),
-                    "headerColor": HexColor(
-                        "#17DACC",
+                    (
+                        "note",
+                        String(
+                            "product must have price",
+                        ),
                     ),
-                },
+                ],
             ),
             meta_indexer: TableIndexer {
                 pk_list: [],
@@ -336,14 +348,20 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: Some(
-                {
-                    "note": String(
-                        "merchants sell a lot",
+                [
+                    (
+                        "headerColor",
+                        HexColor(
+                            "#08DAFF",
+                        ),
                     ),
-                    "headerColor": HexColor(
-                        "#08DAFF",
+                    (
+                        "note",
+                        String(
+                            "merchants sell a lot",
+                        ),
                     ),
-                },
+                ],
             ),
             meta_indexer: TableIndexer {
                 pk_list: [],

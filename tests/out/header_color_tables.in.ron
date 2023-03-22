@@ -104,11 +104,14 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: Some(
-                {
-                    "HeaderColor": HexColor(
-                        "#0065ab",
+                [
+                    (
+                        "HeaderColor",
+                        HexColor(
+                            "#0065ab",
+                        ),
                     ),
-                },
+                ],
             ),
             meta_indexer: TableIndexer {
                 pk_list: [],

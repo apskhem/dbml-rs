@@ -127,11 +127,14 @@ SchemaBlock {
                 },
             ),
             settings: Some(
-                {
-                    "note": String(
-                        "note in table settings",
+                [
+                    (
+                        "note",
+                        String(
+                            "note in table settings",
+                        ),
                     ),
-                },
+                ],
             ),
             meta_indexer: TableIndexer {
                 pk_list: [],
