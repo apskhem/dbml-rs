@@ -1,0 +1,477 @@
+SchemaBlock {
+    span_range: 0..622,
+    input: "Project sea_orm_codegen {\n  database_type: 'PostgreSQL'\n}\n\nTable cake {\n  id int [pk, increment]\n  name text [null]\n}\n\nTable vendor {\n  id int [pk, increment]\n  name varchar\n  fruit_id text [ref: > fruit.id, null]\n}\n\nTable fruit {\n  id int [pk, increment]\n  name varchar\n  cake_id int [ref: > cake.id, null]\n}\n\nTable filling {\n  id int [pk, increment]\n  name varchar\n}\n\nTable cake_filling {\n  cake_id int\n  filling_id int\n\n  indexes {\n    (cake_id, filling_id) [pk]\n  }\n}\n\nRef: cake_filling.cake_id > cake.id [delete: cascade, update: cascade]\n\nRef: cake_filling.filling_id > filling.id [delete: cascade, update: cascade]\n",
+    project: Some(
+        ProjectBlock {
+            span_range: 0..57,
+            name: "sea_orm_codegen",
+            database_type: PostgreSQL,
+            note: None,
+        },
+    ),
+    tables: [
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: true,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: true,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "name",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "text",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: true,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "cake",
+                schema: None,
+                alias: None,
+            },
+            note: None,
+            indexes: None,
+            settings: None,
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: true,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: true,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "name",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "varchar",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "fruit_id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "text",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: true,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [
+                            RefInline {
+                                rel: Many2One,
+                                rhs: RefIdent {
+                                    schema: None,
+                                    table: "fruit",
+                                    compositions: [
+                                        "id",
+                                    ],
+                                },
+                            },
+                        ],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "vendor",
+                schema: None,
+                alias: None,
+            },
+            note: None,
+            indexes: None,
+            settings: None,
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: true,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: true,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "name",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "varchar",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "cake_id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: true,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [
+                            RefInline {
+                                rel: Many2One,
+                                rhs: RefIdent {
+                                    schema: None,
+                                    table: "cake",
+                                    compositions: [
+                                        "id",
+                                    ],
+                                },
+                            },
+                        ],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "fruit",
+                schema: None,
+                alias: None,
+            },
+            note: None,
+            indexes: None,
+            settings: None,
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: true,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: true,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "name",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "varchar",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "filling",
+                schema: None,
+                alias: None,
+            },
+            note: None,
+            indexes: None,
+            settings: None,
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "cake_id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "filling_id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "cake_filling",
+                schema: None,
+                alias: None,
+            },
+            note: None,
+            indexes: Some(
+                IndexesBlock {
+                    defs: [
+                        IndexesDef {
+                            cols: [
+                                String(
+                                    "cake_id",
+                                ),
+                                String(
+                                    "filling_id",
+                                ),
+                            ],
+                            settings: Some(
+                                IndexesSettings {
+                                    type: None,
+                                    is_unique: false,
+                                    is_pk: true,
+                                    note: None,
+                                    name: None,
+                                },
+                            ),
+                        },
+                    ],
+                },
+            ),
+            settings: None,
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+    ],
+    table_groups: [],
+    refs: [
+        RefBlock {
+            rel: Many2One,
+            lhs: RefIdent {
+                schema: None,
+                table: "cake_filling",
+                compositions: [
+                    "cake_id",
+                ],
+            },
+            rhs: RefIdent {
+                schema: None,
+                table: "cake",
+                compositions: [
+                    "id",
+                ],
+            },
+            settings: Some(
+                RefSettings {
+                    on_delete: Some(
+                        Cascade,
+                    ),
+                    on_update: Some(
+                        Cascade,
+                    ),
+                },
+            ),
+        },
+        RefBlock {
+            rel: Many2One,
+            lhs: RefIdent {
+                schema: None,
+                table: "cake_filling",
+                compositions: [
+                    "filling_id",
+                ],
+            },
+            rhs: RefIdent {
+                schema: None,
+                table: "filling",
+                compositions: [
+                    "id",
+                ],
+            },
+            settings: Some(
+                RefSettings {
+                    on_delete: Some(
+                        Cascade,
+                    ),
+                    on_update: Some(
+                        Cascade,
+                    ),
+                },
+            ),
+        },
+    ],
+    enums: [],
+}

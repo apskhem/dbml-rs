@@ -1,0 +1,148 @@
+SchemaBlock {
+    span_range: 0..141,
+    input: "Table sal_emp {\n  name text\n  pay_by_quarter \"int[]\" [not null]\n  schedule \"text[][]\" [null]\n}\n\nTable tictactoe {\n  squares \"integer[3][3]\"\n}",
+    project: None,
+    tables: [
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "name",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "text",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "pay_by_quarter",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [
+                            None,
+                        ],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "schedule",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "text",
+                        ),
+                        args: [],
+                        arrays: [
+                            None,
+                            None,
+                        ],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: true,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "sal_emp",
+                schema: None,
+                alias: None,
+            },
+            note: None,
+            indexes: None,
+            settings: None,
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "squares",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "integer",
+                        ),
+                        args: [],
+                        arrays: [
+                            Some(
+                                3,
+                            ),
+                            Some(
+                                3,
+                            ),
+                        ],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "tictactoe",
+                schema: None,
+                alias: None,
+            },
+            note: None,
+            indexes: None,
+            settings: None,
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+    ],
+    table_groups: [],
+    refs: [],
+    enums: [],
+}

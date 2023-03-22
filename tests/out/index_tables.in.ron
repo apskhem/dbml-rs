@@ -1,0 +1,305 @@
+SchemaBlock {
+    span_range: 0..430,
+    input: "Table users {\n  id int [primary key]\n  full_name varchar\n  email varchar [unique]\n  gender varchar\n  date_of_birth varchar\n  created_at varchar\n  country_code int \n  active boolean [not null]\n  \n  indexes {\n    (id) [unique, note: 'index note']\n    full_name [name: \"User Name\"]\n    (email,created_at) [type: hash]\n    `now()`\n    (active, `lower(full_name)`)\n    (`getdate()`, `upper(gender)`)\n    (`reverse(country_code)`)\n  }\n}",
+    project: None,
+    tables: [
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: true,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "full_name",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "varchar",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "email",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "varchar",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: true,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "gender",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "varchar",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "date_of_birth",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "varchar",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "created_at",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "varchar",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "country_code",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "active",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "boolean",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "users",
+                schema: None,
+                alias: None,
+            },
+            note: None,
+            indexes: Some(
+                IndexesBlock {
+                    defs: [
+                        IndexesDef {
+                            cols: [
+                                String(
+                                    "id",
+                                ),
+                            ],
+                            settings: Some(
+                                IndexesSettings {
+                                    type: None,
+                                    is_unique: true,
+                                    is_pk: false,
+                                    note: Some(
+                                        "index note",
+                                    ),
+                                    name: None,
+                                },
+                            ),
+                        },
+                        IndexesDef {
+                            cols: [
+                                String(
+                                    "full_name",
+                                ),
+                            ],
+                            settings: Some(
+                                IndexesSettings {
+                                    type: None,
+                                    is_unique: false,
+                                    is_pk: false,
+                                    note: None,
+                                    name: Some(
+                                        "User Name",
+                                    ),
+                                },
+                            ),
+                        },
+                        IndexesDef {
+                            cols: [
+                                String(
+                                    "email",
+                                ),
+                                String(
+                                    "created_at",
+                                ),
+                            ],
+                            settings: Some(
+                                IndexesSettings {
+                                    type: Some(
+                                        Hash,
+                                    ),
+                                    is_unique: false,
+                                    is_pk: false,
+                                    note: None,
+                                    name: None,
+                                },
+                            ),
+                        },
+                        IndexesDef {
+                            cols: [
+                                Expr(
+                                    "now()",
+                                ),
+                            ],
+                            settings: None,
+                        },
+                        IndexesDef {
+                            cols: [
+                                String(
+                                    "active",
+                                ),
+                                Expr(
+                                    "lower(full_name)",
+                                ),
+                            ],
+                            settings: None,
+                        },
+                        IndexesDef {
+                            cols: [
+                                Expr(
+                                    "getdate()",
+                                ),
+                                Expr(
+                                    "upper(gender)",
+                                ),
+                            ],
+                            settings: None,
+                        },
+                        IndexesDef {
+                            cols: [
+                                Expr(
+                                    "reverse(country_code)",
+                                ),
+                            ],
+                            settings: None,
+                        },
+                    ],
+                },
+            ),
+            settings: None,
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+    ],
+    table_groups: [],
+    refs: [],
+    enums: [],
+}

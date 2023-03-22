@@ -1,0 +1,146 @@
+SchemaBlock {
+    span_range: 0..407,
+    input: "Table users [note: 'note in table settings'] {\n  id int [pk]\n  name varchar [pk]\n  gender varchar\n  created_at datetime\n\n  Note: 'Short note'\n\n  Indexes {\n    id\n    (id, name)\n  }\n\n  Indexes {\n    gender\n    created_at\n  }\n\n  Note {\n    '''\n    # Note\n\n    ## Objective\n      * Support define element's note inside element body\n      * Make writing long note easier with the new syntax\n      \n    '''\n  }\n}",
+    project: None,
+    tables: [
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: true,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "name",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "varchar",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: true,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "gender",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "varchar",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "created_at",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "datetime",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "users",
+                schema: None,
+                alias: None,
+            },
+            note: Some(
+                "# Note\n\n    ## Objective\n      * Support define element's note inside element body\n      * Make writing long note easier with the new syntax\n      \n    ",
+            ),
+            indexes: Some(
+                IndexesBlock {
+                    defs: [
+                        IndexesDef {
+                            cols: [
+                                String(
+                                    "gender",
+                                ),
+                            ],
+                            settings: None,
+                        },
+                        IndexesDef {
+                            cols: [
+                                String(
+                                    "created_at",
+                                ),
+                            ],
+                            settings: None,
+                        },
+                    ],
+                },
+            ),
+            settings: Some(
+                {
+                    "note": String(
+                        "note in table settings",
+                    ),
+                },
+            ),
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+    ],
+    table_groups: [],
+    refs: [],
+    enums: [],
+}

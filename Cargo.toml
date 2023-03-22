@@ -7,7 +7,7 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/apskhem/dbml-rs"
 readme = "README.md"
 authors = ["Apisit Ritreungroj <cyber1.record@gmail.com>"]
-keywords = ["compiler", "dbml"]
+keywords = ["parser", "parse", "dbml"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

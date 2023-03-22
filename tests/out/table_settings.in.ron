@@ -1,0 +1,395 @@
+SchemaBlock {
+    span_range: 0..528,
+    input: "Table \"user\" [headerColor: #555] {\n  \"id\" int [pk]\n  \"name\" string\n}\n\nTable \"country\" [note: 'name is required'] {\n  \"id\" int [pk]\n  \"name\" string [not null]\n}\n\nTable \"product\" [headerColor: #17DACC, note: 'product must have price'] {\n  \"id\" int [pk]\n  \"name\" string\n  \"price\" decimal [not null]\n}\n\nTable \"merchant\" [headerColor: #08DAFF, note: 'merchants sell a lot'] {\n  \"id\" int [pk]\n  \"user_id\" int\n  \"product_id\" int\n  \"address\" string\n}\n\nRef:\"user\".\"id\" < \"merchant\".\"user_id\"\n\nRef:\"product\".\"id\" < \"merchant\".\"product_id\"",
+    project: None,
+    tables: [
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: true,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "name",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "string",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "user",
+                schema: None,
+                alias: None,
+            },
+            note: None,
+            indexes: None,
+            settings: Some(
+                {
+                    "headerColor": HexColor(
+                        "#555",
+                    ),
+                },
+            ),
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: true,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "name",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "string",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "country",
+                schema: None,
+                alias: None,
+            },
+            note: None,
+            indexes: None,
+            settings: Some(
+                {
+                    "note": String(
+                        "name is required",
+                    ),
+                },
+            ),
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: true,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "name",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "string",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "price",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "decimal",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "product",
+                schema: None,
+                alias: None,
+            },
+            note: None,
+            indexes: None,
+            settings: Some(
+                {
+                    "note": String(
+                        "product must have price",
+                    ),
+                    "headerColor": HexColor(
+                        "#17DACC",
+                    ),
+                },
+            ),
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: true,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "user_id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "product_id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "int",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "address",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "string",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "merchant",
+                schema: None,
+                alias: None,
+            },
+            note: None,
+            indexes: None,
+            settings: Some(
+                {
+                    "note": String(
+                        "merchants sell a lot",
+                    ),
+                    "headerColor": HexColor(
+                        "#08DAFF",
+                    ),
+                },
+            ),
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+    ],
+    table_groups: [],
+    refs: [
+        RefBlock {
+            rel: One2Many,
+            lhs: RefIdent {
+                schema: None,
+                table: "user",
+                compositions: [
+                    "id",
+                ],
+            },
+            rhs: RefIdent {
+                schema: None,
+                table: "merchant",
+                compositions: [
+                    "user_id",
+                ],
+            },
+            settings: None,
+        },
+        RefBlock {
+            rel: One2Many,
+            lhs: RefIdent {
+                schema: None,
+                table: "product",
+                compositions: [
+                    "id",
+                ],
+            },
+            rhs: RefIdent {
+                schema: None,
+                table: "merchant",
+                compositions: [
+                    "product_id",
+                ],
+            },
+            settings: None,
+        },
+    ],
+    enums: [],
+}

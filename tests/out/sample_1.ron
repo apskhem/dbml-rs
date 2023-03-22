@@ -1,0 +1,459 @@
+SchemaBlock {
+    span_range: 0..1106,
+    input: "Project project_name {\n  database_type: 'PostgreSQL'\n  Note: 'Description of the project'\n}\n\nTableGroup order {\n  users \n  P \n  orders\n}\n\nTable users {\n  id integer [pk]\n  age integer [default: 10]\n  username \"character varying[]\"\n  role varchar\n  created_at timestamp\n  referral_id integer [ref: > users.id, null]\n}\n\nTable posts as P {\n  id integer [pk]\n  title varchar\n  body text [note: 'Content of the post']\n  user_id integer [ref: > users.id]\n  status post_status\n  created_at timestamp\n}\n\nTable orders {\n  id integer [pk]\n  status varchar [\n  note: '\n  💸 1 = processing, \n  ✔\u{fe0f} 2 = shipped, \n  ❌ 3 = cancelled,\n  😔 4 = refunded\n  ']\n\n  // indexes {\n  //   (id, country) [pk] // composite primary key\n  //   created_at [name: \"created_at_index\", note: 'Date']\n  //   booking_date\n  //   (country, booking_date) [type: btree, unique]\n  //   booking_date [type: hash]\n  //   (`id*2`)\n  //   (`id*3`,`getdate()`)\n  //   (`id*3`, id)\n  // }\n}\n\nenum post_status {\n  draft\n  published\n  private [note: 'visible via URL only']\n}\n\n// Ref: posts.user_id > users.id [update: restrict] // many-to-one",
+    project: Some(
+        ProjectBlock {
+            span_range: 0..91,
+            name: "project_name",
+            database_type: PostgreSQL,
+            note: Some(
+                "Description of the project",
+            ),
+        },
+    ),
+    tables: [
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "integer",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: true,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "age",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "integer",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: Some(
+                            Integer(
+                                10,
+                            ),
+                        ),
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "username",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "character varying",
+                        ),
+                        args: [],
+                        arrays: [
+                            None,
+                        ],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "role",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "varchar",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "created_at",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "timestamp",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "referral_id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "integer",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: true,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [
+                            RefInline {
+                                rel: Many2One,
+                                rhs: RefIdent {
+                                    schema: None,
+                                    table: "users",
+                                    compositions: [
+                                        "id",
+                                    ],
+                                },
+                            },
+                        ],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "users",
+                schema: None,
+                alias: None,
+            },
+            note: None,
+            indexes: None,
+            settings: None,
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "integer",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: true,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "title",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "varchar",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "body",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "text",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: Some(
+                            "Content of the post",
+                        ),
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "user_id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "integer",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [
+                            RefInline {
+                                rel: Many2One,
+                                rhs: RefIdent {
+                                    schema: None,
+                                    table: "users",
+                                    compositions: [
+                                        "id",
+                                    ],
+                                },
+                            },
+                        ],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "status",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "post_status",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "created_at",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "timestamp",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "posts",
+                schema: None,
+                alias: Some(
+                    "P",
+                ),
+            },
+            note: None,
+            indexes: None,
+            settings: None,
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+        TableBlock {
+            span_range: 0..0,
+            cols: [
+                TableColumn {
+                    span_range: 0..0,
+                    name: "id",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "integer",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: true,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: None,
+                        default: None,
+                        refs: [],
+                    },
+                },
+                TableColumn {
+                    span_range: 0..0,
+                    name: "status",
+                    type: ColumnType {
+                        span_range: 0..0,
+                        type_name: Raw(
+                            "varchar",
+                        ),
+                        args: [],
+                        arrays: [],
+                    },
+                    settings: ColumnSettings {
+                        span_range: 0..0,
+                        is_pk: false,
+                        is_unique: false,
+                        is_nullable: false,
+                        is_incremental: false,
+                        note: Some(
+                            "💸 1 = processing, \n  ✔\u{fe0f} 2 = shipped, \n  ❌ 3 = cancelled,\n  😔 4 = refunded\n  ",
+                        ),
+                        default: None,
+                        refs: [],
+                    },
+                },
+            ],
+            ident: TableIdent {
+                span_range: 0..0,
+                name: "orders",
+                schema: None,
+                alias: None,
+            },
+            note: None,
+            indexes: None,
+            settings: None,
+            meta_indexer: TableIndexer {
+                pk_list: [],
+                unique_list: [],
+                indexed_list: [],
+            },
+        },
+    ],
+    table_groups: [
+        TableGroupBlock {
+            name: "order",
+            table_idents: [
+                TableGroupIdent {
+                    schema: None,
+                    ident_alias: "users",
+                },
+                TableGroupIdent {
+                    schema: None,
+                    ident_alias: "P",
+                },
+                TableGroupIdent {
+                    schema: None,
+                    ident_alias: "orders",
+                },
+            ],
+        },
+    ],
+    refs: [],
+    enums: [
+        EnumBlock {
+            ident: EnumIdent {
+                name: "post_status",
+                schema: None,
+            },
+            values: [
+                EnumValue {
+                    value: "draft",
+                    note: None,
+                },
+                EnumValue {
+                    value: "published",
+                    note: None,
+                },
+                EnumValue {
+                    value: "private",
+                    note: Some(
+                        "visible via URL only",
+                    ),
+                },
+            ],
+        },
+    ],
+}
