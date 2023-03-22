@@ -1,5 +1,6 @@
 # DBML parser for Rust
 
+[![crate](https://img.shields.io/crates/v/dbml-rs.svg)](https://crates.io/crates/dbml-rs)
 ![MSRV](https://img.shields.io/badge/rustc-1.59+-ab6000.svg)
 ![MIT or Apache 2.0 licensed](https://img.shields.io/crates/l/dbml-rs.svg)
 ![unsafe forbidden](https://img.shields.io/badge/unsafe-forbidden-success.svg)
