@@ -1,15 +1,15 @@
 use std::ops::Range;
 
-use pest::Span;
-use pest::iterators::Pair;
 use crate::parser::Rule;
+use pest::iterators::Pair;
+use pest::Span;
 
 type SpanRange = Range<usize>;
 
 pub mod enums;
 pub mod indexes;
-pub mod refs;
 pub mod project;
+pub mod refs;
 pub mod schema;
-pub mod table_group;
 pub mod table;
+pub mod table_group;

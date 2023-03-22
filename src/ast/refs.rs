@@ -3,7 +3,7 @@ use std::str::FromStr;
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct RefInline {
   pub rel: Relation,
-  pub rhs: RefIdent
+  pub rhs: RefIdent,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
@@ -11,16 +11,17 @@ pub struct RefBlock {
   pub rel: Relation,
   pub lhs: RefIdent,
   pub rhs: RefIdent,
-  pub settings: Option<RefSettings>
+  pub settings: Option<RefSettings>,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub enum Relation {
-  #[default] Undef,
+  #[default]
+  Undef,
   One2One,
   One2Many,
   Many2One,
-  Many2Many
+  Many2Many,
 }
 
 impl FromStr for Relation {
@@ -50,7 +51,7 @@ pub enum ReferentialAction {
   Cascade,
   Restrict,
   SetNull,
-  SetDefault
+  SetDefault,
 }
 
 impl FromStr for ReferentialAction {
@@ -71,11 +72,15 @@ impl FromStr for ReferentialAction {
 impl ToString for ReferentialAction {
   fn to_string(&self) -> String {
     match self {
-      Self::NoAction => format!("no action"),
+      Self::NoAction => {
+        format!("no action")
+      }
       Self::Cascade => format!("cascade"),
       Self::Restrict => format!("restrict"),
       Self::SetNull => format!("set null"),
-      Self::SetDefault => format!("set default"),
+      Self::SetDefault => {
+        format!("set default")
+      }
     }
   }
 }

@@ -2,9 +2,9 @@ use std::ops::Range;
 
 use crate::parser::Rule;
 
-use pest::Span;
 use pest::error::{Error, ErrorVariant};
 use pest::iterators::Pair;
+use pest::Span;
 
 pub type AnalyzerResult<T> = Result<T, Error<Rule>>;
 
@@ -29,16 +29,16 @@ pub enum Err {
   EnumValueNotFound,
   MismatchedForeignKeyType,
   MismatchedCompositeForeignKey,
-  UnsupportedSyntax
+  UnsupportedSyntax,
 }
 
 pub fn throw_msg<T>(msg: impl ToString, pair: Pair<Rule>) -> AnalyzerResult<T> {
-  Err(
-    Error::new_from_span(
-      ErrorVariant::CustomError { message: msg.to_string() },
-      pair.as_span()
-    )
-  )
+  Err(Error::new_from_span(
+    ErrorVariant::CustomError {
+      message: msg.to_string(),
+    },
+    pair.as_span(),
+  ))
 }
 
 pub fn throw_err<T>(err: Err, span_range: Range<usize>, input: &str) -> AnalyzerResult<T> {
@@ -46,13 +46,13 @@ pub fn throw_err<T>(err: Err, span_range: Range<usize>, input: &str) -> Analyzer
 
   let msg = match err {
     Err::ProjectSettingNotFound => "the project block is required",
-    _ => "error unexpected"
+    _ => "error unexpected",
   };
-  
-  Err(
-    Error::new_from_span(
-      ErrorVariant::CustomError { message: msg.to_string() },
-      span
-    )
-  )
+
+  Err(Error::new_from_span(
+    ErrorVariant::CustomError {
+      message: msg.to_string(),
+    },
+    span,
+  ))
 }

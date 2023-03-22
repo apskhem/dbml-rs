@@ -16,7 +16,7 @@ pub struct SchemaBlock<'a> {
   /// Ref block.
   pub refs: Vec<refs::RefBlock>,
   /// Enums block.
-  pub enums: Vec<enums::EnumBlock>
+  pub enums: Vec<enums::EnumBlock>,
 }
 
 impl<'a> SchemaBlock<'a> {
@@ -28,7 +28,7 @@ impl<'a> SchemaBlock<'a> {
       tables: Vec::default(),
       table_groups: Vec::default(),
       refs: Vec::default(),
-      enums: Vec::default()
+      enums: Vec::default(),
     }
   }
 
@@ -39,19 +39,30 @@ impl<'a> SchemaBlock<'a> {
 
     println!("Tables:");
 
-    self.tables.iter().for_each(|table| println!("{:?}\n----", table));
+    self
+      .tables
+      .iter()
+      .for_each(|table| println!("{:?}\n----", table));
 
     println!("TableGroups:");
 
-    self.table_groups.iter().for_each(|table| println!("{:?}\n----", table));
+    self
+      .table_groups
+      .iter()
+      .for_each(|table| println!("{:?}\n----", table));
 
     println!("Refs:");
 
-    self.refs.iter().for_each(|table| println!("{:?}\n----", table));
+    self
+      .refs
+      .iter()
+      .for_each(|table| println!("{:?}\n----", table));
 
     println!("Enums:");
 
-    self.enums.iter().for_each(|table| println!("{:?}\n----", table));
+    self
+      .enums
+      .iter()
+      .for_each(|table| println!("{:?}\n----", table));
   }
 }
-

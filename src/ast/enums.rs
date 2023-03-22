@@ -1,7 +1,7 @@
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct EnumBlock {
   pub ident: EnumIdent,
-  pub values: Vec<EnumValue>
+  pub values: Vec<EnumValue>,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
@@ -12,6 +12,6 @@ pub struct EnumValue {
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct EnumIdent {
-  pub name: String, 
-  pub schema: Option<String>
+  pub name: String,
+  pub schema: Option<String>,
 }

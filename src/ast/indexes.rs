@@ -2,7 +2,7 @@ use std::str::FromStr;
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct IndexesBlock {
-  pub defs: Vec<IndexesDef>
+  pub defs: Vec<IndexesDef>,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
@@ -17,13 +17,13 @@ pub struct IndexesSettings {
   pub is_unique: bool,
   pub is_pk: bool,
   pub note: Option<String>,
-  pub name: Option<String>
+  pub name: Option<String>,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub enum IndexesColumnType {
   String(String),
-  Expr(String)
+  Expr(String),
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
@@ -31,7 +31,7 @@ pub enum IndexesType {
   BTree,
   Gin,
   Gist,
-  Hash
+  Hash,
 }
 
 impl FromStr for IndexesType {

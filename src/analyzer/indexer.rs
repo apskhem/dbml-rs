@@ -1,11 +1,11 @@
-use std::collections::{HashSet, HashMap};
+use std::collections::{HashMap, HashSet};
 
 use super::*;
 
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct IndexedSchemaBlock {
   table_map: HashMap<String, HashSet<String>>,
-  enum_map: HashMap<String, HashSet<String>>
+  enum_map: HashMap<String, HashSet<String>>,
 }
 
 #[derive(Debug, PartialEq, Clone, Default)]
@@ -25,7 +25,7 @@ impl Indexer {
         span_range,
         schema,
         name,
-        alias
+        alias,
       } = table.ident.clone();
 
       let schema_name = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
@@ -46,7 +46,9 @@ impl Indexer {
           if let Some(dup_alias) = self.alias_map.get(&alias) {
             panic!("alias_name_dup");
           } else {
-            self.alias_map.insert(alias.clone(), (schema.clone(), name.clone()));
+            self
+              .alias_map
+              .insert(alias.clone(), (schema.clone(), name.clone()));
           }
         }
       } else {
@@ -55,7 +57,9 @@ impl Indexer {
         index_block.table_map.insert(name.clone(), col_sets);
 
         if let Some(alias) = alias {
-          self.alias_map.insert(alias.clone(), (schema.clone(), name.clone()));
+          self
+            .alias_map
+            .insert(alias.clone(), (schema.clone(), name.clone()));
         }
 
         self.schema_map.insert(schema_name, index_block);
@@ -67,10 +71,7 @@ impl Indexer {
 
   pub fn index_enums(&mut self, enums: &Vec<enums::EnumBlock>) -> Result<(), String> {
     for r#enum in enums.iter() {
-      let enums::EnumIdent {
-        schema,
-        name,
-      } = r#enum.ident.clone();
+      let enums::EnumIdent { schema, name } = r#enum.ident.clone();
 
       let schema_name = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
       let mut value_sets = HashSet::new();
@@ -97,7 +98,10 @@ impl Indexer {
     Ok(())
   }
 
-  pub fn index_table_groups(&mut self, table_groups: &Vec<table_group::TableGroupBlock>) -> Result<(), String> {
+  pub fn index_table_groups(
+    &mut self,
+    table_groups: &Vec<table_group::TableGroupBlock>,
+  ) -> Result<(), String> {
     for group_each in table_groups.into_iter() {
       for table in group_each.table_idents.iter() {
         let ident_alias = table.ident_alias.clone();
@@ -135,13 +139,20 @@ impl Indexer {
         }
       }
 
-      self.table_group_map.insert(group_each.name.clone(), table_sets);
+      self
+        .table_group_map
+        .insert(group_each.name.clone(), table_sets);
     }
 
     Ok(())
   }
 
-  pub fn lookup_enum_values(&self, schema: &Option<String>, enum_name: &String, values: &Vec<String>) -> Result<(), String> {
+  pub fn lookup_enum_values(
+    &self,
+    schema: &Option<String>,
+    enum_name: &String,
+    values: &Vec<String>,
+  ) -> Result<(), String> {
     let schema = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
 
     if let Some(block) = self.schema_map.get(&schema) {
@@ -161,23 +172,36 @@ impl Indexer {
     }
   }
 
-  pub fn lookup_table_fields(&self, schema: &Option<String>, table: &String, fields: &Vec<String>) -> Result<(), String> {
+  pub fn lookup_table_fields(
+    &self,
+    schema: &Option<String>,
+    table: &String,
+    fields: &Vec<String>,
+  ) -> Result<(), String> {
     let schema = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
 
     if let Some(block) = self.schema_map.get(&schema) {
       if let Some(col_set) = block.table_map.get(table) {
-        let unlisted_fields: Vec<_> = fields.iter().filter(|v| !col_set.contains(*v)).cloned().collect();
+        let unlisted_fields: Vec<_> = fields
+          .iter()
+          .filter(|v| !col_set.contains(*v))
+          .cloned()
+          .collect();
 
         if unlisted_fields.is_empty() {
-          return Ok(())
+          return Ok(());
         } else {
-          return Err(format!("not found '{}' column in table '{}'", unlisted_fields.join(", "), table));
+          return Err(format!(
+            "not found '{}' column in table '{}'",
+            unlisted_fields.join(", "),
+            table
+          ));
         }
       }
-      
+
       return Err(format!("table_not_found"));
     }
-    
+
     return Err(format!("schema_not_found"));
   }
 
@@ -187,16 +211,12 @@ impl Indexer {
 
   pub fn refer_ref_alias(&self, ident: &refs::RefIdent) -> refs::RefIdent {
     match self.refer_alias(&ident.table) {
-      Some((schema, table)) => {
-        refs::RefIdent {
-          schema: schema.clone(),
-          table: table.clone(),
-          compositions: ident.compositions.clone()
-        }
+      Some((schema, table)) => refs::RefIdent {
+        schema: schema.clone(),
+        table: table.clone(),
+        compositions: ident.compositions.clone(),
       },
-      None => {
-        ident.clone()
-      }
+      None => ident.clone(),
     }
   }
 }

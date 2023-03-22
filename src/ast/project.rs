@@ -4,7 +4,8 @@ use super::*;
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub enum DatabaseType {
-  #[default] Undef,
+  #[default]
+  Undef,
   PostgreSQL,
   Oracle,
   MySQL,
@@ -20,7 +21,7 @@ impl FromStr for DatabaseType {
   fn from_str(s: &str) -> Result<Self, Self::Err> {
     match s {
       "PostgreSQL" => Ok(Self::PostgreSQL),
-      _ => Err(format!("'{}' database is not supported!", s))
+      _ => Err(format!("'{}' database is not supported!", s)),
     }
   }
 }
@@ -30,7 +31,7 @@ pub struct ProjectBlock {
   pub span_range: SpanRange,
   pub name: String,
   pub database_type: DatabaseType,
-  pub note: Option<String>
+  pub note: Option<String>,
 }
 
 impl From<Span<'_>> for ProjectBlock {

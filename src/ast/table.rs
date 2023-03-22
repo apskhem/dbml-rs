@@ -10,7 +10,7 @@ pub struct TableBlock {
   pub note: Option<String>,
   pub indexes: Option<indexes::IndexesBlock>,
   pub settings: Option<Vec<(String, Value)>>,
-  pub meta_indexer: TableIndexer
+  pub meta_indexer: TableIndexer,
 }
 
 #[derive(Debug, PartialEq, Clone, Default)]
@@ -33,7 +33,7 @@ pub struct TableColumn {
 pub struct TableIndexer {
   pub pk_list: Vec<String>,
   pub unique_list: Vec<String>,
-  pub indexed_list: Vec<String>
+  pub indexed_list: Vec<String>,
 }
 
 #[derive(Debug, PartialEq, Clone)]
@@ -44,7 +44,7 @@ pub enum Value {
   Bool(bool),
   HexColor(String),
   Expr(String),
-  Null
+  Null,
 }
 
 impl FromStr for Value {
@@ -63,13 +63,21 @@ impl FromStr for Value {
 impl ToString for Value {
   fn to_string(&self) -> String {
     match self {
-      Self::String(val) => format!("{}", val),
-      Self::Integer(val) => format!("{}", val),
-      Self::Decimal(val) => format!("{}", val),
+      Self::String(val) => {
+        format!("{}", val)
+      }
+      Self::Integer(val) => {
+        format!("{}", val)
+      }
+      Self::Decimal(val) => {
+        format!("{}", val)
+      }
       Self::Bool(val) => format!("{}", val),
-      Self::HexColor(val) => format!("{}", val),
+      Self::HexColor(val) => {
+        format!("{}", val)
+      }
       Self::Expr(val) => format!("{}", val),
-      Self::Null => format!("null")
+      Self::Null => format!("null"),
     }
   }
 }
@@ -77,7 +85,8 @@ impl ToString for Value {
 #[derive(Debug, PartialEq, Clone, Default)]
 pub enum ColumnTypeName {
   /// The initial value (default).
-  #[default] Undef,
+  #[default]
+  Undef,
   /// The type is waiting to be parsed and validated.
   Raw(String),
   Enum(String),
@@ -121,7 +130,7 @@ pub enum ColumnTypeName {
   Json,
   Jsonb,
   Decimal,
-  Xml
+  Xml,
 }
 
 impl FromStr for ColumnTypeName {
@@ -202,7 +211,7 @@ pub struct ColumnSettings {
   pub is_incremental: bool,
   pub note: Option<String>,
   pub default: Option<Value>,
-  pub refs: Vec<refs::RefInline>
+  pub refs: Vec<refs::RefInline>,
 }
 
 #[derive(Debug, PartialEq, Clone, Default)]
@@ -210,5 +219,5 @@ pub struct TableIdent {
   pub span_range: SpanRange,
   pub name: String,
   pub schema: Option<String>,
-  pub alias: Option<String>
+  pub alias: Option<String>,
 }

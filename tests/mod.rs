@@ -1,4 +1,8 @@
-use std::{path::{Path, PathBuf}, fs, io::Result};
+use std::{
+  fs,
+  io::Result,
+  path::{Path, PathBuf},
+};
 
 const DBML_DIR: &str = "tests/dbml";
 const OUT_DIR: &str = "tests/out";
@@ -34,8 +38,8 @@ fn parse_dbml() -> Result<()> {
 
   for path in testing_dbml_files {
     let content = fs::read_to_string(&path)?;
-    let parsed = dbml_rs::parser::parse(&content)
-      .unwrap_or_else(|err| panic!("{:?} {}", path, err));
+    let parsed =
+      dbml_rs::parser::parse(&content).unwrap_or_else(|err| panic!("{:?} {}", path, err));
 
     let out_content = format!("{:#?}", parsed);
 
