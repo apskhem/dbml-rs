@@ -9,6 +9,7 @@ readme = "README.md"
 authors = ["Apisit Ritreungroj <cyber1.record@gmail.com>"]
 keywords = ["parser", "parse", "dbml"]
 exclude = [
+  ".github/*",
   "tests/*",
 ]
 
