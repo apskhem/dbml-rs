@@ -3,7 +3,6 @@ mod err;
 use std::str::FromStr;
 
 use err::*;
-
 use pest::iterators::Pair;
 use pest::Parser;
 

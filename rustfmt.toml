@@ -1,3 +1,10 @@
 max_width = 100
 reorder_imports = true
 tab_spaces = 2
+trailing_comma = "Vertical"
+binop_separator = "Front"
+brace_style = "SameLineWhere"
+control_brace_style = "AlwaysSameLine"
+imports_layout = "Vertical"
+imports_granularity = "Module"
+group_imports = "StdExternalCrate"

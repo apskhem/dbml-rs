@@ -1,7 +1,10 @@
-use super::*;
-
-use pest::error::{Error, ErrorVariant};
+use pest::error::{
+  Error,
+  ErrorVariant,
+};
 use pest::iterators::Pair;
+
+use super::*;
 
 pub type ParserResult<T> = Result<T, Error<Rule>>;
 

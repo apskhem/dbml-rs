@@ -1,9 +1,8 @@
 use std::str::FromStr;
 
+use self::err::*;
 use crate::ast::*;
 use crate::DEFAULT_SCHEMA;
-
-use self::err::*;
 
 mod block;
 mod err;

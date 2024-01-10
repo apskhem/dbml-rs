@@ -1,8 +1,9 @@
 use std::ops::Range;
 
-use crate::parser::Rule;
 use pest::iterators::Pair;
 use pest::Span;
+
+use crate::parser::Rule;
 
 type SpanRange = Range<usize>;
 

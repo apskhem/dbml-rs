@@ -1,10 +1,13 @@
 use std::ops::Range;
 
-use crate::parser::Rule;
-
-use pest::error::{Error, ErrorVariant};
+use pest::error::{
+  Error,
+  ErrorVariant,
+};
 use pest::iterators::Pair;
 use pest::Span;
+
+use crate::parser::Rule;
 
 pub type AnalyzerResult<T> = Result<T, Error<Rule>>;
 

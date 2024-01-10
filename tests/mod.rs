@@ -1,7 +1,8 @@
-use std::{
-  fs,
-  io::Result,
-  path::{Path, PathBuf},
+use std::fs;
+use std::io::Result;
+use std::path::{
+  Path,
+  PathBuf,
 };
 
 const DBML_DIR: &str = "tests/dbml";

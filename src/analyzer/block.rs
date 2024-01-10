@@ -1,6 +1,5 @@
-use crate::ast::*;
-
 use super::indexer;
+use crate::ast::*;
 
 /// A validated reference block.
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
