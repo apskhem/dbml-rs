@@ -4,13 +4,13 @@ SchemaBlock {
     project: None,
     tables: [
         TableBlock {
-            span_range: 0..0,
+            span_range: 0..68,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 37..50,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 42..46,
                         type_name: Raw(
                             "int",
                         ),
@@ -18,7 +18,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 46..50,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -29,10 +29,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 53..67,
                     name: "name",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 60..67,
                         type_name: Raw(
                             "string",
                         ),
@@ -60,14 +60,17 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: Some(
-                [
-                    (
-                        "headerColor",
-                        HexColor(
-                            "#555",
+                TableSettings {
+                    span_range: 13..32,
+                    values: [
+                        (
+                            "headerColor",
+                            HexColor(
+                                "#555",
+                            ),
                         ),
-                    ),
-                ],
+                    ],
+                },
             ),
             meta_indexer: TableIndexer {
                 pk_list: [],
@@ -76,13 +79,13 @@ SchemaBlock {
             },
         },
         TableBlock {
-            span_range: 0..0,
+            span_range: 70..159,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 117..130,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 122..126,
                         type_name: Raw(
                             "int",
                         ),
@@ -90,7 +93,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 126..130,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -101,10 +104,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 133..157,
                     name: "name",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 140..147,
                         type_name: Raw(
                             "string",
                         ),
@@ -112,7 +115,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 147..157,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: false,
@@ -132,14 +135,17 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: Some(
-                [
-                    (
-                        "note",
-                        String(
-                            "name is required",
+                TableSettings {
+                    span_range: 86..112,
+                    values: [
+                        (
+                            "note",
+                            String(
+                                "name is required",
+                            ),
                         ),
-                    ),
-                ],
+                    ],
+                },
             ),
             meta_indexer: TableIndexer {
                 pk_list: [],
@@ -148,13 +154,13 @@ SchemaBlock {
             },
         },
         TableBlock {
-            span_range: 0..0,
+            span_range: 161..297,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 237..250,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 242..246,
                         type_name: Raw(
                             "int",
                         ),
@@ -162,7 +168,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 246..250,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -173,10 +179,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 253..269,
                     name: "name",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 260..269,
                         type_name: Raw(
                             "string",
                         ),
@@ -195,10 +201,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 269..295,
                     name: "price",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 277..285,
                         type_name: Raw(
                             "decimal",
                         ),
@@ -206,7 +212,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 285..295,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: false,
@@ -226,20 +232,23 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: Some(
-                [
-                    (
-                        "headerColor",
-                        HexColor(
-                            "#17DACC",
+                TableSettings {
+                    span_range: 177..232,
+                    values: [
+                        (
+                            "headerColor",
+                            HexColor(
+                                "#17DACC",
+                            ),
                         ),
-                    ),
-                    (
-                        "note",
-                        String(
-                            "product must have price",
+                        (
+                            "note",
+                            String(
+                                "product must have price",
+                            ),
                         ),
-                    ),
-                ],
+                    ],
+                },
             ),
             meta_indexer: TableIndexer {
                 pk_list: [],
@@ -248,13 +257,13 @@ SchemaBlock {
             },
         },
         TableBlock {
-            span_range: 0..0,
+            span_range: 299..442,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 373..386,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 378..382,
                         type_name: Raw(
                             "int",
                         ),
@@ -262,7 +271,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 382..386,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -273,10 +282,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 389..405,
                     name: "user_id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 399..405,
                         type_name: Raw(
                             "int",
                         ),
@@ -295,10 +304,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 405..424,
                     name: "product_id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 418..424,
                         type_name: Raw(
                             "int",
                         ),
@@ -317,10 +326,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 424..441,
                     name: "address",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 434..441,
                         type_name: Raw(
                             "string",
                         ),
@@ -348,20 +357,23 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: Some(
-                [
-                    (
-                        "headerColor",
-                        HexColor(
-                            "#08DAFF",
+                TableSettings {
+                    span_range: 316..368,
+                    values: [
+                        (
+                            "headerColor",
+                            HexColor(
+                                "#08DAFF",
+                            ),
                         ),
-                    ),
-                    (
-                        "note",
-                        String(
-                            "merchants sell a lot",
+                        (
+                            "note",
+                            String(
+                                "merchants sell a lot",
+                            ),
                         ),
-                    ),
-                ],
+                    ],
+                },
             ),
             meta_indexer: TableIndexer {
                 pk_list: [],
@@ -373,8 +385,10 @@ SchemaBlock {
     table_groups: [],
     refs: [
         RefBlock {
+            span_range: 448..484,
             rel: One2Many,
             lhs: RefIdent {
+                span_range: 448..459,
                 schema: None,
                 table: "user",
                 compositions: [
@@ -382,6 +396,7 @@ SchemaBlock {
                 ],
             },
             rhs: RefIdent {
+                span_range: 462..482,
                 schema: None,
                 table: "merchant",
                 compositions: [
@@ -391,8 +406,10 @@ SchemaBlock {
             settings: None,
         },
         RefBlock {
+            span_range: 488..528,
             rel: One2Many,
             lhs: RefIdent {
+                span_range: 488..502,
                 schema: None,
                 table: "product",
                 compositions: [
@@ -400,6 +417,7 @@ SchemaBlock {
                 ],
             },
             rhs: RefIdent {
+                span_range: 505..528,
                 schema: None,
                 table: "merchant",
                 compositions: [

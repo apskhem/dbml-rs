@@ -1,18 +1,26 @@
 use std::str::FromStr;
 
+use super::SpanRange;
+
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct IndexesBlock {
+  /// The range of the span.
+  pub span_range: SpanRange,
   pub defs: Vec<IndexesDef>,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct IndexesDef {
+  /// The range of the span.
+  pub span_range: SpanRange,
   pub cols: Vec<IndexesColumnType>,
   pub settings: Option<IndexesSettings>,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct IndexesSettings {
+  /// The range of the span.
+  pub span_range: SpanRange,
   pub r#type: Option<IndexesType>,
   pub is_unique: bool,
   pub is_pk: bool,

@@ -22,9 +22,10 @@ impl IndexedRefBlock {
         let table_ident = table_ident.clone();
         let col_name = col_name.clone();
 
-        let refs::RefInline { rel, rhs } = ref_block;
+        let refs::RefInline { span_range, rel, rhs } = ref_block;
 
         let lhs = refs::RefIdent {
+          span_range,
           schema: table_ident.schema,
           table: table_ident.name,
           compositions: vec![col_name],
@@ -46,8 +47,8 @@ impl IndexedRefBlock {
     tables: &Vec<table::TableBlock>,
     indexer: &indexer::Indexer,
   ) -> Result<(), String> {
-    let lhs_ident = indexer.refer_ref_alias(&self.lhs);
-    let rhs_ident = indexer.refer_ref_alias(&self.rhs);
+    let lhs_ident = indexer.resolve_ref_alias(&self.lhs);
+    let rhs_ident = indexer.resolve_ref_alias(&self.rhs);
 
     if lhs_ident.compositions.len() != rhs_ident.compositions.len() {
       return Err(format!(
@@ -94,8 +95,8 @@ impl IndexedRefBlock {
   }
 
   pub fn eq(&self, other: &Self, indexer: &indexer::Indexer) -> bool {
-    let self_ident = indexer.refer_ref_alias(&self.lhs);
-    let other_ident = indexer.refer_ref_alias(&other.lhs);
+    let self_ident = indexer.resolve_ref_alias(&self.lhs);
+    let other_ident = indexer.resolve_ref_alias(&other.lhs);
 
     self_ident == other_ident
   }
@@ -113,6 +114,7 @@ impl From<refs::RefBlock> for IndexedRefBlock {
       lhs,
       rhs,
       settings,
+      ..
     } = ref_block;
 
     Self {

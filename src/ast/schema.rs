@@ -2,7 +2,8 @@ use std::ops::Range;
 
 use super::*;
 
-#[derive(Debug, PartialEq, Clone)]
+/// An entire structure of a parsed DBML file.
+#[derive(Debug, PartialEq, Clone, Default)]
 pub struct SchemaBlock<'a> {
   pub span_range: SpanRange,
   /// Input source content.
@@ -17,52 +18,4 @@ pub struct SchemaBlock<'a> {
   pub refs: Vec<refs::RefBlock>,
   /// Enums block.
   pub enums: Vec<enums::EnumBlock>,
-}
-
-impl<'a> SchemaBlock<'a> {
-  pub fn new(input: &'a str, span_range: Range<usize>) -> Self {
-    Self {
-      span_range,
-      input,
-      project: Option::default(),
-      tables: Vec::default(),
-      table_groups: Vec::default(),
-      refs: Vec::default(),
-      enums: Vec::default(),
-    }
-  }
-
-  pub fn print(&self) {
-    println!("Project:");
-
-    println!("{:?}\n----", self.project);
-
-    println!("Tables:");
-
-    self
-      .tables
-      .iter()
-      .for_each(|table| println!("{:?}\n----", table));
-
-    println!("TableGroups:");
-
-    self
-      .table_groups
-      .iter()
-      .for_each(|table| println!("{:?}\n----", table));
-
-    println!("Refs:");
-
-    self
-      .refs
-      .iter()
-      .for_each(|table| println!("{:?}\n----", table));
-
-    println!("Enums:");
-
-    self
-      .enums
-      .iter()
-      .for_each(|table| println!("{:?}\n----", table));
-  }
 }

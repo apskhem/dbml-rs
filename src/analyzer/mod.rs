@@ -42,8 +42,8 @@ impl SemanticSchemaBlock {
     };
 
     for ref_block in self.refs.iter() {
-      let lhs_ident = self.indexer.refer_ref_alias(&ref_block.lhs);
-      let rhs_ident = self.indexer.refer_ref_alias(&ref_block.rhs);
+      let lhs_ident = self.indexer.resolve_ref_alias(&ref_block.lhs);
+      let rhs_ident = self.indexer.resolve_ref_alias(&ref_block.rhs);
 
       if eq(&table_ident, &lhs_ident) && eq(&table_ident, &rhs_ident) {
         ref_self_blocks.push(ref_block.clone())

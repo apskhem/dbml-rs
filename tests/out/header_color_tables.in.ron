@@ -4,13 +4,13 @@ SchemaBlock {
     project: None,
     tables: [
         TableBlock {
-            span_range: 0..0,
+            span_range: 0..143,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 75..93,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 78..93,
                         type_name: Raw(
                             "int",
                         ),
@@ -29,10 +29,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 93..106,
                     name: "user_id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 101..106,
                         type_name: Raw(
                             "int",
                         ),
@@ -51,10 +51,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 106..122,
                     name: "status",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 113..122,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -73,10 +73,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 122..142,
                     name: "create_at",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 132..142,
                         type_name: Raw(
                             "date_time",
                         ),
@@ -104,14 +104,17 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: Some(
-                [
-                    (
-                        "HeaderColor",
-                        HexColor(
-                            "#0065ab",
+                TableSettings {
+                    span_range: 13..35,
+                    values: [
+                        (
+                            "HeaderColor",
+                            HexColor(
+                                "#0065ab",
+                            ),
                         ),
-                    ),
-                ],
+                    ],
+                },
             ),
             meta_indexer: TableIndexer {
                 pk_list: [],

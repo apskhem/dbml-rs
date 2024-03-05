@@ -4,13 +4,13 @@ SchemaBlock {
     project: None,
     tables: [
         TableBlock {
-            span_range: 0..0,
+            span_range: 0..407,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 49..60,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 52..56,
                         type_name: Raw(
                             "int",
                         ),
@@ -18,7 +18,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 56..60,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -29,10 +29,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 63..80,
                     name: "name",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 68..76,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -40,7 +40,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 76..80,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -51,10 +51,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 83..100,
                     name: "gender",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 90..100,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -73,10 +73,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 100..123,
                     name: "created_at",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 111..123,
                         type_name: Raw(
                             "datetime",
                         ),
@@ -106,8 +106,10 @@ SchemaBlock {
             ),
             indexes: Some(
                 IndexesBlock {
+                    span_range: 192..223,
                     defs: [
                         IndexesDef {
+                            span_range: 198..209,
                             cols: [
                                 String(
                                     "gender",
@@ -116,6 +118,7 @@ SchemaBlock {
                             settings: None,
                         },
                         IndexesDef {
+                            span_range: 209..222,
                             cols: [
                                 String(
                                     "created_at",
@@ -127,14 +130,17 @@ SchemaBlock {
                 },
             ),
             settings: Some(
-                [
-                    (
-                        "note",
-                        String(
-                            "note in table settings",
+                TableSettings {
+                    span_range: 12..44,
+                    values: [
+                        (
+                            "note",
+                            String(
+                                "note in table settings",
+                            ),
                         ),
-                    ),
-                ],
+                    ],
+                },
             ),
             meta_indexer: TableIndexer {
                 pk_list: [],

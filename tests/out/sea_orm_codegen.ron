@@ -11,13 +11,13 @@ SchemaBlock {
     ),
     tables: [
         TableBlock {
-            span_range: 0..0,
+            span_range: 59..117,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 74..96,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 77..81,
                         type_name: Raw(
                             "int",
                         ),
@@ -25,7 +25,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 81..96,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -36,10 +36,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 99..115,
                     name: "name",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 104..109,
                         type_name: Raw(
                             "text",
                         ),
@@ -47,7 +47,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 109..115,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: true,
@@ -74,13 +74,13 @@ SchemaBlock {
             },
         },
         TableBlock {
-            span_range: 0..0,
+            span_range: 119..215,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 136..158,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 139..143,
                         type_name: Raw(
                             "int",
                         ),
@@ -88,7 +88,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 143..158,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -99,10 +99,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 161..176,
                     name: "name",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 166..176,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -121,10 +121,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 176..213,
                     name: "fruit_id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 185..190,
                         type_name: Raw(
                             "text",
                         ),
@@ -132,7 +132,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 190..213,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: true,
@@ -141,8 +141,10 @@ SchemaBlock {
                         default: None,
                         refs: [
                             RefInline {
+                                span_range: 191..206,
                                 rel: Many2One,
                                 rhs: RefIdent {
+                                    span_range: 198..206,
                                     schema: None,
                                     table: "fruit",
                                     compositions: [
@@ -170,13 +172,13 @@ SchemaBlock {
             },
         },
         TableBlock {
-            span_range: 0..0,
+            span_range: 217..309,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 233..255,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 236..240,
                         type_name: Raw(
                             "int",
                         ),
@@ -184,7 +186,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 240..255,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -195,10 +197,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 258..273,
                     name: "name",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 263..273,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -217,10 +219,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 273..307,
                     name: "cake_id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 281..285,
                         type_name: Raw(
                             "int",
                         ),
@@ -228,7 +230,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 285..307,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: true,
@@ -237,8 +239,10 @@ SchemaBlock {
                         default: None,
                         refs: [
                             RefInline {
+                                span_range: 286..300,
                                 rel: Many2One,
                                 rhs: RefIdent {
+                                    span_range: 293..300,
                                     schema: None,
                                     table: "cake",
                                     compositions: [
@@ -266,13 +270,13 @@ SchemaBlock {
             },
         },
         TableBlock {
-            span_range: 0..0,
+            span_range: 311..368,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 329..351,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 332..336,
                         type_name: Raw(
                             "int",
                         ),
@@ -280,7 +284,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 336..351,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -291,10 +295,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 354..367,
                     name: "name",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 359..367,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -329,13 +333,13 @@ SchemaBlock {
             },
         },
         TableBlock {
-            span_range: 0..0,
+            span_range: 370..471,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 393..407,
                     name: "cake_id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 401..407,
                         type_name: Raw(
                             "int",
                         ),
@@ -354,10 +358,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 407..425,
                     name: "filling_id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 418..425,
                         type_name: Raw(
                             "int",
                         ),
@@ -385,8 +389,10 @@ SchemaBlock {
             note: None,
             indexes: Some(
                 IndexesBlock {
+                    span_range: 433..469,
                     defs: [
                         IndexesDef {
+                            span_range: 439..465,
                             cols: [
                                 String(
                                     "cake_id",
@@ -397,6 +403,7 @@ SchemaBlock {
                             ],
                             settings: Some(
                                 IndexesSettings {
+                                    span_range: 461..465,
                                     type: None,
                                     is_unique: false,
                                     is_pk: true,
@@ -419,8 +426,10 @@ SchemaBlock {
     table_groups: [],
     refs: [
         RefBlock {
+            span_range: 478..543,
             rel: Many2One,
             lhs: RefIdent {
+                span_range: 478..498,
                 schema: None,
                 table: "cake_filling",
                 compositions: [
@@ -428,6 +437,7 @@ SchemaBlock {
                 ],
             },
             rhs: RefIdent {
+                span_range: 501..508,
                 schema: None,
                 table: "cake",
                 compositions: [
@@ -436,6 +446,7 @@ SchemaBlock {
             },
             settings: Some(
                 RefSettings {
+                    span_range: 509..543,
                     on_delete: Some(
                         Cascade,
                     ),
@@ -446,8 +457,10 @@ SchemaBlock {
             ),
         },
         RefBlock {
+            span_range: 550..621,
             rel: Many2One,
             lhs: RefIdent {
+                span_range: 550..573,
                 schema: None,
                 table: "cake_filling",
                 compositions: [
@@ -455,6 +468,7 @@ SchemaBlock {
                 ],
             },
             rhs: RefIdent {
+                span_range: 576..586,
                 schema: None,
                 table: "filling",
                 compositions: [
@@ -463,6 +477,7 @@ SchemaBlock {
             },
             settings: Some(
                 RefSettings {
+                    span_range: 587..621,
                     on_delete: Some(
                         Cascade,
                     ),

@@ -16,9 +16,18 @@ pub struct TableBlock {
   /// A indexes block.
   pub indexes: Option<indexes::IndexesBlock>,
   /// A settings for the table.
-  pub settings: Option<Vec<(String, Value)>>,
+  pub settings: Option<TableSettings>,
   /// Meta indexer for the table.
   pub meta_indexer: TableIndexer,
+}
+
+/// A struct representing settings of the table.
+#[derive(Debug, PartialEq, Clone, Default)]
+pub struct TableSettings {
+  /// The range of the span.
+  pub span_range: SpanRange,
+  /// Settings values.
+  pub values: Vec<(String, Value)>,
 }
 
 /// A single declared column of the table.
@@ -34,7 +43,7 @@ pub struct TableColumn {
   pub settings: ColumnSettings,
 }
 
-/// A struct representing details of a table column.
+/// A struct representing details of the table column.
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct ColumnType {
   /// The range of the span.
@@ -101,6 +110,7 @@ impl ToString for Value {
 #[derive(Debug, PartialEq, Clone, Default)]
 pub enum ColumnTypeName {
   /// An initial value (default).
+  /// This should not present as a final parsing result.
   #[default]
   Undef,
   /// A type waiting to be parsed and validated.
@@ -231,6 +241,12 @@ pub struct ColumnSettings {
   pub refs: Vec<refs::RefInline>,
 }
 
+impl From<SpanRange> for ColumnSettings {
+  fn from(value: SpanRange) -> Self {
+    Self { span_range: value, ..Default::default() }
+  }
+}
+
 /// A table identifier.
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct TableIdent {
@@ -238,4 +254,10 @@ pub struct TableIdent {
   pub name: String,
   pub schema: Option<String>,
   pub alias: Option<String>,
+}
+
+impl From<SpanRange> for TableIdent {
+  fn from(value: SpanRange) -> Self {
+    Self { span_range: value, ..Default::default() }
+  }
 }

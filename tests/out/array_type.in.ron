@@ -4,13 +4,13 @@ SchemaBlock {
     project: None,
     tables: [
         TableBlock {
-            span_range: 0..0,
+            span_range: 0..94,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 18..30,
                     name: "name",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 23..30,
                         type_name: Raw(
                             "text",
                         ),
@@ -29,10 +29,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 30..63,
                     name: "pay_by_quarter",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 45..52,
                         type_name: Raw(
                             "int",
                         ),
@@ -42,7 +42,7 @@ SchemaBlock {
                         ],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 53..63,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: false,
@@ -53,10 +53,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 66..92,
                     name: "schedule",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 75..85,
                         type_name: Raw(
                             "text",
                         ),
@@ -67,7 +67,7 @@ SchemaBlock {
                         ],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 86..92,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: true,
@@ -94,13 +94,13 @@ SchemaBlock {
             },
         },
         TableBlock {
-            span_range: 0..0,
+            span_range: 96..141,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 116..140,
                     name: "squares",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 124..139,
                         type_name: Raw(
                             "integer",
                         ),

@@ -1,13 +1,19 @@
 use std::str::FromStr;
 
+use super::SpanRange;
+
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct RefInline {
+  /// The range of the span.
+  pub span_range: SpanRange,
   pub rel: Relation,
   pub rhs: RefIdent,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct RefBlock {
+  /// The range of the span.
+  pub span_range: SpanRange,
   pub rel: Relation,
   pub lhs: RefIdent,
   pub rhs: RefIdent,
@@ -40,6 +46,8 @@ impl FromStr for Relation {
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct RefIdent {
+  /// The range of the span.
+  pub span_range: SpanRange,
   pub schema: Option<String>,
   pub table: String,
   pub compositions: Vec<String>,
@@ -87,6 +95,8 @@ impl ToString for ReferentialAction {
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct RefSettings {
+  /// The range of the span.
+  pub span_range: SpanRange,
   pub on_delete: Option<ReferentialAction>,
   pub on_update: Option<ReferentialAction>,
 }

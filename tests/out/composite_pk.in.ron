@@ -4,13 +4,13 @@ SchemaBlock {
     project: None,
     tables: [
         TableBlock {
-            span_range: 0..0,
+            span_range: 0..224,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 16..36,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 19..23,
                         type_name: Raw(
                             "int",
                         ),
@@ -18,7 +18,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 23..36,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -29,10 +29,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 39..59,
                     name: "full_name",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 49..59,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -51,10 +51,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 59..81,
                     name: "email",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 65..73,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -62,7 +62,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 73..81,
                         is_pk: false,
                         is_unique: true,
                         is_nullable: false,
@@ -73,10 +73,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 84..101,
                     name: "gender",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 91..101,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -95,10 +95,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 101..125,
                     name: "date_of_birth",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 115..125,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -117,10 +117,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 125..146,
                     name: "created_at",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 136..146,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -139,10 +139,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 146..166,
                     name: "country_code",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 159..166,
                         type_name: Raw(
                             "int",
                         ),
@@ -161,10 +161,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 166..191,
                     name: "active",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 173..181,
                         type_name: Raw(
                             "boolean",
                         ),
@@ -172,7 +172,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 181..191,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: false,
@@ -192,8 +192,10 @@ SchemaBlock {
             note: None,
             indexes: Some(
                 IndexesBlock {
+                    span_range: 205..222,
                     defs: [
                         IndexesDef {
+                            span_range: 211..218,
                             cols: [
                                 String(
                                     "id",
@@ -201,6 +203,7 @@ SchemaBlock {
                             ],
                             settings: Some(
                                 IndexesSettings {
+                                    span_range: 214..218,
                                     type: None,
                                     is_unique: false,
                                     is_pk: true,
@@ -220,13 +223,13 @@ SchemaBlock {
             },
         },
         TableBlock {
-            span_range: 0..0,
+            span_range: 226..471,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 242..262,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 245..249,
                         type_name: Raw(
                             "int",
                         ),
@@ -234,7 +237,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 249..262,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -245,10 +248,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 265..285,
                     name: "full_name",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 275..285,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -267,10 +270,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 285..307,
                     name: "email",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 291..299,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -278,7 +281,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 299..307,
                         is_pk: false,
                         is_unique: true,
                         is_nullable: false,
@@ -289,10 +292,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 310..327,
                     name: "gender",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 317..327,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -311,10 +314,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 327..351,
                     name: "date_of_birth",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 341..351,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -333,10 +336,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 351..372,
                     name: "created_at",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 362..372,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -355,10 +358,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 372..392,
                     name: "country_code",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 385..392,
                         type_name: Raw(
                             "int",
                         ),
@@ -377,10 +380,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 392..417,
                     name: "active",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 399..407,
                         type_name: Raw(
                             "boolean",
                         ),
@@ -388,7 +391,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 407..417,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: false,
@@ -408,8 +411,10 @@ SchemaBlock {
             note: None,
             indexes: Some(
                 IndexesBlock {
+                    span_range: 431..469,
                     defs: [
                         IndexesDef {
+                            span_range: 437..465,
                             cols: [
                                 String(
                                     "id",
@@ -423,6 +428,7 @@ SchemaBlock {
                             ],
                             settings: Some(
                                 IndexesSettings {
+                                    span_range: 461..465,
                                     type: None,
                                     is_unique: false,
                                     is_pk: true,

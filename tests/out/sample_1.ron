@@ -13,13 +13,13 @@ SchemaBlock {
     ),
     tables: [
         TableBlock {
-            span_range: 0..0,
+            span_range: 138..316,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 154..169,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 157..165,
                         type_name: Raw(
                             "integer",
                         ),
@@ -27,7 +27,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 165..169,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -38,10 +38,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 172..197,
                     name: "age",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 176..184,
                         type_name: Raw(
                             "integer",
                         ),
@@ -49,7 +49,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 184..197,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: false,
@@ -64,10 +64,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 200..233,
                     name: "username",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 209..230,
                         type_name: Raw(
                             "character varying",
                         ),
@@ -88,10 +88,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 233..248,
                     name: "role",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 238..248,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -110,10 +110,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 248..271,
                     name: "created_at",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 259..271,
                         type_name: Raw(
                             "timestamp",
                         ),
@@ -132,10 +132,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 271..314,
                     name: "referral_id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 283..291,
                         type_name: Raw(
                             "integer",
                         ),
@@ -143,7 +143,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 291..314,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: true,
@@ -152,8 +152,10 @@ SchemaBlock {
                         default: None,
                         refs: [
                             RefInline {
+                                span_range: 292..307,
                                 rel: Many2One,
                                 rhs: RefIdent {
+                                    span_range: 299..307,
                                     schema: None,
                                     table: "users",
                                     compositions: [
@@ -181,13 +183,13 @@ SchemaBlock {
             },
         },
         TableBlock {
-            span_range: 0..0,
+            span_range: 318..494,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 339..354,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 342..350,
                         type_name: Raw(
                             "integer",
                         ),
@@ -195,7 +197,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 350..354,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -206,10 +208,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 357..373,
                     name: "title",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 363..373,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -228,10 +230,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 373..412,
                     name: "body",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 378..383,
                         type_name: Raw(
                             "text",
                         ),
@@ -239,7 +241,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 383..412,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: false,
@@ -252,10 +254,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 415..448,
                     name: "user_id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 423..431,
                         type_name: Raw(
                             "integer",
                         ),
@@ -263,7 +265,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 431..448,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: false,
@@ -272,8 +274,10 @@ SchemaBlock {
                         default: None,
                         refs: [
                             RefInline {
+                                span_range: 432..447,
                                 rel: Many2One,
                                 rhs: RefIdent {
+                                    span_range: 439..447,
                                     schema: None,
                                     table: "users",
                                     compositions: [
@@ -285,10 +289,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 451..472,
                     name: "status",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 458..472,
                         type_name: Raw(
                             "post_status",
                         ),
@@ -307,10 +311,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 472..493,
                     name: "created_at",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 483..493,
                         type_name: Raw(
                             "timestamp",
                         ),
@@ -347,13 +351,13 @@ SchemaBlock {
             },
         },
         TableBlock {
-            span_range: 0..0,
+            span_range: 496..955,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 513..528,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 516..524,
                         type_name: Raw(
                             "integer",
                         ),
@@ -361,7 +365,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 524..528,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -372,10 +376,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 531..650,
                     name: "status",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 538..546,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -383,7 +387,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 546..650,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: false,
@@ -414,17 +418,24 @@ SchemaBlock {
     ],
     table_groups: [
         TableGroupBlock {
+            span_range: 93..136,
             name: "order",
             table_idents: [
                 TableGroupIdent {
+                    span_range: 114..123,
+                    raw: "users \n  ",
                     schema: None,
                     ident_alias: "users",
                 },
                 TableGroupIdent {
+                    span_range: 123..128,
+                    raw: "P \n  ",
                     schema: None,
                     ident_alias: "P",
                 },
                 TableGroupIdent {
+                    span_range: 128..135,
+                    raw: "orders\n",
                     schema: None,
                     ident_alias: "orders",
                 },
@@ -434,20 +445,25 @@ SchemaBlock {
     refs: [],
     enums: [
         EnumBlock {
+            span_range: 957..1038,
             ident: EnumIdent {
+                span_range: 0..0,
                 name: "post_status",
                 schema: None,
             },
             values: [
                 EnumValue {
+                    span_range: 978..986,
                     value: "draft",
                     note: None,
                 },
                 EnumValue {
+                    span_range: 986..998,
                     value: "published",
                     note: None,
                 },
                 EnumValue {
+                    span_range: 998..1036,
                     value: "private",
                     note: Some(
                         "visible via URL only",

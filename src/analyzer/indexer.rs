@@ -17,7 +17,7 @@ pub struct Indexer {
   pub table_group_map: HashMap<String, HashSet<(Option<String>, String)>>,
   /// Indexed schema map.
   pub schema_map: HashMap<String, IndexedSchemaBlock>,
-  /// Indexed alias map.
+  /// Indexed alias map to the schema (optional) and table name.
   pub alias_map: HashMap<String, (Option<String>, String)>,
 }
 
@@ -74,7 +74,7 @@ impl Indexer {
 
   pub fn index_enums(&mut self, enums: &Vec<enums::EnumBlock>) -> Result<(), String> {
     for r#enum in enums.iter() {
-      let enums::EnumIdent { schema, name } = r#enum.ident.clone();
+      let enums::EnumIdent { schema, name, .. } = r#enum.ident.clone();
 
       let schema_name = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
       let mut value_sets = HashSet::new();
@@ -125,7 +125,7 @@ impl Indexer {
       let mut table_sets = HashSet::new();
 
       for table_ident in group_each.table_idents.iter() {
-        if let Some(ident) = self.refer_alias(&table_ident.ident_alias) {
+        if let Some(ident) = self.resolve_alias(&table_ident.ident_alias) {
           if let Some(_) = table_sets.get(ident) {
             panic!("table_group_table_dup");
           } else {
@@ -208,13 +208,15 @@ impl Indexer {
     return Err(format!("schema_not_found"));
   }
 
-  pub fn refer_alias(&self, table_alias: &String) -> Option<&(Option<String>, String)> {
+  /// Gets the schema (if has) and table name from the given alias.
+  pub fn resolve_alias(&self, table_alias: &String) -> Option<&(Option<String>, String)> {
     self.alias_map.get(table_alias)
   }
 
-  pub fn refer_ref_alias(&self, ident: &refs::RefIdent) -> refs::RefIdent {
-    match self.refer_alias(&ident.table) {
+  pub fn resolve_ref_alias(&self, ident: &refs::RefIdent) -> refs::RefIdent {
+    match self.resolve_alias(&ident.table) {
       Some((schema, table)) => refs::RefIdent {
+        span_range: 0..0, // FIXME:
         schema: schema.clone(),
         table: table.clone(),
         compositions: ident.compositions.clone(),

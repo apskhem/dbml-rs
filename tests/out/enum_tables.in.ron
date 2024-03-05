@@ -4,13 +4,13 @@ SchemaBlock {
     project: None,
     tables: [
         TableBlock {
-            span_range: 0..0,
+            span_range: 200..284,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 215..230,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 218..226,
                         type_name: Raw(
                             "integer",
                         ),
@@ -18,7 +18,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 226..230,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -29,10 +29,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 233..282,
                     name: "status",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 240..251,
                         type_name: Raw(
                             "job_status",
                         ),
@@ -40,7 +40,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 251..282,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: false,
@@ -69,13 +69,13 @@ SchemaBlock {
             },
         },
         TableBlock {
-            span_range: 0..0,
+            span_range: 380..460,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 397..404,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 400..404,
                         type_name: Raw(
                             "int",
                         ),
@@ -94,10 +94,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 404..416,
                     name: "PK",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 407..416,
                         type_name: Raw(
                             "unique",
                         ),
@@ -116,10 +116,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 416..440,
                     name: "status",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 423..437,
                         type_name: Raw(
                             "order status",
                         ),
@@ -138,10 +138,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 440..459,
                     name: "created_at",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 451..459,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -180,32 +180,39 @@ SchemaBlock {
     refs: [],
     enums: [
         EnumBlock {
+            span_range: 0..198,
             ident: EnumIdent {
+                span_range: 0..0,
                 name: "job_status",
                 schema: None,
             },
             values: [
                 EnumValue {
+                    span_range: 20..61,
                     value: "created",
                     note: Some(
                         "Job created and pending",
                     ),
                 },
                 EnumValue {
+                    span_range: 64..114,
                     value: "running",
                     note: Some(
                         "Waiting for warehouse to process",
                     ),
                 },
                 EnumValue {
+                    span_range: 117..124,
                     value: "done",
                     note: None,
                 },
                 EnumValue {
+                    span_range: 124..132,
                     value: "failed",
                     note: None,
                 },
                 EnumValue {
+                    span_range: 132..196,
                     value: "wait for validation",
                     note: Some(
                         "Enum label that has white spaces",
@@ -214,26 +221,32 @@ SchemaBlock {
             ],
         },
         EnumBlock {
+            span_range: 286..378,
             ident: EnumIdent {
+                span_range: 0..0,
                 name: "order status",
                 schema: None,
             },
             values: [
                 EnumValue {
+                    span_range: 310..341,
                     value: "created",
                     note: Some(
                         "Order created",
                     ),
                 },
                 EnumValue {
+                    span_range: 344..354,
                     value: "pending",
                     note: None,
                 },
                 EnumValue {
+                    span_range: 354..367,
                     value: "processing",
                     note: None,
                 },
                 EnumValue {
+                    span_range: 367..377,
                     value: "completed",
                     note: None,
                 },

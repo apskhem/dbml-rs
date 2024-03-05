@@ -33,12 +33,3 @@ pub struct ProjectBlock {
   pub database_type: DatabaseType,
   pub note: Option<String>,
 }
-
-impl From<Span<'_>> for ProjectBlock {
-  fn from(span: Span<'_>) -> Self {
-    Self {
-      span_range: span.start()..span.end(),
-      ..Default::default()
-    }
-  }
-}

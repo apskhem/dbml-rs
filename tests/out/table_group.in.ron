@@ -4,13 +4,13 @@ SchemaBlock {
     project: None,
     tables: [
         TableBlock {
-            span_range: 0..0,
+            span_range: 0..90,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 21..29,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 24..29,
                         type_name: Raw(
                             "int",
                         ),
@@ -29,10 +29,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 29..49,
                     name: "full_name",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 39..49,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -51,10 +51,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 49..72,
                     name: "created_at",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 60..72,
                         type_name: Raw(
                             "timestamp",
                         ),
@@ -73,10 +73,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 72..89,
                     name: "country_code",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 85..89,
                         type_name: Raw(
                             "int",
                         ),
@@ -113,13 +113,13 @@ SchemaBlock {
             },
         },
         TableBlock {
-            span_range: 0..0,
+            span_range: 92..252,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 112..122,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 115..122,
                         type_name: Raw(
                             "int",
                         ),
@@ -138,10 +138,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 122..145,
                     name: "merchant_name",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 136..145,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -160,10 +160,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 145..164,
                     name: "country_code",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 158..164,
                         type_name: Raw(
                             "int",
                         ),
@@ -182,10 +182,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 164..187,
                     name: "created at",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 177..187,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -204,10 +204,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 187..213,
                     name: "admin_id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 196..200,
                         type_name: Raw(
                             "int",
                         ),
@@ -215,7 +215,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 200..213,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: false,
@@ -224,8 +224,10 @@ SchemaBlock {
                         default: None,
                         refs: [
                             RefInline {
+                                span_range: 201..212,
                                 rel: Many2One,
                                 rhs: RefIdent {
+                                    span_range: 208..212,
                                     schema: None,
                                     table: "U",
                                     compositions: [
@@ -255,13 +257,18 @@ SchemaBlock {
     ],
     table_groups: [
         TableGroupBlock {
+            span_range: 254..291,
             name: "g1",
             table_idents: [
                 TableGroupIdent {
+                    span_range: 272..280,
+                    raw: "users\n  ",
                     schema: None,
                     ident_alias: "users",
                 },
                 TableGroupIdent {
+                    span_range: 280..290,
+                    raw: "merchants\n",
                     schema: None,
                     ident_alias: "merchants",
                 },

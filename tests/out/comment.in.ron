@@ -4,13 +4,13 @@ SchemaBlock {
     project: None,
     tables: [
         TableBlock {
-            span_range: 0..0,
+            span_range: 0..290,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 24..35,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 27..31,
                         type_name: Raw(
                             "int",
                         ),
@@ -18,7 +18,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 31..35,
                         is_pk: true,
                         is_unique: false,
                         is_nullable: false,
@@ -29,10 +29,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 53..83,
                     name: "user_id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 61..65,
                         type_name: Raw(
                             "int",
                         ),
@@ -40,7 +40,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 65..83,
                         is_pk: false,
                         is_unique: true,
                         is_nullable: false,
@@ -51,10 +51,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 86..129,
                     name: "status",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 93..101,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -62,7 +62,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 101..129,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: false,
@@ -75,10 +75,10 @@ SchemaBlock {
                     },
                 },
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 132..179,
                     name: "created_at",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 143..151,
                         type_name: Raw(
                             "varchar",
                         ),
@@ -86,7 +86,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 151..179,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: false,
@@ -108,8 +108,10 @@ SchemaBlock {
             note: None,
             indexes: Some(
                 IndexesBlock {
+                    span_range: 210..271,
                     defs: [
                         IndexesDef {
+                            span_range: 223..238,
                             cols: [
                                 String(
                                     "id",
@@ -117,6 +119,7 @@ SchemaBlock {
                             ],
                             settings: Some(
                                 IndexesSettings {
+                                    span_range: 226..238,
                                     type: Some(
                                         Hash,
                                     ),
@@ -128,6 +131,7 @@ SchemaBlock {
                             ),
                         },
                         IndexesDef {
+                            span_range: 250..270,
                             cols: [
                                 String(
                                     "created_at",
@@ -150,22 +154,27 @@ SchemaBlock {
     refs: [],
     enums: [
         EnumBlock {
+            span_range: 307..447,
             ident: EnumIdent {
+                span_range: 0..0,
                 name: "products_status",
                 schema: None,
             },
             values: [
                 EnumValue {
+                    span_range: 338..353,
                     value: "out_of_stock",
                     note: None,
                 },
                 EnumValue {
+                    span_range: 353..380,
                     value: "in_stock",
                     note: Some(
                         "In stock",
                     ),
                 },
                 EnumValue {
+                    span_range: 383..417,
                     value: "running_low",
                     note: Some(
                         "less than 20",

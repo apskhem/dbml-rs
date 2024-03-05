@@ -20,6 +20,7 @@ use crate::utils::s2r;
 #[grammar = "src/dbml.pest"]
 struct DBMLParser;
 
+/// Performs parsing the whole DBML text and returns an unsanitized AST.
 pub fn parse(input: &str) -> ParserResult<SchemaBlock> {
   let pair = DBMLParser::parse(Rule::schema, input)?
     .next()
@@ -32,7 +33,11 @@ pub fn parse(input: &str) -> ParserResult<SchemaBlock> {
 }
 
 fn parse_schema<'a>(pair: Pair<Rule>, input: &'a str) -> ParserResult<SchemaBlock<'a>> {
-  let init = SchemaBlock::new(&input, s2r(pair.as_span()));
+  let init = SchemaBlock {
+    span_range: s2r(pair.as_span()),
+    input: &input,
+    ..Default::default()
+  };
 
   pair.into_inner().try_fold(init, |mut acc, p1| {
     match p1.as_rule() {
@@ -59,7 +64,10 @@ fn parse_schema<'a>(pair: Pair<Rule>, input: &'a str) -> ParserResult<SchemaBloc
 }
 
 fn parse_project_decl(pair: Pair<Rule>) -> ParserResult<ProjectBlock> {
-  let init = ProjectBlock::from(pair.as_span());
+  let init = ProjectBlock {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
 
   pair.into_inner().try_fold(init, |mut acc, p1| {
     match p1.as_rule() {
@@ -107,9 +115,14 @@ fn parse_project_stmt(pair: Pair<Rule>) -> ParserResult<(String, String)> {
 }
 
 fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
+  let init = TableBlock {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
+
   pair
     .into_inner()
-    .try_fold(TableBlock::default(), |mut acc, p1| {
+    .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
         Rule::decl_ident => {
           let (schema, name) = parse_decl_ident(p1)?;
@@ -146,8 +159,11 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
     })
 }
 
-fn parse_table_settings(pair: Pair<Rule>) -> ParserResult<Vec<(String, Value)>> {
-  let init = vec![];
+fn parse_table_settings(pair: Pair<Rule>) -> ParserResult<TableSettings> {
+  let init = TableSettings {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
 
   pair.into_inner().try_fold(init, |mut acc, p2| {
     match p2.as_rule() {
@@ -171,7 +187,7 @@ fn parse_table_settings(pair: Pair<Rule>) -> ParserResult<Vec<(String, Value)>> 
           _ => throw_rules(&[Rule::table_attribute], p2_cloned)?,
         };
 
-        acc.push((s_key, s_val));
+        acc.values.push((s_key, s_val));
       }
       _ => throw_rules(&[Rule::table_attribute], p2)?,
     }
@@ -181,9 +197,14 @@ fn parse_table_settings(pair: Pair<Rule>) -> ParserResult<Vec<(String, Value)>> 
 }
 
 fn parse_table_col(pair: Pair<Rule>) -> ParserResult<TableColumn> {
+  let init = TableColumn {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
+
   pair
     .into_inner()
-    .try_fold(TableColumn::default(), |mut acc, p1| {
+    .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
         Rule::ident => acc.name = parse_ident(p1)?,
         Rule::col_type => {
@@ -198,7 +219,10 @@ fn parse_table_col(pair: Pair<Rule>) -> ParserResult<TableColumn> {
 }
 
 fn parse_col_type(pair: Pair<Rule>) -> ParserResult<ColumnType> {
-  let mut out = ColumnType::default();
+  let mut out = ColumnType {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
 
   for p1 in pair.into_inner() {
     match p1.as_rule() {
@@ -255,9 +279,14 @@ fn parse_col_type_arg(pair: Pair<Rule>) -> ParserResult<Vec<Value>> {
 }
 
 fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
+  let init = ColumnSettings {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
+    
   pair
     .into_inner()
-    .try_fold(ColumnSettings::default(), |mut acc, p1| {
+    .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
         Rule::col_attribute => {
           for p2 in p1.into_inner() {
@@ -303,9 +332,14 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
 }
 
 fn parse_enum_decl(pair: Pair<Rule>) -> ParserResult<EnumBlock> {
+  let init = EnumBlock {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
+
   pair
     .into_inner()
-    .try_fold(EnumBlock::default(), |mut acc, p1| {
+    .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
         Rule::decl_ident => {
           let (schema, name) = parse_decl_ident(p1)?;
@@ -333,9 +367,14 @@ fn parse_enum_block(pair: Pair<Rule>) -> ParserResult<Vec<EnumValue>> {
 }
 
 fn parse_enum_value(pair: Pair<Rule>) -> ParserResult<EnumValue> {
+  let init = EnumValue {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
+
   pair
     .into_inner()
-    .try_fold(EnumValue::default(), |mut acc, p1| {
+    .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
         Rule::ident => acc.value = parse_ident(p1)?,
         Rule::enum_settings => {
@@ -380,9 +419,14 @@ fn parse_ref_decl(pair: Pair<Rule>) -> ParserResult<RefBlock> {
 
 // FIXME: to be fixed
 fn parse_ref_stmt(pair: Pair<Rule>) -> ParserResult<RefBlock> {
+  let init = RefBlock {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
+
   pair
     .into_inner()
-    .try_fold(RefBlock::default(), |mut acc, p1| {
+    .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
         Rule::relation => {
           acc.rel = match Relation::from_str(p1.as_str()) {
@@ -408,9 +452,14 @@ fn parse_ref_stmt(pair: Pair<Rule>) -> ParserResult<RefBlock> {
 }
 
 fn parse_ref_inline(pair: Pair<Rule>) -> ParserResult<RefInline> {
+  let init = RefInline {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
+
   pair
     .into_inner()
-    .try_fold(RefInline::default(), |mut acc, p1| {
+    .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
         Rule::relation => {
           acc.rel = match Relation::from_str(p1.as_str()) {
@@ -429,7 +478,10 @@ fn parse_ref_inline(pair: Pair<Rule>) -> ParserResult<RefInline> {
 }
 
 fn parse_ref_ident(pair: Pair<Rule>) -> ParserResult<RefIdent> {
-  let mut out = RefIdent::default();
+  let mut out = RefIdent {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
   let mut tmp_tokens = vec![];
 
   for p1 in pair.into_inner() {
@@ -447,36 +499,47 @@ fn parse_ref_ident(pair: Pair<Rule>) -> ParserResult<RefIdent> {
     }
   }
 
-  if tmp_tokens.len() == 2 {
-    out.schema = Some(tmp_tokens.remove(0));
-    out.table = tmp_tokens.remove(0);
-  } else if tmp_tokens.len() == 1 {
-    out.table = tmp_tokens.remove(0);
-  } else {
-    unreachable!("unwell formatted ident!");
+  match tmp_tokens.len() {
+    1 => {
+      out.table = tmp_tokens.remove(0)
+    },
+    2 => {
+      out.schema = Some(tmp_tokens.remove(0));
+      out.table = tmp_tokens.remove(0);
+    },
+    _ => unreachable!("unwell formatted ident!")
   }
 
   Ok(out)
 }
 
 fn parse_table_group_decl(pair: Pair<Rule>) -> ParserResult<TableGroupBlock> {
+  let init = TableGroupBlock {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
+
   pair
     .into_inner()
-    .try_fold(TableGroupBlock::default(), |mut acc, p1| {
+    .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
         Rule::ident => acc.name = parse_ident(p1)?,
         Rule::table_group_block => {
           for p2 in p1.into_inner() {
+            let mut init = TableGroupIdent {
+              span_range: s2r(p2.as_span()),
+              raw: p2.as_str().to_owned(),
+              ..Default::default()
+            };
+            
             match p2.as_rule() {
               Rule::decl_ident => {
                 let (schema, name) = parse_decl_ident(p2)?;
+                
+                init.schema = schema;
+                init.ident_alias = name;
 
-                let value = TableGroupIdent {
-                  schema,
-                  ident_alias: name,
-                };
-
-                acc.table_idents.push(value)
+                acc.table_idents.push(init)
               }
               _ => throw_rules(&[Rule::decl_ident], p2)?,
             }
@@ -490,9 +553,14 @@ fn parse_table_group_decl(pair: Pair<Rule>) -> ParserResult<TableGroupBlock> {
 }
 
 fn parse_rel_settings(pair: Pair<Rule>) -> ParserResult<RefSettings> {
+  let init = RefSettings {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
+
   pair
     .into_inner()
-    .try_fold(RefSettings::default(), |mut acc, p1| {
+    .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
         Rule::rel_attribute => {
           for p2 in p1.into_inner() {
@@ -564,9 +632,14 @@ fn parse_indexes_decl(pair: Pair<Rule>) -> ParserResult<IndexesBlock> {
 }
 
 fn parse_indexes_block(pair: Pair<Rule>) -> ParserResult<IndexesBlock> {
+  let init = IndexesBlock {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
+
   pair
     .into_inner()
-    .try_fold(IndexesBlock::default(), |mut acc, p1| {
+    .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
         Rule::indexes_single | Rule::indexes_multi => {
           acc.defs.push(parse_indexes_single_multi(p1)?)
@@ -579,9 +652,14 @@ fn parse_indexes_block(pair: Pair<Rule>) -> ParserResult<IndexesBlock> {
 }
 
 fn parse_indexes_single_multi(pair: Pair<Rule>) -> ParserResult<IndexesDef> {
+  let init = IndexesDef {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
+
   pair
     .into_inner()
-    .try_fold(IndexesDef::default(), |mut acc, p1| {
+    .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
         Rule::indexes_ident => acc.cols.push(parse_indexes_ident(p1)?),
         Rule::indexes_settings => acc.settings = Some(parse_indexes_settings(p1)?),
@@ -622,9 +700,14 @@ fn parse_indexes_ident(pair: Pair<Rule>) -> ParserResult<IndexesColumnType> {
 }
 
 fn parse_indexes_settings(pair: Pair<Rule>) -> ParserResult<IndexesSettings> {
+  let init = IndexesSettings {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
+
   pair
     .into_inner()
-    .try_fold(IndexesSettings::default(), |mut acc, p1| {
+    .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
         Rule::indexes_attribute => {
           for p2 in p1.into_inner() {

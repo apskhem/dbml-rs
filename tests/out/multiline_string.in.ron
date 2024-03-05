@@ -4,13 +4,13 @@ SchemaBlock {
     project: None,
     tables: [
         TableBlock {
-            span_range: 0..0,
+            span_range: 0..197,
             cols: [
                 TableColumn {
-                    span_range: 0..0,
+                    span_range: 16..195,
                     name: "id",
                     type: ColumnType {
-                        span_range: 0..0,
+                        span_range: 19..23,
                         type_name: Raw(
                             "int",
                         ),
@@ -18,7 +18,7 @@ SchemaBlock {
                         arrays: [],
                     },
                     settings: ColumnSettings {
-                        span_range: 0..0,
+                        span_range: 23..195,
                         is_pk: false,
                         is_unique: false,
                         is_nullable: false,
