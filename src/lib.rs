@@ -13,6 +13,7 @@ pub mod ast;
 pub mod parser;
 pub(crate) mod utils;
 
+/// Default database schema if not specified in a DBML file.
 pub const DEFAULT_SCHEMA: &str = "public";
 
 /// Parses the given text input and performs a semantics check.
@@ -47,9 +48,5 @@ pub const DEFAULT_SCHEMA: &str = "public";
 pub fn parse_dbml(
   input: &str,
 ) -> Result<analyzer::SemanticSchemaBlock, ParseError<parser::Rule>> {
-  let out_ast = parser::parse(input)?;
-
-  let sem_ast = out_ast.analyze()?;
-
-  Ok(sem_ast)
+  parser::parse(input)?.analyze()
 }

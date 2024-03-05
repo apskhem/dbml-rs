@@ -212,7 +212,7 @@ fn parse_col_type(pair: Pair<Rule>) -> ParserResult<ColumnType> {
             Rule::col_type_array => {
               let val = p2.into_inner().try_fold(None, |_, p3| match p3.as_rule() {
                 Rule::integer => {
-                  let val = match p3.as_str().parse::<usize>() {
+                  let val = match p3.as_str().parse::<u32>() {
                     Ok(val) => Some(val),
                     Err(err) => throw_msg(err.to_string(), p3)?,
                   };

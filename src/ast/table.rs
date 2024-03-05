@@ -2,40 +2,63 @@ use std::str::FromStr;
 
 use super::*;
 
+/// A single declared block of table.
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct TableBlock {
+  /// The range of the span.
   pub span_range: SpanRange,
+  /// Columns or fields of the table.
   pub cols: Vec<TableColumn>,
+  /// Identifier for the table.
   pub ident: TableIdent,
+  /// A note for the table.
   pub note: Option<String>,
+  /// A indexes block.
   pub indexes: Option<indexes::IndexesBlock>,
+  /// A settings for the table.
   pub settings: Option<Vec<(String, Value)>>,
+  /// Meta indexer for the table.
   pub meta_indexer: TableIndexer,
 }
 
-#[derive(Debug, PartialEq, Clone, Default)]
-pub struct ColumnType {
-  pub span_range: SpanRange,
-  pub type_name: ColumnTypeName,
-  pub args: Vec<Value>,
-  pub arrays: Vec<Option<usize>>,
-}
-
+/// A single declared column of the table.
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct TableColumn {
+  /// The range of the span.
   pub span_range: SpanRange,
+  /// A table name.
   pub name: String,
+  /// A data type of the column.
   pub r#type: ColumnType,
+  /// A settings for the column.
   pub settings: ColumnSettings,
 }
 
+/// A struct representing details of a table column.
+#[derive(Debug, PartialEq, Clone, Default)]
+pub struct ColumnType {
+  /// The range of the span.
+  pub span_range: SpanRange,
+  /// A parsed data type.
+  pub type_name: ColumnTypeName,
+  /// Type arguments.
+  pub args: Vec<Value>,
+  /// Type arrays.
+  pub arrays: Vec<Option<u32>>,
+}
+
+/// A struct representing indexed meta data during parsing.
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct TableIndexer {
+  /// A list of primary column names
   pub pk_list: Vec<String>,
+  /// A list of column names with unique constraint.
   pub unique_list: Vec<String>,
+  /// A list of indexed column names
   pub indexed_list: Vec<String>,
 }
 
+/// Represents settings and arguments values.
 #[derive(Debug, PartialEq, Clone)]
 pub enum Value {
   String(String),
@@ -63,31 +86,24 @@ impl FromStr for Value {
 impl ToString for Value {
   fn to_string(&self) -> String {
     match self {
-      Self::String(val) => {
-        format!("{}", val)
-      }
-      Self::Integer(val) => {
-        format!("{}", val)
-      }
-      Self::Decimal(val) => {
-        format!("{}", val)
-      }
-      Self::Bool(val) => format!("{}", val),
-      Self::HexColor(val) => {
-        format!("{}", val)
-      }
-      Self::Expr(val) => format!("{}", val),
+      Self::String(v) => format!("{v}"),
+      Self::Integer(v) => format!("{v}"),
+      Self::Decimal(v) => format!("{v}"),
+      Self::Bool(v) => format!("{v}"),
+      Self::HexColor(v) => format!("{v}"),
+      Self::Expr(v) => format!("{v}"),
       Self::Null => format!("null"),
     }
   }
 }
 
+/// Represents data types of the database.
 #[derive(Debug, PartialEq, Clone, Default)]
 pub enum ColumnTypeName {
-  /// The initial value (default).
+  /// An initial value (default).
   #[default]
   Undef,
-  /// The type is waiting to be parsed and validated.
+  /// A type waiting to be parsed and validated.
   Raw(String),
   Enum(String),
   Bit,
@@ -202,6 +218,7 @@ impl FromStr for ColumnTypeName {
   }
 }
 
+/// Column settings.
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct ColumnSettings {
   pub span_range: SpanRange,
@@ -214,6 +231,7 @@ pub struct ColumnSettings {
   pub refs: Vec<refs::RefInline>,
 }
 
+/// A table identifier.
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct TableIdent {
   pub span_range: SpanRange,
