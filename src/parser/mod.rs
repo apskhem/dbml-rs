@@ -21,17 +21,12 @@ use crate::utils::s2r;
 struct DBMLParser;
 
 pub fn parse(input: &str) -> ParserResult<SchemaBlock> {
-  let pairs = DBMLParser::parse(Rule::schema, input)?;
-
-  let pair = pairs
-    .into_iter()
+  let pair = DBMLParser::parse(Rule::schema, input)?
     .next()
     .ok_or_else(|| unreachable!("unhandled parsing error!"))?;
 
   match pair.as_rule() {
-    Rule::schema => {
-      return Ok(parse_schema(pair, input)?);
-    }
+    Rule::schema => Ok(parse_schema(pair, input)?),
     _ => throw_rules(&[Rule::schema], pair)?,
   }
 }

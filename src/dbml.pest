@@ -1,8 +1,8 @@
-WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
+WHITESPACE = _{ " " | "\t" | NEWLINE }
 COMMENT = _{ single_line_comment | multi_line_comment }
 
 // comments
-single_line_comment = { "//" ~ (!"\n" ~ ANY)* }
+single_line_comment = { "//" ~ (!NEWLINE ~ ANY)* }
 multi_line_comment = { "/*" ~ (!"*/" ~ ANY)* ~ "*/" }
 
 // literals
