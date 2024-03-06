@@ -34,7 +34,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 12..197,
                 name: "users",
                 schema: None,
                 alias: None,

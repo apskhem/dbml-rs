@@ -110,7 +110,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 13..290,
                 name: "orders",
                 schema: None,
                 alias: None,
@@ -166,7 +166,7 @@ SchemaBlock {
         EnumBlock {
             span_range: 307..447,
             ident: EnumIdent {
-                span_range: 0..0,
+                span_range: 328..447,
                 name: "products_status",
                 schema: None,
             },

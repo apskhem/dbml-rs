@@ -149,7 +149,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 150..316,
                 name: "users",
                 schema: None,
                 alias: None,
@@ -294,7 +294,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 335..494,
                 name: "posts",
                 schema: None,
                 alias: Some(
@@ -365,7 +365,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 509..955,
                 name: "orders",
                 schema: None,
                 alias: None,
@@ -411,7 +411,7 @@ SchemaBlock {
         EnumBlock {
             span_range: 957..1038,
             ident: EnumIdent {
-                span_range: 0..0,
+                span_range: 974..1038,
                 name: "post_status",
                 schema: None,
             },

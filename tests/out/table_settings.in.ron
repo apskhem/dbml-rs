@@ -45,7 +45,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 33..68,
                 name: "user",
                 schema: None,
                 alias: None,
@@ -126,7 +126,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 113..159,
                 name: "country",
                 schema: None,
                 alias: None,
@@ -220,7 +220,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 233..297,
                 name: "product",
                 schema: None,
                 alias: None,
@@ -320,7 +320,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 369..442,
                 name: "merchant",
                 schema: None,
                 alias: None,

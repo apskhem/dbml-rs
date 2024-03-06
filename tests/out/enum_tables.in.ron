@@ -58,7 +58,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 211..284,
                 name: "jobs",
                 schema: None,
                 alias: None,
@@ -129,7 +129,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 393..460,
                 name: "orders",
                 schema: None,
                 alias: None,
@@ -150,7 +150,7 @@ SchemaBlock {
         EnumBlock {
             span_range: 0..198,
             ident: EnumIdent {
-                span_range: 0..0,
+                span_range: 16..198,
                 name: "job_status",
                 schema: None,
             },
@@ -191,7 +191,7 @@ SchemaBlock {
         EnumBlock {
             span_range: 286..378,
             ident: EnumIdent {
-                span_range: 0..0,
+                span_range: 306..378,
                 name: "order status",
                 schema: None,
             },

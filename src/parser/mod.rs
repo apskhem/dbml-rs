@@ -64,28 +64,30 @@ fn parse_project_decl(pair: Pair<Rule>) -> ParserResult<ProjectBlock> {
 
   pair.into_inner().try_fold(init, |mut acc, p1| {
     match p1.as_rule() {
-      Rule::ident => acc.name = parse_ident(p1)?,
-      Rule::project_block => p1.into_inner().try_for_each(|p2| {
-        match p2.as_rule() {
-          Rule::project_stmt => {
-            let (key, value) = parse_project_stmt(p2.clone())?;
-
-            match key.as_str() {
-              "database_type" => {
-                acc.database_type = match DatabaseType::from_str(&value) {
-                  Ok(val) => val,
-                  Err(msg) => throw_msg(msg, p2)?,
+      Rule::ident => {
+        acc.name = parse_ident(p1)?
+      },
+      Rule::project_block => {
+        for p2 in p1.into_inner() {
+          match p2.as_rule() {
+            Rule::project_stmt => {
+              let (key, value) = parse_project_stmt(p2.clone())?;
+  
+              match key.as_str() {
+                "database_type" => {
+                  acc.database_type = match DatabaseType::from_str(&value) {
+                    Ok(val) => val,
+                    Err(msg) => throw_msg(msg, p2)?,
+                  }
                 }
+                _ => throw_msg(format!("'{}' key is invalid inside project_block", key), p2)?,
               }
-              _ => throw_msg(format!("'{}' key is invalid inside project_block", key), p2)?,
             }
-          }
-          Rule::note_decl => acc.note = Some(parse_note_decl(p2)?),
-          _ => throw_rules(&[Rule::project_stmt, Rule::note_decl], p2)?,
-        };
-
-        Ok(())
-      })?,
+            Rule::note_decl => acc.note = Some(parse_note_decl(p2)?),
+            _ => throw_rules(&[Rule::project_stmt, Rule::note_decl], p2)?,
+          };
+        }
+      },
       _ => throw_rules(&[Rule::project_block], p1)?,
     }
 
@@ -116,6 +118,8 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
   pair
     .into_inner()
     .try_fold(init, |mut acc, p1| {
+      acc.ident.span_range = s2r(p1.as_span());
+
       match p1.as_rule() {
         Rule::decl_ident => {
           let (schema, name) = parse_decl_ident(p1)?;
@@ -123,17 +127,19 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
           acc.ident.name = name;
           acc.ident.schema = schema;
         }
-        Rule::table_alias => acc.ident.alias = Some(p1.into_inner().as_str().to_string()),
-        Rule::table_block => p1.into_inner().try_for_each(|p2| {
-          match p2.as_rule() {
-            Rule::table_col => acc.cols.push(parse_table_col(p2)?),
-            Rule::note_decl => acc.note = Some(parse_note_decl(p2)?),
-            Rule::indexes_decl => acc.indexes = Some(parse_indexes_decl(p2)?),
-            _ => throw_rules(&[Rule::table_col, Rule::note_decl, Rule::indexes_decl], p2)?,
+        Rule::table_alias => {
+          acc.ident.alias = Some(p1.into_inner().as_str().to_string())
+        },
+        Rule::table_block => {
+          for p2 in p1.into_inner() {
+            match p2.as_rule() {
+              Rule::table_col => acc.cols.push(parse_table_col(p2)?),
+              Rule::note_decl => acc.note = Some(parse_note_decl(p2)?),
+              Rule::indexes_decl => acc.indexes = Some(parse_indexes_decl(p2)?),
+              _ => throw_rules(&[Rule::table_col, Rule::note_decl, Rule::indexes_decl], p2)?,
+            }
           }
-
-          Ok(())
-        })?,
+        },
         Rule::table_settings => {
           acc.settings = Some(parse_table_settings(p1)?);
         }
@@ -337,6 +343,8 @@ fn parse_enum_decl(pair: Pair<Rule>) -> ParserResult<EnumBlock> {
   pair
     .into_inner()
     .try_fold(init, |mut acc, p1| {
+      acc.ident.span_range = s2r(p1.as_span());
+
       match p1.as_rule() {
         Rule::decl_ident => {
           let (schema, name) = parse_decl_ident(p1)?;
@@ -844,14 +852,16 @@ fn parse_decl_ident(pair: Pair<Rule>) -> ParserResult<(Option<String>, String)> 
     }
   }
 
-  let (schema, name) = if tmp_tokens.len() == 2 {
-    let schema = Some(tmp_tokens.remove(0));
+  let (schema, name) = match tmp_tokens.len() {
+    1 => {
+      (None, tmp_tokens.remove(0))
+    },
+    2 => {
+      let schema = Some(tmp_tokens.remove(0));
 
-    (schema, tmp_tokens.remove(0))
-  } else if tmp_tokens.len() == 1 {
-    (None, tmp_tokens.remove(0))
-  } else {
-    unreachable!("unwell formatted decl_ident!")
+      (schema, tmp_tokens.remove(0))
+    }
+    _ => unreachable!("unwell formatted decl_ident!")
   };
 
   Ok((schema, name))

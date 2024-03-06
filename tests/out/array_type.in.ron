@@ -78,7 +78,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 14..94,
                 name: "sal_emp",
                 schema: None,
                 alias: None,
@@ -117,7 +117,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 112..141,
                 name: "tictactoe",
                 schema: None,
                 alias: None,

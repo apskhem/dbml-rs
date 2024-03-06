@@ -65,7 +65,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 70..117,
                 name: "cake",
                 schema: None,
                 alias: None,
@@ -160,7 +160,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 132..215,
                 name: "vendor",
                 schema: None,
                 alias: None,
@@ -255,7 +255,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 229..309,
                 name: "fruit",
                 schema: None,
                 alias: None,
@@ -311,7 +311,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 325..368,
                 name: "filling",
                 schema: None,
                 alias: None,
@@ -356,7 +356,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 389..471,
                 name: "cake_filling",
                 schema: None,
                 alias: None,

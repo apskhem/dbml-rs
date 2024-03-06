@@ -93,7 +93,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 313..426,
                 name: "orders",
                 schema: None,
                 alias: None,
@@ -178,7 +178,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 448..517,
                 name: "order_items",
                 schema: None,
                 alias: None,
@@ -314,7 +314,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 536..785,
                 name: "products",
                 schema: None,
                 alias: None,
@@ -495,7 +495,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 801..958,
                 name: "users",
                 schema: None,
                 alias: None,
@@ -590,7 +590,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 1057..1163,
                 name: "merchants",
                 schema: None,
                 alias: None,
@@ -659,7 +659,7 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 0..0,
+                span_range: 1183..1248,
                 name: "countries",
                 schema: None,
                 alias: None,
@@ -844,7 +844,7 @@ SchemaBlock {
         EnumBlock {
             span_range: 150..219,
             ident: EnumIdent {
-                span_range: 0..0,
+                span_range: 171..219,
                 name: "orders_status",
                 schema: None,
             },
@@ -874,7 +874,7 @@ SchemaBlock {
         EnumBlock {
             span_range: 221..276,
             ident: EnumIdent {
-                span_range: 0..0,
+                span_range: 243..276,
                 name: "product status",
                 schema: None,
             },

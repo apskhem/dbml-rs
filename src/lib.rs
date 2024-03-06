@@ -13,6 +13,9 @@ pub mod ast;
 pub mod parser;
 pub(crate) mod utils;
 
+use analyzer::SemanticSchemaBlock;
+use parser::Rule;
+
 /// Default database schema if not specified in a DBML file.
 pub const DEFAULT_SCHEMA: &str = "public";
 
@@ -45,8 +48,6 @@ pub const DEFAULT_SCHEMA: &str = "public";
 ///     }
 /// }
 /// ```
-pub fn parse_dbml(
-  input: &str,
-) -> Result<analyzer::SemanticSchemaBlock, ParseError<parser::Rule>> {
+pub fn parse_dbml(input: &str) -> Result<SemanticSchemaBlock, ParseError<Rule>> {
   parser::parse(input)?.analyze()
 }
