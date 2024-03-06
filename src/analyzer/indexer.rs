@@ -22,9 +22,9 @@ pub struct Indexer {
 }
 
 impl Indexer {
-  pub fn index_table(&mut self, tables: &Vec<table::TableBlock>) -> Result<(), String> {
+  pub fn index_table(&mut self, tables: &Vec<TableBlock>) -> Result<(), String> {
     for table in tables.iter() {
-      let table::TableIdent {
+      let TableIdent {
         span_range,
         schema,
         name,
@@ -72,9 +72,9 @@ impl Indexer {
     Ok(())
   }
 
-  pub fn index_enums(&mut self, enums: &Vec<enums::EnumBlock>) -> Result<(), String> {
+  pub fn index_enums(&mut self, enums: &Vec<EnumBlock>) -> Result<(), String> {
     for r#enum in enums.iter() {
-      let enums::EnumIdent { schema, name, .. } = r#enum.ident.clone();
+      let EnumIdent { schema, name, .. } = r#enum.ident.clone();
 
       let schema_name = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
       let mut value_sets = HashSet::new();
@@ -103,7 +103,7 @@ impl Indexer {
 
   pub fn index_table_groups(
     &mut self,
-    table_groups: &Vec<table_group::TableGroupBlock>,
+    table_groups: &Vec<TableGroupBlock>,
   ) -> Result<(), String> {
     for group_each in table_groups.into_iter() {
       for table in group_each.table_idents.iter() {
@@ -213,9 +213,9 @@ impl Indexer {
     self.alias_map.get(table_alias)
   }
 
-  pub fn resolve_ref_alias(&self, ident: &refs::RefIdent) -> refs::RefIdent {
+  pub fn resolve_ref_alias(&self, ident: &RefIdent) -> RefIdent {
     match self.resolve_alias(&ident.table) {
-      Some((schema, table)) => refs::RefIdent {
+      Some((schema, table)) => RefIdent {
         span_range: 0..0, // FIXME:
         schema: schema.clone(),
         table: table.clone(),

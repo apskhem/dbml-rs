@@ -6,14 +6,7 @@ use err::*;
 use pest::iterators::Pair;
 use pest::Parser;
 
-use crate::ast::enums::*;
-use crate::ast::indexes::*;
-use crate::ast::project;
-use crate::ast::project::*;
-use crate::ast::refs::*;
-use crate::ast::schema::*;
-use crate::ast::table::*;
-use crate::ast::table_group::*;
+use crate::ast::*;
 use crate::utils::s2r;
 
 #[derive(Parser)]
@@ -79,7 +72,7 @@ fn parse_project_decl(pair: Pair<Rule>) -> ParserResult<ProjectBlock> {
 
             match key.as_str() {
               "database_type" => {
-                acc.database_type = match project::DatabaseType::from_str(&value) {
+                acc.database_type = match DatabaseType::from_str(&value) {
                   Ok(val) => val,
                   Err(msg) => throw_msg(msg, p2)?,
                 }
@@ -206,11 +199,15 @@ fn parse_table_col(pair: Pair<Rule>) -> ParserResult<TableColumn> {
     .into_inner()
     .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
-        Rule::ident => acc.name = parse_ident(p1)?,
+        Rule::ident => {
+          acc.name = parse_ident(p1)?
+        },
         Rule::col_type => {
           acc.r#type = parse_col_type(p1)?;
         }
-        Rule::col_settings => acc.settings = parse_col_settings(p1)?,
+        Rule::col_settings => {
+          acc.settings = Some(parse_col_settings(p1)?)
+        },
         _ => throw_rules(&[Rule::ident, Rule::col_type, Rule::col_settings], p1)?,
       }
 
@@ -294,8 +291,8 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
               Rule::col_attribute_key => match p2.as_str() {
                 "unique" => acc.is_unique = true,
                 "primary key" | "pk" => acc.is_pk = true,
-                "null" => acc.is_nullable = true,
-                "not null" => (),
+                "null" => acc.is_nullable = Some(Nullable::Null),
+                "not null" => acc.is_nullable = Some(Nullable::NotNull),
                 "increment" => acc.is_incremental = true,
                 _ => throw_msg(
                   format!("'{}' is invalid col_attribute_key!", p2.as_str()),

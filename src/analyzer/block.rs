@@ -4,16 +4,16 @@ use crate::ast::*;
 /// A validated reference block.
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub struct IndexedRefBlock {
-  pub rel: refs::Relation,
-  pub lhs: refs::RefIdent,
-  pub rhs: refs::RefIdent,
-  pub settings: Option<refs::RefSettings>,
+  pub rel: Relation,
+  pub lhs: RefIdent,
+  pub rhs: RefIdent,
+  pub settings: Option<RefSettings>,
 }
 
 impl IndexedRefBlock {
   pub fn from_inline(
-    ref_blocks: Vec<refs::RefInline>,
-    table_ident: table::TableIdent,
+    ref_blocks: Vec<RefInline>,
+    table_ident: TableIdent,
     col_name: String,
   ) -> Vec<Self> {
     ref_blocks
@@ -22,9 +22,9 @@ impl IndexedRefBlock {
         let table_ident = table_ident.clone();
         let col_name = col_name.clone();
 
-        let refs::RefInline { span_range, rel, rhs } = ref_block;
+        let RefInline { span_range, rel, rhs } = ref_block;
 
-        let lhs = refs::RefIdent {
+        let lhs = RefIdent {
           span_range,
           schema: table_ident.schema,
           table: table_ident.name,
@@ -44,7 +44,7 @@ impl IndexedRefBlock {
 
   pub fn validate_ref_type(
     &self,
-    tables: &Vec<table::TableBlock>,
+    tables: &Vec<TableBlock>,
     indexer: &indexer::Indexer,
   ) -> Result<(), String> {
     let lhs_ident = indexer.resolve_ref_alias(&self.lhs);
@@ -107,9 +107,9 @@ impl IndexedRefBlock {
   }
 }
 
-impl From<refs::RefBlock> for IndexedRefBlock {
-  fn from(ref_block: refs::RefBlock) -> Self {
-    let refs::RefBlock {
+impl From<RefBlock> for IndexedRefBlock {
+  fn from(ref_block: RefBlock) -> Self {
+    let RefBlock {
       rel,
       lhs,
       rhs,

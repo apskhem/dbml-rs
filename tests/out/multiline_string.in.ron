@@ -17,18 +17,20 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 23..195,
-                        is_pk: false,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: Some(
-                            "# Objective\n      * Support writing long string that can \\\n'span' over multiple lines\n      * Support writing markdown for DBML Note\n  \n    # Syntax\n\n  ",
-                        ),
-                        default: None,
-                        refs: [],
-                    },
+                    settings: Some(
+                        ColumnSettings {
+                            span_range: 23..195,
+                            is_pk: false,
+                            is_unique: false,
+                            is_nullable: None,
+                            is_incremental: false,
+                            note: Some(
+                                "# Objective\n      * Support writing long string that can \\\n'span' over multiple lines\n      * Support writing markdown for DBML Note\n  \n    # Syntax\n\n  ",
+                            ),
+                            default: None,
+                            refs: [],
+                        },
+                    ),
                 },
             ],
             ident: TableIdent {

@@ -17,16 +17,18 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 31..35,
-                        is_pk: true,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: None,
-                        default: None,
-                        refs: [],
-                    },
+                    settings: Some(
+                        ColumnSettings {
+                            span_range: 31..35,
+                            is_pk: true,
+                            is_unique: false,
+                            is_nullable: None,
+                            is_incremental: false,
+                            note: None,
+                            default: None,
+                            refs: [],
+                        },
+                    ),
                 },
                 TableColumn {
                     span_range: 53..83,
@@ -39,16 +41,20 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 65..83,
-                        is_pk: false,
-                        is_unique: true,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: None,
-                        default: None,
-                        refs: [],
-                    },
+                    settings: Some(
+                        ColumnSettings {
+                            span_range: 65..83,
+                            is_pk: false,
+                            is_unique: true,
+                            is_nullable: Some(
+                                NotNull,
+                            ),
+                            is_incremental: false,
+                            note: None,
+                            default: None,
+                            refs: [],
+                        },
+                    ),
                 },
                 TableColumn {
                     span_range: 86..129,
@@ -61,18 +67,20 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 101..129,
-                        is_pk: false,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: Some(
-                            "Status of an order",
-                        ),
-                        default: None,
-                        refs: [],
-                    },
+                    settings: Some(
+                        ColumnSettings {
+                            span_range: 101..129,
+                            is_pk: false,
+                            is_unique: false,
+                            is_nullable: None,
+                            is_incremental: false,
+                            note: Some(
+                                "Status of an order",
+                            ),
+                            default: None,
+                            refs: [],
+                        },
+                    ),
                 },
                 TableColumn {
                     span_range: 132..179,
@@ -85,18 +93,20 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 151..179,
-                        is_pk: false,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: Some(
-                            "When order created",
-                        ),
-                        default: None,
-                        refs: [],
-                    },
+                    settings: Some(
+                        ColumnSettings {
+                            span_range: 151..179,
+                            is_pk: false,
+                            is_unique: false,
+                            is_nullable: None,
+                            is_incremental: false,
+                            note: Some(
+                                "When order created",
+                            ),
+                            default: None,
+                            refs: [],
+                        },
+                    ),
                 },
             ],
             ident: TableIdent {

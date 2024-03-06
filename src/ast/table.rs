@@ -40,7 +40,7 @@ pub struct TableColumn {
   /// A data type of the column.
   pub r#type: ColumnType,
   /// A settings for the column.
-  pub settings: ColumnSettings,
+  pub settings: Option<ColumnSettings>,
 }
 
 /// A struct representing details of the table column.
@@ -163,68 +163,52 @@ impl FromStr for ColumnTypeName {
   type Err = ();
 
   fn from_str(s: &str) -> Result<Self, Self::Err> {
-    match s {
-      "bit" => Ok(Self::Bit),
-      "varbit" => Ok(Self::Varbit),
-      "bit varying" => Ok(Self::Varbit),
-      "char" => Ok(Self::Char),
-      "character" => Ok(Self::Char),
-      "varchar" => Ok(Self::VarChar),
-      "character varying" => Ok(Self::VarChar),
-      "box" => Ok(Self::Box),
-      "cidr" => Ok(Self::Cidr),
-      "circle" => Ok(Self::Circle),
-      "inet" => Ok(Self::Inet),
-      "line" => Ok(Self::Line),
-      "lseg" => Ok(Self::LineSegment),
-      "macaddr" => Ok(Self::MacAddr),
-      "macaddr8" => Ok(Self::MacAddr8),
-      "money" => Ok(Self::Money),
-      "path" => Ok(Self::Path),
-      "pg_lsn" => Ok(Self::PGLongSequenceNumber),
-      "pg_snapshot" => Ok(Self::PGSnapshot),
-      "point" => Ok(Self::Point),
-      "polygon" => Ok(Self::Polygon),
-      "tsquery" => Ok(Self::TSQuery),
-      "tsvector" => Ok(Self::TSVector),
-      "smallserial" => Ok(Self::SmallSerial),
-      "serial2" => Ok(Self::SmallSerial),
-      "serial" => Ok(Self::Serial),
-      "serial4" => Ok(Self::Serial),
-      "bigserial" => Ok(Self::BigSerial),
-      "serial8" => Ok(Self::BigSerial),
-      "smallint" => Ok(Self::SmallInt),
-      "int2" => Ok(Self::SmallInt),
-      "integer" => Ok(Self::Integer),
-      "int" => Ok(Self::Integer),
-      "int4" => Ok(Self::Integer),
-      "bigint" => Ok(Self::BigInt),
-      "int8" => Ok(Self::BigInt),
-      "real" => Ok(Self::Real),
-      "float4" => Ok(Self::Real),
-      "double precision" => Ok(Self::DoublePrecision),
-      "float8" => Ok(Self::DoublePrecision),
-      "bool" => Ok(Self::Bool),
-      "boolean" => Ok(Self::Bool),
-      "bytea" => Ok(Self::ByteArray),
-      "date" => Ok(Self::Date),
-      "text" => Ok(Self::Text),
-      "time" => Ok(Self::Time),
-      "time without time zone" => Ok(Self::Time),
-      "timetz" => Ok(Self::Timetz),
-      "time with time zone" => Ok(Self::Timetz),
-      "timestamp" => Ok(Self::Timestamp),
-      "timestamp without time zone" => Ok(Self::Timestamp),
-      "timestamptz" => Ok(Self::Timestamptz),
-      "timestamp with time zone" => Ok(Self::Timestamptz),
-      "uuid" => Ok(Self::Uuid),
-      "json" => Ok(Self::Json),
-      "jsonb" => Ok(Self::Jsonb),
-      "decimal" => Ok(Self::Decimal),
-      "numeric" => Ok(Self::Decimal),
-      "xml" => Ok(Self::Xml),
-      _ => Err(()),
-    }
+    let v = match s {
+      "bit" => Self::Bit,
+      "varbit" | "bit varying" => Self::Varbit,
+      "char" | "character" => Self::Char,
+      "varchar" | "character varying" => Self::VarChar,
+      "box" => Self::Box,
+      "cidr" => Self::Cidr,
+      "circle" => Self::Circle,
+      "inet" => Self::Inet,
+      "line" => Self::Line,
+      "lseg" => Self::LineSegment,
+      "macaddr" => Self::MacAddr,
+      "macaddr8" => Self::MacAddr8,
+      "money" => Self::Money,
+      "path" => Self::Path,
+      "pg_lsn" => Self::PGLongSequenceNumber,
+      "pg_snapshot" => Self::PGSnapshot,
+      "point" => Self::Point,
+      "polygon" => Self::Polygon,
+      "tsquery" => Self::TSQuery,
+      "tsvector" => Self::TSVector,
+      "smallserial" | "serial2" => Self::SmallSerial,
+      "serial" | "serial4" => Self::Serial,
+      "bigserial" | "serial8" => Self::BigSerial,
+      "smallint" | "int2" => Self::SmallInt,
+      "integer" | "int" | "int4" => Self::Integer,
+      "bigint" | "int8" => Self::BigInt,
+      "real" | "float4" => Self::Real,
+      "double precision" | "float8" => Self::DoublePrecision,
+      "bool" | "boolean" => Self::Bool,
+      "bytea" => Self::ByteArray,
+      "date" => Self::Date,
+      "text" => Self::Text,
+      "time" | "time without time zone" => Self::Time,
+      "timetz" | "time with time zone" => Self::Timetz,
+      "timestamp" | "timestamp without time zone" => Self::Timestamp,
+      "timestamptz" | "timestamp with time zone" => Self::Timestamptz,
+      "uuid" => Self::Uuid,
+      "json" => Self::Json,
+      "jsonb" => Self::Jsonb,
+      "decimal" | "numeric" => Self::Decimal,
+      "xml" => Self::Xml,
+      _ => return Err(()),
+    };
+
+    Ok(v)
   }
 }
 
@@ -234,17 +218,11 @@ pub struct ColumnSettings {
   pub span_range: SpanRange,
   pub is_pk: bool,
   pub is_unique: bool,
-  pub is_nullable: bool,
+  pub is_nullable: Option<Nullable>,
   pub is_incremental: bool,
   pub note: Option<String>,
   pub default: Option<Value>,
   pub refs: Vec<refs::RefInline>,
-}
-
-impl From<SpanRange> for ColumnSettings {
-  fn from(value: SpanRange) -> Self {
-    Self { span_range: value, ..Default::default() }
-  }
 }
 
 /// A table identifier.
@@ -256,8 +234,8 @@ pub struct TableIdent {
   pub alias: Option<String>,
 }
 
-impl From<SpanRange> for TableIdent {
-  fn from(value: SpanRange) -> Self {
-    Self { span_range: value, ..Default::default() }
-  }
+#[derive(Debug, PartialEq, Clone)]
+pub enum Nullable {
+  NotNull,
+  Null
 }

@@ -26,16 +26,18 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 165..169,
-                        is_pk: true,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: None,
-                        default: None,
-                        refs: [],
-                    },
+                    settings: Some(
+                        ColumnSettings {
+                            span_range: 165..169,
+                            is_pk: true,
+                            is_unique: false,
+                            is_nullable: None,
+                            is_incremental: false,
+                            note: None,
+                            default: None,
+                            refs: [],
+                        },
+                    ),
                 },
                 TableColumn {
                     span_range: 172..197,
@@ -48,20 +50,22 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 184..197,
-                        is_pk: false,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: None,
-                        default: Some(
-                            Integer(
-                                10,
+                    settings: Some(
+                        ColumnSettings {
+                            span_range: 184..197,
+                            is_pk: false,
+                            is_unique: false,
+                            is_nullable: None,
+                            is_incremental: false,
+                            note: None,
+                            default: Some(
+                                Integer(
+                                    10,
+                                ),
                             ),
-                        ),
-                        refs: [],
-                    },
+                            refs: [],
+                        },
+                    ),
                 },
                 TableColumn {
                     span_range: 200..233,
@@ -76,16 +80,7 @@ SchemaBlock {
                             None,
                         ],
                     },
-                    settings: ColumnSettings {
-                        span_range: 0..0,
-                        is_pk: false,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: None,
-                        default: None,
-                        refs: [],
-                    },
+                    settings: None,
                 },
                 TableColumn {
                     span_range: 233..248,
@@ -98,16 +93,7 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 0..0,
-                        is_pk: false,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: None,
-                        default: None,
-                        refs: [],
-                    },
+                    settings: None,
                 },
                 TableColumn {
                     span_range: 248..271,
@@ -120,16 +106,7 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 0..0,
-                        is_pk: false,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: None,
-                        default: None,
-                        refs: [],
-                    },
+                    settings: None,
                 },
                 TableColumn {
                     span_range: 271..314,
@@ -142,29 +119,33 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 291..314,
-                        is_pk: false,
-                        is_unique: false,
-                        is_nullable: true,
-                        is_incremental: false,
-                        note: None,
-                        default: None,
-                        refs: [
-                            RefInline {
-                                span_range: 292..307,
-                                rel: Many2One,
-                                rhs: RefIdent {
-                                    span_range: 299..307,
-                                    schema: None,
-                                    table: "users",
-                                    compositions: [
-                                        "id",
-                                    ],
+                    settings: Some(
+                        ColumnSettings {
+                            span_range: 291..314,
+                            is_pk: false,
+                            is_unique: false,
+                            is_nullable: Some(
+                                Null,
+                            ),
+                            is_incremental: false,
+                            note: None,
+                            default: None,
+                            refs: [
+                                RefInline {
+                                    span_range: 292..307,
+                                    rel: Many2One,
+                                    rhs: RefIdent {
+                                        span_range: 299..307,
+                                        schema: None,
+                                        table: "users",
+                                        compositions: [
+                                            "id",
+                                        ],
+                                    },
                                 },
-                            },
-                        ],
-                    },
+                            ],
+                        },
+                    ),
                 },
             ],
             ident: TableIdent {
@@ -196,16 +177,18 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 350..354,
-                        is_pk: true,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: None,
-                        default: None,
-                        refs: [],
-                    },
+                    settings: Some(
+                        ColumnSettings {
+                            span_range: 350..354,
+                            is_pk: true,
+                            is_unique: false,
+                            is_nullable: None,
+                            is_incremental: false,
+                            note: None,
+                            default: None,
+                            refs: [],
+                        },
+                    ),
                 },
                 TableColumn {
                     span_range: 357..373,
@@ -218,16 +201,7 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 0..0,
-                        is_pk: false,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: None,
-                        default: None,
-                        refs: [],
-                    },
+                    settings: None,
                 },
                 TableColumn {
                     span_range: 373..412,
@@ -240,18 +214,20 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 383..412,
-                        is_pk: false,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: Some(
-                            "Content of the post",
-                        ),
-                        default: None,
-                        refs: [],
-                    },
+                    settings: Some(
+                        ColumnSettings {
+                            span_range: 383..412,
+                            is_pk: false,
+                            is_unique: false,
+                            is_nullable: None,
+                            is_incremental: false,
+                            note: Some(
+                                "Content of the post",
+                            ),
+                            default: None,
+                            refs: [],
+                        },
+                    ),
                 },
                 TableColumn {
                     span_range: 415..448,
@@ -264,29 +240,31 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 431..448,
-                        is_pk: false,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: None,
-                        default: None,
-                        refs: [
-                            RefInline {
-                                span_range: 432..447,
-                                rel: Many2One,
-                                rhs: RefIdent {
-                                    span_range: 439..447,
-                                    schema: None,
-                                    table: "users",
-                                    compositions: [
-                                        "id",
-                                    ],
+                    settings: Some(
+                        ColumnSettings {
+                            span_range: 431..448,
+                            is_pk: false,
+                            is_unique: false,
+                            is_nullable: None,
+                            is_incremental: false,
+                            note: None,
+                            default: None,
+                            refs: [
+                                RefInline {
+                                    span_range: 432..447,
+                                    rel: Many2One,
+                                    rhs: RefIdent {
+                                        span_range: 439..447,
+                                        schema: None,
+                                        table: "users",
+                                        compositions: [
+                                            "id",
+                                        ],
+                                    },
                                 },
-                            },
-                        ],
-                    },
+                            ],
+                        },
+                    ),
                 },
                 TableColumn {
                     span_range: 451..472,
@@ -299,16 +277,7 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 0..0,
-                        is_pk: false,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: None,
-                        default: None,
-                        refs: [],
-                    },
+                    settings: None,
                 },
                 TableColumn {
                     span_range: 472..493,
@@ -321,16 +290,7 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 0..0,
-                        is_pk: false,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: None,
-                        default: None,
-                        refs: [],
-                    },
+                    settings: None,
                 },
             ],
             ident: TableIdent {
@@ -364,16 +324,18 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 524..528,
-                        is_pk: true,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: None,
-                        default: None,
-                        refs: [],
-                    },
+                    settings: Some(
+                        ColumnSettings {
+                            span_range: 524..528,
+                            is_pk: true,
+                            is_unique: false,
+                            is_nullable: None,
+                            is_incremental: false,
+                            note: None,
+                            default: None,
+                            refs: [],
+                        },
+                    ),
                 },
                 TableColumn {
                     span_range: 531..650,
@@ -386,18 +348,20 @@ SchemaBlock {
                         args: [],
                         arrays: [],
                     },
-                    settings: ColumnSettings {
-                        span_range: 546..650,
-                        is_pk: false,
-                        is_unique: false,
-                        is_nullable: false,
-                        is_incremental: false,
-                        note: Some(
-                            "💸 1 = processing, \n  ✔\u{fe0f} 2 = shipped, \n  ❌ 3 = cancelled,\n  😔 4 = refunded\n  ",
-                        ),
-                        default: None,
-                        refs: [],
-                    },
+                    settings: Some(
+                        ColumnSettings {
+                            span_range: 546..650,
+                            is_pk: false,
+                            is_unique: false,
+                            is_nullable: None,
+                            is_incremental: false,
+                            note: Some(
+                                "💸 1 = processing, \n  ✔\u{fe0f} 2 = shipped, \n  ❌ 3 = cancelled,\n  😔 4 = refunded\n  ",
+                            ),
+                            default: None,
+                            refs: [],
+                        },
+                    ),
                 },
             ],
             ident: TableIdent {

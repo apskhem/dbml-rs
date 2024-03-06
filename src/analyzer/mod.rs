@@ -11,15 +11,15 @@ mod indexer;
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct SemanticSchemaBlock {
   /// Overall description of the project. This is optional. The file must contain one or zero 'Project' block.
-  pub project: Option<project::ProjectBlock>,
+  pub project: Option<ProjectBlock>,
   /// Table block.
-  pub tables: Vec<table::TableBlock>,
+  pub tables: Vec<TableBlock>,
   /// TableGroup block.
-  pub table_groups: Vec<table_group::TableGroupBlock>,
+  pub table_groups: Vec<TableGroupBlock>,
   /// Ref block.
   pub refs: Vec<block::IndexedRefBlock>,
   /// Enums block.
-  pub enums: Vec<enums::EnumBlock>,
+  pub enums: Vec<EnumBlock>,
   /// Identifier and alias indexer.
   pub indexer: indexer::Indexer,
 }
@@ -32,12 +32,12 @@ type TableRefTuple = (
 
 impl SemanticSchemaBlock {
   /// Gets a table block's relation (ref to, ref by, ref self).
-  pub fn get_table_refs(&self, table_ident: &table::TableIdent) -> TableRefTuple {
+  pub fn get_table_refs(&self, table_ident: &TableIdent) -> TableRefTuple {
     let mut ref_to_blocks = vec![];
     let mut ref_by_blocks = vec![];
     let mut ref_self_blocks = vec![];
 
-    let eq = |table_ident: &table::TableIdent, ref_ident: &refs::RefIdent| {
+    let eq = |table_ident: &TableIdent, ref_ident: &RefIdent| {
       table_ident.schema == ref_ident.schema && table_ident.name == ref_ident.table
     };
 
@@ -58,7 +58,8 @@ impl SemanticSchemaBlock {
   }
 }
 
-impl schema::SchemaBlock<'_> {
+impl SchemaBlock<'_> {
+  /// Performs semantic checks of the unsanitized AST and returns a sanitized AST.
   pub fn analyze(self) -> AnalyzerResult<SemanticSchemaBlock> {
     let Self {
       span_range,
@@ -85,11 +86,11 @@ impl schema::SchemaBlock<'_> {
       .into_iter()
       .map(|mut table| {
         for col in table.cols.iter() {
-          if col.settings.is_pk {
+          if col.settings.as_ref().is_some_and(|s| s.is_pk) {
             if !table.meta_indexer.pk_list.is_empty() {
               panic!("pk_dup");
             }
-            if col.settings.is_nullable {
+            if col.settings.as_ref().is_some_and(|s| matches!(s.is_nullable, Some(Nullable::Null))) {
               panic!("nullable_pk");
             }
             if !col.r#type.arrays.is_empty() {
@@ -98,7 +99,7 @@ impl schema::SchemaBlock<'_> {
 
             table.meta_indexer.pk_list.push(col.name.clone())
           }
-          if col.settings.is_unique {
+          if col.settings.as_ref().is_some_and(|s| s.is_unique) {
             table.meta_indexer.unique_list.push(col.name.clone())
           }
         }
@@ -109,7 +110,7 @@ impl schema::SchemaBlock<'_> {
               .cols
               .iter()
               .filter_map(|id| {
-                if let indexes::IndexesColumnType::String(s) = id {
+                if let IndexesColumnType::String(s) = id {
                   Some(s)
                 } else {
                   None
@@ -154,7 +155,7 @@ impl schema::SchemaBlock<'_> {
     for table in &tables {
       for col in &table.cols {
         let indexed_ref = block::IndexedRefBlock::from_inline(
-          col.settings.refs.clone(),
+          col.settings.clone().map(|s| s.refs).unwrap_or_else(|| vec![]),
           table.ident.clone(),
           col.name.clone(),
         );
@@ -173,20 +174,20 @@ impl schema::SchemaBlock<'_> {
           .map(|col| {
             let type_name = col.r#type.type_name;
 
-            if type_name == table::ColumnTypeName::Undef {
+            if type_name == ColumnTypeName::Undef {
               panic!("undef_table_field")
             }
 
             let type_name = match type_name {
-              table::ColumnTypeName::Raw(raw_type) => {
-                match table::ColumnTypeName::from_str(&raw_type) {
+              ColumnTypeName::Raw(raw_type) => {
+                match ColumnTypeName::from_str(&raw_type) {
                   Ok(type_name) => {
                     if col.r#type.args.is_empty() {
                       type_name
                     } else {
                       // validate args (if has)
                       match type_name {
-                        table::ColumnTypeName::VarChar | table::ColumnTypeName::Char => {
+                        ColumnTypeName::VarChar | ColumnTypeName::Char => {
                           if col.r#type.args.len() != 1 {
                             panic!("varchar_incompatible_args")
                           }
@@ -196,11 +197,11 @@ impl schema::SchemaBlock<'_> {
                             .args
                             .iter()
                             .fold(type_name, |acc, arg| match arg {
-                              table::Value::Integer(_) => acc,
+                              Value::Integer(_) => acc,
                               _ => panic!("varchar_args_is_not_integer"),
                             })
                         }
-                        table::ColumnTypeName::Decimal => {
+                        ColumnTypeName::Decimal => {
                           if col.r#type.args.len() != 2 {
                             panic!("decimal_incompatible_args")
                           }
@@ -210,7 +211,7 @@ impl schema::SchemaBlock<'_> {
                             .args
                             .iter()
                             .fold(type_name, |acc, arg| match arg {
-                              table::Value::Integer(_) => acc,
+                              Value::Integer(_) => acc,
                               _ => panic!("decimal_args_is_not_integer"),
                             })
                         }
@@ -219,8 +220,8 @@ impl schema::SchemaBlock<'_> {
                     }
                   }
                   Err(_) => {
-                    let default_enum = match &col.settings.default {
-                      Some(default) => vec![default.to_string()],
+                    let default_enum = match col.settings.as_ref().map(|s| s.default.clone()) {
+                      Some(Some(default)) => vec![default.to_string()],
                       _ => vec![],
                     };
 
@@ -233,7 +234,7 @@ impl schema::SchemaBlock<'_> {
                     };
 
                     match indexer.lookup_enum_values(&enum_schema, &enum_name, &default_enum) {
-                      Ok(_) => table::ColumnTypeName::Enum(enum_name),
+                      Ok(_) => ColumnTypeName::Enum(enum_name),
                       Err(msg) => panic!("'{}' is an invalid type", msg),
                     }
                   }
@@ -243,28 +244,28 @@ impl schema::SchemaBlock<'_> {
             };
 
             // TODO: add more validation
-            if let Some(default_value) = &col.settings.default {
+            if let Some(Some(default_value)) = col.settings.as_ref().map(|s| s.default.clone()) {
               match default_value {
-                table::Value::String(_) => (),
-                table::Value::Integer(_) => (),
-                table::Value::Decimal(_) => (),
-                table::Value::Bool(_) => {
-                  if ![table::ColumnTypeName::Bool].contains(&type_name) {
+                Value::String(_) => (),
+                Value::Integer(_) => (),
+                Value::Decimal(_) => (),
+                Value::Bool(_) => {
+                  if ![ColumnTypeName::Bool].contains(&type_name) {
                     panic!("defualt value is not associated with declared type")
                   }
                 }
-                table::Value::HexColor(_) => (),
-                table::Value::Expr(_) => (),
-                table::Value::Null => {
-                  if !col.settings.is_nullable {
+                Value::HexColor(_) => (),
+                Value::Expr(_) => (),
+                Value::Null => {
+                  if !col.settings.as_ref().is_some_and(|s| matches!(s.is_nullable, Some(Nullable::Null))) {
                     panic!("default value cannot be null in non-nullable field")
                   }
                 }
               }
             }
 
-            table::TableColumn {
-              r#type: table::ColumnType {
+            TableColumn {
+              r#type: ColumnType {
                 type_name,
                 ..col.r#type
               },
@@ -280,7 +281,7 @@ impl schema::SchemaBlock<'_> {
             }
 
             for ident in def.cols.iter() {
-              if let indexes::IndexesColumnType::String(id_string) = ident {
+              if let IndexesColumnType::String(id_string) = ident {
                 indexer
                   .lookup_table_fields(
                     &table.ident.schema,
@@ -293,7 +294,7 @@ impl schema::SchemaBlock<'_> {
           }
         }
 
-        table::TableBlock { cols, ..table }
+        TableBlock { cols, ..table }
       })
       .collect();
 
