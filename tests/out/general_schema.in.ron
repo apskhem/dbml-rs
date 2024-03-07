@@ -792,37 +792,55 @@ SchemaBlock {
     table_groups: [
         TableGroupBlock {
             span_range: 810..847,
-            name: "g1",
+            name: Ident {
+                span_range: 821..823,
+                name: "g1",
+            },
             table_idents: [
                 TableGroupIdent {
-                    span_range: 828..836,
-                    raw: "users\n  ",
+                    span_range: 828..833,
+                    raw: "users",
                     schema: None,
-                    ident_alias: "users",
+                    ident_alias: Ident {
+                        span_range: 828..833,
+                        name: "users",
+                    },
                 },
                 TableGroupIdent {
-                    span_range: 836..846,
-                    raw: "merchants\n",
+                    span_range: 836..845,
+                    raw: "merchants",
                     schema: None,
-                    ident_alias: "merchants",
+                    ident_alias: Ident {
+                        span_range: 836..845,
+                        name: "merchants",
+                    },
                 },
             ],
         },
         TableGroupBlock {
             span_range: 849..887,
-            name: "g2",
+            name: Ident {
+                span_range: 860..862,
+                name: "g2",
+            },
             table_idents: [
                 TableGroupIdent {
-                    span_range: 867..879,
-                    raw: "countries\n  ",
+                    span_range: 867..876,
+                    raw: "countries",
                     schema: None,
-                    ident_alias: "countries",
+                    ident_alias: Ident {
+                        span_range: 867..876,
+                        name: "countries",
+                    },
                 },
                 TableGroupIdent {
-                    span_range: 879..886,
-                    raw: "orders\n",
+                    span_range: 879..885,
+                    raw: "orders",
                     schema: None,
-                    ident_alias: "orders",
+                    ident_alias: Ident {
+                        span_range: 879..885,
+                        name: "orders",
+                    },
                 },
             ],
         },

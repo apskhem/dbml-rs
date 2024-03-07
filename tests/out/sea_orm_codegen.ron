@@ -181,14 +181,6 @@ SchemaBlock {
                             span_range: 190..213,
                             properties: [
                                 KeyValue {
-                                    span_range: 191..206,
-                                    key: Ident {
-                                        span_range: 0..0,
-                                        name: "",
-                                    },
-                                    value: None,
-                                },
-                                KeyValue {
                                     span_range: 208..212,
                                     key: Ident {
                                         span_range: 208..212,
@@ -311,14 +303,6 @@ SchemaBlock {
                         ColumnSettings {
                             span_range: 285..307,
                             properties: [
-                                KeyValue {
-                                    span_range: 286..300,
-                                    key: Ident {
-                                        span_range: 0..0,
-                                        name: "",
-                                    },
-                                    value: None,
-                                },
                                 KeyValue {
                                     span_range: 302..306,
                                     key: Ident {

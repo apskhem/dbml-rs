@@ -109,23 +109,23 @@ impl Indexer {
       for table in group_each.table_idents.iter() {
         let ident_alias = table.ident_alias.clone();
 
-        let ident = if let Some(ident) = self.alias_map.get(&ident_alias) {
+        let ident = if let Some(ident) = self.alias_map.get(&ident_alias.name) {
           if table.schema.is_some() {
             panic!("alias_must_not_followed_by_schema")
           }
 
           ident.1.clone()
         } else {
-          ident_alias
+          ident_alias.name
         };
 
-        self.lookup_table_fields(&table.schema, &ident, &vec![])?;
+        self.lookup_table_fields(&table.schema.as_ref().map(|s| s.name.clone()), &ident, &vec![])?;
       }
 
       let mut table_sets = HashSet::new();
 
       for table_ident in group_each.table_idents.iter() {
-        if let Some(ident) = self.resolve_alias(&table_ident.ident_alias) {
+        if let Some(ident) = self.resolve_alias(&table_ident.ident_alias.name) {
           if let Some(_) = table_sets.get(ident) {
             panic!("table_group_table_dup");
           } else {
@@ -133,18 +133,19 @@ impl Indexer {
           }
         } else {
           let ident = (table_ident.schema.clone(), table_ident.ident_alias.clone());
+          let ident_string = (ident.0.map(|s| s.name), ident.1.name);
 
-          if let Some(_) = table_sets.get(&ident) {
+          if let Some(_) = table_sets.get(&ident_string) {
             panic!("table_group_table_dup");
           } else {
-            table_sets.insert(ident.clone());
+            table_sets.insert(ident_string.clone());
           }
         }
       }
 
       self
         .table_group_map
-        .insert(group_each.name.clone(), table_sets);
+        .insert(group_each.name.name.clone(), table_sets);
     }
 
     Ok(())

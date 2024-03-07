@@ -1,6 +1,9 @@
 WHITESPACE = _{ " " | "\t" | NEWLINE }
 COMMENT = _{ single_line_comment | multi_line_comment }
 
+// whitespaces and comments
+wsc = _{ WHITESPACE | COMMENT }
+
 // comments
 single_line_comment = { "//" ~ (!NEWLINE ~ ANY)* }
 multi_line_comment = { "/*" ~ (!"*/" ~ ANY)* ~ "*/" }
@@ -90,7 +93,7 @@ table_alias = { ^"as " ~ ident }
 table_decl = { ^"Table " ~ decl_ident ~ table_alias? ~ table_settings?  ~ table_block }
 
 // table group block
-table_group_block = { "{" ~ decl_ident* ~ "}" }
+table_group_block = ${ "{" ~ wsc* ~ (decl_ident ~ wsc*)* ~ "}" }
 table_group_decl = { ^"TableGroup " ~ ident ~ table_group_block }
 
 // project block

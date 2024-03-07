@@ -145,16 +145,7 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 200..213,
-                            properties: [
-                                KeyValue {
-                                    span_range: 201..212,
-                                    key: Ident {
-                                        span_range: 0..0,
-                                        name: "",
-                                    },
-                                    value: None,
-                                },
-                            ],
+                            properties: [],
                             is_pk: false,
                             is_unique: false,
                             is_nullable: None,
@@ -198,19 +189,28 @@ SchemaBlock {
     table_groups: [
         TableGroupBlock {
             span_range: 254..291,
-            name: "g1",
+            name: Ident {
+                span_range: 265..267,
+                name: "g1",
+            },
             table_idents: [
                 TableGroupIdent {
-                    span_range: 272..280,
-                    raw: "users\n  ",
+                    span_range: 272..277,
+                    raw: "users",
                     schema: None,
-                    ident_alias: "users",
+                    ident_alias: Ident {
+                        span_range: 272..277,
+                        name: "users",
+                    },
                 },
                 TableGroupIdent {
-                    span_range: 280..290,
-                    raw: "merchants\n",
+                    span_range: 280..289,
+                    raw: "merchants",
                     schema: None,
-                    ident_alias: "merchants",
+                    ident_alias: Ident {
+                        span_range: 280..289,
+                        name: "merchants",
+                    },
                 },
             ],
         },

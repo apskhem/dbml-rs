@@ -4,8 +4,8 @@ Project project_name {
 }
 
 TableGroup order {
-  users 
-  P 
+  users.ti // users
+  P
   orders
 }
 
