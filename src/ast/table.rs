@@ -14,7 +14,7 @@ pub struct TableBlock {
   /// A note for the table.
   pub note: Option<String>,
   /// A indexes block.
-  pub indexes: Option<indexes::IndexesBlock>,
+  pub indexes: Option<IndexesBlock>,
   /// A settings for the table.
   pub settings: Option<TableSettings>,
   /// Meta indexer for the table.
@@ -216,6 +216,7 @@ impl FromStr for ColumnTypeName {
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct ColumnSettings {
   pub span_range: SpanRange,
+  pub properties: Vec<KeyValue>,
   pub is_pk: bool,
   pub is_unique: bool,
   pub is_nullable: Option<Nullable>,
@@ -232,6 +233,19 @@ pub struct TableIdent {
   pub name: String,
   pub schema: Option<String>,
   pub alias: Option<String>,
+}
+
+#[derive(Debug, PartialEq, Clone, Default)]
+pub struct Key {
+  pub span_range: SpanRange,
+  pub name: String,
+}
+
+#[derive(Debug, PartialEq, Clone, Default)]
+pub struct KeyValue {
+  pub span_range: SpanRange,
+  pub key: Key,
+  pub value: Option<Literal>
 }
 
 #[derive(Debug, PartialEq, Clone)]

@@ -17,7 +17,7 @@ struct DBMLParser;
 pub fn parse(input: &str) -> ParserResult<SchemaBlock> {
   let pair = DBMLParser::parse(Rule::schema, input)?
     .next()
-    .ok_or_else(|| unreachable!("unhandled parsing error!"))?;
+    .ok_or_else(|| unreachable!("unhandled parsing error"))?;
 
   match pair.as_rule() {
     Rule::schema => Ok(parse_schema(pair, input)?),
@@ -293,41 +293,68 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
       match p1.as_rule() {
         Rule::col_attribute => {
           for p2 in p1.into_inner() {
+            let mut key_value = KeyValue {
+              span_range: s2r(p2.as_span()),
+              ..Default::default()
+            };
+            
+            // parse the result
             match p2.as_rule() {
-              Rule::col_attribute_key => match p2.as_str() {
-                "unique" => acc.is_unique = true,
-                "primary key" | "pk" => acc.is_pk = true,
-                "null" => acc.is_nullable = Some(Nullable::Null),
-                "not null" => acc.is_nullable = Some(Nullable::NotNull),
-                "increment" => acc.is_incremental = true,
-                _ => throw_msg(
-                  format!("'{}' is invalid col_attribute_key!", p2.as_str()),
-                  p2,
-                )?,
-              },
-              Rule::col_default => {
+              Rule::col_key_value => {
                 for p3 in p2.into_inner() {
                   match p3.as_rule() {
-                    Rule::value => acc.default = Some(parse_value(p3)?),
-                    _ => throw_rules(&[Rule::value], p3)?,
+                    Rule::spaced_var => {
+                      key_value.key = Key {
+                        span_range: s2r(p3.as_span()),
+                        name: p3.as_str().to_owned()
+                      };
+
+                      match p3.as_str() {
+                        "unique" => acc.is_unique = true,
+                        "primary key" | "pk" => acc.is_pk = true,
+                        "null" => acc.is_nullable = Some(Nullable::Null),
+                        "not null" => acc.is_nullable = Some(Nullable::NotNull),
+                        "increment" => acc.is_incremental = true,
+                        _ => ()
+                      }
+                    },
+                    Rule::value => {
+                      match key_value.key.name.as_str() {
+                        "default" => {
+                          key_value.value = Some(Literal {
+                            span_range: s2r(p3.as_span()),
+                            value: parse_value(p3.clone())?,
+                            raw: p3.as_str().to_owned()
+                          });
+                        }
+                        "note" => {
+                          acc.note = Some(parse_note_inline(p3)?)
+                        }
+                        _ => ()
+                      }
+                    },
+                    _ => throw_rules(&[Rule::spaced_var, Rule::value], p3)?
                   }
                 }
-              }
-              Rule::note_inline => acc.note = Some(parse_note_inline(p2)?),
-              Rule::ref_inline => acc.refs.push(parse_ref_inline(p2)?),
+              },
+              Rule::ref_inline => {
+                acc.refs.push(parse_ref_inline(p2)?)
+              },
               _ => throw_rules(
                 &[
-                  Rule::col_attribute_key,
-                  Rule::col_default,
-                  Rule::note_inline,
                   Rule::ref_inline,
+                  Rule::col_key_value,
                 ],
                 p2,
               )?,
             }
+
+            if !key_value.key.name.replace(" ", "").starts_with("ref:") {
+              acc.properties.push(key_value);
+            }
           }
         }
-        _ => throw_rules(&[Rule::col_attribute], p1)?,
+        _ => throw_rules(&[Rule::col_key_value], p1)?,
       }
 
       Ok(acc)
@@ -419,7 +446,7 @@ fn parse_ref_decl(pair: Pair<Rule>) -> ParserResult<RefBlock> {
     }
   }
 
-  unreachable!("something went wrong parsing ref_decl!")
+  unreachable!("something went wrong parsing ref_decl")
 }
 
 // FIXME: to be fixed
@@ -512,7 +539,7 @@ fn parse_ref_ident(pair: Pair<Rule>) -> ParserResult<RefIdent> {
       out.schema = Some(tmp_tokens.remove(0));
       out.table = tmp_tokens.remove(0);
     },
-    _ => unreachable!("unwell formatted ident!")
+    _ => unreachable!("unwell formatted ident")
   }
 
   Ok(out)
@@ -612,7 +639,7 @@ fn parse_note_decl(pair: Pair<Rule>) -> ParserResult<String> {
     }
   }
 
-  unreachable!("something went wrong parsing note_decl!")
+  unreachable!("something went wrong parsing note_decl")
 }
 
 fn parse_note_inline(pair: Pair<Rule>) -> ParserResult<String> {
@@ -628,7 +655,7 @@ fn parse_indexes_decl(pair: Pair<Rule>) -> ParserResult<IndexesBlock> {
   let p1 = pair
     .into_inner()
     .next()
-    .ok_or_else(|| unreachable!("something went wrong parsing indexes_decl!"))?;
+    .ok_or_else(|| unreachable!("something went wrong parsing indexes_decl"))?;
 
   match p1.as_rule() {
     Rule::indexes_block => parse_indexes_block(p1),
@@ -791,7 +818,7 @@ fn parse_value(pair: Pair<Rule>) -> ParserResult<Value> {
   let p1 = pair
     .into_inner()
     .next()
-    .ok_or_else(|| unreachable!("something went wrong at value!"))?;
+    .ok_or_else(|| unreachable!("something went wrong at value"))?;
 
   match p1.as_rule() {
     Rule::string_value => {
@@ -803,7 +830,7 @@ fn parse_value(pair: Pair<Rule>) -> ParserResult<Value> {
       let p2 = p1
         .into_inner()
         .next()
-        .ok_or_else(|| unreachable!("something went wrong at value!"))?;
+        .ok_or_else(|| unreachable!("something went wrong at value"))?;
 
       match p2.as_rule() {
         Rule::decimal => match p2.as_str().parse::<f32>() {
@@ -861,7 +888,7 @@ fn parse_decl_ident(pair: Pair<Rule>) -> ParserResult<(Option<String>, String)> 
 
       (schema, tmp_tokens.remove(0))
     }
-    _ => unreachable!("unwell formatted decl_ident!")
+    _ => unreachable!("unwell formatted decl_ident")
   };
 
   Ok((schema, name))
@@ -871,7 +898,7 @@ fn parse_ident(pair: Pair<Rule>) -> ParserResult<String> {
   let p1 = pair
     .into_inner()
     .next()
-    .ok_or_else(|| unreachable!("something went wrong at ident!"))?;
+    .ok_or_else(|| unreachable!("something went wrong at ident"))?;
 
   match p1.as_rule() {
     Rule::var => Ok(p1.as_str().to_string()),

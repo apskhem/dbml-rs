@@ -20,6 +20,16 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 226..230,
+                            properties: [
+                                KeyValue {
+                                    span_range: 227..229,
+                                    key: Key {
+                                        span_range: 227..229,
+                                        name: "pk",
+                                    },
+                                    value: None,
+                                },
+                            ],
                             is_pk: true,
                             is_unique: false,
                             is_nullable: None,
@@ -44,6 +54,16 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 251..282,
+                            properties: [
+                                KeyValue {
+                                    span_range: 252..281,
+                                    key: Key {
+                                        span_range: 252..256,
+                                        name: "note",
+                                    },
+                                    value: None,
+                                },
+                            ],
                             is_pk: false,
                             is_unique: false,
                             is_nullable: None,

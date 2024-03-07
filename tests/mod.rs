@@ -7,6 +7,7 @@ use std::path::{
 
 const DBML_DIR: &str = "tests/dbml";
 const OUT_DIR: &str = "tests/out";
+const OUT_CHECKED_DIR: &str = "tests/out/checked";
 
 fn read_dbml_dir<P: AsRef<Path>>(dir_path: P) -> Result<Vec<PathBuf>> {
   let mut out = vec![];

@@ -16,7 +16,7 @@ triple_quoted_value = @{ (!"'''" ~ ANY)* }
 triple_quoted_string = { "'''" ~ triple_quoted_value ~ "'''" }
 
 var = @{ ASCII_ALPHA ~ (ASCII_ALPHANUMERIC | "_")* }
-spaced_var = @{ ASCII_ALPHA ~ (ASCII_ALPHANUMERIC | "_" | " ")* }
+spaced_var = @{ ASCII_ALPHA ~ (" "? ~ (ASCII_ALPHANUMERIC | "_"))* }
 
 ident = { var | double_quoted_string }
 
@@ -74,9 +74,8 @@ enum_block = { "{" ~ enum_value* ~ "}" }
 enum_decl = { ^"Enum " ~ decl_ident ~ enum_block }
 
 // table block
-col_default = { "default" ~ ":" ~ value }
-col_attribute_key = @{ "unique" | "primary key" | "pk" | "null" | "not null" | "increment" }
-col_attribute = { col_attribute_key | col_default | note_inline | ref_inline }
+col_key_value = { spaced_var ~ (":" ~ value)? }
+col_attribute = { ref_inline | col_key_value }
 col_settings = { "[" ~ (col_attribute ~ ("," ~ col_attribute)*)? ~ "]" }
 col_type_arg = { "(" ~ (value ~ ("," ~ value)*)? ~ ")" }
 col_type_array = { "[" ~ integer? ~ "]" }

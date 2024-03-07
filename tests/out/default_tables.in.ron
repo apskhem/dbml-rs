@@ -20,16 +20,38 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 24..42,
+                            properties: [
+                                KeyValue {
+                                    span_range: 25..27,
+                                    key: Key {
+                                        span_range: 25..27,
+                                        name: "pk",
+                                    },
+                                    value: None,
+                                },
+                                KeyValue {
+                                    span_range: 29..41,
+                                    key: Key {
+                                        span_range: 29..36,
+                                        name: "default",
+                                    },
+                                    value: Some(
+                                        Literal {
+                                            span_range: 38..41,
+                                            value: Integer(
+                                                123,
+                                            ),
+                                            raw: "123",
+                                        },
+                                    ),
+                                },
+                            ],
                             is_pk: true,
                             is_unique: false,
                             is_nullable: None,
                             is_incremental: false,
                             note: None,
-                            default: Some(
-                                Integer(
-                                    123,
-                                ),
-                            ),
+                            default: None,
                             refs: [],
                         },
                     ),
@@ -48,6 +70,24 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 57..75,
+                            properties: [
+                                KeyValue {
+                                    span_range: 58..66,
+                                    key: Key {
+                                        span_range: 58..66,
+                                        name: "not null",
+                                    },
+                                    value: None,
+                                },
+                                KeyValue {
+                                    span_range: 68..74,
+                                    key: Key {
+                                        span_range: 68..74,
+                                        name: "unique",
+                                    },
+                                    value: None,
+                                },
+                            ],
                             is_pk: false,
                             is_unique: true,
                             is_nullable: Some(
@@ -74,16 +114,30 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 93..115,
+                            properties: [
+                                KeyValue {
+                                    span_range: 94..114,
+                                    key: Key {
+                                        span_range: 94..101,
+                                        name: "default",
+                                    },
+                                    value: Some(
+                                        Literal {
+                                            span_range: 103..114,
+                                            value: String(
+                                                "Completed",
+                                            ),
+                                            raw: "'Completed'",
+                                        },
+                                    ),
+                                },
+                            ],
                             is_pk: false,
                             is_unique: false,
                             is_nullable: None,
                             is_incremental: false,
                             note: None,
-                            default: Some(
-                                String(
-                                    "Completed",
-                                ),
-                            ),
+                            default: None,
                             refs: [],
                         },
                     ),
@@ -102,16 +156,30 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 137..155,
+                            properties: [
+                                KeyValue {
+                                    span_range: 138..154,
+                                    key: Key {
+                                        span_range: 138..145,
+                                        name: "default",
+                                    },
+                                    value: Some(
+                                        Literal {
+                                            span_range: 147..154,
+                                            value: Expr(
+                                                "now()",
+                                            ),
+                                            raw: "`now()`",
+                                        },
+                                    ),
+                                },
+                            ],
                             is_pk: false,
                             is_unique: false,
                             is_nullable: None,
                             is_incremental: false,
                             note: None,
-                            default: Some(
-                                Expr(
-                                    "now()",
-                                ),
-                            ),
+                            default: None,
                             refs: [],
                         },
                     ),
@@ -207,6 +275,16 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 255..259,
+                            properties: [
+                                KeyValue {
+                                    span_range: 256..258,
+                                    key: Key {
+                                        span_range: 256..258,
+                                        name: "pk",
+                                    },
+                                    value: None,
+                                },
+                            ],
                             is_pk: true,
                             is_unique: false,
                             is_nullable: None,
@@ -231,14 +309,28 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 275..290,
+                            properties: [
+                                KeyValue {
+                                    span_range: 276..289,
+                                    key: Key {
+                                        span_range: 276..283,
+                                        name: "default",
+                                    },
+                                    value: Some(
+                                        Literal {
+                                            span_range: 285..289,
+                                            value: Null,
+                                            raw: "null",
+                                        },
+                                    ),
+                                },
+                            ],
                             is_pk: false,
                             is_unique: false,
                             is_nullable: None,
                             is_incremental: false,
                             note: None,
-                            default: Some(
-                                Null,
-                            ),
+                            default: None,
                             refs: [],
                         },
                     ),
@@ -257,6 +349,16 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 309..319,
+                            properties: [
+                                KeyValue {
+                                    span_range: 310..318,
+                                    key: Key {
+                                        span_range: 310..318,
+                                        name: "not null",
+                                    },
+                                    value: None,
+                                },
+                            ],
                             is_pk: false,
                             is_unique: false,
                             is_nullable: Some(
@@ -283,16 +385,30 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 334..351,
+                            properties: [
+                                KeyValue {
+                                    span_range: 335..350,
+                                    key: Key {
+                                        span_range: 335..342,
+                                        name: "default",
+                                    },
+                                    value: Some(
+                                        Literal {
+                                            span_range: 344..350,
+                                            value: Decimal(
+                                                123.12,
+                                            ),
+                                            raw: "123.12",
+                                        },
+                                    ),
+                                },
+                            ],
                             is_pk: false,
                             is_unique: false,
                             is_nullable: None,
                             is_incremental: false,
                             note: None,
-                            default: Some(
-                                Decimal(
-                                    123.12,
-                                ),
-                            ),
+                            default: None,
                             refs: [],
                         },
                     ),
@@ -311,16 +427,30 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 368..383,
+                            properties: [
+                                KeyValue {
+                                    span_range: 369..382,
+                                    key: Key {
+                                        span_range: 369..376,
+                                        name: "default",
+                                    },
+                                    value: Some(
+                                        Literal {
+                                            span_range: 378..382,
+                                            value: Bool(
+                                                true,
+                                            ),
+                                            raw: "true",
+                                        },
+                                    ),
+                                },
+                            ],
                             is_pk: false,
                             is_unique: false,
                             is_nullable: None,
                             is_incremental: false,
                             note: None,
-                            default: Some(
-                                Bool(
-                                    true,
-                                ),
-                            ),
+                            default: None,
                             refs: [],
                         },
                     ),
@@ -339,16 +469,30 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 402..444,
+                            properties: [
+                                KeyValue {
+                                    span_range: 403..443,
+                                    key: Key {
+                                        span_range: 403..410,
+                                        name: "default",
+                                    },
+                                    value: Some(
+                                        Literal {
+                                            span_range: 411..443,
+                                            value: Expr(
+                                                "current_date + interval 1 year",
+                                            ),
+                                            raw: "`current_date + interval 1 year`",
+                                        },
+                                    ),
+                                },
+                            ],
                             is_pk: false,
                             is_unique: false,
                             is_nullable: None,
                             is_incremental: false,
                             note: None,
-                            default: Some(
-                                Expr(
-                                    "current_date + interval 1 year",
-                                ),
-                            ),
+                            default: None,
                             refs: [],
                         },
                     ),

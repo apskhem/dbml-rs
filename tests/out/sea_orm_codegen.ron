@@ -27,6 +27,24 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 81..96,
+                            properties: [
+                                KeyValue {
+                                    span_range: 82..84,
+                                    key: Key {
+                                        span_range: 82..84,
+                                        name: "pk",
+                                    },
+                                    value: None,
+                                },
+                                KeyValue {
+                                    span_range: 86..95,
+                                    key: Key {
+                                        span_range: 86..95,
+                                        name: "increment",
+                                    },
+                                    value: None,
+                                },
+                            ],
                             is_pk: true,
                             is_unique: false,
                             is_nullable: None,
@@ -51,6 +69,16 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 109..115,
+                            properties: [
+                                KeyValue {
+                                    span_range: 110..114,
+                                    key: Key {
+                                        span_range: 110..114,
+                                        name: "null",
+                                    },
+                                    value: None,
+                                },
+                            ],
                             is_pk: false,
                             is_unique: false,
                             is_nullable: Some(
@@ -96,6 +124,24 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 143..158,
+                            properties: [
+                                KeyValue {
+                                    span_range: 144..146,
+                                    key: Key {
+                                        span_range: 144..146,
+                                        name: "pk",
+                                    },
+                                    value: None,
+                                },
+                                KeyValue {
+                                    span_range: 148..157,
+                                    key: Key {
+                                        span_range: 148..157,
+                                        name: "increment",
+                                    },
+                                    value: None,
+                                },
+                            ],
                             is_pk: true,
                             is_unique: false,
                             is_nullable: None,
@@ -133,6 +179,24 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 190..213,
+                            properties: [
+                                KeyValue {
+                                    span_range: 191..206,
+                                    key: Key {
+                                        span_range: 0..0,
+                                        name: "",
+                                    },
+                                    value: None,
+                                },
+                                KeyValue {
+                                    span_range: 208..212,
+                                    key: Key {
+                                        span_range: 208..212,
+                                        name: "null",
+                                    },
+                                    value: None,
+                                },
+                            ],
                             is_pk: false,
                             is_unique: false,
                             is_nullable: Some(
@@ -191,6 +255,24 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 240..255,
+                            properties: [
+                                KeyValue {
+                                    span_range: 241..243,
+                                    key: Key {
+                                        span_range: 241..243,
+                                        name: "pk",
+                                    },
+                                    value: None,
+                                },
+                                KeyValue {
+                                    span_range: 245..254,
+                                    key: Key {
+                                        span_range: 245..254,
+                                        name: "increment",
+                                    },
+                                    value: None,
+                                },
+                            ],
                             is_pk: true,
                             is_unique: false,
                             is_nullable: None,
@@ -228,6 +310,24 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 285..307,
+                            properties: [
+                                KeyValue {
+                                    span_range: 286..300,
+                                    key: Key {
+                                        span_range: 0..0,
+                                        name: "",
+                                    },
+                                    value: None,
+                                },
+                                KeyValue {
+                                    span_range: 302..306,
+                                    key: Key {
+                                        span_range: 302..306,
+                                        name: "null",
+                                    },
+                                    value: None,
+                                },
+                            ],
                             is_pk: false,
                             is_unique: false,
                             is_nullable: Some(
@@ -286,6 +386,24 @@ SchemaBlock {
                     settings: Some(
                         ColumnSettings {
                             span_range: 336..351,
+                            properties: [
+                                KeyValue {
+                                    span_range: 337..339,
+                                    key: Key {
+                                        span_range: 337..339,
+                                        name: "pk",
+                                    },
+                                    value: None,
+                                },
+                                KeyValue {
+                                    span_range: 341..350,
+                                    key: Key {
+                                        span_range: 341..350,
+                                        name: "increment",
+                                    },
+                                    value: None,
+                                },
+                            ],
                             is_pk: true,
                             is_unique: false,
                             is_nullable: None,
