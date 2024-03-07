@@ -304,7 +304,7 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
                 for p3 in p2.into_inner() {
                   match p3.as_rule() {
                     Rule::spaced_var => {
-                      key_value.key = Key {
+                      key_value.key = Ident {
                         span_range: s2r(p3.as_span()),
                         name: p3.as_str().to_owned()
                       };

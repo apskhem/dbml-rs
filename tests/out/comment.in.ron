@@ -23,7 +23,7 @@ SchemaBlock {
                             properties: [
                                 KeyValue {
                                     span_range: 32..34,
-                                    key: Key {
+                                    key: Ident {
                                         span_range: 32..34,
                                         name: "pk",
                                     },
@@ -57,7 +57,7 @@ SchemaBlock {
                             properties: [
                                 KeyValue {
                                     span_range: 66..74,
-                                    key: Key {
+                                    key: Ident {
                                         span_range: 66..74,
                                         name: "not null",
                                     },
@@ -65,7 +65,7 @@ SchemaBlock {
                                 },
                                 KeyValue {
                                     span_range: 76..82,
-                                    key: Key {
+                                    key: Ident {
                                         span_range: 76..82,
                                         name: "unique",
                                     },
@@ -101,7 +101,7 @@ SchemaBlock {
                             properties: [
                                 KeyValue {
                                     span_range: 102..128,
-                                    key: Key {
+                                    key: Ident {
                                         span_range: 102..106,
                                         name: "note",
                                     },
@@ -137,7 +137,7 @@ SchemaBlock {
                             properties: [
                                 KeyValue {
                                     span_range: 152..178,
-                                    key: Key {
+                                    key: Ident {
                                         span_range: 152..156,
                                         name: "note",
                                     },

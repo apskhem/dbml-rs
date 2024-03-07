@@ -148,7 +148,7 @@ SchemaBlock {
                             properties: [
                                 KeyValue {
                                     span_range: 201..212,
-                                    key: Key {
+                                    key: Ident {
                                         span_range: 0..0,
                                         name: "",
                                     },

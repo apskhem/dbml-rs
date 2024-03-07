@@ -4,7 +4,7 @@ type SpanRange = Range<usize>;
 
 mod enums;
 mod indexes;
-mod literal;
+mod unit;
 mod project;
 mod refs;
 mod schema;
@@ -13,7 +13,7 @@ mod table_group;
 
 pub use enums::*;
 pub use indexes::*;
-pub use literal::*;
+pub use unit::*;
 pub use project::*;
 pub use refs::*;
 pub use schema::*;

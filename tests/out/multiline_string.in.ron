@@ -23,7 +23,7 @@ SchemaBlock {
                             properties: [
                                 KeyValue {
                                     span_range: 24..194,
-                                    key: Key {
+                                    key: Ident {
                                         span_range: 24..28,
                                         name: "note",
                                     },

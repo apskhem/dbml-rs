@@ -23,7 +23,7 @@ SchemaBlock {
                             properties: [
                                 KeyValue {
                                     span_range: 47..49,
-                                    key: Key {
+                                    key: Ident {
                                         span_range: 47..49,
                                         name: "pk",
                                     },
@@ -101,7 +101,7 @@ SchemaBlock {
                             properties: [
                                 KeyValue {
                                     span_range: 127..129,
-                                    key: Key {
+                                    key: Ident {
                                         span_range: 127..129,
                                         name: "pk",
                                     },
@@ -135,7 +135,7 @@ SchemaBlock {
                             properties: [
                                 KeyValue {
                                     span_range: 148..156,
-                                    key: Key {
+                                    key: Ident {
                                         span_range: 148..156,
                                         name: "not null",
                                     },
@@ -202,7 +202,7 @@ SchemaBlock {
                             properties: [
                                 KeyValue {
                                     span_range: 247..249,
-                                    key: Key {
+                                    key: Ident {
                                         span_range: 247..249,
                                         name: "pk",
                                     },
@@ -249,7 +249,7 @@ SchemaBlock {
                             properties: [
                                 KeyValue {
                                     span_range: 286..294,
-                                    key: Key {
+                                    key: Ident {
                                         span_range: 286..294,
                                         name: "not null",
                                     },
@@ -322,7 +322,7 @@ SchemaBlock {
                             properties: [
                                 KeyValue {
                                     span_range: 383..385,
-                                    key: Key {
+                                    key: Ident {
                                         span_range: 383..385,
                                         name: "pk",
                                     },
