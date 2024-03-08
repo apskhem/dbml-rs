@@ -27,11 +27,14 @@ pub enum TopLevelBlock {
 }
 
 impl<'a> SchemaBlock<'a> {
-  pub fn project(&self) -> Option<&ProjectBlock> {
-    self.blocks.iter().find_map(|block| match block {
-      TopLevelBlock::Project(project) => Some(project),
-      _ => None,
-    })
+  pub fn project(&self) -> Vec<&ProjectBlock> {
+    self.blocks.iter().filter_map(|block| {
+      if let TopLevelBlock::Project(project) = block {
+        Some(project)
+      } else {
+        None
+      }
+    }).collect()
   }
 
   pub fn tables(&self) -> Vec<&TableBlock> {

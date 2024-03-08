@@ -36,7 +36,7 @@ impl Indexer {
       let mut col_sets = HashSet::new();
       for col in table.cols.iter() {
         match col_sets.get(&col.name.to_string) {
-          Some(col_name) => throw_err(Err::DuplicatedColumnName, col.span_range.clone(), input)?,
+          Some(col_name) => throw_err(Err::DuplicatedColumnName, &col.span_range, input)?,
           None => col_sets.insert(col.name.to_string.clone())
         };
       }

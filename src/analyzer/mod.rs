@@ -117,7 +117,6 @@ pub fn get_table_refs(table_ident: &TableIdent, analyzed_indexer: &AnalyzedIndex
 /// // of the parsed and analyzed DBML text.
 /// ```
 pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
-  let span_range = schema_block.span_range.clone();
   let input = schema_block.input;
   let project = schema_block.project();
   let tables = schema_block.tables();
@@ -126,9 +125,12 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
   let enums = schema_block.enums();
 
   // check project block
-  match &project {
+  if project.len() > 1 {
+    throw_err(Err::DuplicatedProjectSetting, &schema_block.span_range, input)?;
+  }
+  match project.first() {
     Some(project_block) => (),
-    _ => throw_err(Err::ProjectSettingNotFound, span_range.clone(), input)?,
+    _ => throw_err(Err::ProjectSettingNotFound, &schema_block.span_range, input)?,
   }
 
   // index inside the table itself
@@ -138,13 +140,13 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
     for col in &table.cols {
       if col.settings.as_ref().is_some_and(|s| s.is_pk) {
         if !tmp_table_indexer.pk_list.is_empty() {
-          throw_err(Err::DuplicatedPrimaryKey, col.span_range.clone(), input)?;
+          throw_err(Err::DuplicatedPrimaryKey, &col.span_range, input)?;
         }
         if col.settings.as_ref().is_some_and(|s| matches!(s.is_nullable, Some(Nullable::Null))) {
-          throw_err(Err::NullablePrimaryKey, col.span_range.clone(), input)?;
+          throw_err(Err::NullablePrimaryKey, &col.span_range, input)?;
         }
         if !col.r#type.arrays.is_empty() {
-          throw_err(Err::ArrayPrimaryKey, col.span_range.clone(), input)?;
+          throw_err(Err::ArrayPrimaryKey, &col.span_range, input)?;
         }
 
         tmp_table_indexer.pk_list.push(col.name.to_string.clone())
@@ -171,18 +173,18 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
         match &def.settings {
           Some(settings) => {
             if vec![settings.is_pk, settings.is_unique, settings.r#type.is_some()].into_iter().filter(|x| *x).count() > 1 {
-              throw_err(Err::InvalidIndexesSetting, settings.span_range.clone(), input)?;
+              throw_err(Err::InvalidIndexesSetting, &settings.span_range, input)?;
             }
             
             if settings.is_pk {
               if !tmp_table_indexer.pk_list.is_empty() {
-                throw_err(Err::DuplicatedPrimaryKey, def.span_range.clone(), input)?;
+                throw_err(Err::DuplicatedPrimaryKey, &def.span_range, input)?;
               }
 
               tmp_table_indexer.pk_list.extend(idents.clone())
             } else if settings.is_unique {
               if tmp_table_indexer.unique_list.iter().any(|uniq_item| idents.iter().all(|id| uniq_item.contains(id))) {
-                throw_err(Err::DuplicatedUniqueKey, def.span_range.clone(), input)?;
+                throw_err(Err::DuplicatedUniqueKey, &def.span_range, input)?;
               }
 
               tmp_table_indexer.unique_list.push(idents.clone().into_iter().collect())
@@ -190,7 +192,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
             if settings.r#type.is_some() {
               if tmp_table_indexer.indexed_list.iter().any(|(idx_item, idx_type)| idx_item == &idents && idx_type == &settings.r#type) {
-                throw_err(Err::DuplicatedIndexKey, def.span_range.clone(), input)?;
+                throw_err(Err::DuplicatedIndexKey, &def.span_range, input)?;
               }
 
               tmp_table_indexer.indexed_list.push((idents, settings.r#type.clone()));
@@ -198,7 +200,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           }
           None => {
             if tmp_table_indexer.indexed_list.iter().any(|(idx_item, _)| idx_item == &idents) {
-              throw_err(Err::DuplicatedIndexKey, def.span_range.clone(), input)?;
+              throw_err(Err::DuplicatedIndexKey, &def.span_range, input)?;
             }
 
             tmp_table_indexer.indexed_list.push((idents, None))
@@ -371,7 +373,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
     for r in indexed_refs.iter() {
       if r.lhs.compositions.len() != r.rhs.compositions.len() {
-        throw_err(Err::MismatchedCompositeForeignKey, indexed_ref.span_range.clone(), &input)?;
+        throw_err(Err::MismatchedCompositeForeignKey, &indexed_ref.span_range, &input)?;
       }
     }
 
@@ -381,7 +383,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
       .count();
 
     if count != 1 {
-      throw_err(Err::DuplicatedRelation, indexed_ref.span_range.clone(), &input)?;
+      throw_err(Err::DuplicatedRelation, &indexed_ref.span_range, &input)?;
     }
   }
 

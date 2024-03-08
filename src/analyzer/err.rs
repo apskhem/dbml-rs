@@ -68,7 +68,7 @@ impl fmt::Display for Err {
   }
 }
 
-pub(super) fn throw_err<T>(err: Err, span_range: Range<usize>, input: &str) -> AnalyzerResult<T> {
+pub(super) fn throw_err<T>(err: Err, span_range: &Range<usize>, input: &str) -> AnalyzerResult<T> {
   let span = Span::new(input, span_range.start, span_range.end).unwrap();
 
   Err(Error::new_from_span(
