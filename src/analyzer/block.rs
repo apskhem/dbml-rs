@@ -5,7 +5,7 @@ use super::*;
 /// A validated reference block.
 #[derive(Debug, Clone, Default)]
 pub struct IndexedRefBlock {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   pub rel: Relation,
   pub lhs: RefIdent,

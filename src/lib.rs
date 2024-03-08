@@ -3,6 +3,7 @@
 
 use std::result::Result;
 
+use ast::SchemaBlock;
 use pest::error::Error as ParseError;
 
 #[macro_use]
@@ -13,11 +14,12 @@ extern crate alloc;
 
 pub(crate) mod analyzer;
 pub mod ast;
-pub mod parser;
+pub(crate) mod parser;
 pub(crate) mod utils;
 
-use analyzer::SemanticSchemaBlock;
-use parser::Rule;
+pub use analyzer::*;
+pub use parser::Rule;
+pub use parser::parse as parse_dbml_unchecked;
 
 /// Default database schema if not specified in a DBML file.
 pub const DEFAULT_SCHEMA: &str = "public";
@@ -51,6 +53,8 @@ pub const DEFAULT_SCHEMA: &str = "public";
 ///     }
 /// }
 /// ```
-pub fn parse_dbml(input: &str) -> Result<SemanticSchemaBlock, ParseError<Rule>> {
-  parser::parse(input)?.analyze()
+pub fn parse_dbml(input: &str) -> Result<SchemaBlock, ParseError<Rule>> {
+  let ast = parse_dbml_unchecked(input)?;
+
+  analyze(&ast).map(|_| ast)
 }

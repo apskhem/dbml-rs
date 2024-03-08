@@ -2,10 +2,10 @@ use std::str::FromStr;
 
 use super::*;
 
-/// A single declared block of table.
+/// A struct representing a block of table.
 #[derive(Debug, Clone, Default)]
 pub struct TableBlock {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   /// Columns or fields of the table.
   pub cols: Vec<TableColumn>,
@@ -22,16 +22,16 @@ pub struct TableBlock {
 /// A struct representing settings of the table.
 #[derive(Debug, Clone, Default)]
 pub struct TableSettings {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   /// Settings values.
   pub values: Vec<(String, Value)>,
 }
 
-/// A single declared column of the table.
+/// A struct representing a single column or field of the table.
 #[derive(Debug, Clone, Default)]
 pub struct TableColumn {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   /// A table name.
   pub name: String,
@@ -44,9 +44,9 @@ pub struct TableColumn {
 /// A struct representing details of the table column.
 #[derive(Debug, Clone, Default)]
 pub struct ColumnType {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
-  /// A parsed data type.
+  /// The parsed data type.
   pub type_name: ColumnTypeName,
   /// Type arguments.
   pub args: Vec<Value>,
@@ -160,25 +160,38 @@ impl FromStr for ColumnTypeName {
   }
 }
 
-/// Column settings.
+/// A struct representing settings of a column.
 #[derive(Debug, Clone, Default)]
 pub struct ColumnSettings {
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
+  /// A vector of key-value pairs representing properties of the column.
   pub properties: Vec<KeyValue>,
+  /// A boolean indicating if the column is a primary key.
   pub is_pk: bool,
+  /// A boolean indicating if the column is unique.
   pub is_unique: bool,
+  /// An enum indicating the nullable status of the column.
   pub is_nullable: Option<Nullable>,
+  /// A boolean indicating if the column is incremental.
   pub is_incremental: bool,
+  /// A note associated with the column.
   pub note: Option<String>,
+  /// A default value for the column.
   pub default: Option<Value>,
+  /// A vector of inline references associated with the column.
   pub refs: Vec<refs::RefInline>,
 }
 
-/// A table identifier.
+/// A struct representing a table identifier.
 #[derive(Debug, Clone, Default)]
 pub struct TableIdent {
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
+  /// The name of the table.
   pub name: String,
+  /// The schema of the table, if specified.
   pub schema: Option<String>,
+  /// An alias for the table.
   pub alias: Option<String>,
 }

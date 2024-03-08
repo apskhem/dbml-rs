@@ -4,7 +4,7 @@ use super::SpanRange;
 
 #[derive(Debug, Clone, Default)]
 pub struct RefInline {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   pub rel: Relation,
   pub rhs: RefIdent,
@@ -12,7 +12,7 @@ pub struct RefInline {
 
 #[derive(Debug, Clone, Default)]
 pub struct RefBlock {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   pub rel: Relation,
   pub lhs: RefIdent,
@@ -50,7 +50,7 @@ impl FromStr for Relation {
 
 #[derive(Debug, Clone, Default)]
 pub struct RefIdent {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   pub schema: Option<String>,
   pub table: String,
@@ -99,7 +99,7 @@ impl ToString for ReferentialAction {
 
 #[derive(Debug, Clone, Default)]
 pub struct RefSettings {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   pub on_delete: Option<ReferentialAction>,
   pub on_update: Option<ReferentialAction>,

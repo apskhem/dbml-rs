@@ -3,7 +3,7 @@ use super::*;
 /// A table group allowing to group the related or associated tables together.
 #[derive(Debug, Clone, Default)]
 pub struct TableGroupBlock {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   /// A name of a table group
   pub ident: Ident,
@@ -14,7 +14,7 @@ pub struct TableGroupBlock {
 /// An associated table inside a table group.
 #[derive(Debug, Clone, Default)]
 pub struct TableGroupIdent {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   /// A Table schema.
   pub schema: Option<Ident>,

@@ -7,13 +7,47 @@ use pest::iterators::Pair;
 use pest::Parser;
 
 use crate::ast::*;
-use crate::utils::s2r;
+use crate::utils::*;
 
 #[derive(Parser)]
 #[grammar = "src/dbml.pest"]
 struct DBMLParser;
 
-/// Performs parsing the whole DBML text and returns an unsanitized AST.
+/// Parses the entire DBML text and returns an unsanitized Abstract Syntax Tree (AST).
+///
+/// # Arguments
+///
+/// * `input` - A string slice containing the DBML text to parse.
+///
+/// # Returns
+///
+/// A `ParserResult<SchemaBlock>`, which is an alias for `pest`'s `ParseResult` type
+/// representing the result of parsing. It contains the unsanitized abstract syntax tree (AST)
+/// representing the parsed DBML.
+///
+/// # Errors
+///
+/// This function can return parsing errors if the input text does not conform to the DBML grammar.
+/// It may also panic if an unexpected parsing rule is encountered, which should be considered a
+/// bug.
+///
+/// # Examples
+///
+/// ```rs
+/// use dbml_rs::parse_dbml_unchecked;
+///
+/// let dbml_text = r#"
+///     Table users {
+///         id int
+///         username varchar
+///     }
+/// "#;
+///
+/// let result = parse_dbml_unchecked(dbml_text);
+/// assert!(result.is_ok());
+/// let ast = result.unwrap();
+/// // Now `ast` contains the unsanitized abstract syntax tree (AST) of the parsed DBML text.
+/// ```
 pub fn parse(input: &str) -> ParserResult<SchemaBlock> {
   let pair = DBMLParser::parse(Rule::schema, input)?
     .next()

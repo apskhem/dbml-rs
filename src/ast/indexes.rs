@@ -4,7 +4,7 @@ use super::SpanRange;
 
 #[derive(Debug, Clone, Default)]
 pub struct IndexesBlock {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   /// Defined items inside an indexes block.
   pub defs: Vec<IndexesDef>,
@@ -12,7 +12,7 @@ pub struct IndexesBlock {
 
 #[derive(Debug, Clone, Default)]
 pub struct IndexesDef {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   /// Table column names for indexing which can be composite.
   pub cols: Vec<IndexesColumnType>,
@@ -22,7 +22,7 @@ pub struct IndexesDef {
 
 #[derive(Debug, Clone, Default)]
 pub struct IndexesSettings {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   /// A Type of index (btree, gin, gist, hash depending on DB).
   pub r#type: Option<IndexesType>,

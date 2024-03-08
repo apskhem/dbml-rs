@@ -2,7 +2,7 @@ use super::SpanRange;
 
 #[derive(Debug, Clone, Default)]
 pub struct EnumBlock {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   pub ident: EnumIdent,
   pub values: Vec<EnumValue>,
@@ -10,7 +10,7 @@ pub struct EnumBlock {
 
 #[derive(Debug, Clone, Default)]
 pub struct EnumValue {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   pub value: String,
   pub note: Option<String>,
@@ -18,7 +18,7 @@ pub struct EnumValue {
 
 #[derive(Debug, Clone, Default)]
 pub struct EnumIdent {
-  /// The range of the span.
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
   pub name: String,
   pub schema: Option<String>,

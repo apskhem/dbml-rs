@@ -43,7 +43,7 @@ fn parse_dbml_unchecked() -> Result<()> {
   for path in testing_dbml_files {
     let content = fs::read_to_string(&path)?;
     let parsed =
-      dbml_rs::parser::parse(&content).unwrap_or_else(|err| panic!("{}", err.with_path(path.to_str().unwrap())));
+      dbml_rs::parse_dbml_unchecked(&content).unwrap_or_else(|err| panic!("{}", err.with_path(path.to_str().unwrap())));
 
     let out_content = format!("{:#?}", parsed);
 
