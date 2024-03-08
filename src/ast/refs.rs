@@ -24,9 +24,13 @@ pub struct RefBlock {
 pub enum Relation {
   #[default]
   Undef,
+  /// Represents '-' one-to-one. E.g: `users.id` - `user_infos.user_id`.
   One2One,
+  /// Represents '<' one-to-many. E.g: `users.id` < `posts.user_id`.
   One2Many,
+  /// Represents '>' many-to-one. E.g: `posts.user_id` > `users.id`.
   Many2One,
+  /// Represents '<>' many-to-many. E.g: `authors.id` <> `books.id`.
   Many2Many,
 }
 

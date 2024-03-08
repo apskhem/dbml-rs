@@ -34,7 +34,13 @@ fn parse_schema<'a>(pair: Pair<Rule>, input: &'a str) -> ParserResult<SchemaBloc
 
   pair.into_inner().try_fold(init, |mut acc, p1| {
     match p1.as_rule() {
-      Rule::project_decl => acc.project = Some(parse_project_decl(p1)?),
+      Rule::project_decl => {
+        if acc.project.is_some() {
+          throw_msg("Duplicate project block", p1.clone())?;
+        }
+
+        acc.project = Some(parse_project_decl(p1)?)
+      },
       Rule::table_decl => acc.tables.push(parse_table_decl(p1)?),
       Rule::enum_decl => acc.enums.push(parse_enum_decl(p1)?),
       Rule::ref_decl => acc.refs.push(parse_ref_decl(p1)?),

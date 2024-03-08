@@ -7,72 +7,76 @@ use super::*;
 
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct IndexedSchemaBlock {
+  /// Indexed table names and associated columns
   table_map: HashMap<String, HashSet<String>>,
+  /// Indexed enum names and associated variants
   enum_map: HashMap<String, HashSet<String>>,
 }
 
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct Indexer {
   /// Indexed table groups map.
-  pub table_group_map: HashMap<String, HashSet<(Option<String>, String)>>,
+  table_group_map: HashMap<String, HashSet<(Option<String>, String)>>,
   /// Indexed schema map.
-  pub schema_map: HashMap<String, IndexedSchemaBlock>,
+  schema_map: HashMap<String, IndexedSchemaBlock>,
   /// Indexed alias map to the schema (optional) and table name.
-  pub alias_map: HashMap<String, (Option<String>, String)>,
+  table_alias_map: HashMap<String, (Option<String>, String)>,
 }
 
 impl Indexer {
-  pub fn index_table(&mut self, tables: &Vec<TableBlock>) -> Result<(), String> {
-    for table in tables.iter() {
+  pub fn index_table(&mut self, tables: &Vec<TableBlock>, input: &str) -> AnalyzerResult<()> {
+    for table in tables {
       let TableIdent {
         span_range,
         schema,
         name,
         alias,
-      } = table.ident.clone();
+      } = &table.ident;
 
-      let schema_name = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
       let mut col_sets = HashSet::new();
-
       for col in table.cols.iter() {
-        if let Some(dup_col_name) = col_sets.get(&col.name) {
-          panic!("col_name_dup");
-        } else {
-          col_sets.insert(col.name.clone());
-        }
+        match col_sets.get(&col.name) {
+          Some(col_name) => throw_err(Err::DuplicatedColumnName, col.span_range.clone(), input)?,
+          None => col_sets.insert(col.name.clone())
+        };
       }
 
-      if let Some(index_block) = self.schema_map.get_mut(&schema_name) {
-        index_block.table_map.insert(name.clone(), col_sets);
+      let schema_name = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
+      match self.schema_map.get_mut(&schema_name) {
+        Some(index_block) => {
+          index_block.table_map.insert(name.clone(), col_sets);
 
-        if let Some(alias) = alias {
-          if let Some(dup_alias) = self.alias_map.get(&alias) {
-            panic!("alias_name_dup");
-          } else {
-            self
-              .alias_map
-              .insert(alias.clone(), (schema.clone(), name.clone()));
+          if let Some(alias) = alias {
+            match self.table_alias_map.get(alias) {
+              Some(dup_alias) => panic!("alias_name_dup"),
+              None => {
+                self
+                  .table_alias_map
+                  .insert(alias.clone(), (schema.clone(), name.clone()))
+              }
+            };
           }
         }
-      } else {
-        let mut index_block = IndexedSchemaBlock::default();
+        None => {
+          let mut index_block = IndexedSchemaBlock::default();
 
-        index_block.table_map.insert(name.clone(), col_sets);
+          index_block.table_map.insert(name.clone(), col_sets);
 
-        if let Some(alias) = alias {
-          self
-            .alias_map
-            .insert(alias.clone(), (schema.clone(), name.clone()));
+          if let Some(alias) = alias {
+            self
+              .table_alias_map
+              .insert(alias.clone(), (schema.clone(), name.clone()));
+          }
+
+          self.schema_map.insert(schema_name, index_block);
         }
-
-        self.schema_map.insert(schema_name, index_block);
       }
     }
 
     Ok(())
   }
 
-  pub fn index_enums(&mut self, enums: &Vec<EnumBlock>) -> Result<(), String> {
+  pub fn index_enums(&mut self, enums: &Vec<EnumBlock>) -> AnalyzerResult<()> {
     for r#enum in enums.iter() {
       let EnumIdent { schema, name, .. } = r#enum.ident.clone();
 
@@ -109,7 +113,7 @@ impl Indexer {
       for table in group_each.table_idents.iter() {
         let ident_alias = table.ident_alias.clone();
 
-        let ident = if let Some(ident) = self.alias_map.get(&ident_alias.name) {
+        let ident = if let Some(ident) = self.table_alias_map.get(&ident_alias.name) {
           if table.schema.is_some() {
             panic!("alias_must_not_followed_by_schema")
           }
@@ -156,23 +160,23 @@ impl Indexer {
     schema: &Option<String>,
     enum_name: &String,
     values: &Vec<String>,
-  ) -> Result<(), String> {
+  ) -> AnalyzerResult<()> {
     let schema = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
 
     if let Some(block) = self.schema_map.get(&schema) {
       if let Some(value_set) = block.enum_map.get(enum_name) {
         for v in values.iter() {
           if !value_set.contains(v) {
-            return Err(format!("not found '{}' value in enum '{}'", v, enum_name));
+            panic!("not found '{}' value in enum '{}'", v, enum_name);
           }
         }
 
         Ok(())
       } else {
-        return Err(format!("enum_not_found"));
+        panic!("enum_not_found");
       }
     } else {
-      return Err(format!("schema_not_found"));
+      panic!("schema_not_found");
     }
   }
 
@@ -211,7 +215,7 @@ impl Indexer {
 
   /// Gets the schema (if has) and table name from the given alias.
   pub fn resolve_alias(&self, table_alias: &String) -> Option<&(Option<String>, String)> {
-    self.alias_map.get(table_alias)
+    self.table_alias_map.get(table_alias)
   }
 
   pub fn resolve_ref_alias(&self, ident: &RefIdent) -> RefIdent {

@@ -15,7 +15,7 @@ Table users {
   username "character varying[]"
   role varchar
   created_at timestamp
-  // referral_id integer [ref: > users.id, null]
+  referral_id integer [ref: > users.id, null]
 
   indexes {
     (username, role) [type: btree]

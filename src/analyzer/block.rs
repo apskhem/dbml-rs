@@ -37,7 +37,6 @@ impl IndexedRefBlock {
           rhs,
           settings: None,
         }
-        .normalize()
       })
       .collect()
   }
@@ -100,11 +99,6 @@ impl IndexedRefBlock {
 
     self_ident == other_ident
   }
-
-  fn normalize(self) -> Self {
-    // TODO:
-    self
-  }
 }
 
 impl From<RefBlock> for IndexedRefBlock {
@@ -123,6 +117,5 @@ impl From<RefBlock> for IndexedRefBlock {
       rhs,
       settings,
     }
-    .normalize()
   }
 }

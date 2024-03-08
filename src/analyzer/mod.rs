@@ -79,10 +79,6 @@ impl SchemaBlock<'_> {
       _ => throw_err(Err::ProjectSettingNotFound, span_range, input)?,
     }
 
-    // collect tables
-    let mut indexer = indexer::Indexer::default();
-    let mut indexed_refs: Vec<_> = refs.into_iter().map(block::IndexedRefBlock::from).collect();
-
     // index inside the table itself
     for table in &tables {
       let mut tmp_table_indexer = TableIndexer::default();
@@ -160,16 +156,20 @@ impl SchemaBlock<'_> {
       }
     }
 
+    // collect tables
+    let mut indexer = indexer::Indexer::default();
+    let mut indexed_refs: Vec<_> = refs.into_iter().map(block::IndexedRefBlock::from).collect();
+
     // start indexing the schema
-    indexer.index_table(&tables);
-    indexer.index_enums(&enums);
+    indexer.index_table(&tables, &input)?;
+    indexer.index_enums(&enums)?;
     indexer.index_table_groups(&table_groups);
 
     // collect refs from tables
     for table in &tables {
       for col in &table.cols {
         let indexed_ref = block::IndexedRefBlock::from_inline(
-          col.settings.clone().map(|s| s.refs).unwrap_or_else(|| vec![]),
+          col.settings.clone().map(|s| s.refs).unwrap_or_default(),
           table.ident.clone(),
           col.name.clone(),
         );
