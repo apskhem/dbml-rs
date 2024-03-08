@@ -43,7 +43,7 @@ impl FromStr for Relation {
       ">" => Ok(Self::Many2One),
       "-" => Ok(Self::One2One),
       "<>" => Ok(Self::Many2Many),
-      _ => Err(format!("incorrect relation symbol '{}'", s)),
+      _ => Err(format!("invalid relation symbol '{}'", s)),
     }
   }
 }
@@ -67,7 +67,7 @@ pub enum ReferentialAction {
 }
 
 impl FromStr for ReferentialAction {
-  type Err = ();
+  type Err = String;
 
   fn from_str(s: &str) -> Result<Self, Self::Err> {
     match s {
@@ -76,7 +76,7 @@ impl FromStr for ReferentialAction {
       "restrict" => Ok(Self::Restrict),
       "set null" => Ok(Self::SetNull),
       "set default" => Ok(Self::SetDefault),
-      _ => Err(()),
+      _ => Err(format!("invalid referential action")),
     }
   }
 }
