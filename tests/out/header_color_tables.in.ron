@@ -8,7 +8,10 @@ SchemaBlock {
             cols: [
                 TableColumn {
                     span_range: 75..93,
-                    name: "id",
+                    name: Ident {
+                        span_range: 75..77,
+                        to_string: "id",
+                    },
                     type: ColumnType {
                         span_range: 78..93,
                         type_name: Raw(
@@ -21,7 +24,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 93..106,
-                    name: "user_id",
+                    name: Ident {
+                        span_range: 93..100,
+                        to_string: "user_id",
+                    },
                     type: ColumnType {
                         span_range: 101..106,
                         type_name: Raw(
@@ -34,7 +40,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 106..122,
-                    name: "status",
+                    name: Ident {
+                        span_range: 106..112,
+                        to_string: "status",
+                    },
                     type: ColumnType {
                         span_range: 113..122,
                         type_name: Raw(
@@ -47,7 +56,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 122..142,
-                    name: "create_at",
+                    name: Ident {
+                        span_range: 122..131,
+                        to_string: "create_at",
+                    },
                     type: ColumnType {
                         span_range: 132..142,
                         type_name: Raw(

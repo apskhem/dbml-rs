@@ -149,10 +149,10 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           throw_err(Err::ArrayPrimaryKey, col.span_range.clone(), input)?;
         }
 
-        tmp_table_indexer.pk_list.push(col.name.clone())
+        tmp_table_indexer.pk_list.push(col.name.to_string.clone())
       }
       if col.settings.as_ref().is_some_and(|s| s.is_unique) {
-        tmp_table_indexer.unique_list.push(BTreeSet::from([col.name.clone()]))
+        tmp_table_indexer.unique_list.push(BTreeSet::from([col.name.to_string.clone()]))
       }
     }
 
@@ -225,7 +225,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
       let indexed_ref = block::IndexedRefBlock::from_inline(
         col.settings.clone().map(|s| s.refs).unwrap_or_default(),
         table.ident.clone(),
-        col.name.clone(),
+        col.name.to_string.clone(),
       );
 
       indexed_refs.extend(indexed_ref);

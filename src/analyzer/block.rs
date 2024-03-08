@@ -80,12 +80,12 @@ impl IndexedRefBlock {
       let l_field = lhs_table
         .cols
         .iter()
-        .find(|col| &col.name == l)
+        .find(|col| &col.name.to_string == l)
         .ok_or_else(|| panic!("cannot find l col"))?;
       let r_field = rhs_table
         .cols
         .iter()
-        .find(|col| &col.name == r)
+        .find(|col| &col.name.to_string == r)
         .ok_or_else(|| panic!("cannot find r col"))?;
 
       let l_type = &l_field.r#type;

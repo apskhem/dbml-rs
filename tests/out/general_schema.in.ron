@@ -8,7 +8,10 @@ SchemaBlock {
             cols: [
                 TableColumn {
                     span_range: 167..191,
-                    name: "id",
+                    name: Ident {
+                        span_range: 167..171,
+                        to_string: "id",
+                    },
                     type: ColumnType {
                         span_range: 172..176,
                         type_name: Raw(
@@ -25,7 +28,7 @@ SchemaBlock {
                                     span_range: 177..179,
                                     key: Ident {
                                         span_range: 177..179,
-                                        name: "pk",
+                                        to_string: "pk",
                                     },
                                     value: None,
                                 },
@@ -33,7 +36,7 @@ SchemaBlock {
                                     span_range: 181..190,
                                     key: Ident {
                                         span_range: 181..190,
-                                        name: "increment",
+                                        to_string: "increment",
                                     },
                                     value: None,
                                 },
@@ -50,7 +53,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 194..226,
-                    name: "user_id",
+                    name: Ident {
+                        span_range: 194..203,
+                        to_string: "user_id",
+                    },
                     type: ColumnType {
                         span_range: 204..208,
                         type_name: Raw(
@@ -67,7 +73,7 @@ SchemaBlock {
                                     span_range: 209..215,
                                     key: Ident {
                                         span_range: 209..215,
-                                        name: "unique",
+                                        to_string: "unique",
                                     },
                                     value: None,
                                 },
@@ -75,7 +81,7 @@ SchemaBlock {
                                     span_range: 217..225,
                                     key: Ident {
                                         span_range: 217..225,
-                                        name: "not null",
+                                        to_string: "not null",
                                     },
                                     value: None,
                                 },
@@ -94,7 +100,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 229..254,
-                    name: "status",
+                    name: Ident {
+                        span_range: 229..237,
+                        to_string: "status",
+                    },
                     type: ColumnType {
                         span_range: 238..254,
                         type_name: Raw(
@@ -107,7 +116,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 254..275,
-                    name: "created_at",
+                    name: Ident {
+                        span_range: 254..266,
+                        to_string: "created_at",
+                    },
                     type: ColumnType {
                         span_range: 267..275,
                         type_name: Raw(
@@ -146,7 +158,10 @@ SchemaBlock {
             cols: [
                 TableColumn {
                     span_range: 302..319,
-                    name: "order_id",
+                    name: Ident {
+                        span_range: 302..312,
+                        to_string: "order_id",
+                    },
                     type: ColumnType {
                         span_range: 313..319,
                         type_name: Raw(
@@ -159,7 +174,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 319..338,
-                    name: "product_id",
+                    name: Ident {
+                        span_range: 319..331,
+                        to_string: "product_id",
+                    },
                     type: ColumnType {
                         span_range: 332..338,
                         type_name: Raw(
@@ -172,7 +190,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 338..365,
-                    name: "quantity",
+                    name: Ident {
+                        span_range: 338..348,
+                        to_string: "quantity",
+                    },
                     type: ColumnType {
                         span_range: 349..353,
                         type_name: Raw(
@@ -189,7 +210,7 @@ SchemaBlock {
                                     span_range: 354..364,
                                     key: Ident {
                                         span_range: 354..361,
-                                        name: "default",
+                                        to_string: "default",
                                     },
                                     value: Some(
                                         Literal {
@@ -228,7 +249,10 @@ SchemaBlock {
             cols: [
                 TableColumn {
                     span_range: 390..403,
-                    name: "id",
+                    name: Ident {
+                        span_range: 390..394,
+                        to_string: "id",
+                    },
                     type: ColumnType {
                         span_range: 395..399,
                         type_name: Raw(
@@ -245,7 +269,7 @@ SchemaBlock {
                                     span_range: 400..402,
                                     key: Ident {
                                         span_range: 400..402,
-                                        name: "pk",
+                                        to_string: "pk",
                                     },
                                     value: None,
                                 },
@@ -262,7 +286,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 406..423,
-                    name: "name",
+                    name: Ident {
+                        span_range: 406..412,
+                        to_string: "name",
+                    },
                     type: ColumnType {
                         span_range: 413..423,
                         type_name: Raw(
@@ -275,7 +302,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 423..451,
-                    name: "merchant_id",
+                    name: Ident {
+                        span_range: 423..436,
+                        to_string: "merchant_id",
+                    },
                     type: ColumnType {
                         span_range: 437..441,
                         type_name: Raw(
@@ -292,7 +322,7 @@ SchemaBlock {
                                     span_range: 442..450,
                                     key: Ident {
                                         span_range: 442..450,
-                                        name: "not null",
+                                        to_string: "not null",
                                     },
                                     value: None,
                                 },
@@ -311,7 +341,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 454..468,
-                    name: "price",
+                    name: Ident {
+                        span_range: 454..461,
+                        to_string: "price",
+                    },
                     type: ColumnType {
                         span_range: 462..468,
                         type_name: Raw(
@@ -324,7 +357,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 468..496,
-                    name: "status",
+                    name: Ident {
+                        span_range: 468..476,
+                        to_string: "status",
+                    },
                     type: ColumnType {
                         span_range: 477..493,
                         type_name: Raw(
@@ -337,7 +373,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 496..536,
-                    name: "created_at",
+                    name: Ident {
+                        span_range: 496..508,
+                        to_string: "created_at",
+                    },
                     type: ColumnType {
                         span_range: 509..518,
                         type_name: Raw(
@@ -354,7 +393,7 @@ SchemaBlock {
                                     span_range: 519..535,
                                     key: Ident {
                                         span_range: 519..526,
-                                        name: "default",
+                                        to_string: "default",
                                     },
                                     value: Some(
                                         Literal {
@@ -442,7 +481,10 @@ SchemaBlock {
             cols: [
                 TableColumn {
                     span_range: 655..668,
-                    name: "id",
+                    name: Ident {
+                        span_range: 655..659,
+                        to_string: "id",
+                    },
                     type: ColumnType {
                         span_range: 660..664,
                         type_name: Raw(
@@ -459,7 +501,7 @@ SchemaBlock {
                                     span_range: 665..667,
                                     key: Ident {
                                         span_range: 665..667,
-                                        name: "pk",
+                                        to_string: "pk",
                                     },
                                     value: None,
                                 },
@@ -476,7 +518,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 671..693,
-                    name: "full_name",
+                    name: Ident {
+                        span_range: 671..682,
+                        to_string: "full_name",
+                    },
                     type: ColumnType {
                         span_range: 683..693,
                         type_name: Raw(
@@ -489,7 +534,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 693..717,
-                    name: "email",
+                    name: Ident {
+                        span_range: 693..700,
+                        to_string: "email",
+                    },
                     type: ColumnType {
                         span_range: 701..709,
                         type_name: Raw(
@@ -506,7 +554,7 @@ SchemaBlock {
                                     span_range: 710..716,
                                     key: Ident {
                                         span_range: 710..716,
-                                        name: "unique",
+                                        to_string: "unique",
                                     },
                                     value: None,
                                 },
@@ -523,7 +571,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 720..739,
-                    name: "gender",
+                    name: Ident {
+                        span_range: 720..728,
+                        to_string: "gender",
+                    },
                     type: ColumnType {
                         span_range: 729..739,
                         type_name: Raw(
@@ -536,7 +587,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 739..765,
-                    name: "date_of_birth",
+                    name: Ident {
+                        span_range: 739..754,
+                        to_string: "date_of_birth",
+                    },
                     type: ColumnType {
                         span_range: 755..765,
                         type_name: Raw(
@@ -549,7 +603,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 765..788,
-                    name: "created_at",
+                    name: Ident {
+                        span_range: 765..777,
+                        to_string: "created_at",
+                    },
                     type: ColumnType {
                         span_range: 778..788,
                         type_name: Raw(
@@ -562,7 +619,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 788..807,
-                    name: "country_code",
+                    name: Ident {
+                        span_range: 788..802,
+                        to_string: "country_code",
+                    },
                     type: ColumnType {
                         span_range: 803..807,
                         type_name: Raw(
@@ -589,7 +649,10 @@ SchemaBlock {
             cols: [
                 TableColumn {
                     span_range: 911..924,
-                    name: "id",
+                    name: Ident {
+                        span_range: 911..915,
+                        to_string: "id",
+                    },
                     type: ColumnType {
                         span_range: 916..920,
                         type_name: Raw(
@@ -606,7 +669,7 @@ SchemaBlock {
                                     span_range: 921..923,
                                     key: Ident {
                                         span_range: 921..923,
-                                        name: "pk",
+                                        to_string: "pk",
                                     },
                                     value: None,
                                 },
@@ -623,7 +686,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 927..953,
-                    name: "merchant_name",
+                    name: Ident {
+                        span_range: 927..942,
+                        to_string: "merchant_name",
+                    },
                     type: ColumnType {
                         span_range: 943..953,
                         type_name: Raw(
@@ -636,7 +702,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 953..974,
-                    name: "country_code",
+                    name: Ident {
+                        span_range: 953..967,
+                        to_string: "country_code",
+                    },
                     type: ColumnType {
                         span_range: 968..974,
                         type_name: Raw(
@@ -649,7 +718,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 974..997,
-                    name: "created_at",
+                    name: Ident {
+                        span_range: 974..986,
+                        to_string: "created_at",
+                    },
                     type: ColumnType {
                         span_range: 987..997,
                         type_name: Raw(
@@ -662,7 +734,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 997..1012,
-                    name: "admin_id",
+                    name: Ident {
+                        span_range: 997..1007,
+                        to_string: "admin_id",
+                    },
                     type: ColumnType {
                         span_range: 1008..1012,
                         type_name: Raw(
@@ -689,7 +764,10 @@ SchemaBlock {
             cols: [
                 TableColumn {
                     span_range: 1037..1052,
-                    name: "code",
+                    name: Ident {
+                        span_range: 1037..1043,
+                        to_string: "code",
+                    },
                     type: ColumnType {
                         span_range: 1044..1048,
                         type_name: Raw(
@@ -706,7 +784,7 @@ SchemaBlock {
                                     span_range: 1049..1051,
                                     key: Ident {
                                         span_range: 1049..1051,
-                                        name: "pk",
+                                        to_string: "pk",
                                     },
                                     value: None,
                                 },
@@ -723,7 +801,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 1055..1072,
-                    name: "name",
+                    name: Ident {
+                        span_range: 1055..1061,
+                        to_string: "name",
+                    },
                     type: ColumnType {
                         span_range: 1062..1072,
                         type_name: Raw(
@@ -736,7 +817,10 @@ SchemaBlock {
                 },
                 TableColumn {
                     span_range: 1072..1097,
-                    name: "continent_name",
+                    name: Ident {
+                        span_range: 1072..1088,
+                        to_string: "continent_name",
+                    },
                     type: ColumnType {
                         span_range: 1089..1097,
                         type_name: Raw(
@@ -764,23 +848,23 @@ SchemaBlock {
             span_range: 810..847,
             ident: Ident {
                 span_range: 821..823,
-                name: "g1",
+                to_string: "g1",
             },
-            table_idents: [
-                TableGroupIdent {
+            items: [
+                TableGroupItem {
                     span_range: 828..833,
                     schema: None,
                     ident_alias: Ident {
                         span_range: 828..833,
-                        name: "users",
+                        to_string: "users",
                     },
                 },
-                TableGroupIdent {
+                TableGroupItem {
                     span_range: 836..845,
                     schema: None,
                     ident_alias: Ident {
                         span_range: 836..845,
-                        name: "merchants",
+                        to_string: "merchants",
                     },
                 },
             ],
@@ -789,23 +873,23 @@ SchemaBlock {
             span_range: 849..887,
             ident: Ident {
                 span_range: 860..862,
-                name: "g2",
+                to_string: "g2",
             },
-            table_idents: [
-                TableGroupIdent {
+            items: [
+                TableGroupItem {
                     span_range: 867..876,
                     schema: None,
                     ident_alias: Ident {
                         span_range: 867..876,
-                        name: "countries",
+                        to_string: "countries",
                     },
                 },
-                TableGroupIdent {
+                TableGroupItem {
                     span_range: 879..885,
                     schema: None,
                     ident_alias: Ident {
                         span_range: 879..885,
-                        name: "orders",
+                        to_string: "orders",
                     },
                 },
             ],
@@ -943,8 +1027,11 @@ SchemaBlock {
         EnumBlock {
             span_range: 0..69,
             ident: EnumIdent {
-                span_range: 21..69,
-                name: "orders_status",
+                span_range: 5..21,
+                name: Ident {
+                    span_range: 5..20,
+                    to_string: "orders_status",
+                },
                 schema: None,
             },
             values: [
@@ -973,8 +1060,11 @@ SchemaBlock {
         EnumBlock {
             span_range: 71..126,
             ident: EnumIdent {
-                span_range: 93..126,
-                name: "product status",
+                span_range: 76..93,
+                name: Ident {
+                    span_range: 76..92,
+                    to_string: "product status",
+                },
                 schema: None,
             },
             values: [

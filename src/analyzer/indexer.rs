@@ -35,9 +35,9 @@ impl Indexer {
 
       let mut col_sets = HashSet::new();
       for col in table.cols.iter() {
-        match col_sets.get(&col.name) {
+        match col_sets.get(&col.name.to_string) {
           Some(col_name) => throw_err(Err::DuplicatedColumnName, col.span_range.clone(), input)?,
-          None => col_sets.insert(col.name.clone())
+          None => col_sets.insert(col.name.to_string.clone())
         };
       }
 
@@ -80,7 +80,7 @@ impl Indexer {
     for r#enum in enums.iter() {
       let EnumIdent { schema, name, .. } = r#enum.ident.clone();
 
-      let schema_name = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
+      let schema_name = schema.clone().map(|s| s.to_string.clone()).unwrap_or_else(|| DEFAULT_SCHEMA.into());
       let mut value_sets = HashSet::new();
 
       for value in r#enum.values.iter() {
@@ -92,11 +92,11 @@ impl Indexer {
       }
 
       if let Some(index_block) = self.schema_map.get_mut(&schema_name) {
-        index_block.enum_map.insert(name.clone(), value_sets);
+        index_block.enum_map.insert(name.to_string.clone(), value_sets);
       } else {
         let mut index_block = IndexedSchemaBlock::default();
 
-        index_block.enum_map.insert(name.clone(), value_sets);
+        index_block.enum_map.insert(name.to_string.clone(), value_sets);
 
         self.schema_map.insert(schema_name, index_block);
       }
@@ -111,26 +111,26 @@ impl Indexer {
     input: &str,
   ) -> AnalyzerResult<()> {
     for group_each in table_groups.into_iter() {
-      for table in group_each.table_idents.iter() {
+      for table in group_each.items.iter() {
         let ident_alias = table.ident_alias.clone();
 
-        let ident = if let Some(ident) = self.table_alias_map.get(&ident_alias.name) {
+        let ident = if let Some(ident) = self.table_alias_map.get(&ident_alias.to_string) {
           if table.schema.is_some() {
             panic!("alias_must_not_followed_by_schema")
           }
 
           ident.1.clone()
         } else {
-          ident_alias.name
+          ident_alias.to_string
         };
 
-        self.lookup_table_fields(&table.schema.as_ref().map(|s| s.name.clone()), &ident, &vec![])?;
+        self.lookup_table_fields(&table.schema.as_ref().map(|s| s.to_string.clone()), &ident, &vec![])?;
       }
 
       let mut table_sets = HashSet::new();
 
-      for table_ident in group_each.table_idents.iter() {
-        if let Some(ident) = self.resolve_alias(&table_ident.ident_alias.name) {
+      for table_ident in group_each.items.iter() {
+        if let Some(ident) = self.resolve_alias(&table_ident.ident_alias.to_string) {
           if let Some(_) = table_sets.get(ident) {
             panic!("table_group_table_dup");
           } else {
@@ -138,7 +138,7 @@ impl Indexer {
           }
         } else {
           let ident = (table_ident.schema.clone(), table_ident.ident_alias.clone());
-          let ident_string = (ident.0.map(|s| s.name), ident.1.name);
+          let ident_string = (ident.0.map(|s| s.to_string), ident.1.to_string);
 
           if let Some(_) = table_sets.get(&ident_string) {
             panic!("table_group_table_dup");
@@ -150,7 +150,7 @@ impl Indexer {
 
       self
         .table_group_map
-        .insert(group_each.ident.name.clone(), table_sets);
+        .insert(group_each.ident.to_string.clone(), table_sets);
     }
 
     Ok(())

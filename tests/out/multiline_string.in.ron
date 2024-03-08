@@ -8,7 +8,10 @@ SchemaBlock {
             cols: [
                 TableColumn {
                     span_range: 16..195,
-                    name: "id",
+                    name: Ident {
+                        span_range: 16..18,
+                        to_string: "id",
+                    },
                     type: ColumnType {
                         span_range: 19..23,
                         type_name: Raw(
@@ -25,7 +28,7 @@ SchemaBlock {
                                     span_range: 24..194,
                                     key: Ident {
                                         span_range: 24..28,
-                                        name: "note",
+                                        to_string: "note",
                                     },
                                     value: None,
                                 },

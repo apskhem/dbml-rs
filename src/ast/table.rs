@@ -11,11 +11,11 @@ pub struct TableBlock {
   pub cols: Vec<TableColumn>,
   /// Identifier for the table.
   pub ident: TableIdent,
-  /// A note for the table.
+  /// The note for the table.
   pub note: Option<String>,
-  /// A indexes block.
+  /// The indexes block.
   pub indexes: Option<IndexesBlock>,
-  /// A settings for the table.
+  /// The settings for the table.
   pub settings: Option<TableSettings>,
 }
 
@@ -33,11 +33,11 @@ pub struct TableSettings {
 pub struct TableColumn {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
-  /// A table name.
-  pub name: String,
-  /// A data type of the column.
+  /// The column name.
+  pub name: Ident,
+  /// The data type of the column.
   pub r#type: ColumnType,
-  /// A settings for the column.
+  /// The settings of the column.
   pub settings: Option<ColumnSettings>,
 }
 
@@ -192,6 +192,6 @@ pub struct TableIdent {
   pub name: String,
   /// The schema of the table, if specified.
   pub schema: Option<String>,
-  /// An alias for the table.
+  /// The alias for the table.
   pub alias: Option<String>,
 }

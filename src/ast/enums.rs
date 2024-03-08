@@ -1,4 +1,4 @@
-use super::SpanRange;
+use super::*;
 
 #[derive(Debug, Clone, Default)]
 pub struct EnumBlock {
@@ -20,6 +20,6 @@ pub struct EnumValue {
 pub struct EnumIdent {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
-  pub name: String,
-  pub schema: Option<String>,
+  pub name: Ident,
+  pub schema: Option<Ident>,
 }

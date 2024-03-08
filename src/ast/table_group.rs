@@ -8,12 +8,12 @@ pub struct TableGroupBlock {
   /// A name of a table group
   pub ident: Ident,
   /// A list of tables inside a group.
-  pub table_idents: Vec<TableGroupIdent>,
+  pub items: Vec<TableGroupItem>,
 }
 
 /// An associated table inside a table group.
 #[derive(Debug, Clone, Default)]
-pub struct TableGroupIdent {
+pub struct TableGroupItem {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
   /// A Table schema.
