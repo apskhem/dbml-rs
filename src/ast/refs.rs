@@ -1,6 +1,6 @@
 use std::str::FromStr;
 
-use super::SpanRange;
+use super::*;
 
 #[derive(Debug, Clone, Default)]
 pub struct RefInline {
@@ -52,9 +52,9 @@ impl FromStr for Relation {
 pub struct RefIdent {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
-  pub schema: Option<String>,
-  pub table: String,
-  pub compositions: Vec<String>,
+  pub schema: Option<Ident>,
+  pub table: Ident,
+  pub compositions: Vec<Ident>,
 }
 
 #[derive(Debug, Clone)]

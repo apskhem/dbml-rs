@@ -2,7 +2,7 @@ use crate::ast::*;
 
 use super::*;
 
-/// A validated reference block.
+/// A normalized reference block.
 #[derive(Debug, Clone, Default)]
 pub struct IndexedRefBlock {
   /// The range of the span in the source text.
@@ -17,7 +17,7 @@ impl IndexedRefBlock {
   pub fn from_inline(
     ref_blocks: Vec<RefInline>,
     table_ident: TableIdent,
-    col_name: String,
+    col_name: Ident,
   ) -> Vec<Self> {
     ref_blocks
       .into_iter()
@@ -29,8 +29,8 @@ impl IndexedRefBlock {
 
         let lhs = RefIdent {
           span_range: span_range.clone(),
-          schema: table_ident.schema.map(|s| s.to_string),
-          table: table_ident.name.to_string,
+          schema: table_ident.schema.clone(),
+          table: table_ident.name.clone(),
           compositions: vec![col_name],
         };
 
@@ -63,12 +63,18 @@ impl IndexedRefBlock {
 
     let lhs_table = tables
       .iter()
-      .find(|table| table.ident.schema.clone().map(|s| s.to_string) == lhs_ident.schema && table.ident.name.to_string == lhs_ident.table)
+      .find(|table| {
+        table.ident.schema.clone().map(|s| s.to_string) == lhs_ident.schema.clone().map(|s| s.to_string)
+        && table.ident.name.to_string == lhs_ident.table.to_string
+      })
       .ok_or_else(|| panic!("cannot find lhs table"))?;
 
     let rhs_table = tables
       .iter()
-      .find(|table| table.ident.schema.clone().map(|s| s.to_string) == rhs_ident.schema && table.ident.name.to_string == rhs_ident.table)
+      .find(|table| {
+        table.ident.schema.clone().map(|s| s.to_string) == rhs_ident.schema.clone().map(|s| s.to_string)
+        && table.ident.name.to_string == rhs_ident.table.to_string
+      })
       .ok_or_else(|| panic!("cannot find rhs table"))?;
 
     let field_pairs = lhs_ident
@@ -80,12 +86,12 @@ impl IndexedRefBlock {
       let l_field = lhs_table
         .cols
         .iter()
-        .find(|col| &col.name.to_string == l)
+        .find(|col| col.name.to_string == l.to_string)
         .ok_or_else(|| panic!("cannot find l col"))?;
       let r_field = rhs_table
         .cols
         .iter()
-        .find(|col| &col.name.to_string == r)
+        .find(|col| col.name.to_string == r.to_string)
         .ok_or_else(|| panic!("cannot find r col"))?;
 
       let l_type = &l_field.r#type;
@@ -102,7 +108,9 @@ impl IndexedRefBlock {
     let self_ident = indexer.resolve_ref_alias(&self.lhs);
     let other_ident = indexer.resolve_ref_alias(&other.lhs);
 
-    self_ident.compositions == other_ident.compositions && self_ident.schema == other_ident.schema && self_ident.table == other_ident.table
+    self_ident.compositions.iter().map(|s| s.to_string.clone()).collect::<Vec<_>>() == other_ident.compositions.iter().map(|s| s.to_string.clone()).collect::<Vec<_>>()
+    && self_ident.schema.map(|s| s.to_string) == other_ident.schema.map(|s| s.to_string)
+    && self_ident.table.to_string == other_ident.table.to_string
   }
 }
 

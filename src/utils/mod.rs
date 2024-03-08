@@ -35,7 +35,8 @@ pub fn get_table_refs(table_ident: &TableIdent, analyzed_indexer: &AnalyzedIndex
   let mut ref_self_blocks = vec![];
 
   let eq = |table_ident: &TableIdent, ref_ident: &RefIdent| {
-    table_ident.schema.clone().map(|s| s.to_string) == ref_ident.schema && table_ident.name.to_string == ref_ident.table
+    table_ident.schema.clone().map(|s| s.to_string) == ref_ident.schema.clone().map(|s| s.to_string)
+    && table_ident.name.to_string == ref_ident.table.to_string
   };
 
   for ref_block in analyzed_indexer.indexed_refs.iter() {

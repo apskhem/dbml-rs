@@ -451,17 +451,29 @@ SchemaBlock {
                 lhs: RefIdent {
                     span_range: 448..459,
                     schema: None,
-                    table: "user",
+                    table: Ident {
+                        span_range: 448..454,
+                        to_string: "user",
+                    },
                     compositions: [
-                        "id",
+                        Ident {
+                            span_range: 455..459,
+                            to_string: "id",
+                        },
                     ],
                 },
                 rhs: RefIdent {
                     span_range: 462..482,
                     schema: None,
-                    table: "merchant",
+                    table: Ident {
+                        span_range: 462..472,
+                        to_string: "merchant",
+                    },
                     compositions: [
-                        "user_id",
+                        Ident {
+                            span_range: 473..482,
+                            to_string: "user_id",
+                        },
                     ],
                 },
                 settings: None,
@@ -474,17 +486,29 @@ SchemaBlock {
                 lhs: RefIdent {
                     span_range: 488..502,
                     schema: None,
-                    table: "product",
+                    table: Ident {
+                        span_range: 488..497,
+                        to_string: "product",
+                    },
                     compositions: [
-                        "id",
+                        Ident {
+                            span_range: 498..502,
+                            to_string: "id",
+                        },
                     ],
                 },
                 rhs: RefIdent {
                     span_range: 505..528,
                     schema: None,
-                    table: "merchant",
+                    table: Ident {
+                        span_range: 505..515,
+                        to_string: "merchant",
+                    },
                     compositions: [
-                        "product_id",
+                        Ident {
+                            span_range: 516..528,
+                            to_string: "product_id",
+                        },
                     ],
                 },
                 settings: None,

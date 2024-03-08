@@ -577,11 +577,11 @@ fn parse_ref_ident(pair: Pair<Rule>) -> ParserResult<RefIdent> {
 
   for p1 in pair.into_inner() {
     match p1.as_rule() {
-      Rule::ident => tmp_tokens.push(parse_ident(p1)?.to_string),
+      Rule::ident => tmp_tokens.push(parse_ident(p1)?),
       Rule::ref_composition => {
         for p2 in p1.into_inner() {
           match p2.as_rule() {
-            Rule::ident => out.compositions.push(parse_ident(p2)?.to_string),
+            Rule::ident => out.compositions.push(parse_ident(p2)?),
             _ => throw_rules(&[Rule::ident], p2)?,
           }
         }

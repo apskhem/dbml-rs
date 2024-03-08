@@ -189,9 +189,15 @@ SchemaBlock {
                                         rhs: RefIdent {
                                             span_range: 208..212,
                                             schema: None,
-                                            table: "U",
+                                            table: Ident {
+                                                span_range: 208..209,
+                                                to_string: "U",
+                                            },
                                             compositions: [
-                                                "id",
+                                                Ident {
+                                                    span_range: 210..212,
+                                                    to_string: "id",
+                                                },
                                             ],
                                         },
                                     },

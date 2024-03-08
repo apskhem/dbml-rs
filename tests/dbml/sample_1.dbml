@@ -57,4 +57,11 @@ enum post_status {
   private [note: 'visible via URL only']
 }
 
+enum grade {
+  "A+"
+  "A"
+  "A-"
+  "Not Yet Set"
+}
+
 // Ref: posts.user_id > users.id [update: restrict] // many-to-one

@@ -992,17 +992,29 @@ SchemaBlock {
                 lhs: RefIdent {
                     span_range: 1104..1117,
                     schema: None,
-                    table: "orders",
+                    table: Ident {
+                        span_range: 1104..1112,
+                        to_string: "orders",
+                    },
                     compositions: [
-                        "id",
+                        Ident {
+                            span_range: 1113..1117,
+                            to_string: "id",
+                        },
                     ],
                 },
                 rhs: RefIdent {
                     span_range: 1120..1144,
                     schema: None,
-                    table: "order_items",
+                    table: Ident {
+                        span_range: 1120..1133,
+                        to_string: "order_items",
+                    },
                     compositions: [
-                        "order_id",
+                        Ident {
+                            span_range: 1134..1144,
+                            to_string: "order_id",
+                        },
                     ],
                 },
                 settings: None,
@@ -1015,17 +1027,29 @@ SchemaBlock {
                 lhs: RefIdent {
                     span_range: 1150..1165,
                     schema: None,
-                    table: "products",
+                    table: Ident {
+                        span_range: 1150..1160,
+                        to_string: "products",
+                    },
                     compositions: [
-                        "id",
+                        Ident {
+                            span_range: 1161..1165,
+                            to_string: "id",
+                        },
                     ],
                 },
                 rhs: RefIdent {
                     span_range: 1168..1194,
                     schema: None,
-                    table: "order_items",
+                    table: Ident {
+                        span_range: 1168..1181,
+                        to_string: "order_items",
+                    },
                     compositions: [
-                        "product_id",
+                        Ident {
+                            span_range: 1182..1194,
+                            to_string: "product_id",
+                        },
                     ],
                 },
                 settings: None,
@@ -1038,17 +1062,29 @@ SchemaBlock {
                 lhs: RefIdent {
                     span_range: 1200..1218,
                     schema: None,
-                    table: "countries",
+                    table: Ident {
+                        span_range: 1200..1211,
+                        to_string: "countries",
+                    },
                     compositions: [
-                        "code",
+                        Ident {
+                            span_range: 1212..1218,
+                            to_string: "code",
+                        },
                     ],
                 },
                 rhs: RefIdent {
                     span_range: 1221..1243,
                     schema: None,
-                    table: "users",
+                    table: Ident {
+                        span_range: 1221..1228,
+                        to_string: "users",
+                    },
                     compositions: [
-                        "country_code",
+                        Ident {
+                            span_range: 1229..1243,
+                            to_string: "country_code",
+                        },
                     ],
                 },
                 settings: None,
@@ -1061,17 +1097,29 @@ SchemaBlock {
                 lhs: RefIdent {
                     span_range: 1249..1267,
                     schema: None,
-                    table: "countries",
+                    table: Ident {
+                        span_range: 1249..1260,
+                        to_string: "countries",
+                    },
                     compositions: [
-                        "code",
+                        Ident {
+                            span_range: 1261..1267,
+                            to_string: "code",
+                        },
                     ],
                 },
                 rhs: RefIdent {
                     span_range: 1270..1296,
                     schema: None,
-                    table: "merchants",
+                    table: Ident {
+                        span_range: 1270..1281,
+                        to_string: "merchants",
+                    },
                     compositions: [
-                        "country_code",
+                        Ident {
+                            span_range: 1282..1296,
+                            to_string: "country_code",
+                        },
                     ],
                 },
                 settings: None,
@@ -1084,17 +1132,29 @@ SchemaBlock {
                 lhs: RefIdent {
                     span_range: 1302..1318,
                     schema: None,
-                    table: "merchants",
+                    table: Ident {
+                        span_range: 1302..1313,
+                        to_string: "merchants",
+                    },
                     compositions: [
-                        "id",
+                        Ident {
+                            span_range: 1314..1318,
+                            to_string: "id",
+                        },
                     ],
                 },
                 rhs: RefIdent {
                     span_range: 1321..1345,
                     schema: None,
-                    table: "products",
+                    table: Ident {
+                        span_range: 1321..1331,
+                        to_string: "products",
+                    },
                     compositions: [
-                        "merchant_id",
+                        Ident {
+                            span_range: 1332..1345,
+                            to_string: "merchant_id",
+                        },
                     ],
                 },
                 settings: None,
@@ -1107,17 +1167,29 @@ SchemaBlock {
                 lhs: RefIdent {
                     span_range: 1351..1363,
                     schema: None,
-                    table: "users",
+                    table: Ident {
+                        span_range: 1351..1358,
+                        to_string: "users",
+                    },
                     compositions: [
-                        "id",
+                        Ident {
+                            span_range: 1359..1363,
+                            to_string: "id",
+                        },
                     ],
                 },
                 rhs: RefIdent {
                     span_range: 1366..1388,
                     schema: None,
-                    table: "merchants",
+                    table: Ident {
+                        span_range: 1366..1377,
+                        to_string: "merchants",
+                    },
                     compositions: [
-                        "admin_id",
+                        Ident {
+                            span_range: 1378..1388,
+                            to_string: "admin_id",
+                        },
                     ],
                 },
                 settings: None,

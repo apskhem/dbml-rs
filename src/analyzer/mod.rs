@@ -168,7 +168,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
       let indexed_ref = block::IndexedRefBlock::from_inline(
         col.settings.clone().map(|s| s.refs).unwrap_or_default(),
         table.ident.clone(),
-        col.name.to_string.clone(),
+        col.name.clone(),
       );
 
       indexed_refs.extend(indexed_ref);
@@ -293,12 +293,12 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           }
 
           for ident in def.cols.iter() {
-            if let IndexesColumnType::String(id_string) = ident {
+            if let IndexesColumnType::String(col_name) = ident {
               indexer
                 .lookup_table_fields(
-                  &table.ident.schema.clone().map(|s| s.to_string),
-                  &table.ident.name.to_string,
-                  &vec![id_string.clone()],
+                  &table.ident.schema,
+                  &table.ident.name,
+                  &vec![Ident { span_range: 0..0, to_string: col_name.clone() }],
                 )
                 .unwrap_or_else(|x| panic!("{}", x));
             }

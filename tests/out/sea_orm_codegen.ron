@@ -223,9 +223,15 @@ SchemaBlock {
                                         rhs: RefIdent {
                                             span_range: 198..206,
                                             schema: None,
-                                            table: "fruit",
+                                            table: Ident {
+                                                span_range: 198..203,
+                                                to_string: "fruit",
+                                            },
                                             compositions: [
-                                                "id",
+                                                Ident {
+                                                    span_range: 204..206,
+                                                    to_string: "id",
+                                                },
                                             ],
                                         },
                                     },
@@ -355,9 +361,15 @@ SchemaBlock {
                                         rhs: RefIdent {
                                             span_range: 293..300,
                                             schema: None,
-                                            table: "cake",
+                                            table: Ident {
+                                                span_range: 293..297,
+                                                to_string: "cake",
+                                            },
                                             compositions: [
-                                                "id",
+                                                Ident {
+                                                    span_range: 298..300,
+                                                    to_string: "id",
+                                                },
                                             ],
                                         },
                                     },
@@ -545,17 +557,29 @@ SchemaBlock {
                 lhs: RefIdent {
                     span_range: 478..498,
                     schema: None,
-                    table: "cake_filling",
+                    table: Ident {
+                        span_range: 478..490,
+                        to_string: "cake_filling",
+                    },
                     compositions: [
-                        "cake_id",
+                        Ident {
+                            span_range: 491..498,
+                            to_string: "cake_id",
+                        },
                     ],
                 },
                 rhs: RefIdent {
                     span_range: 501..508,
                     schema: None,
-                    table: "cake",
+                    table: Ident {
+                        span_range: 501..505,
+                        to_string: "cake",
+                    },
                     compositions: [
-                        "id",
+                        Ident {
+                            span_range: 506..508,
+                            to_string: "id",
+                        },
                     ],
                 },
                 settings: Some(
@@ -578,17 +602,29 @@ SchemaBlock {
                 lhs: RefIdent {
                     span_range: 550..573,
                     schema: None,
-                    table: "cake_filling",
+                    table: Ident {
+                        span_range: 550..562,
+                        to_string: "cake_filling",
+                    },
                     compositions: [
-                        "filling_id",
+                        Ident {
+                            span_range: 563..573,
+                            to_string: "filling_id",
+                        },
                     ],
                 },
                 rhs: RefIdent {
                     span_range: 576..586,
                     schema: None,
-                    table: "filling",
+                    table: Ident {
+                        span_range: 576..583,
+                        to_string: "filling",
+                    },
                     compositions: [
-                        "id",
+                        Ident {
+                            span_range: 584..586,
+                            to_string: "id",
+                        },
                     ],
                 },
                 settings: Some(

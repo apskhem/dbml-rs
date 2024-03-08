@@ -743,17 +743,29 @@ SchemaBlock {
                 lhs: RefIdent {
                     span_range: 715..727,
                     schema: None,
-                    table: "users",
+                    table: Ident {
+                        span_range: 715..722,
+                        to_string: "users",
+                    },
                     compositions: [
-                        "id",
+                        Ident {
+                            span_range: 723..727,
+                            to_string: "id",
+                        },
                     ],
                 },
                 rhs: RefIdent {
                     span_range: 730..748,
                     schema: None,
-                    table: "orders",
+                    table: Ident {
+                        span_range: 730..738,
+                        to_string: "orders",
+                    },
                     compositions: [
-                        "user_id",
+                        Ident {
+                            span_range: 739..748,
+                            to_string: "user_id",
+                        },
                     ],
                 },
                 settings: Some(
@@ -774,17 +786,29 @@ SchemaBlock {
                 lhs: RefIdent {
                     span_range: 773..786,
                     schema: None,
-                    table: "orders",
+                    table: Ident {
+                        span_range: 773..781,
+                        to_string: "orders",
+                    },
                     compositions: [
-                        "id",
+                        Ident {
+                            span_range: 782..786,
+                            to_string: "id",
+                        },
                     ],
                 },
                 rhs: RefIdent {
                     span_range: 789..813,
                     schema: None,
-                    table: "order_items",
+                    table: Ident {
+                        span_range: 789..802,
+                        to_string: "order_items",
+                    },
                     compositions: [
-                        "order_id",
+                        Ident {
+                            span_range: 803..813,
+                            to_string: "order_id",
+                        },
                     ],
                 },
                 settings: Some(
@@ -805,19 +829,37 @@ SchemaBlock {
                 lhs: RefIdent {
                     span_range: 837..862,
                     schema: None,
-                    table: "products",
+                    table: Ident {
+                        span_range: 837..847,
+                        to_string: "products",
+                    },
                     compositions: [
-                        "id",
-                        "name",
+                        Ident {
+                            span_range: 849..853,
+                            to_string: "id",
+                        },
+                        Ident {
+                            span_range: 855..861,
+                            to_string: "name",
+                        },
                     ],
                 },
                 rhs: RefIdent {
                     span_range: 865..909,
                     schema: None,
-                    table: "order_items",
+                    table: Ident {
+                        span_range: 865..878,
+                        to_string: "order_items",
+                    },
                     compositions: [
-                        "product_id",
-                        "product_name",
+                        Ident {
+                            span_range: 880..892,
+                            to_string: "product_id",
+                        },
+                        Ident {
+                            span_range: 894..908,
+                            to_string: "product_name",
+                        },
                     ],
                 },
                 settings: Some(
@@ -838,17 +880,29 @@ SchemaBlock {
                 lhs: RefIdent {
                     span_range: 934..952,
                     schema: None,
-                    table: "countries",
+                    table: Ident {
+                        span_range: 934..945,
+                        to_string: "countries",
+                    },
                     compositions: [
-                        "code",
+                        Ident {
+                            span_range: 946..952,
+                            to_string: "code",
+                        },
                     ],
                 },
                 rhs: RefIdent {
                     span_range: 955..977,
                     schema: None,
-                    table: "users",
+                    table: Ident {
+                        span_range: 955..962,
+                        to_string: "users",
+                    },
                     compositions: [
-                        "country_code",
+                        Ident {
+                            span_range: 963..977,
+                            to_string: "country_code",
+                        },
                     ],
                 },
                 settings: Some(

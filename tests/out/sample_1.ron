@@ -1,6 +1,6 @@
 SchemaBlock {
-    span_range: 0..1145,
-    input: "Project project_name {\n  database_type: 'PostgreSQL'\n  Note: 'Description of the project'\n}\n\nTableGroup order {\n  public.users // users\n  // posts\n  // P\n  P\n  orders\n}\n\nTable public.users {\n  id integer [pk]\n  age integer [default: 10]\n  username \"character varying[]\"\n  role varchar\n  created_at timestamp\n  referral_id integer [ref: > users.id, null]\n}\n\nTable posts as P {\n  id integer [pk]\n  title varchar\n  body text [note: 'Content of the post']\n  user_id integer [ref: > users.id]\n  status post_status\n  created_at timestamp\n}\n\nTable orders {\n  id integer [pk]\n  status varchar [\n  note: '\n  💸 1 = processing, \n  ✔\u{fe0f} 2 = shipped, \n  ❌ 3 = cancelled,\n  😔 4 = refunded\n  ']\n\n  // indexes {\n  //   (id, country) [pk] // composite primary key\n  //   created_at [name: \"created_at_index\", note: 'Date']\n  //   booking_date\n  //   (country, booking_date) [type: btree, unique]\n  //   booking_date [type: hash]\n  //   (`id*2`)\n  //   (`id*3`,`getdate()`)\n  //   (`id*3`, id)\n  // }\n}\n\nenum post_status {\n  draft\n  published\n  private [note: 'visible via URL only']\n}\n\n// Ref: posts.user_id > users.id [update: restrict] // many-to-one",
+    span_range: 0..1204,
+    input: "Project project_name {\n  database_type: 'PostgreSQL'\n  Note: 'Description of the project'\n}\n\nTableGroup order {\n  public.users // users\n  // posts\n  // P\n  P\n  orders\n}\n\nTable public.users {\n  id integer [pk]\n  age integer [default: 10]\n  username \"character varying[]\"\n  role varchar\n  created_at timestamp\n  referral_id integer [ref: > users.id, null]\n}\n\nTable posts as P {\n  id integer [pk]\n  title varchar\n  body text [note: 'Content of the post']\n  user_id integer [ref: > users.id]\n  status post_status\n  created_at timestamp\n}\n\nTable orders {\n  id integer [pk]\n  status varchar [\n  note: '\n  💸 1 = processing, \n  ✔\u{fe0f} 2 = shipped, \n  ❌ 3 = cancelled,\n  😔 4 = refunded\n  ']\n\n  // indexes {\n  //   (id, country) [pk] // composite primary key\n  //   created_at [name: \"created_at_index\", note: 'Date']\n  //   booking_date\n  //   (country, booking_date) [type: btree, unique]\n  //   booking_date [type: hash]\n  //   (`id*2`)\n  //   (`id*3`,`getdate()`)\n  //   (`id*3`, id)\n  // }\n}\n\nenum post_status {\n  draft\n  published\n  private [note: 'visible via URL only']\n}\n\nenum grade {\n  \"A+\"\n  \"A+\"\n  \"A\"\n  \"A-\"\n  \"Not Yet Set\"\n}\n\n// Ref: posts.user_id > users.id [update: restrict] // many-to-one",
     blocks: [
         Project(
             ProjectBlock {
@@ -233,9 +233,15 @@ SchemaBlock {
                                         rhs: RefIdent {
                                             span_range: 338..346,
                                             schema: None,
-                                            table: "users",
+                                            table: Ident {
+                                                span_range: 338..343,
+                                                to_string: "users",
+                                            },
                                             compositions: [
-                                                "id",
+                                                Ident {
+                                                    span_range: 344..346,
+                                                    to_string: "id",
+                                                },
                                             ],
                                         },
                                     },
@@ -390,9 +396,15 @@ SchemaBlock {
                                         rhs: RefIdent {
                                             span_range: 478..486,
                                             schema: None,
-                                            table: "users",
+                                            table: Ident {
+                                                span_range: 478..483,
+                                                to_string: "users",
+                                            },
                                             compositions: [
-                                                "id",
+                                                Ident {
+                                                    span_range: 484..486,
+                                                    to_string: "id",
+                                                },
                                             ],
                                         },
                                     },
@@ -575,6 +587,46 @@ SchemaBlock {
                         note: Some(
                             "visible via URL only",
                         ),
+                    },
+                ],
+            },
+        ),
+        Enum(
+            EnumBlock {
+                span_range: 1079..1136,
+                ident: EnumIdent {
+                    span_range: 1084..1090,
+                    name: Ident {
+                        span_range: 1084..1089,
+                        to_string: "grade",
+                    },
+                    schema: None,
+                },
+                values: [
+                    EnumValue {
+                        span_range: 1094..1101,
+                        value: "A+",
+                        note: None,
+                    },
+                    EnumValue {
+                        span_range: 1101..1108,
+                        value: "A+",
+                        note: None,
+                    },
+                    EnumValue {
+                        span_range: 1108..1114,
+                        value: "A",
+                        note: None,
+                    },
+                    EnumValue {
+                        span_range: 1114..1121,
+                        value: "A-",
+                        note: None,
+                    },
+                    EnumValue {
+                        span_range: 1121..1135,
+                        value: "Not Yet Set",
+                        note: None,
                     },
                 ],
             },

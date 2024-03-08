@@ -1,7 +1,7 @@
-use std::collections::{
+use std::{collections::{
   HashMap,
   HashSet,
-};
+}, ops::Deref};
 
 use super::*;
 
@@ -124,7 +124,7 @@ impl Indexer {
           ident_alias.to_string
         };
 
-        self.lookup_table_fields(&table.schema.as_ref().map(|s| s.to_string.clone()), &ident, &vec![])?;
+        self.lookup_table_fields(&table.schema, &Ident { span_range: 0..0, to_string: ident }, &vec![])?;
       }
 
       let mut table_sets = HashSet::new();
@@ -165,16 +165,19 @@ impl Indexer {
     let schema = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
 
     if let Some(block) = self.schema_map.get(&schema) {
-      if let Some(value_set) = block.enum_map.get(enum_name) {
-        for v in values.iter() {
-          if !value_set.contains(v) {
-            panic!("not found '{}' value in enum '{}'", v, enum_name);
+      match block.enum_map.get(enum_name) {
+        Some(value_set) => {
+          for v in values.iter() {
+            if !value_set.contains(v) {
+              panic!("not found '{}' value in enum '{}'", v, enum_name);
+            }
           }
-        }
 
-        Ok(())
-      } else {
-        panic!("enum_not_found");
+          Ok(())
+        },
+        None => {
+          panic!("enum_not_found");
+        }
       }
     } else {
       panic!("schema_not_found");
@@ -183,28 +186,29 @@ impl Indexer {
 
   pub fn lookup_table_fields(
     &self,
-    schema: &Option<String>,
-    table: &String,
-    fields: &Vec<String>,
+    schema: &Option<Ident>,
+    table: &Ident,
+    fields: &Vec<Ident>,
   ) -> AnalyzerResult<()> {
-    let schema = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
+    let schema = schema.clone().map(|s| s.to_string).unwrap_or_else(|| DEFAULT_SCHEMA.into());
 
     if let Some(block) = self.schema_map.get(&schema) {
-      if let Some(col_set) = block.table_map.get(table) {
+      if let Some(col_set) = block.table_map.get(&table.to_string) {
         let unlisted_fields: Vec<_> = fields
           .iter()
-          .filter(|v| !col_set.contains(*v))
+          .filter(|v| !col_set.contains(v.to_string.deref()))
           .cloned()
           .collect();
 
-        if unlisted_fields.is_empty() {
-          return Ok(());
-        } else {
-          panic!(
-            "not found '{}' column in table '{}'",
-            unlisted_fields.join(", "),
-            table
-          );
+        match unlisted_fields.is_empty() {
+          true => return Ok(()),
+          false => {
+            panic!(
+              "not found '{}' column in table '{}'",
+              unlisted_fields.iter().map(|s| s.to_string.clone()).collect::<Vec<_>>().join(", "),
+              table.to_string
+            );
+          }
         }
       }
 
@@ -220,11 +224,17 @@ impl Indexer {
   }
 
   pub fn resolve_ref_alias(&self, ident: &RefIdent) -> RefIdent {
-    match self.resolve_alias(&ident.table) {
+    match self.resolve_alias(&ident.table.to_string) {
       Some((schema, table)) => RefIdent {
-        span_range: 0..0, // FIXME:
-        schema: schema.clone(),
-        table: table.clone(),
+        span_range: ident.span_range.clone(),
+        schema: schema.clone().map(|s| Ident {
+          span_range: 0..0,
+          to_string: s
+        }),
+        table: Ident {
+          span_range: ident.table.span_range.clone(),
+          to_string: table.clone()
+        },
         compositions: ident.compositions.clone(),
       },
       None => ident.clone(),
