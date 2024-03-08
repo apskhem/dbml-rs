@@ -201,8 +201,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 12..224,
-                name: "users",
+                span_range: 6..12,
+                name: Ident {
+                    span_range: 6..11,
+                    to_string: "users",
+                },
                 schema: None,
                 alias: None,
             },
@@ -432,8 +435,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 238..471,
-                name: "users",
+                span_range: 232..238,
+                name: Ident {
+                    span_range: 232..237,
+                    to_string: "users",
+                },
                 schema: None,
                 alias: None,
             },

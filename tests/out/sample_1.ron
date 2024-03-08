@@ -4,7 +4,10 @@ SchemaBlock {
     project: Some(
         ProjectBlock {
             span_range: 0..91,
-            name: "project_name",
+            ident: Ident {
+                span_range: 8..20,
+                to_string: "project_name",
+            },
             database_type: PostgreSQL,
             note: Some(
                 "Description of the project",
@@ -201,10 +204,16 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 189..355,
-                name: "users",
+                span_range: 176..188,
+                name: Ident {
+                    span_range: 183..188,
+                    to_string: "users",
+                },
                 schema: Some(
-                    "public",
+                    Ident {
+                        span_range: 176..182,
+                        to_string: "public",
+                    },
                 ),
                 alias: None,
             },
@@ -382,11 +391,17 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 374..533,
-                name: "posts",
+                span_range: 363..369,
+                name: Ident {
+                    span_range: 363..368,
+                    to_string: "posts",
+                },
                 schema: None,
                 alias: Some(
-                    "P",
+                    Ident {
+                        span_range: 369..373,
+                        to_string: "P",
+                    },
                 ),
             },
             note: None,
@@ -474,8 +489,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 548..994,
-                name: "orders",
+                span_range: 541..548,
+                name: Ident {
+                    span_range: 541..547,
+                    to_string: "orders",
+                },
                 schema: None,
                 alias: None,
             },

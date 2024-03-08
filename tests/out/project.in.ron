@@ -4,7 +4,10 @@ SchemaBlock {
     project: Some(
         ProjectBlock {
             span_range: 0..148,
-            name: "ecommerce",
+            ident: Ident {
+                span_range: 8..17,
+                to_string: "ecommerce",
+            },
             database_type: PostgreSQL,
             note: Some(
                 "# Introduction\n    This is an ecommerce project\n\n    # Description\n    ...\n  ",
@@ -141,8 +144,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 313..426,
-                name: "orders",
+                span_range: 284..293,
+                name: Ident {
+                    span_range: 284..292,
+                    to_string: "orders",
+                },
                 schema: None,
                 alias: None,
             },
@@ -244,8 +250,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 448..517,
-                name: "order_items",
+                span_range: 434..448,
+                name: Ident {
+                    span_range: 434..447,
+                    to_string: "order_items",
+                },
                 schema: None,
                 alias: None,
             },
@@ -427,8 +436,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 536..785,
-                name: "products",
+                span_range: 525..536,
+                name: Ident {
+                    span_range: 525..535,
+                    to_string: "products",
+                },
                 schema: None,
                 alias: None,
             },
@@ -644,8 +656,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 801..958,
-                name: "users",
+                span_range: 793..801,
+                name: Ident {
+                    span_range: 793..800,
+                    to_string: "users",
+                },
                 schema: None,
                 alias: None,
             },
@@ -759,8 +774,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 1057..1163,
-                name: "merchants",
+                span_range: 1045..1057,
+                name: Ident {
+                    span_range: 1045..1056,
+                    to_string: "merchants",
+                },
                 schema: None,
                 alias: None,
             },
@@ -842,8 +860,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 1183..1248,
-                name: "countries",
+                span_range: 1171..1183,
+                name: Ident {
+                    span_range: 1171..1182,
+                    to_string: "countries",
+                },
                 schema: None,
                 alias: None,
             },

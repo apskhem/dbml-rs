@@ -170,8 +170,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 13..290,
-                name: "orders",
+                span_range: 6..13,
+                name: Ident {
+                    span_range: 6..12,
+                    to_string: "orders",
+                },
                 schema: None,
                 alias: None,
             },

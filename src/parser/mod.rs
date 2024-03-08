@@ -105,7 +105,7 @@ fn parse_project_decl(pair: Pair<Rule>) -> ParserResult<ProjectBlock> {
   pair.into_inner().try_fold(init, |mut acc, p1| {
     match p1.as_rule() {
       Rule::ident => {
-        acc.name = parse_ident(p1)?.to_string
+        acc.ident = parse_ident(p1)?
       },
       Rule::project_block => {
         for p2 in p1.into_inner() {
@@ -158,17 +158,22 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
   pair
     .into_inner()
     .try_fold(init, |mut acc, p1| {
-      acc.ident.span_range = s2r(p1.as_span());
+      
 
       match p1.as_rule() {
         Rule::decl_ident => {
+          acc.ident.span_range = s2r(p1.as_span());
+
           let (schema, name) = parse_decl_ident(p1)?;
 
-          acc.ident.name = name.to_string;
-          acc.ident.schema = schema.map(|s| s.to_string);
+          acc.ident.name = name;
+          acc.ident.schema = schema;
         }
         Rule::table_alias => {
-          acc.ident.alias = Some(p1.into_inner().as_str().to_string())
+          acc.ident.alias = Some(Ident {
+            span_range: s2r(p1.as_span()),
+            to_string: p1.into_inner().as_str().to_string()
+          })
         },
         Rule::table_block => {
           for p2 in p1.into_inner() {
@@ -417,13 +422,12 @@ fn parse_enum_decl(pair: Pair<Rule>) -> ParserResult<EnumBlock> {
     .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
         Rule::decl_ident => {
-          let (schema, name) = parse_decl_ident(p1.clone())?;
+          acc.ident.span_range = s2r(p1.as_span());
 
-          acc.ident = EnumIdent {
-            span_range: s2r(p1.as_span()),
-            name,
-            schema
-          };
+          let (schema, name) = parse_decl_ident(p1)?;
+
+          acc.ident.schema = schema;
+          acc.ident.name = name;
         }
         Rule::enum_block => {
           acc.values = parse_enum_block(p1)?

@@ -7,13 +7,13 @@ pub struct SchemaBlock<'a> {
   /// Input source content.
   pub input: &'a str,
   /// Overall description of the project. This is optional. The file must contain one or zero 'Project' block.
-  pub project: Option<project::ProjectBlock>,
+  pub project: Option<ProjectBlock>,
   /// Table block.
-  pub tables: Vec<table::TableBlock>,
+  pub tables: Vec<TableBlock>,
   /// TableGroup block.
-  pub table_groups: Vec<table_group::TableGroupBlock>,
+  pub table_groups: Vec<TableGroupBlock>,
   /// Ref block.
-  pub refs: Vec<refs::RefBlock>,
+  pub refs: Vec<RefBlock>,
   /// Enums block.
-  pub enums: Vec<enums::EnumBlock>,
+  pub enums: Vec<EnumBlock>,
 }

@@ -60,7 +60,7 @@ pub fn get_table_refs(table_ident: &TableIdent, analyzed_indexer: &AnalyzedIndex
   let mut ref_self_blocks = vec![];
 
   let eq = |table_ident: &TableIdent, ref_ident: &RefIdent| {
-    table_ident.schema == ref_ident.schema && table_ident.name == ref_ident.table
+    table_ident.schema.clone().map(|s| s.to_string) == ref_ident.schema && table_ident.name.to_string == ref_ident.table
   };
 
   for ref_block in analyzed_indexer.indexed_refs.iter() {
@@ -353,8 +353,8 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
             if let IndexesColumnType::String(id_string) = ident {
               indexer
                 .lookup_table_fields(
-                  &table.ident.schema,
-                  &table.ident.name,
+                  &table.ident.schema.clone().map(|s| s.to_string),
+                  &table.ident.name.to_string,
                   &vec![id_string.clone()],
                 )
                 .unwrap_or_else(|x| panic!("{}", x));

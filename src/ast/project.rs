@@ -29,7 +29,7 @@ impl FromStr for DatabaseType {
 #[derive(Debug, Clone, Default)]
 pub struct ProjectBlock {
   pub span_range: SpanRange,
-  pub name: String,
+  pub ident: Ident,
   pub database_type: DatabaseType,
   pub note: Option<String>,
 }

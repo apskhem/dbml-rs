@@ -29,8 +29,8 @@ impl IndexedRefBlock {
 
         let lhs = RefIdent {
           span_range: span_range.clone(),
-          schema: table_ident.schema,
-          table: table_ident.name,
+          schema: table_ident.schema.map(|s| s.to_string),
+          table: table_ident.name.to_string,
           compositions: vec![col_name],
         };
 
@@ -63,12 +63,12 @@ impl IndexedRefBlock {
 
     let lhs_table = tables
       .iter()
-      .find(|table| table.ident.schema == lhs_ident.schema && table.ident.name == lhs_ident.table)
+      .find(|table| table.ident.schema.clone().map(|s| s.to_string) == lhs_ident.schema && table.ident.name.to_string == lhs_ident.table)
       .ok_or_else(|| panic!("cannot find lhs table"))?;
 
     let rhs_table = tables
       .iter()
-      .find(|table| table.ident.schema == rhs_ident.schema && table.ident.name == rhs_ident.table)
+      .find(|table| table.ident.schema.clone().map(|s| s.to_string) == rhs_ident.schema && table.ident.name.to_string == rhs_ident.table)
       .ok_or_else(|| panic!("cannot find rhs table"))?;
 
     let field_pairs = lhs_ident

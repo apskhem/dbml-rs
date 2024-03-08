@@ -198,8 +198,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 13..157,
-                name: "orders",
+                span_range: 6..13,
+                name: Ident {
+                    span_range: 6..12,
+                    to_string: "orders",
+                },
                 schema: None,
                 alias: None,
             },
@@ -260,8 +263,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 177..227,
-                name: "order_items",
+                span_range: 165..177,
+                name: Ident {
+                    span_range: 165..176,
+                    to_string: "order_items",
+                },
                 schema: None,
                 alias: None,
             },
@@ -528,8 +534,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 244..446,
-                name: "products",
+                span_range: 235..244,
+                name: Ident {
+                    span_range: 235..243,
+                    to_string: "products",
+                },
                 schema: None,
                 alias: None,
             },

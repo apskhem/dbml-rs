@@ -41,18 +41,18 @@ impl Indexer {
         };
       }
 
-      let schema_name = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
+      let schema_name = schema.clone().map(|s| s.to_string).unwrap_or_else(|| DEFAULT_SCHEMA.into());
       match self.schema_map.get_mut(&schema_name) {
         Some(index_block) => {
-          index_block.table_map.insert(name.clone(), col_sets);
+          index_block.table_map.insert(name.to_string.clone(), col_sets);
 
           if let Some(alias) = alias {
-            match self.table_alias_map.get(alias) {
+            match self.table_alias_map.get(&alias.to_string) {
               Some(dup_alias) => panic!("alias_name_dup"),
               None => {
                 self
                   .table_alias_map
-                  .insert(alias.clone(), (schema.clone(), name.clone()))
+                  .insert(alias.to_string.clone(), (schema.clone().map(|s| s.to_string), name.to_string.clone()))
               }
             };
           }
@@ -60,12 +60,12 @@ impl Indexer {
         None => {
           let mut index_block = IndexedSchemaBlock::default();
 
-          index_block.table_map.insert(name.clone(), col_sets);
+          index_block.table_map.insert(name.to_string.clone(), col_sets);
 
           if let Some(alias) = alias {
             self
               .table_alias_map
-              .insert(alias.clone(), (schema.clone(), name.clone()));
+              .insert(alias.to_string.clone(), (schema.clone().map(|s| s.to_string), name.to_string.clone()));
           }
 
           self.schema_map.insert(schema_name, index_block);

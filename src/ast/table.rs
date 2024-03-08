@@ -189,9 +189,9 @@ pub struct TableIdent {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
   /// The name of the table.
-  pub name: String,
+  pub name: Ident,
   /// The schema of the table, if specified.
-  pub schema: Option<String>,
+  pub schema: Option<Ident>,
   /// The alias for the table.
-  pub alias: Option<String>,
+  pub alias: Option<Ident>,
 }

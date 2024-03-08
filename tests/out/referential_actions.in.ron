@@ -136,8 +136,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 15..138,
-                name: "orders",
+                span_range: 6..15,
+                name: Ident {
+                    span_range: 6..14,
+                    to_string: "orders",
+                },
                 schema: None,
                 alias: None,
             },
@@ -247,8 +250,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 160..259,
-                name: "order_items",
+                span_range: 146..160,
+                name: Ident {
+                    span_range: 146..159,
+                    to_string: "order_items",
+                },
                 schema: None,
                 alias: None,
             },
@@ -365,8 +371,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 278..412,
-                name: "products",
+                span_range: 267..278,
+                name: Ident {
+                    span_range: 267..277,
+                    to_string: "products",
+                },
                 schema: None,
                 alias: None,
             },
@@ -612,8 +621,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 428..614,
-                name: "users",
+                span_range: 420..428,
+                name: Ident {
+                    span_range: 420..427,
+                    to_string: "users",
+                },
                 schema: None,
                 alias: None,
             },
@@ -703,8 +715,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 634..709,
-                name: "countries",
+                span_range: 622..634,
+                name: Ident {
+                    span_range: 622..633,
+                    to_string: "countries",
+                },
                 schema: None,
                 alias: None,
             },

@@ -132,8 +132,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 163..276,
-                name: "orders",
+                span_range: 134..143,
+                name: Ident {
+                    span_range: 134..142,
+                    to_string: "orders",
+                },
                 schema: None,
                 alias: None,
             },
@@ -235,8 +238,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 298..367,
-                name: "order_items",
+                span_range: 284..298,
+                name: Ident {
+                    span_range: 284..297,
+                    to_string: "order_items",
+                },
                 schema: None,
                 alias: None,
             },
@@ -418,8 +424,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 386..635,
-                name: "products",
+                span_range: 375..386,
+                name: Ident {
+                    span_range: 375..385,
+                    to_string: "products",
+                },
                 schema: None,
                 alias: None,
             },
@@ -635,8 +644,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 651..808,
-                name: "users",
+                span_range: 643..651,
+                name: Ident {
+                    span_range: 643..650,
+                    to_string: "users",
+                },
                 schema: None,
                 alias: None,
             },
@@ -750,8 +762,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 907..1013,
-                name: "merchants",
+                span_range: 895..907,
+                name: Ident {
+                    span_range: 895..906,
+                    to_string: "merchants",
+                },
                 schema: None,
                 alias: None,
             },
@@ -833,8 +848,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 1033..1098,
-                name: "countries",
+                span_range: 1021..1033,
+                name: Ident {
+                    span_range: 1021..1032,
+                    to_string: "countries",
+                },
                 schema: None,
                 alias: None,
             },

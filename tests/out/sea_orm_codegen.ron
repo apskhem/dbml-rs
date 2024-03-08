@@ -4,7 +4,10 @@ SchemaBlock {
     project: Some(
         ProjectBlock {
             span_range: 0..57,
-            name: "sea_orm_codegen",
+            ident: Ident {
+                span_range: 8..23,
+                to_string: "sea_orm_codegen",
+            },
             database_type: PostgreSQL,
             note: None,
         },
@@ -99,8 +102,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 70..117,
-                name: "cake",
+                span_range: 65..70,
+                name: Ident {
+                    span_range: 65..69,
+                    to_string: "cake",
+                },
                 schema: None,
                 alias: None,
             },
@@ -226,8 +232,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 132..215,
-                name: "vendor",
+                span_range: 125..132,
+                name: Ident {
+                    span_range: 125..131,
+                    to_string: "vendor",
+                },
                 schema: None,
                 alias: None,
             },
@@ -353,8 +362,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 229..309,
-                name: "fruit",
+                span_range: 223..229,
+                name: Ident {
+                    span_range: 223..228,
+                    to_string: "fruit",
+                },
                 schema: None,
                 alias: None,
             },
@@ -428,8 +440,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 325..368,
-                name: "filling",
+                span_range: 317..325,
+                name: Ident {
+                    span_range: 317..324,
+                    to_string: "filling",
+                },
                 schema: None,
                 alias: None,
             },
@@ -474,8 +489,11 @@ SchemaBlock {
                 },
             ],
             ident: TableIdent {
-                span_range: 389..471,
-                name: "cake_filling",
+                span_range: 376..389,
+                name: Ident {
+                    span_range: 376..388,
+                    to_string: "cake_filling",
+                },
                 schema: None,
                 alias: None,
             },
