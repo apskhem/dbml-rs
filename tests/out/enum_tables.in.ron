@@ -16,31 +16,46 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 20..61,
-                        value: "created",
+                        value: Ident {
+                            span_range: 20..27,
+                            to_string: "created",
+                        },
                         note: Some(
                             "Job created and pending",
                         ),
                     },
                     EnumValue {
                         span_range: 64..114,
-                        value: "running",
+                        value: Ident {
+                            span_range: 64..71,
+                            to_string: "running",
+                        },
                         note: Some(
                             "Waiting for warehouse to process",
                         ),
                     },
                     EnumValue {
                         span_range: 117..124,
-                        value: "done",
+                        value: Ident {
+                            span_range: 117..121,
+                            to_string: "done",
+                        },
                         note: None,
                     },
                     EnumValue {
                         span_range: 124..132,
-                        value: "failed",
+                        value: Ident {
+                            span_range: 124..130,
+                            to_string: "failed",
+                        },
                         note: None,
                     },
                     EnumValue {
                         span_range: 132..196,
-                        value: "wait for validation",
+                        value: Ident {
+                            span_range: 132..153,
+                            to_string: "wait for validation",
+                        },
                         note: Some(
                             "Enum label that has white spaces",
                         ),
@@ -157,24 +172,36 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 310..341,
-                        value: "created",
+                        value: Ident {
+                            span_range: 310..317,
+                            to_string: "created",
+                        },
                         note: Some(
                             "Order created",
                         ),
                     },
                     EnumValue {
                         span_range: 344..354,
-                        value: "pending",
+                        value: Ident {
+                            span_range: 344..351,
+                            to_string: "pending",
+                        },
                         note: None,
                     },
                     EnumValue {
                         span_range: 354..367,
-                        value: "processing",
+                        value: Ident {
+                            span_range: 354..364,
+                            to_string: "processing",
+                        },
                         note: None,
                     },
                     EnumValue {
                         span_range: 367..377,
-                        value: "completed",
+                        value: Ident {
+                            span_range: 367..376,
+                            to_string: "completed",
+                        },
                         note: None,
                     },
                 ],

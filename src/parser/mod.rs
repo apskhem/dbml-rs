@@ -447,14 +447,16 @@ fn parse_enum_decl(pair: Pair<Rule>) -> ParserResult<EnumBlock> {
 }
 
 fn parse_enum_block(pair: Pair<Rule>) -> ParserResult<Vec<EnumValue>> {
-  pair.into_inner().try_fold(vec![], |mut acc, p1| {
-    match p1.as_rule() {
-      Rule::enum_value => acc.push(parse_enum_value(p1)?),
-      _ => throw_rules(&[Rule::enum_value], p1)?,
-    }
-
-    Ok(acc)
-  })
+  pair
+    .into_inner()
+    .into_iter()
+    .map(|p1| {
+      match p1.as_rule() {
+        Rule::enum_value => Ok(parse_enum_value(p1)?),
+        _ => throw_rules(&[Rule::enum_value], p1)?,
+      }
+    })
+    .collect()
 }
 
 fn parse_enum_value(pair: Pair<Rule>) -> ParserResult<EnumValue> {
@@ -467,7 +469,7 @@ fn parse_enum_value(pair: Pair<Rule>) -> ParserResult<EnumValue> {
     .into_inner()
     .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
-        Rule::ident => acc.value = parse_ident(p1)?.to_string,
+        Rule::ident => acc.value = parse_ident(p1)?,
         Rule::enum_settings => {
           for p2 in p1.into_inner() {
             match p2.as_rule() {

@@ -16,22 +16,34 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 25..37,
-                        value: "created",
+                        value: Ident {
+                            span_range: 25..34,
+                            to_string: "created",
+                        },
                         note: None,
                     },
                     EnumValue {
                         span_range: 37..49,
-                        value: "running",
+                        value: Ident {
+                            span_range: 37..46,
+                            to_string: "running",
+                        },
                         note: None,
                     },
                     EnumValue {
                         span_range: 49..58,
-                        value: "done",
+                        value: Ident {
+                            span_range: 49..55,
+                            to_string: "done",
+                        },
                         note: None,
                     },
                     EnumValue {
                         span_range: 58..68,
-                        value: "failure",
+                        value: Ident {
+                            span_range: 58..67,
+                            to_string: "failure",
+                        },
                         note: None,
                     },
                 ],
@@ -51,12 +63,18 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 97..114,
-                        value: "Out of Stock",
+                        value: Ident {
+                            span_range: 97..111,
+                            to_string: "Out of Stock",
+                        },
                         note: None,
                     },
                     EnumValue {
                         span_range: 114..125,
-                        value: "In Stock",
+                        value: Ident {
+                            span_range: 114..124,
+                            to_string: "In Stock",
+                        },
                         note: None,
                     },
                 ],

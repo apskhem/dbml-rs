@@ -232,19 +232,28 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 338..353,
-                        value: "out_of_stock",
+                        value: Ident {
+                            span_range: 338..350,
+                            to_string: "out_of_stock",
+                        },
                         note: None,
                     },
                     EnumValue {
                         span_range: 353..380,
-                        value: "in_stock",
+                        value: Ident {
+                            span_range: 353..361,
+                            to_string: "in_stock",
+                        },
                         note: Some(
                             "In stock",
                         ),
                     },
                     EnumValue {
                         span_range: 383..417,
-                        value: "running_low",
+                        value: Ident {
+                            span_range: 383..394,
+                            to_string: "running_low",
+                        },
                         note: Some(
                             "less than 20",
                         ),

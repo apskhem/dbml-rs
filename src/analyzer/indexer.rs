@@ -84,11 +84,10 @@ impl Indexer {
       let mut value_sets = HashSet::new();
 
       for value in r#enum.values.iter() {
-        if let Some(dup_col_name) = value_sets.get(&value.value) {
-          panic!("val_dup");
-        } else {
-          value_sets.insert(value.value.clone());
-        }
+        match value_sets.get(&value.value.to_string) {
+          Some(dup_col_name) => panic!("val_dup"),
+          None => value_sets.insert(value.value.to_string.clone())
+        };
       }
 
       if let Some(index_block) = self.schema_map.get_mut(&schema_name) {

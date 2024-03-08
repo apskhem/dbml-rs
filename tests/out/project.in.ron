@@ -29,22 +29,34 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 175..187,
-                        value: "created",
+                        value: Ident {
+                            span_range: 175..184,
+                            to_string: "created",
+                        },
                         note: None,
                     },
                     EnumValue {
                         span_range: 187..199,
-                        value: "running",
+                        value: Ident {
+                            span_range: 187..196,
+                            to_string: "running",
+                        },
                         note: None,
                     },
                     EnumValue {
                         span_range: 199..208,
-                        value: "done",
+                        value: Ident {
+                            span_range: 199..205,
+                            to_string: "done",
+                        },
                         note: None,
                     },
                     EnumValue {
                         span_range: 208..218,
-                        value: "failure",
+                        value: Ident {
+                            span_range: 208..217,
+                            to_string: "failure",
+                        },
                         note: None,
                     },
                 ],
@@ -64,12 +76,18 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 247..264,
-                        value: "Out of Stock",
+                        value: Ident {
+                            span_range: 247..261,
+                            to_string: "Out of Stock",
+                        },
                         note: None,
                     },
                     EnumValue {
                         span_range: 264..275,
-                        value: "In Stock",
+                        value: Ident {
+                            span_range: 264..274,
+                            to_string: "In Stock",
+                        },
                         note: None,
                     },
                 ],
