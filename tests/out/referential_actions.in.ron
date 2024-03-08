@@ -1,853 +1,866 @@
 SchemaBlock {
     span_range: 0..998,
     input: "Table \"orders\" {\n  \"id\" int [pk, increment]\n  \"user_id\" int [unique, not null]\n  \"status\" orders_status_enum\n  \"created_at\" varchar(255)\n}\n\nTable \"order_items\" {\n  \"order_id\" int\n  \"product_id\" int\n  \"product_name\" varchar(255)\n  \"quantity\" int [default: 1]\n}\n\nTable \"products\" {\n  \"id\" int\n  \"name\" varchar(255)\n  \"price\" decimal(10,4)\n  \"created_at\" datetime [default: `now()`]\n\nIndexes {\n  (id, name) [pk]\n}\n}\n\nTable \"users\" {\n  \"id\" int [pk, increment]\n  \"name\" varchar(255)\n  \"email\" varchar(255) [unique]\n  \"date_of_birth\" datetime\n  \"created_at\" datetime [default: `now()`]\n  \"country_code\" int [not null]\n}\n\nTable \"countries\" {\n  \"code\" int [pk]\n  \"name\" varchar(255)\n  \"continent_name\" varchar(255)\n}\n\nRef:\"users\".\"id\" < \"orders\".\"user_id\" [delete: restrict]\n\nRef:\"orders\".\"id\" < \"order_items\".\"order_id\" [delete: cascade]\n\nRef:\"products\".(\"id\", \"name\") < \"order_items\".(\"product_id\", \"product_name\") [delete: set null]\n\nRef:\"countries\".\"code\" < \"users\".\"country_code\" [delete: no action]\n",
-    project: None,
-    tables: [
-        TableBlock {
-            span_range: 0..138,
-            cols: [
-                TableColumn {
-                    span_range: 19..43,
-                    name: Ident {
-                        span_range: 19..23,
-                        to_string: "id",
-                    },
-                    type: ColumnType {
-                        span_range: 24..28,
-                        type_name: Raw(
-                            "int",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 28..43,
-                            properties: [
-                                KeyValue {
-                                    span_range: 29..31,
-                                    key: Ident {
+    blocks: [
+        Table(
+            TableBlock {
+                span_range: 0..138,
+                cols: [
+                    TableColumn {
+                        span_range: 19..43,
+                        name: Ident {
+                            span_range: 19..23,
+                            to_string: "id",
+                        },
+                        type: ColumnType {
+                            span_range: 24..28,
+                            type_name: Raw(
+                                "int",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 28..43,
+                                properties: [
+                                    KeyValue {
                                         span_range: 29..31,
-                                        to_string: "pk",
+                                        key: Ident {
+                                            span_range: 29..31,
+                                            to_string: "pk",
+                                        },
+                                        value: None,
                                     },
-                                    value: None,
-                                },
-                                KeyValue {
-                                    span_range: 33..42,
-                                    key: Ident {
+                                    KeyValue {
                                         span_range: 33..42,
-                                        to_string: "increment",
+                                        key: Ident {
+                                            span_range: 33..42,
+                                            to_string: "increment",
+                                        },
+                                        value: None,
                                     },
-                                    value: None,
-                                },
-                            ],
-                            is_pk: true,
-                            is_unique: false,
-                            is_nullable: None,
-                            is_incremental: true,
-                            note: None,
-                            default: None,
-                            refs: [],
-                        },
-                    ),
-                },
-                TableColumn {
-                    span_range: 46..78,
-                    name: Ident {
-                        span_range: 46..55,
-                        to_string: "user_id",
-                    },
-                    type: ColumnType {
-                        span_range: 56..60,
-                        type_name: Raw(
-                            "int",
+                                ],
+                                is_pk: true,
+                                is_unique: false,
+                                is_nullable: None,
+                                is_incremental: true,
+                                note: None,
+                                default: None,
+                                refs: [],
+                            },
                         ),
-                        args: [],
-                        arrays: [],
                     },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 60..78,
-                            properties: [
-                                KeyValue {
-                                    span_range: 61..67,
-                                    key: Ident {
+                    TableColumn {
+                        span_range: 46..78,
+                        name: Ident {
+                            span_range: 46..55,
+                            to_string: "user_id",
+                        },
+                        type: ColumnType {
+                            span_range: 56..60,
+                            type_name: Raw(
+                                "int",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 60..78,
+                                properties: [
+                                    KeyValue {
                                         span_range: 61..67,
-                                        to_string: "unique",
+                                        key: Ident {
+                                            span_range: 61..67,
+                                            to_string: "unique",
+                                        },
+                                        value: None,
                                     },
-                                    value: None,
-                                },
-                                KeyValue {
-                                    span_range: 69..77,
-                                    key: Ident {
+                                    KeyValue {
                                         span_range: 69..77,
-                                        to_string: "not null",
-                                    },
-                                    value: None,
-                                },
-                            ],
-                            is_pk: false,
-                            is_unique: true,
-                            is_nullable: Some(
-                                NotNull,
-                            ),
-                            is_incremental: false,
-                            note: None,
-                            default: None,
-                            refs: [],
-                        },
-                    ),
-                },
-                TableColumn {
-                    span_range: 81..111,
-                    name: Ident {
-                        span_range: 81..89,
-                        to_string: "status",
-                    },
-                    type: ColumnType {
-                        span_range: 90..111,
-                        type_name: Raw(
-                            "orders_status_enum",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 111..137,
-                    name: Ident {
-                        span_range: 111..123,
-                        to_string: "created_at",
-                    },
-                    type: ColumnType {
-                        span_range: 124..136,
-                        type_name: Raw(
-                            "varchar",
-                        ),
-                        args: [
-                            Integer(
-                                255,
-                            ),
-                        ],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-            ],
-            ident: TableIdent {
-                span_range: 6..15,
-                name: Ident {
-                    span_range: 6..14,
-                    to_string: "orders",
-                },
-                schema: None,
-                alias: None,
-            },
-            note: None,
-            indexes: None,
-            settings: None,
-        },
-        TableBlock {
-            span_range: 140..259,
-            cols: [
-                TableColumn {
-                    span_range: 164..181,
-                    name: Ident {
-                        span_range: 164..174,
-                        to_string: "order_id",
-                    },
-                    type: ColumnType {
-                        span_range: 175..181,
-                        type_name: Raw(
-                            "int",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 181..200,
-                    name: Ident {
-                        span_range: 181..193,
-                        to_string: "product_id",
-                    },
-                    type: ColumnType {
-                        span_range: 194..200,
-                        type_name: Raw(
-                            "int",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 200..230,
-                    name: Ident {
-                        span_range: 200..214,
-                        to_string: "product_name",
-                    },
-                    type: ColumnType {
-                        span_range: 215..227,
-                        type_name: Raw(
-                            "varchar",
-                        ),
-                        args: [
-                            Integer(
-                                255,
-                            ),
-                        ],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 230..257,
-                    name: Ident {
-                        span_range: 230..240,
-                        to_string: "quantity",
-                    },
-                    type: ColumnType {
-                        span_range: 241..245,
-                        type_name: Raw(
-                            "int",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 245..257,
-                            properties: [
-                                KeyValue {
-                                    span_range: 246..256,
-                                    key: Ident {
-                                        span_range: 246..253,
-                                        to_string: "default",
-                                    },
-                                    value: Some(
-                                        Literal {
-                                            span_range: 255..256,
-                                            value: Integer(
-                                                1,
-                                            ),
-                                            raw: "1",
+                                        key: Ident {
+                                            span_range: 69..77,
+                                            to_string: "not null",
                                         },
-                                    ),
-                                },
-                            ],
-                            is_pk: false,
-                            is_unique: false,
-                            is_nullable: None,
-                            is_incremental: false,
-                            note: None,
-                            default: None,
-                            refs: [],
-                        },
-                    ),
-                },
-            ],
-            ident: TableIdent {
-                span_range: 146..160,
-                name: Ident {
-                    span_range: 146..159,
-                    to_string: "order_items",
-                },
-                schema: None,
-                alias: None,
-            },
-            note: None,
-            indexes: None,
-            settings: None,
-        },
-        TableBlock {
-            span_range: 261..412,
-            cols: [
-                TableColumn {
-                    span_range: 282..293,
-                    name: Ident {
-                        span_range: 282..286,
-                        to_string: "id",
-                    },
-                    type: ColumnType {
-                        span_range: 287..293,
-                        type_name: Raw(
-                            "int",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 293..315,
-                    name: Ident {
-                        span_range: 293..299,
-                        to_string: "name",
-                    },
-                    type: ColumnType {
-                        span_range: 300..312,
-                        type_name: Raw(
-                            "varchar",
-                        ),
-                        args: [
-                            Integer(
-                                255,
-                            ),
-                        ],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 315..339,
-                    name: Ident {
-                        span_range: 315..322,
-                        to_string: "price",
-                    },
-                    type: ColumnType {
-                        span_range: 323..336,
-                        type_name: Raw(
-                            "decimal",
-                        ),
-                        args: [
-                            Integer(
-                                10,
-                            ),
-                            Integer(
-                                4,
-                            ),
-                        ],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 339..379,
-                    name: Ident {
-                        span_range: 339..351,
-                        to_string: "created_at",
-                    },
-                    type: ColumnType {
-                        span_range: 352..361,
-                        type_name: Raw(
-                            "datetime",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 361..379,
-                            properties: [
-                                KeyValue {
-                                    span_range: 362..378,
-                                    key: Ident {
-                                        span_range: 362..369,
-                                        to_string: "default",
+                                        value: None,
                                     },
-                                    value: Some(
-                                        Literal {
-                                            span_range: 371..378,
-                                            value: Expr(
-                                                "now()",
-                                            ),
-                                            raw: "`now()`",
-                                        },
-                                    ),
-                                },
-                            ],
-                            is_pk: false,
-                            is_unique: false,
-                            is_nullable: None,
-                            is_incremental: false,
-                            note: None,
-                            default: None,
-                            refs: [],
-                        },
-                    ),
-                },
-            ],
-            ident: TableIdent {
-                span_range: 267..278,
-                name: Ident {
-                    span_range: 267..277,
-                    to_string: "products",
-                },
-                schema: None,
-                alias: None,
-            },
-            note: None,
-            indexes: Some(
-                IndexesBlock {
-                    span_range: 389..410,
-                    defs: [
-                        IndexesDef {
-                            span_range: 393..408,
-                            cols: [
-                                String(
-                                    "id",
+                                ],
+                                is_pk: false,
+                                is_unique: true,
+                                is_nullable: Some(
+                                    NotNull,
                                 ),
-                                String(
-                                    "name",
+                                is_incremental: false,
+                                note: None,
+                                default: None,
+                                refs: [],
+                            },
+                        ),
+                    },
+                    TableColumn {
+                        span_range: 81..111,
+                        name: Ident {
+                            span_range: 81..89,
+                            to_string: "status",
+                        },
+                        type: ColumnType {
+                            span_range: 90..111,
+                            type_name: Raw(
+                                "orders_status_enum",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 111..137,
+                        name: Ident {
+                            span_range: 111..123,
+                            to_string: "created_at",
+                        },
+                        type: ColumnType {
+                            span_range: 124..136,
+                            type_name: Raw(
+                                "varchar",
+                            ),
+                            args: [
+                                Integer(
+                                    255,
                                 ),
                             ],
-                            settings: Some(
-                                IndexesSettings {
-                                    span_range: 404..408,
-                                    type: None,
-                                    is_unique: false,
-                                    is_pk: true,
-                                    note: None,
-                                    name: None,
-                                },
-                            ),
+                            arrays: [],
                         },
+                        settings: None,
+                    },
+                ],
+                ident: TableIdent {
+                    span_range: 6..15,
+                    name: Ident {
+                        span_range: 6..14,
+                        to_string: "orders",
+                    },
+                    schema: None,
+                    alias: None,
+                },
+                note: None,
+                indexes: None,
+                settings: None,
+            },
+        ),
+        Table(
+            TableBlock {
+                span_range: 140..259,
+                cols: [
+                    TableColumn {
+                        span_range: 164..181,
+                        name: Ident {
+                            span_range: 164..174,
+                            to_string: "order_id",
+                        },
+                        type: ColumnType {
+                            span_range: 175..181,
+                            type_name: Raw(
+                                "int",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 181..200,
+                        name: Ident {
+                            span_range: 181..193,
+                            to_string: "product_id",
+                        },
+                        type: ColumnType {
+                            span_range: 194..200,
+                            type_name: Raw(
+                                "int",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 200..230,
+                        name: Ident {
+                            span_range: 200..214,
+                            to_string: "product_name",
+                        },
+                        type: ColumnType {
+                            span_range: 215..227,
+                            type_name: Raw(
+                                "varchar",
+                            ),
+                            args: [
+                                Integer(
+                                    255,
+                                ),
+                            ],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 230..257,
+                        name: Ident {
+                            span_range: 230..240,
+                            to_string: "quantity",
+                        },
+                        type: ColumnType {
+                            span_range: 241..245,
+                            type_name: Raw(
+                                "int",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 245..257,
+                                properties: [
+                                    KeyValue {
+                                        span_range: 246..256,
+                                        key: Ident {
+                                            span_range: 246..253,
+                                            to_string: "default",
+                                        },
+                                        value: Some(
+                                            Literal {
+                                                span_range: 255..256,
+                                                value: Integer(
+                                                    1,
+                                                ),
+                                                raw: "1",
+                                            },
+                                        ),
+                                    },
+                                ],
+                                is_pk: false,
+                                is_unique: false,
+                                is_nullable: None,
+                                is_incremental: false,
+                                note: None,
+                                default: None,
+                                refs: [],
+                            },
+                        ),
+                    },
+                ],
+                ident: TableIdent {
+                    span_range: 146..160,
+                    name: Ident {
+                        span_range: 146..159,
+                        to_string: "order_items",
+                    },
+                    schema: None,
+                    alias: None,
+                },
+                note: None,
+                indexes: None,
+                settings: None,
+            },
+        ),
+        Table(
+            TableBlock {
+                span_range: 261..412,
+                cols: [
+                    TableColumn {
+                        span_range: 282..293,
+                        name: Ident {
+                            span_range: 282..286,
+                            to_string: "id",
+                        },
+                        type: ColumnType {
+                            span_range: 287..293,
+                            type_name: Raw(
+                                "int",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 293..315,
+                        name: Ident {
+                            span_range: 293..299,
+                            to_string: "name",
+                        },
+                        type: ColumnType {
+                            span_range: 300..312,
+                            type_name: Raw(
+                                "varchar",
+                            ),
+                            args: [
+                                Integer(
+                                    255,
+                                ),
+                            ],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 315..339,
+                        name: Ident {
+                            span_range: 315..322,
+                            to_string: "price",
+                        },
+                        type: ColumnType {
+                            span_range: 323..336,
+                            type_name: Raw(
+                                "decimal",
+                            ),
+                            args: [
+                                Integer(
+                                    10,
+                                ),
+                                Integer(
+                                    4,
+                                ),
+                            ],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 339..379,
+                        name: Ident {
+                            span_range: 339..351,
+                            to_string: "created_at",
+                        },
+                        type: ColumnType {
+                            span_range: 352..361,
+                            type_name: Raw(
+                                "datetime",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 361..379,
+                                properties: [
+                                    KeyValue {
+                                        span_range: 362..378,
+                                        key: Ident {
+                                            span_range: 362..369,
+                                            to_string: "default",
+                                        },
+                                        value: Some(
+                                            Literal {
+                                                span_range: 371..378,
+                                                value: Expr(
+                                                    "now()",
+                                                ),
+                                                raw: "`now()`",
+                                            },
+                                        ),
+                                    },
+                                ],
+                                is_pk: false,
+                                is_unique: false,
+                                is_nullable: None,
+                                is_incremental: false,
+                                note: None,
+                                default: None,
+                                refs: [],
+                            },
+                        ),
+                    },
+                ],
+                ident: TableIdent {
+                    span_range: 267..278,
+                    name: Ident {
+                        span_range: 267..277,
+                        to_string: "products",
+                    },
+                    schema: None,
+                    alias: None,
+                },
+                note: None,
+                indexes: Some(
+                    IndexesBlock {
+                        span_range: 389..410,
+                        defs: [
+                            IndexesDef {
+                                span_range: 393..408,
+                                cols: [
+                                    String(
+                                        "id",
+                                    ),
+                                    String(
+                                        "name",
+                                    ),
+                                ],
+                                settings: Some(
+                                    IndexesSettings {
+                                        span_range: 404..408,
+                                        type: None,
+                                        is_unique: false,
+                                        is_pk: true,
+                                        note: None,
+                                        name: None,
+                                    },
+                                ),
+                            },
+                        ],
+                    },
+                ),
+                settings: None,
+            },
+        ),
+        Table(
+            TableBlock {
+                span_range: 414..614,
+                cols: [
+                    TableColumn {
+                        span_range: 432..456,
+                        name: Ident {
+                            span_range: 432..436,
+                            to_string: "id",
+                        },
+                        type: ColumnType {
+                            span_range: 437..441,
+                            type_name: Raw(
+                                "int",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 441..456,
+                                properties: [
+                                    KeyValue {
+                                        span_range: 442..444,
+                                        key: Ident {
+                                            span_range: 442..444,
+                                            to_string: "pk",
+                                        },
+                                        value: None,
+                                    },
+                                    KeyValue {
+                                        span_range: 446..455,
+                                        key: Ident {
+                                            span_range: 446..455,
+                                            to_string: "increment",
+                                        },
+                                        value: None,
+                                    },
+                                ],
+                                is_pk: true,
+                                is_unique: false,
+                                is_nullable: None,
+                                is_incremental: true,
+                                note: None,
+                                default: None,
+                                refs: [],
+                            },
+                        ),
+                    },
+                    TableColumn {
+                        span_range: 459..481,
+                        name: Ident {
+                            span_range: 459..465,
+                            to_string: "name",
+                        },
+                        type: ColumnType {
+                            span_range: 466..478,
+                            type_name: Raw(
+                                "varchar",
+                            ),
+                            args: [
+                                Integer(
+                                    255,
+                                ),
+                            ],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 481..510,
+                        name: Ident {
+                            span_range: 481..488,
+                            to_string: "email",
+                        },
+                        type: ColumnType {
+                            span_range: 489..501,
+                            type_name: Raw(
+                                "varchar",
+                            ),
+                            args: [
+                                Integer(
+                                    255,
+                                ),
+                            ],
+                            arrays: [],
+                        },
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 502..510,
+                                properties: [
+                                    KeyValue {
+                                        span_range: 503..509,
+                                        key: Ident {
+                                            span_range: 503..509,
+                                            to_string: "unique",
+                                        },
+                                        value: None,
+                                    },
+                                ],
+                                is_pk: false,
+                                is_unique: true,
+                                is_nullable: None,
+                                is_incremental: false,
+                                note: None,
+                                default: None,
+                                refs: [],
+                            },
+                        ),
+                    },
+                    TableColumn {
+                        span_range: 513..540,
+                        name: Ident {
+                            span_range: 513..528,
+                            to_string: "date_of_birth",
+                        },
+                        type: ColumnType {
+                            span_range: 529..540,
+                            type_name: Raw(
+                                "datetime",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 540..580,
+                        name: Ident {
+                            span_range: 540..552,
+                            to_string: "created_at",
+                        },
+                        type: ColumnType {
+                            span_range: 553..562,
+                            type_name: Raw(
+                                "datetime",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 562..580,
+                                properties: [
+                                    KeyValue {
+                                        span_range: 563..579,
+                                        key: Ident {
+                                            span_range: 563..570,
+                                            to_string: "default",
+                                        },
+                                        value: Some(
+                                            Literal {
+                                                span_range: 572..579,
+                                                value: Expr(
+                                                    "now()",
+                                                ),
+                                                raw: "`now()`",
+                                            },
+                                        ),
+                                    },
+                                ],
+                                is_pk: false,
+                                is_unique: false,
+                                is_nullable: None,
+                                is_incremental: false,
+                                note: None,
+                                default: None,
+                                refs: [],
+                            },
+                        ),
+                    },
+                    TableColumn {
+                        span_range: 583..612,
+                        name: Ident {
+                            span_range: 583..597,
+                            to_string: "country_code",
+                        },
+                        type: ColumnType {
+                            span_range: 598..602,
+                            type_name: Raw(
+                                "int",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 602..612,
+                                properties: [
+                                    KeyValue {
+                                        span_range: 603..611,
+                                        key: Ident {
+                                            span_range: 603..611,
+                                            to_string: "not null",
+                                        },
+                                        value: None,
+                                    },
+                                ],
+                                is_pk: false,
+                                is_unique: false,
+                                is_nullable: Some(
+                                    NotNull,
+                                ),
+                                is_incremental: false,
+                                note: None,
+                                default: None,
+                                refs: [],
+                            },
+                        ),
+                    },
+                ],
+                ident: TableIdent {
+                    span_range: 420..428,
+                    name: Ident {
+                        span_range: 420..427,
+                        to_string: "users",
+                    },
+                    schema: None,
+                    alias: None,
+                },
+                note: None,
+                indexes: None,
+                settings: None,
+            },
+        ),
+        Table(
+            TableBlock {
+                span_range: 616..709,
+                cols: [
+                    TableColumn {
+                        span_range: 638..653,
+                        name: Ident {
+                            span_range: 638..644,
+                            to_string: "code",
+                        },
+                        type: ColumnType {
+                            span_range: 645..649,
+                            type_name: Raw(
+                                "int",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 649..653,
+                                properties: [
+                                    KeyValue {
+                                        span_range: 650..652,
+                                        key: Ident {
+                                            span_range: 650..652,
+                                            to_string: "pk",
+                                        },
+                                        value: None,
+                                    },
+                                ],
+                                is_pk: true,
+                                is_unique: false,
+                                is_nullable: None,
+                                is_incremental: false,
+                                note: None,
+                                default: None,
+                                refs: [],
+                            },
+                        ),
+                    },
+                    TableColumn {
+                        span_range: 656..678,
+                        name: Ident {
+                            span_range: 656..662,
+                            to_string: "name",
+                        },
+                        type: ColumnType {
+                            span_range: 663..675,
+                            type_name: Raw(
+                                "varchar",
+                            ),
+                            args: [
+                                Integer(
+                                    255,
+                                ),
+                            ],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 678..708,
+                        name: Ident {
+                            span_range: 678..694,
+                            to_string: "continent_name",
+                        },
+                        type: ColumnType {
+                            span_range: 695..707,
+                            type_name: Raw(
+                                "varchar",
+                            ),
+                            args: [
+                                Integer(
+                                    255,
+                                ),
+                            ],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                ],
+                ident: TableIdent {
+                    span_range: 622..634,
+                    name: Ident {
+                        span_range: 622..633,
+                        to_string: "countries",
+                    },
+                    schema: None,
+                    alias: None,
+                },
+                note: None,
+                indexes: None,
+                settings: None,
+            },
+        ),
+        Ref(
+            RefBlock {
+                span_range: 715..767,
+                rel: One2Many,
+                lhs: RefIdent {
+                    span_range: 715..727,
+                    schema: None,
+                    table: "users",
+                    compositions: [
+                        "id",
                     ],
                 },
-            ),
-            settings: None,
-        },
-        TableBlock {
-            span_range: 414..614,
-            cols: [
-                TableColumn {
-                    span_range: 432..456,
-                    name: Ident {
-                        span_range: 432..436,
-                        to_string: "id",
-                    },
-                    type: ColumnType {
-                        span_range: 437..441,
-                        type_name: Raw(
-                            "int",
+                rhs: RefIdent {
+                    span_range: 730..748,
+                    schema: None,
+                    table: "orders",
+                    compositions: [
+                        "user_id",
+                    ],
+                },
+                settings: Some(
+                    RefSettings {
+                        span_range: 749..767,
+                        on_delete: Some(
+                            Restrict,
                         ),
-                        args: [],
-                        arrays: [],
+                        on_update: None,
                     },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 441..456,
-                            properties: [
-                                KeyValue {
-                                    span_range: 442..444,
-                                    key: Ident {
-                                        span_range: 442..444,
-                                        to_string: "pk",
-                                    },
-                                    value: None,
-                                },
-                                KeyValue {
-                                    span_range: 446..455,
-                                    key: Ident {
-                                        span_range: 446..455,
-                                        to_string: "increment",
-                                    },
-                                    value: None,
-                                },
-                            ],
-                            is_pk: true,
-                            is_unique: false,
-                            is_nullable: None,
-                            is_incremental: true,
-                            note: None,
-                            default: None,
-                            refs: [],
-                        },
-                    ),
-                },
-                TableColumn {
-                    span_range: 459..481,
-                    name: Ident {
-                        span_range: 459..465,
-                        to_string: "name",
-                    },
-                    type: ColumnType {
-                        span_range: 466..478,
-                        type_name: Raw(
-                            "varchar",
-                        ),
-                        args: [
-                            Integer(
-                                255,
-                            ),
-                        ],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 481..510,
-                    name: Ident {
-                        span_range: 481..488,
-                        to_string: "email",
-                    },
-                    type: ColumnType {
-                        span_range: 489..501,
-                        type_name: Raw(
-                            "varchar",
-                        ),
-                        args: [
-                            Integer(
-                                255,
-                            ),
-                        ],
-                        arrays: [],
-                    },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 502..510,
-                            properties: [
-                                KeyValue {
-                                    span_range: 503..509,
-                                    key: Ident {
-                                        span_range: 503..509,
-                                        to_string: "unique",
-                                    },
-                                    value: None,
-                                },
-                            ],
-                            is_pk: false,
-                            is_unique: true,
-                            is_nullable: None,
-                            is_incremental: false,
-                            note: None,
-                            default: None,
-                            refs: [],
-                        },
-                    ),
-                },
-                TableColumn {
-                    span_range: 513..540,
-                    name: Ident {
-                        span_range: 513..528,
-                        to_string: "date_of_birth",
-                    },
-                    type: ColumnType {
-                        span_range: 529..540,
-                        type_name: Raw(
-                            "datetime",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 540..580,
-                    name: Ident {
-                        span_range: 540..552,
-                        to_string: "created_at",
-                    },
-                    type: ColumnType {
-                        span_range: 553..562,
-                        type_name: Raw(
-                            "datetime",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 562..580,
-                            properties: [
-                                KeyValue {
-                                    span_range: 563..579,
-                                    key: Ident {
-                                        span_range: 563..570,
-                                        to_string: "default",
-                                    },
-                                    value: Some(
-                                        Literal {
-                                            span_range: 572..579,
-                                            value: Expr(
-                                                "now()",
-                                            ),
-                                            raw: "`now()`",
-                                        },
-                                    ),
-                                },
-                            ],
-                            is_pk: false,
-                            is_unique: false,
-                            is_nullable: None,
-                            is_incremental: false,
-                            note: None,
-                            default: None,
-                            refs: [],
-                        },
-                    ),
-                },
-                TableColumn {
-                    span_range: 583..612,
-                    name: Ident {
-                        span_range: 583..597,
-                        to_string: "country_code",
-                    },
-                    type: ColumnType {
-                        span_range: 598..602,
-                        type_name: Raw(
-                            "int",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 602..612,
-                            properties: [
-                                KeyValue {
-                                    span_range: 603..611,
-                                    key: Ident {
-                                        span_range: 603..611,
-                                        to_string: "not null",
-                                    },
-                                    value: None,
-                                },
-                            ],
-                            is_pk: false,
-                            is_unique: false,
-                            is_nullable: Some(
-                                NotNull,
-                            ),
-                            is_incremental: false,
-                            note: None,
-                            default: None,
-                            refs: [],
-                        },
-                    ),
-                },
-            ],
-            ident: TableIdent {
-                span_range: 420..428,
-                name: Ident {
-                    span_range: 420..427,
-                    to_string: "users",
-                },
-                schema: None,
-                alias: None,
+                ),
             },
-            note: None,
-            indexes: None,
-            settings: None,
-        },
-        TableBlock {
-            span_range: 616..709,
-            cols: [
-                TableColumn {
-                    span_range: 638..653,
-                    name: Ident {
-                        span_range: 638..644,
-                        to_string: "code",
-                    },
-                    type: ColumnType {
-                        span_range: 645..649,
-                        type_name: Raw(
-                            "int",
+        ),
+        Ref(
+            RefBlock {
+                span_range: 773..831,
+                rel: One2Many,
+                lhs: RefIdent {
+                    span_range: 773..786,
+                    schema: None,
+                    table: "orders",
+                    compositions: [
+                        "id",
+                    ],
+                },
+                rhs: RefIdent {
+                    span_range: 789..813,
+                    schema: None,
+                    table: "order_items",
+                    compositions: [
+                        "order_id",
+                    ],
+                },
+                settings: Some(
+                    RefSettings {
+                        span_range: 814..831,
+                        on_delete: Some(
+                            Cascade,
                         ),
-                        args: [],
-                        arrays: [],
+                        on_update: None,
                     },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 649..653,
-                            properties: [
-                                KeyValue {
-                                    span_range: 650..652,
-                                    key: Ident {
-                                        span_range: 650..652,
-                                        to_string: "pk",
-                                    },
-                                    value: None,
-                                },
-                            ],
-                            is_pk: true,
-                            is_unique: false,
-                            is_nullable: None,
-                            is_incremental: false,
-                            note: None,
-                            default: None,
-                            refs: [],
-                        },
-                    ),
-                },
-                TableColumn {
-                    span_range: 656..678,
-                    name: Ident {
-                        span_range: 656..662,
-                        to_string: "name",
-                    },
-                    type: ColumnType {
-                        span_range: 663..675,
-                        type_name: Raw(
-                            "varchar",
-                        ),
-                        args: [
-                            Integer(
-                                255,
-                            ),
-                        ],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 678..708,
-                    name: Ident {
-                        span_range: 678..694,
-                        to_string: "continent_name",
-                    },
-                    type: ColumnType {
-                        span_range: 695..707,
-                        type_name: Raw(
-                            "varchar",
-                        ),
-                        args: [
-                            Integer(
-                                255,
-                            ),
-                        ],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-            ],
-            ident: TableIdent {
-                span_range: 622..634,
-                name: Ident {
-                    span_range: 622..633,
-                    to_string: "countries",
-                },
-                schema: None,
-                alias: None,
+                ),
             },
-            note: None,
-            indexes: None,
-            settings: None,
-        },
+        ),
+        Ref(
+            RefBlock {
+                span_range: 837..928,
+                rel: One2Many,
+                lhs: RefIdent {
+                    span_range: 837..862,
+                    schema: None,
+                    table: "products",
+                    compositions: [
+                        "id",
+                        "name",
+                    ],
+                },
+                rhs: RefIdent {
+                    span_range: 865..909,
+                    schema: None,
+                    table: "order_items",
+                    compositions: [
+                        "product_id",
+                        "product_name",
+                    ],
+                },
+                settings: Some(
+                    RefSettings {
+                        span_range: 910..928,
+                        on_delete: Some(
+                            SetNull,
+                        ),
+                        on_update: None,
+                    },
+                ),
+            },
+        ),
+        Ref(
+            RefBlock {
+                span_range: 934..997,
+                rel: One2Many,
+                lhs: RefIdent {
+                    span_range: 934..952,
+                    schema: None,
+                    table: "countries",
+                    compositions: [
+                        "code",
+                    ],
+                },
+                rhs: RefIdent {
+                    span_range: 955..977,
+                    schema: None,
+                    table: "users",
+                    compositions: [
+                        "country_code",
+                    ],
+                },
+                settings: Some(
+                    RefSettings {
+                        span_range: 978..997,
+                        on_delete: Some(
+                            NoAction,
+                        ),
+                        on_update: None,
+                    },
+                ),
+            },
+        ),
     ],
-    table_groups: [],
-    refs: [
-        RefBlock {
-            span_range: 715..767,
-            rel: One2Many,
-            lhs: RefIdent {
-                span_range: 715..727,
-                schema: None,
-                table: "users",
-                compositions: [
-                    "id",
-                ],
-            },
-            rhs: RefIdent {
-                span_range: 730..748,
-                schema: None,
-                table: "orders",
-                compositions: [
-                    "user_id",
-                ],
-            },
-            settings: Some(
-                RefSettings {
-                    span_range: 749..767,
-                    on_delete: Some(
-                        Restrict,
-                    ),
-                    on_update: None,
-                },
-            ),
-        },
-        RefBlock {
-            span_range: 773..831,
-            rel: One2Many,
-            lhs: RefIdent {
-                span_range: 773..786,
-                schema: None,
-                table: "orders",
-                compositions: [
-                    "id",
-                ],
-            },
-            rhs: RefIdent {
-                span_range: 789..813,
-                schema: None,
-                table: "order_items",
-                compositions: [
-                    "order_id",
-                ],
-            },
-            settings: Some(
-                RefSettings {
-                    span_range: 814..831,
-                    on_delete: Some(
-                        Cascade,
-                    ),
-                    on_update: None,
-                },
-            ),
-        },
-        RefBlock {
-            span_range: 837..928,
-            rel: One2Many,
-            lhs: RefIdent {
-                span_range: 837..862,
-                schema: None,
-                table: "products",
-                compositions: [
-                    "id",
-                    "name",
-                ],
-            },
-            rhs: RefIdent {
-                span_range: 865..909,
-                schema: None,
-                table: "order_items",
-                compositions: [
-                    "product_id",
-                    "product_name",
-                ],
-            },
-            settings: Some(
-                RefSettings {
-                    span_range: 910..928,
-                    on_delete: Some(
-                        SetNull,
-                    ),
-                    on_update: None,
-                },
-            ),
-        },
-        RefBlock {
-            span_range: 934..997,
-            rel: One2Many,
-            lhs: RefIdent {
-                span_range: 934..952,
-                schema: None,
-                table: "countries",
-                compositions: [
-                    "code",
-                ],
-            },
-            rhs: RefIdent {
-                span_range: 955..977,
-                schema: None,
-                table: "users",
-                compositions: [
-                    "country_code",
-                ],
-            },
-            settings: Some(
-                RefSettings {
-                    span_range: 978..997,
-                    on_delete: Some(
-                        NoAction,
-                    ),
-                    on_update: None,
-                },
-            ),
-        },
-    ],
-    enums: [],
 }

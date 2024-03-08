@@ -117,15 +117,13 @@ pub fn get_table_refs(table_ident: &TableIdent, analyzed_indexer: &AnalyzedIndex
 /// // of the parsed and analyzed DBML text.
 /// ```
 pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
-  let SchemaBlock {
-    span_range,
-    input,
-    project,
-    tables,
-    table_groups,
-    refs,
-    enums,
-  } = schema_block;
+  let span_range = schema_block.span_range.clone();
+  let input = schema_block.input;
+  let project = schema_block.project();
+  let tables = schema_block.tables();
+  let table_groups = schema_block.table_groups();
+  let refs = schema_block.refs();
+  let enums = schema_block.enums();
 
   // check project block
   match &project {
@@ -134,7 +132,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
   }
 
   // index inside the table itself
-  for table in tables {
+  for table in &tables {
     let mut tmp_table_indexer = TableIndexer::default();
 
     for col in &table.cols {
@@ -212,7 +210,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
   // collect tables
   let mut indexer = indexer::Indexer::default();
-  let mut indexed_refs: Vec<_> = refs.clone().into_iter().map(block::IndexedRefBlock::from).collect();
+  let mut indexed_refs: Vec<_> = refs.clone().into_iter().cloned().map(block::IndexedRefBlock::from).collect();
 
   // start indexing the schema
   indexer.index_table(&tables, &input)?;
@@ -220,7 +218,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
   indexer.index_table_groups(&table_groups, &input)?;
 
   // collect refs from tables
-  for table in tables {
+  for table in &tables {
     for col in &table.cols {
       let indexed_ref = block::IndexedRefBlock::from_inline(
         col.settings.clone().map(|s| s.refs).unwrap_or_default(),

@@ -1,171 +1,169 @@
 SchemaBlock {
     span_range: 0..407,
     input: "Table users [note: 'note in table settings'] {\n  id int [pk]\n  name varchar [pk]\n  gender varchar\n  created_at datetime\n\n  Note: 'Short note'\n\n  Indexes {\n    id\n    (id, name)\n  }\n\n  Indexes {\n    gender\n    created_at\n  }\n\n  Note {\n    '''\n    # Note\n\n    ## Objective\n      * Support define element's note inside element body\n      * Make writing long note easier with the new syntax\n      \n    '''\n  }\n}",
-    project: None,
-    tables: [
-        TableBlock {
-            span_range: 0..407,
-            cols: [
-                TableColumn {
-                    span_range: 49..60,
-                    name: Ident {
-                        span_range: 49..51,
-                        to_string: "id",
-                    },
-                    type: ColumnType {
-                        span_range: 52..56,
-                        type_name: Raw(
-                            "int",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 56..60,
-                            properties: [
-                                KeyValue {
-                                    span_range: 57..59,
-                                    key: Ident {
-                                        span_range: 57..59,
-                                        to_string: "pk",
-                                    },
-                                    value: None,
-                                },
-                            ],
-                            is_pk: true,
-                            is_unique: false,
-                            is_nullable: None,
-                            is_incremental: false,
-                            note: None,
-                            default: None,
-                            refs: [],
+    blocks: [
+        Table(
+            TableBlock {
+                span_range: 0..407,
+                cols: [
+                    TableColumn {
+                        span_range: 49..60,
+                        name: Ident {
+                            span_range: 49..51,
+                            to_string: "id",
                         },
-                    ),
-                },
-                TableColumn {
-                    span_range: 63..80,
-                    name: Ident {
-                        span_range: 63..67,
-                        to_string: "name",
-                    },
-                    type: ColumnType {
-                        span_range: 68..76,
-                        type_name: Raw(
-                            "varchar",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 76..80,
-                            properties: [
-                                KeyValue {
-                                    span_range: 77..79,
-                                    key: Ident {
-                                        span_range: 77..79,
-                                        to_string: "pk",
-                                    },
-                                    value: None,
-                                },
-                            ],
-                            is_pk: true,
-                            is_unique: false,
-                            is_nullable: None,
-                            is_incremental: false,
-                            note: None,
-                            default: None,
-                            refs: [],
-                        },
-                    ),
-                },
-                TableColumn {
-                    span_range: 83..100,
-                    name: Ident {
-                        span_range: 83..89,
-                        to_string: "gender",
-                    },
-                    type: ColumnType {
-                        span_range: 90..100,
-                        type_name: Raw(
-                            "varchar",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 100..123,
-                    name: Ident {
-                        span_range: 100..110,
-                        to_string: "created_at",
-                    },
-                    type: ColumnType {
-                        span_range: 111..123,
-                        type_name: Raw(
-                            "datetime",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-            ],
-            ident: TableIdent {
-                span_range: 6..12,
-                name: Ident {
-                    span_range: 6..11,
-                    to_string: "users",
-                },
-                schema: None,
-                alias: None,
-            },
-            note: Some(
-                "# Note\n\n    ## Objective\n      * Support define element's note inside element body\n      * Make writing long note easier with the new syntax\n      \n    ",
-            ),
-            indexes: Some(
-                IndexesBlock {
-                    span_range: 192..223,
-                    defs: [
-                        IndexesDef {
-                            span_range: 198..209,
-                            cols: [
-                                String(
-                                    "gender",
-                                ),
-                            ],
-                            settings: None,
-                        },
-                        IndexesDef {
-                            span_range: 209..222,
-                            cols: [
-                                String(
-                                    "created_at",
-                                ),
-                            ],
-                            settings: None,
-                        },
-                    ],
-                },
-            ),
-            settings: Some(
-                TableSettings {
-                    span_range: 12..44,
-                    values: [
-                        (
-                            "note",
-                            String(
-                                "note in table settings",
+                        type: ColumnType {
+                            span_range: 52..56,
+                            type_name: Raw(
+                                "int",
                             ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 56..60,
+                                properties: [
+                                    KeyValue {
+                                        span_range: 57..59,
+                                        key: Ident {
+                                            span_range: 57..59,
+                                            to_string: "pk",
+                                        },
+                                        value: None,
+                                    },
+                                ],
+                                is_pk: true,
+                                is_unique: false,
+                                is_nullable: None,
+                                is_incremental: false,
+                                note: None,
+                                default: None,
+                                refs: [],
+                            },
                         ),
-                    ],
+                    },
+                    TableColumn {
+                        span_range: 63..80,
+                        name: Ident {
+                            span_range: 63..67,
+                            to_string: "name",
+                        },
+                        type: ColumnType {
+                            span_range: 68..76,
+                            type_name: Raw(
+                                "varchar",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 76..80,
+                                properties: [
+                                    KeyValue {
+                                        span_range: 77..79,
+                                        key: Ident {
+                                            span_range: 77..79,
+                                            to_string: "pk",
+                                        },
+                                        value: None,
+                                    },
+                                ],
+                                is_pk: true,
+                                is_unique: false,
+                                is_nullable: None,
+                                is_incremental: false,
+                                note: None,
+                                default: None,
+                                refs: [],
+                            },
+                        ),
+                    },
+                    TableColumn {
+                        span_range: 83..100,
+                        name: Ident {
+                            span_range: 83..89,
+                            to_string: "gender",
+                        },
+                        type: ColumnType {
+                            span_range: 90..100,
+                            type_name: Raw(
+                                "varchar",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 100..123,
+                        name: Ident {
+                            span_range: 100..110,
+                            to_string: "created_at",
+                        },
+                        type: ColumnType {
+                            span_range: 111..123,
+                            type_name: Raw(
+                                "datetime",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                ],
+                ident: TableIdent {
+                    span_range: 6..12,
+                    name: Ident {
+                        span_range: 6..11,
+                        to_string: "users",
+                    },
+                    schema: None,
+                    alias: None,
                 },
-            ),
-        },
+                note: Some(
+                    "# Note\n\n    ## Objective\n      * Support define element's note inside element body\n      * Make writing long note easier with the new syntax\n      \n    ",
+                ),
+                indexes: Some(
+                    IndexesBlock {
+                        span_range: 192..223,
+                        defs: [
+                            IndexesDef {
+                                span_range: 198..209,
+                                cols: [
+                                    String(
+                                        "gender",
+                                    ),
+                                ],
+                                settings: None,
+                            },
+                            IndexesDef {
+                                span_range: 209..222,
+                                cols: [
+                                    String(
+                                        "created_at",
+                                    ),
+                                ],
+                                settings: None,
+                            },
+                        ],
+                    },
+                ),
+                settings: Some(
+                    TableSettings {
+                        span_range: 12..44,
+                        values: [
+                            (
+                                "note",
+                                String(
+                                    "note in table settings",
+                                ),
+                            ),
+                        ],
+                    },
+                ),
+            },
+        ),
     ],
-    table_groups: [],
-    refs: [],
-    enums: [],
 }

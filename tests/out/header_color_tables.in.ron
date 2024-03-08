@@ -1,103 +1,101 @@
 SchemaBlock {
     span_range: 0..143,
     input: "Table orders [HeaderColor: #0065ab] { // headercolor is case-insensitive.\n\tid int //columns\n\tuser_id int\n\tstatus varchar\n\tcreate_at date_time\n}",
-    project: None,
-    tables: [
-        TableBlock {
-            span_range: 0..143,
-            cols: [
-                TableColumn {
-                    span_range: 75..93,
-                    name: Ident {
-                        span_range: 75..77,
-                        to_string: "id",
-                    },
-                    type: ColumnType {
-                        span_range: 78..93,
-                        type_name: Raw(
-                            "int",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 93..106,
-                    name: Ident {
-                        span_range: 93..100,
-                        to_string: "user_id",
-                    },
-                    type: ColumnType {
-                        span_range: 101..106,
-                        type_name: Raw(
-                            "int",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 106..122,
-                    name: Ident {
-                        span_range: 106..112,
-                        to_string: "status",
-                    },
-                    type: ColumnType {
-                        span_range: 113..122,
-                        type_name: Raw(
-                            "varchar",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 122..142,
-                    name: Ident {
-                        span_range: 122..131,
-                        to_string: "create_at",
-                    },
-                    type: ColumnType {
-                        span_range: 132..142,
-                        type_name: Raw(
-                            "date_time",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-            ],
-            ident: TableIdent {
-                span_range: 6..13,
-                name: Ident {
-                    span_range: 6..12,
-                    to_string: "orders",
-                },
-                schema: None,
-                alias: None,
-            },
-            note: None,
-            indexes: None,
-            settings: Some(
-                TableSettings {
-                    span_range: 13..35,
-                    values: [
-                        (
-                            "HeaderColor",
-                            HexColor(
-                                "#0065ab",
+    blocks: [
+        Table(
+            TableBlock {
+                span_range: 0..143,
+                cols: [
+                    TableColumn {
+                        span_range: 75..93,
+                        name: Ident {
+                            span_range: 75..77,
+                            to_string: "id",
+                        },
+                        type: ColumnType {
+                            span_range: 78..93,
+                            type_name: Raw(
+                                "int",
                             ),
-                        ),
-                    ],
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 93..106,
+                        name: Ident {
+                            span_range: 93..100,
+                            to_string: "user_id",
+                        },
+                        type: ColumnType {
+                            span_range: 101..106,
+                            type_name: Raw(
+                                "int",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 106..122,
+                        name: Ident {
+                            span_range: 106..112,
+                            to_string: "status",
+                        },
+                        type: ColumnType {
+                            span_range: 113..122,
+                            type_name: Raw(
+                                "varchar",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 122..142,
+                        name: Ident {
+                            span_range: 122..131,
+                            to_string: "create_at",
+                        },
+                        type: ColumnType {
+                            span_range: 132..142,
+                            type_name: Raw(
+                                "date_time",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                ],
+                ident: TableIdent {
+                    span_range: 6..13,
+                    name: Ident {
+                        span_range: 6..12,
+                        to_string: "orders",
+                    },
+                    schema: None,
+                    alias: None,
                 },
-            ),
-        },
+                note: None,
+                indexes: None,
+                settings: Some(
+                    TableSettings {
+                        span_range: 13..35,
+                        values: [
+                            (
+                                "HeaderColor",
+                                HexColor(
+                                    "#0065ab",
+                                ),
+                            ),
+                        ],
+                    },
+                ),
+            },
+        ),
     ],
-    table_groups: [],
-    refs: [],
-    enums: [],
 }

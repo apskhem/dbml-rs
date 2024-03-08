@@ -1,66 +1,64 @@
 SchemaBlock {
     span_range: 0..197,
     input: "Table users {\n  id int [note: '''\n\n    # Objective\n      * Support writing long string that can \\\n'span' over multiple lines\n      * Support writing markdown for DBML Note\n  \n    # Syntax\n\n  ''']\n}",
-    project: None,
-    tables: [
-        TableBlock {
-            span_range: 0..197,
-            cols: [
-                TableColumn {
-                    span_range: 16..195,
-                    name: Ident {
-                        span_range: 16..18,
-                        to_string: "id",
-                    },
-                    type: ColumnType {
-                        span_range: 19..23,
-                        type_name: Raw(
-                            "int",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 23..195,
-                            properties: [
-                                KeyValue {
-                                    span_range: 24..194,
-                                    key: Ident {
-                                        span_range: 24..28,
-                                        to_string: "note",
-                                    },
-                                    value: None,
-                                },
-                            ],
-                            is_pk: false,
-                            is_unique: false,
-                            is_nullable: None,
-                            is_incremental: false,
-                            note: Some(
-                                "# Objective\n      * Support writing long string that can \\\n'span' over multiple lines\n      * Support writing markdown for DBML Note\n  \n    # Syntax\n\n  ",
-                            ),
-                            default: None,
-                            refs: [],
+    blocks: [
+        Table(
+            TableBlock {
+                span_range: 0..197,
+                cols: [
+                    TableColumn {
+                        span_range: 16..195,
+                        name: Ident {
+                            span_range: 16..18,
+                            to_string: "id",
                         },
-                    ),
+                        type: ColumnType {
+                            span_range: 19..23,
+                            type_name: Raw(
+                                "int",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 23..195,
+                                properties: [
+                                    KeyValue {
+                                        span_range: 24..194,
+                                        key: Ident {
+                                            span_range: 24..28,
+                                            to_string: "note",
+                                        },
+                                        value: None,
+                                    },
+                                ],
+                                is_pk: false,
+                                is_unique: false,
+                                is_nullable: None,
+                                is_incremental: false,
+                                note: Some(
+                                    "# Objective\n      * Support writing long string that can \\\n'span' over multiple lines\n      * Support writing markdown for DBML Note\n  \n    # Syntax\n\n  ",
+                                ),
+                                default: None,
+                                refs: [],
+                            },
+                        ),
+                    },
+                ],
+                ident: TableIdent {
+                    span_range: 6..12,
+                    name: Ident {
+                        span_range: 6..11,
+                        to_string: "users",
+                    },
+                    schema: None,
+                    alias: None,
                 },
-            ],
-            ident: TableIdent {
-                span_range: 6..12,
-                name: Ident {
-                    span_range: 6..11,
-                    to_string: "users",
-                },
-                schema: None,
-                alias: None,
+                note: None,
+                indexes: None,
+                settings: None,
             },
-            note: None,
-            indexes: None,
-            settings: None,
-        },
+        ),
     ],
-    table_groups: [],
-    refs: [],
-    enums: [],
 }

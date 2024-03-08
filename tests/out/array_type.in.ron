@@ -1,166 +1,166 @@
 SchemaBlock {
     span_range: 0..141,
     input: "Table sal_emp {\n  name text\n  pay_by_quarter \"int[]\" [not null]\n  schedule \"text[][]\" [null]\n}\n\nTable tictactoe {\n  squares \"integer[3][3]\"\n}",
-    project: None,
-    tables: [
-        TableBlock {
-            span_range: 0..94,
-            cols: [
-                TableColumn {
-                    span_range: 18..30,
-                    name: Ident {
-                        span_range: 18..22,
-                        to_string: "name",
+    blocks: [
+        Table(
+            TableBlock {
+                span_range: 0..94,
+                cols: [
+                    TableColumn {
+                        span_range: 18..30,
+                        name: Ident {
+                            span_range: 18..22,
+                            to_string: "name",
+                        },
+                        type: ColumnType {
+                            span_range: 23..30,
+                            type_name: Raw(
+                                "text",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
                     },
-                    type: ColumnType {
-                        span_range: 23..30,
-                        type_name: Raw(
-                            "text",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 30..63,
-                    name: Ident {
-                        span_range: 30..44,
-                        to_string: "pay_by_quarter",
-                    },
-                    type: ColumnType {
-                        span_range: 45..52,
-                        type_name: Raw(
-                            "int",
-                        ),
-                        args: [],
-                        arrays: [
-                            None,
-                        ],
-                    },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 53..63,
-                            properties: [
-                                KeyValue {
-                                    span_range: 54..62,
-                                    key: Ident {
+                    TableColumn {
+                        span_range: 30..63,
+                        name: Ident {
+                            span_range: 30..44,
+                            to_string: "pay_by_quarter",
+                        },
+                        type: ColumnType {
+                            span_range: 45..52,
+                            type_name: Raw(
+                                "int",
+                            ),
+                            args: [],
+                            arrays: [
+                                None,
+                            ],
+                        },
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 53..63,
+                                properties: [
+                                    KeyValue {
                                         span_range: 54..62,
-                                        to_string: "not null",
+                                        key: Ident {
+                                            span_range: 54..62,
+                                            to_string: "not null",
+                                        },
+                                        value: None,
                                     },
-                                    value: None,
-                                },
-                            ],
-                            is_pk: false,
-                            is_unique: false,
-                            is_nullable: Some(
-                                NotNull,
-                            ),
-                            is_incremental: false,
-                            note: None,
-                            default: None,
-                            refs: [],
-                        },
-                    ),
-                },
-                TableColumn {
-                    span_range: 66..92,
-                    name: Ident {
-                        span_range: 66..74,
-                        to_string: "schedule",
-                    },
-                    type: ColumnType {
-                        span_range: 75..85,
-                        type_name: Raw(
-                            "text",
+                                ],
+                                is_pk: false,
+                                is_unique: false,
+                                is_nullable: Some(
+                                    NotNull,
+                                ),
+                                is_incremental: false,
+                                note: None,
+                                default: None,
+                                refs: [],
+                            },
                         ),
-                        args: [],
-                        arrays: [
-                            None,
-                            None,
-                        ],
                     },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 86..92,
-                            properties: [
-                                KeyValue {
-                                    span_range: 87..91,
-                                    key: Ident {
+                    TableColumn {
+                        span_range: 66..92,
+                        name: Ident {
+                            span_range: 66..74,
+                            to_string: "schedule",
+                        },
+                        type: ColumnType {
+                            span_range: 75..85,
+                            type_name: Raw(
+                                "text",
+                            ),
+                            args: [],
+                            arrays: [
+                                None,
+                                None,
+                            ],
+                        },
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 86..92,
+                                properties: [
+                                    KeyValue {
                                         span_range: 87..91,
-                                        to_string: "null",
+                                        key: Ident {
+                                            span_range: 87..91,
+                                            to_string: "null",
+                                        },
+                                        value: None,
                                     },
-                                    value: None,
-                                },
-                            ],
-                            is_pk: false,
-                            is_unique: false,
-                            is_nullable: Some(
-                                Null,
-                            ),
-                            is_incremental: false,
-                            note: None,
-                            default: None,
-                            refs: [],
-                        },
-                    ),
-                },
-            ],
-            ident: TableIdent {
-                span_range: 6..14,
-                name: Ident {
-                    span_range: 6..13,
-                    to_string: "sal_emp",
-                },
-                schema: None,
-                alias: None,
-            },
-            note: None,
-            indexes: None,
-            settings: None,
-        },
-        TableBlock {
-            span_range: 96..141,
-            cols: [
-                TableColumn {
-                    span_range: 116..140,
-                    name: Ident {
-                        span_range: 116..123,
-                        to_string: "squares",
-                    },
-                    type: ColumnType {
-                        span_range: 124..139,
-                        type_name: Raw(
-                            "integer",
+                                ],
+                                is_pk: false,
+                                is_unique: false,
+                                is_nullable: Some(
+                                    Null,
+                                ),
+                                is_incremental: false,
+                                note: None,
+                                default: None,
+                                refs: [],
+                            },
                         ),
-                        args: [],
-                        arrays: [
-                            Some(
-                                3,
-                            ),
-                            Some(
-                                3,
-                            ),
-                        ],
                     },
-                    settings: None,
+                ],
+                ident: TableIdent {
+                    span_range: 6..14,
+                    name: Ident {
+                        span_range: 6..13,
+                        to_string: "sal_emp",
+                    },
+                    schema: None,
+                    alias: None,
                 },
-            ],
-            ident: TableIdent {
-                span_range: 102..112,
-                name: Ident {
-                    span_range: 102..111,
-                    to_string: "tictactoe",
-                },
-                schema: None,
-                alias: None,
+                note: None,
+                indexes: None,
+                settings: None,
             },
-            note: None,
-            indexes: None,
-            settings: None,
-        },
+        ),
+        Table(
+            TableBlock {
+                span_range: 96..141,
+                cols: [
+                    TableColumn {
+                        span_range: 116..140,
+                        name: Ident {
+                            span_range: 116..123,
+                            to_string: "squares",
+                        },
+                        type: ColumnType {
+                            span_range: 124..139,
+                            type_name: Raw(
+                                "integer",
+                            ),
+                            args: [],
+                            arrays: [
+                                Some(
+                                    3,
+                                ),
+                                Some(
+                                    3,
+                                ),
+                            ],
+                        },
+                        settings: None,
+                    },
+                ],
+                ident: TableIdent {
+                    span_range: 102..112,
+                    name: Ident {
+                        span_range: 102..111,
+                        to_string: "tictactoe",
+                    },
+                    schema: None,
+                    alias: None,
+                },
+                note: None,
+                indexes: None,
+                settings: None,
+            },
+        ),
     ],
-    table_groups: [],
-    refs: [],
-    enums: [],
 }

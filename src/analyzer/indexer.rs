@@ -24,7 +24,7 @@ pub struct Indexer {
 }
 
 impl Indexer {
-  pub fn index_table(&mut self, tables: &Vec<TableBlock>, input: &str) -> AnalyzerResult<()> {
+  pub fn index_table(&mut self, tables: &Vec<&TableBlock>, input: &str) -> AnalyzerResult<()> {
     for table in tables {
       let TableIdent {
         span_range,
@@ -76,7 +76,7 @@ impl Indexer {
     Ok(())
   }
 
-  pub fn index_enums(&mut self, enums: &Vec<EnumBlock>) -> AnalyzerResult<()> {
+  pub fn index_enums(&mut self, enums: &Vec<&EnumBlock>) -> AnalyzerResult<()> {
     for r#enum in enums.iter() {
       let EnumIdent { schema, name, .. } = r#enum.ident.clone();
 
@@ -107,7 +107,7 @@ impl Indexer {
 
   pub fn index_table_groups(
     &mut self,
-    table_groups: &Vec<TableGroupBlock>,
+    table_groups: &Vec<&TableGroupBlock>,
     input: &str,
   ) -> AnalyzerResult<()> {
     for group_each in table_groups.into_iter() {

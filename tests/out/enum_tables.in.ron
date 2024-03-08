@@ -1,264 +1,267 @@
 SchemaBlock {
     span_range: 0..460,
     input: "Enum job_status {\n  created [note: 'Job created and pending']\n  running [note: 'Waiting for warehouse to process']\n  done\n  failed\n\t\"wait for validation\" [note: 'Enum label that has white spaces']\n}\n\nTable jobs {\n  id integer [pk]\n  status job_status [note: 'This is a column note']\n}\n\nEnum \"order status\" {\n  created [note: 'Order created']\n  pending\n  processing\n  completed\n}\n\nTable orders {\n  id int PK unique\n  status \"order status\"\n  created_at varchar\n}",
-    project: None,
-    tables: [
-        TableBlock {
-            span_range: 200..284,
-            cols: [
-                TableColumn {
-                    span_range: 215..230,
+    blocks: [
+        Enum(
+            EnumBlock {
+                span_range: 0..198,
+                ident: EnumIdent {
+                    span_range: 5..16,
                     name: Ident {
-                        span_range: 215..217,
-                        to_string: "id",
+                        span_range: 5..15,
+                        to_string: "job_status",
                     },
-                    type: ColumnType {
-                        span_range: 218..226,
-                        type_name: Raw(
-                            "integer",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 226..230,
-                            properties: [
-                                KeyValue {
-                                    span_range: 227..229,
-                                    key: Ident {
-                                        span_range: 227..229,
-                                        to_string: "pk",
-                                    },
-                                    value: None,
-                                },
-                            ],
-                            is_pk: true,
-                            is_unique: false,
-                            is_nullable: None,
-                            is_incremental: false,
-                            note: None,
-                            default: None,
-                            refs: [],
-                        },
-                    ),
+                    schema: None,
                 },
-                TableColumn {
-                    span_range: 233..282,
-                    name: Ident {
-                        span_range: 233..239,
-                        to_string: "status",
-                    },
-                    type: ColumnType {
-                        span_range: 240..251,
-                        type_name: Raw(
-                            "job_status",
+                values: [
+                    EnumValue {
+                        span_range: 20..61,
+                        value: "created",
+                        note: Some(
+                            "Job created and pending",
                         ),
-                        args: [],
-                        arrays: [],
                     },
-                    settings: Some(
-                        ColumnSettings {
-                            span_range: 251..282,
-                            properties: [
-                                KeyValue {
-                                    span_range: 252..281,
-                                    key: Ident {
-                                        span_range: 252..256,
-                                        to_string: "note",
-                                    },
-                                    value: None,
-                                },
-                            ],
-                            is_pk: false,
-                            is_unique: false,
-                            is_nullable: None,
-                            is_incremental: false,
-                            note: Some(
-                                "This is a column note",
+                    EnumValue {
+                        span_range: 64..114,
+                        value: "running",
+                        note: Some(
+                            "Waiting for warehouse to process",
+                        ),
+                    },
+                    EnumValue {
+                        span_range: 117..124,
+                        value: "done",
+                        note: None,
+                    },
+                    EnumValue {
+                        span_range: 124..132,
+                        value: "failed",
+                        note: None,
+                    },
+                    EnumValue {
+                        span_range: 132..196,
+                        value: "wait for validation",
+                        note: Some(
+                            "Enum label that has white spaces",
+                        ),
+                    },
+                ],
+            },
+        ),
+        Table(
+            TableBlock {
+                span_range: 200..284,
+                cols: [
+                    TableColumn {
+                        span_range: 215..230,
+                        name: Ident {
+                            span_range: 215..217,
+                            to_string: "id",
+                        },
+                        type: ColumnType {
+                            span_range: 218..226,
+                            type_name: Raw(
+                                "integer",
                             ),
-                            default: None,
-                            refs: [],
+                            args: [],
+                            arrays: [],
                         },
-                    ),
-                },
-            ],
-            ident: TableIdent {
-                span_range: 206..211,
-                name: Ident {
-                    span_range: 206..210,
-                    to_string: "jobs",
-                },
-                schema: None,
-                alias: None,
-            },
-            note: None,
-            indexes: None,
-            settings: None,
-        },
-        TableBlock {
-            span_range: 380..460,
-            cols: [
-                TableColumn {
-                    span_range: 397..404,
-                    name: Ident {
-                        span_range: 397..399,
-                        to_string: "id",
-                    },
-                    type: ColumnType {
-                        span_range: 400..404,
-                        type_name: Raw(
-                            "int",
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 226..230,
+                                properties: [
+                                    KeyValue {
+                                        span_range: 227..229,
+                                        key: Ident {
+                                            span_range: 227..229,
+                                            to_string: "pk",
+                                        },
+                                        value: None,
+                                    },
+                                ],
+                                is_pk: true,
+                                is_unique: false,
+                                is_nullable: None,
+                                is_incremental: false,
+                                note: None,
+                                default: None,
+                                refs: [],
+                            },
                         ),
-                        args: [],
-                        arrays: [],
                     },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 404..416,
-                    name: Ident {
-                        span_range: 404..406,
-                        to_string: "PK",
-                    },
-                    type: ColumnType {
-                        span_range: 407..416,
-                        type_name: Raw(
-                            "unique",
+                    TableColumn {
+                        span_range: 233..282,
+                        name: Ident {
+                            span_range: 233..239,
+                            to_string: "status",
+                        },
+                        type: ColumnType {
+                            span_range: 240..251,
+                            type_name: Raw(
+                                "job_status",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 251..282,
+                                properties: [
+                                    KeyValue {
+                                        span_range: 252..281,
+                                        key: Ident {
+                                            span_range: 252..256,
+                                            to_string: "note",
+                                        },
+                                        value: None,
+                                    },
+                                ],
+                                is_pk: false,
+                                is_unique: false,
+                                is_nullable: None,
+                                is_incremental: false,
+                                note: Some(
+                                    "This is a column note",
+                                ),
+                                default: None,
+                                refs: [],
+                            },
                         ),
-                        args: [],
-                        arrays: [],
                     },
-                    settings: None,
-                },
-                TableColumn {
-                    span_range: 416..440,
+                ],
+                ident: TableIdent {
+                    span_range: 206..211,
                     name: Ident {
-                        span_range: 416..422,
-                        to_string: "status",
+                        span_range: 206..210,
+                        to_string: "jobs",
                     },
-                    type: ColumnType {
-                        span_range: 423..437,
-                        type_name: Raw(
-                            "order status",
-                        ),
-                        args: [],
-                        arrays: [],
-                    },
-                    settings: None,
+                    schema: None,
+                    alias: None,
                 },
-                TableColumn {
-                    span_range: 440..459,
+                note: None,
+                indexes: None,
+                settings: None,
+            },
+        ),
+        Enum(
+            EnumBlock {
+                span_range: 286..378,
+                ident: EnumIdent {
+                    span_range: 291..306,
                     name: Ident {
-                        span_range: 440..450,
-                        to_string: "created_at",
+                        span_range: 291..305,
+                        to_string: "order status",
                     },
-                    type: ColumnType {
-                        span_range: 451..459,
-                        type_name: Raw(
-                            "varchar",
+                    schema: None,
+                },
+                values: [
+                    EnumValue {
+                        span_range: 310..341,
+                        value: "created",
+                        note: Some(
+                            "Order created",
                         ),
-                        args: [],
-                        arrays: [],
                     },
-                    settings: None,
-                },
-            ],
-            ident: TableIdent {
-                span_range: 386..393,
-                name: Ident {
-                    span_range: 386..392,
-                    to_string: "orders",
-                },
-                schema: None,
-                alias: None,
+                    EnumValue {
+                        span_range: 344..354,
+                        value: "pending",
+                        note: None,
+                    },
+                    EnumValue {
+                        span_range: 354..367,
+                        value: "processing",
+                        note: None,
+                    },
+                    EnumValue {
+                        span_range: 367..377,
+                        value: "completed",
+                        note: None,
+                    },
+                ],
             },
-            note: None,
-            indexes: None,
-            settings: None,
-        },
-    ],
-    table_groups: [],
-    refs: [],
-    enums: [
-        EnumBlock {
-            span_range: 0..198,
-            ident: EnumIdent {
-                span_range: 5..16,
-                name: Ident {
-                    span_range: 5..15,
-                    to_string: "job_status",
+        ),
+        Table(
+            TableBlock {
+                span_range: 380..460,
+                cols: [
+                    TableColumn {
+                        span_range: 397..404,
+                        name: Ident {
+                            span_range: 397..399,
+                            to_string: "id",
+                        },
+                        type: ColumnType {
+                            span_range: 400..404,
+                            type_name: Raw(
+                                "int",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 404..416,
+                        name: Ident {
+                            span_range: 404..406,
+                            to_string: "PK",
+                        },
+                        type: ColumnType {
+                            span_range: 407..416,
+                            type_name: Raw(
+                                "unique",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 416..440,
+                        name: Ident {
+                            span_range: 416..422,
+                            to_string: "status",
+                        },
+                        type: ColumnType {
+                            span_range: 423..437,
+                            type_name: Raw(
+                                "order status",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                    TableColumn {
+                        span_range: 440..459,
+                        name: Ident {
+                            span_range: 440..450,
+                            to_string: "created_at",
+                        },
+                        type: ColumnType {
+                            span_range: 451..459,
+                            type_name: Raw(
+                                "varchar",
+                            ),
+                            args: [],
+                            arrays: [],
+                        },
+                        settings: None,
+                    },
+                ],
+                ident: TableIdent {
+                    span_range: 386..393,
+                    name: Ident {
+                        span_range: 386..392,
+                        to_string: "orders",
+                    },
+                    schema: None,
+                    alias: None,
                 },
-                schema: None,
+                note: None,
+                indexes: None,
+                settings: None,
             },
-            values: [
-                EnumValue {
-                    span_range: 20..61,
-                    value: "created",
-                    note: Some(
-                        "Job created and pending",
-                    ),
-                },
-                EnumValue {
-                    span_range: 64..114,
-                    value: "running",
-                    note: Some(
-                        "Waiting for warehouse to process",
-                    ),
-                },
-                EnumValue {
-                    span_range: 117..124,
-                    value: "done",
-                    note: None,
-                },
-                EnumValue {
-                    span_range: 124..132,
-                    value: "failed",
-                    note: None,
-                },
-                EnumValue {
-                    span_range: 132..196,
-                    value: "wait for validation",
-                    note: Some(
-                        "Enum label that has white spaces",
-                    ),
-                },
-            ],
-        },
-        EnumBlock {
-            span_range: 286..378,
-            ident: EnumIdent {
-                span_range: 291..306,
-                name: Ident {
-                    span_range: 291..305,
-                    to_string: "order status",
-                },
-                schema: None,
-            },
-            values: [
-                EnumValue {
-                    span_range: 310..341,
-                    value: "created",
-                    note: Some(
-                        "Order created",
-                    ),
-                },
-                EnumValue {
-                    span_range: 344..354,
-                    value: "pending",
-                    note: None,
-                },
-                EnumValue {
-                    span_range: 354..367,
-                    value: "processing",
-                    note: None,
-                },
-                EnumValue {
-                    span_range: 367..377,
-                    value: "completed",
-                    note: None,
-                },
-            ],
-        },
+        ),
     ],
 }
