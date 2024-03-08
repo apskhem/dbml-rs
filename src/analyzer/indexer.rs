@@ -145,7 +145,7 @@ impl Indexer {
 
       self
         .table_group_map
-        .insert(group_each.name.name.clone(), table_sets);
+        .insert(group_each.ident.name.clone(), table_sets);
     }
 
     Ok(())

@@ -4,12 +4,14 @@ Project project_name {
 }
 
 TableGroup order {
-  users.ti // users
+  public.users // users
+  // posts
+  // P
   P
   orders
 }
 
-Table users {
+Table public.users {
   id integer [pk]
   age integer [default: 10]
   username "character varying[]"

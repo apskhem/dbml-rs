@@ -189,7 +189,7 @@ SchemaBlock {
     table_groups: [
         TableGroupBlock {
             span_range: 254..291,
-            name: Ident {
+            ident: Ident {
                 span_range: 265..267,
                 name: "g1",
             },

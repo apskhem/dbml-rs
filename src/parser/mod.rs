@@ -560,7 +560,7 @@ fn parse_table_group_decl(pair: Pair<Rule>) -> ParserResult<TableGroupBlock> {
     .into_inner()
     .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
-        Rule::ident => acc.name = parse_ident(p1)?,
+        Rule::ident => acc.ident = parse_ident(p1)?,
         Rule::table_group_block => {
           for p2 in p1.into_inner() {
             let mut init = TableGroupIdent {
