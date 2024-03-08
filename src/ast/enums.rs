@@ -1,6 +1,6 @@
 use super::SpanRange;
 
-#[derive(Debug, PartialEq, Eq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct EnumBlock {
   /// The range of the span.
   pub span_range: SpanRange,
@@ -8,7 +8,7 @@ pub struct EnumBlock {
   pub values: Vec<EnumValue>,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct EnumValue {
   /// The range of the span.
   pub span_range: SpanRange,
@@ -16,7 +16,7 @@ pub struct EnumValue {
   pub note: Option<String>,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct EnumIdent {
   /// The range of the span.
   pub span_range: SpanRange,

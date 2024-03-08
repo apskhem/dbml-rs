@@ -3,7 +3,7 @@ use alloc::collections::BTreeSet;
 use super::IndexesType;
 
 /// A struct representing indexed meta data during parsing.
-#[derive(Debug, PartialEq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct TableIndexer {
   /// A list of primary column names (composition applicable).
   pub pk_list: Vec<String>,

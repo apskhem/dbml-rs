@@ -2,7 +2,7 @@ use std::str::FromStr;
 
 use super::SpanRange;
 
-#[derive(Debug, PartialEq, Eq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct IndexesBlock {
   /// The range of the span.
   pub span_range: SpanRange,
@@ -10,7 +10,7 @@ pub struct IndexesBlock {
   pub defs: Vec<IndexesDef>,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct IndexesDef {
   /// The range of the span.
   pub span_range: SpanRange,
@@ -20,7 +20,7 @@ pub struct IndexesDef {
   pub settings: Option<IndexesSettings>,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct IndexesSettings {
   /// The range of the span.
   pub span_range: SpanRange,
@@ -36,7 +36,7 @@ pub struct IndexesSettings {
   pub name: Option<String>,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone)]
+#[derive(Debug, Clone)]
 pub enum IndexesColumnType {
   String(String),
   Expr(String),

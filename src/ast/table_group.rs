@@ -1,7 +1,7 @@
 use super::*;
 
 /// A table group allowing to group the related or associated tables together.
-#[derive(Debug, PartialEq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct TableGroupBlock {
   /// The range of the span.
   pub span_range: SpanRange,
@@ -12,7 +12,7 @@ pub struct TableGroupBlock {
 }
 
 /// An associated table inside a table group.
-#[derive(Debug, PartialEq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct TableGroupIdent {
   /// The range of the span.
   pub span_range: SpanRange,

@@ -10,7 +10,7 @@ mod block;
 mod err;
 mod indexer;
 
-#[derive(Debug, PartialEq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct SemanticSchemaBlock {
   /// Overall description of the project. This is optional. The file must contain one or zero 'Project' block.
   pub project: Option<ProjectBlock>,

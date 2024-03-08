@@ -3,7 +3,7 @@ use std::str::FromStr;
 use super::*;
 
 /// A single declared block of table.
-#[derive(Debug, PartialEq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct TableBlock {
   /// The range of the span.
   pub span_range: SpanRange,
@@ -20,7 +20,7 @@ pub struct TableBlock {
 }
 
 /// A struct representing settings of the table.
-#[derive(Debug, PartialEq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct TableSettings {
   /// The range of the span.
   pub span_range: SpanRange,
@@ -29,7 +29,7 @@ pub struct TableSettings {
 }
 
 /// A single declared column of the table.
-#[derive(Debug, PartialEq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct TableColumn {
   /// The range of the span.
   pub span_range: SpanRange,
@@ -42,7 +42,7 @@ pub struct TableColumn {
 }
 
 /// A struct representing details of the table column.
-#[derive(Debug, PartialEq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct ColumnType {
   /// The range of the span.
   pub span_range: SpanRange,
@@ -55,7 +55,7 @@ pub struct ColumnType {
 }
 
 /// Represents data types of the database.
-#[derive(Debug, PartialEq, Clone, Default)]
+#[derive(Debug, PartialEq, Eq, Clone, Default)]
 pub enum ColumnTypeName {
   /// An initial value (default).
   /// This should not present as a final parsing result.
@@ -161,7 +161,7 @@ impl FromStr for ColumnTypeName {
 }
 
 /// Column settings.
-#[derive(Debug, PartialEq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct ColumnSettings {
   pub span_range: SpanRange,
   pub properties: Vec<KeyValue>,
@@ -175,7 +175,7 @@ pub struct ColumnSettings {
 }
 
 /// A table identifier.
-#[derive(Debug, PartialEq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct TableIdent {
   pub span_range: SpanRange,
   pub name: String,

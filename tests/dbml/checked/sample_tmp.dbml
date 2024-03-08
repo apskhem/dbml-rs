@@ -26,7 +26,7 @@ Table posts as P {
   id integer [pk]
   title varchar
   body text [note: 'Content of the post']
-  // user_id integer [ref: > users.id]
+  user_id integer [ref: > users.id]
   status post_status
   created_at timestamp
 }

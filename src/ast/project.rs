@@ -2,7 +2,7 @@ use std::str::FromStr;
 
 use super::*;
 
-#[derive(Debug, PartialEq, Eq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub enum DatabaseType {
   #[default]
   Undef,
@@ -26,7 +26,7 @@ impl FromStr for DatabaseType {
   }
 }
 
-#[derive(Debug, PartialEq, Eq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct ProjectBlock {
   pub span_range: SpanRange,
   pub name: String,

@@ -1,9 +1,7 @@
-use std::ops::Range;
-
 use super::*;
 
 /// An entire structure of a parsed DBML file.
-#[derive(Debug, PartialEq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct SchemaBlock<'a> {
   pub span_range: SpanRange,
   /// Input source content.

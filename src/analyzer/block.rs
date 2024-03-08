@@ -2,7 +2,7 @@ use super::indexer;
 use crate::ast::*;
 
 /// A validated reference block.
-#[derive(Debug, PartialEq, Eq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct IndexedRefBlock {
   pub rel: Relation,
   pub lhs: RefIdent,
@@ -85,7 +85,9 @@ impl IndexedRefBlock {
         .find(|col| &col.name == r)
         .ok_or_else(|| format!("cannot find r col"))?;
 
-      if l_field.r#type != r_field.r#type {
+      let l_type = &l_field.r#type;
+      let r_type = &r_field.r#type;
+      if l_type.type_name != r_type.type_name || l_type.args != r_type.args || l_type.arrays != r_type.arrays {
         return Err(format!("reference (composite) column type is mismatched"));
       }
     }
@@ -97,7 +99,7 @@ impl IndexedRefBlock {
     let self_ident = indexer.resolve_ref_alias(&self.lhs);
     let other_ident = indexer.resolve_ref_alias(&other.lhs);
 
-    self_ident == other_ident
+    self_ident.compositions == other_ident.compositions && self_ident.schema == other_ident.schema && self_ident.table == other_ident.table
   }
 }
 

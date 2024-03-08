@@ -3,27 +3,27 @@ use std::str::FromStr;
 use super::SpanRange;
 
 /// A String literal.
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, Clone)]
 pub struct Literal {
   pub span_range: SpanRange,
   pub value: Value,
   pub raw: String,
 }
 
-#[derive(Debug, PartialEq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct Ident {
   pub span_range: SpanRange,
   pub name: String,
 }
 
-#[derive(Debug, PartialEq, Clone, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct KeyValue {
   pub span_range: SpanRange,
   pub key: Ident,
   pub value: Option<Literal>
 }
 
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, Clone)]
 pub enum Nullable {
   NotNull,
   Null
