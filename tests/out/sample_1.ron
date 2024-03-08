@@ -193,11 +193,6 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
         TableBlock {
             span_range: 357..533,
@@ -361,11 +356,6 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
         TableBlock {
             span_range: 535..994,
@@ -450,11 +440,6 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
     ],
     table_groups: [
@@ -467,7 +452,6 @@ SchemaBlock {
             table_idents: [
                 TableGroupIdent {
                     span_range: 114..126,
-                    raw: "public.users",
                     schema: Some(
                         Ident {
                             span_range: 114..120,
@@ -481,7 +465,6 @@ SchemaBlock {
                 },
                 TableGroupIdent {
                     span_range: 156..157,
-                    raw: "P",
                     schema: None,
                     ident_alias: Ident {
                         span_range: 156..157,
@@ -490,7 +473,6 @@ SchemaBlock {
                 },
                 TableGroupIdent {
                     span_range: 160..166,
-                    raw: "orders",
                     schema: None,
                     ident_alias: Ident {
                         span_range: 160..166,

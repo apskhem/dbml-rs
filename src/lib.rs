@@ -8,6 +8,9 @@ use pest::error::Error as ParseError;
 #[macro_use]
 extern crate pest_derive;
 
+#[macro_use]
+extern crate alloc;
+
 pub(crate) mod analyzer;
 pub mod ast;
 pub mod parser;

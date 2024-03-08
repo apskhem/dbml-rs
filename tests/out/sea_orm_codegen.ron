@@ -101,11 +101,6 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
         TableBlock {
             span_range: 119..215,
@@ -224,11 +219,6 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
         TableBlock {
             span_range: 217..309,
@@ -347,11 +337,6 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
         TableBlock {
             span_range: 311..368,
@@ -421,11 +406,6 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
         TableBlock {
             span_range: 370..471,
@@ -493,11 +473,6 @@ SchemaBlock {
                 },
             ),
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
     ],
     table_groups: [],

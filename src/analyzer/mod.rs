@@ -1,3 +1,5 @@
+use alloc::collections::BTreeSet;
+
 use std::str::FromStr;
 
 use self::err::*;
@@ -82,69 +84,81 @@ impl SchemaBlock<'_> {
     let mut indexed_refs: Vec<_> = refs.into_iter().map(block::IndexedRefBlock::from).collect();
 
     // index inside the table itself
-    let tables = tables
-      .into_iter()
-      .map(|mut table| {
-        for col in table.cols.iter() {
-          if col.settings.as_ref().is_some_and(|s| s.is_pk) {
-            if !table.meta_indexer.pk_list.is_empty() {
-              panic!("pk_dup");
-            }
-            if col.settings.as_ref().is_some_and(|s| matches!(s.is_nullable, Some(Nullable::Null))) {
-              panic!("nullable_pk");
-            }
-            if !col.r#type.arrays.is_empty() {
-              panic!("array_pk");
-            }
+    for table in &tables {
+      let mut tmp_table_indexer = TableIndexer::default();
 
-            table.meta_indexer.pk_list.push(col.name.clone())
+      for col in &table.cols {
+        if col.settings.as_ref().is_some_and(|s| s.is_pk) {
+          if !tmp_table_indexer.pk_list.is_empty() {
+            throw_err(Err::DuplicatedPrimaryKey, col.span_range.clone(), input)?;
           }
-          if col.settings.as_ref().is_some_and(|s| s.is_unique) {
-            table.meta_indexer.unique_list.push(col.name.clone())
+          if col.settings.as_ref().is_some_and(|s| matches!(s.is_nullable, Some(Nullable::Null))) {
+            throw_err(Err::NullablePrimaryKey, col.span_range.clone(), input)?;
           }
+          if !col.r#type.arrays.is_empty() {
+            throw_err(Err::ArrayPrimaryKey, col.span_range.clone(), input)?;
+          }
+
+          tmp_table_indexer.pk_list.push(col.name.clone())
         }
+        if col.settings.as_ref().is_some_and(|s| s.is_unique) {
+          tmp_table_indexer.unique_list.push(BTreeSet::from([col.name.clone()]))
+        }
+      }
 
-        if let Some(indexes_block) = &table.indexes {
-          for def in indexes_block.defs.iter() {
-            let idents: Vec<_> = def
-              .cols
-              .iter()
-              .filter_map(|id| {
-                if let IndexesColumnType::String(s) = id {
-                  Some(s)
-                } else {
-                  None
-                }
-              })
-              .cloned()
-              .collect();
-
-            match &def.settings {
-              Some(settings) => {
-                if settings.is_pk && settings.is_unique {
-                  panic!("primary key is already unique");
-                }
-
-                if settings.is_pk {
-                  if !table.meta_indexer.pk_list.is_empty() {
-                    panic!("pk_dup");
-                  }
-
-                  table.meta_indexer.pk_list.extend(idents)
-                } else if settings.is_unique {
-                  // FIXME: furthur validation
-
-                  table.meta_indexer.unique_list.extend(idents)
-                }
+      if let Some(indexes_block) = &table.indexes {
+        for def in &indexes_block.defs {
+          let idents: Vec<_> = def
+            .cols
+            .iter()
+            .filter_map(|id| {
+              match id {
+                IndexesColumnType::String(s) => Some(s),
+                _ => None
               }
-              None => table.meta_indexer.indexed_list.extend(idents),
-            };
-          }
-        }
+            })
+            .cloned()
+            .collect();
 
-        table
-      })
-      .collect();
+          match &def.settings {
+            Some(settings) => {
+              if vec![settings.is_pk, settings.is_unique, settings.r#type.is_some()].into_iter().filter(|x| *x).count() > 1 {
+                throw_err(Err::InvalidIndexesSetting, settings.span_range.clone(), input)?;
+              }
+              
+              if settings.is_pk {
+                if !tmp_table_indexer.pk_list.is_empty() {
+                  throw_err(Err::DuplicatedPrimaryKey, def.span_range.clone(), input)?;
+                }
+
+                tmp_table_indexer.pk_list.extend(idents.clone())
+              } else if settings.is_unique {
+                if tmp_table_indexer.unique_list.iter().any(|uniq_item| idents.iter().all(|id| uniq_item.contains(id))) {
+                  throw_err(Err::DuplicatedUniqueKey, def.span_range.clone(), input)?;
+                }
+
+                tmp_table_indexer.unique_list.push(idents.clone().into_iter().collect())
+              }
+
+              if settings.r#type.is_some() {
+                if tmp_table_indexer.indexed_list.iter().any(|(idx_item, idx_type)| idx_item == &idents && idx_type == &settings.r#type) {
+                  throw_err(Err::DuplicatedIndexKey, def.span_range.clone(), input)?;
+                }
+
+                tmp_table_indexer.indexed_list.push((idents, settings.r#type.clone()));
+              }
+            }
+            None => {
+              if tmp_table_indexer.indexed_list.iter().any(|(idx_item, _)| idx_item == &idents) {
+                throw_err(Err::DuplicatedIndexKey, def.span_range.clone(), input)?;
+              }
+
+              tmp_table_indexer.indexed_list.push((idents, None))
+            },
+          };
+        }
+      }
+    }
 
     // start indexing the schema
     indexer.index_table(&tables);

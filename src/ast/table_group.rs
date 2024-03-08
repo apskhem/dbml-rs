@@ -16,8 +16,6 @@ pub struct TableGroupBlock {
 pub struct TableGroupIdent {
   /// The range of the span.
   pub span_range: SpanRange,
-  /// A raw string of table schema and its name in dot separating (if has schema).
-  pub raw: String,
   /// A Table schema.
   pub schema: Option<Ident>,
   /// A Table name or alias.

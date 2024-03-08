@@ -5,6 +5,8 @@ use std::path::{
   PathBuf,
 };
 
+use pest::error::LineColLocation;
+
 const DBML_DIR: &str = "tests/dbml";
 const OUT_DIR: &str = "tests/out";
 const OUT_CHECKED_DIR: &str = "tests/out/checked";
@@ -33,7 +35,7 @@ fn create_out_dir() -> Result<()> {
 }
 
 #[test]
-fn parse_dbml() -> Result<()> {
+fn parse_dbml_unchecked() -> Result<()> {
   create_out_dir()?;
 
   let testing_dbml_files = read_dbml_dir(DBML_DIR)?;
@@ -52,6 +54,16 @@ fn parse_dbml() -> Result<()> {
 
     fs::write(out_file_path, out_content)?;
   }
+
+  Ok(())
+}
+
+#[test]
+fn parse_dbml_checked_tmp() -> Result<()> {
+  let path = "tests/dbml/checked/sample_tmp.dbml";
+  let content = fs::read_to_string(path)?;
+
+  dbml_rs::parse_dbml(&content).unwrap_or_else(|err| panic!("{}", err.with_path(path)));
 
   Ok(())
 }

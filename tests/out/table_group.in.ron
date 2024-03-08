@@ -70,11 +70,6 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
         TableBlock {
             span_range: 92..252,
@@ -179,11 +174,6 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
     ],
     table_groups: [
@@ -196,7 +186,6 @@ SchemaBlock {
             table_idents: [
                 TableGroupIdent {
                     span_range: 272..277,
-                    raw: "users",
                     schema: None,
                     ident_alias: Ident {
                         span_range: 272..277,
@@ -205,7 +194,6 @@ SchemaBlock {
                 },
                 TableGroupIdent {
                     span_range: 280..289,
-                    raw: "merchants",
                     schema: None,
                     ident_alias: Ident {
                         span_range: 280..289,

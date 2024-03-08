@@ -6,6 +6,7 @@ use super::SpanRange;
 pub struct IndexesBlock {
   /// The range of the span.
   pub span_range: SpanRange,
+  /// Defined items inside an indexes block.
   pub defs: Vec<IndexesDef>,
 }
 
@@ -13,7 +14,9 @@ pub struct IndexesBlock {
 pub struct IndexesDef {
   /// The range of the span.
   pub span_range: SpanRange,
+  /// Table column names for indexing which can be composite.
   pub cols: Vec<IndexesColumnType>,
+  /// A Configuration for the specified column names.
   pub settings: Option<IndexesSettings>,
 }
 
@@ -21,10 +24,15 @@ pub struct IndexesDef {
 pub struct IndexesSettings {
   /// The range of the span.
   pub span_range: SpanRange,
+  /// A Type of index (btree, gin, gist, hash depending on DB).
   pub r#type: Option<IndexesType>,
+  /// A unique index.
   pub is_unique: bool,
+  /// A primary index.
   pub is_pk: bool,
+  /// A note.
   pub note: Option<String>,
+  /// An index name.
   pub name: Option<String>,
 }
 

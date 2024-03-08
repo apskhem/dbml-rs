@@ -140,11 +140,6 @@ SchemaBlock {
                     ],
                 },
             ),
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
         TableBlock {
             span_range: 278..367,
@@ -227,11 +222,6 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
         TableBlock {
             span_range: 369..635,
@@ -446,11 +436,6 @@ SchemaBlock {
                 },
             ),
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
         TableBlock {
             span_range: 637..808,
@@ -598,11 +583,6 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
         TableBlock {
             span_range: 889..1013,
@@ -703,11 +683,6 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
         TableBlock {
             span_range: 1015..1098,
@@ -782,11 +757,6 @@ SchemaBlock {
             note: None,
             indexes: None,
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
     ],
     table_groups: [
@@ -799,7 +769,6 @@ SchemaBlock {
             table_idents: [
                 TableGroupIdent {
                     span_range: 828..833,
-                    raw: "users",
                     schema: None,
                     ident_alias: Ident {
                         span_range: 828..833,
@@ -808,7 +777,6 @@ SchemaBlock {
                 },
                 TableGroupIdent {
                     span_range: 836..845,
-                    raw: "merchants",
                     schema: None,
                     ident_alias: Ident {
                         span_range: 836..845,
@@ -826,7 +794,6 @@ SchemaBlock {
             table_idents: [
                 TableGroupIdent {
                     span_range: 867..876,
-                    raw: "countries",
                     schema: None,
                     ident_alias: Ident {
                         span_range: 867..876,
@@ -835,7 +802,6 @@ SchemaBlock {
                 },
                 TableGroupIdent {
                     span_range: 879..885,
-                    raw: "orders",
                     schema: None,
                     ident_alias: Ident {
                         span_range: 879..885,

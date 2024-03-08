@@ -565,7 +565,6 @@ fn parse_table_group_decl(pair: Pair<Rule>) -> ParserResult<TableGroupBlock> {
           for p2 in p1.into_inner() {
             let mut init = TableGroupIdent {
               span_range: s2r(p2.as_span()),
-              raw: p2.as_str().to_owned(),
               ..Default::default()
             };
             

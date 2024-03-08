@@ -296,11 +296,6 @@ SchemaBlock {
                 },
             ),
             settings: None,
-            meta_indexer: TableIndexer {
-                pk_list: [],
-                unique_list: [],
-                indexed_list: [],
-            },
         },
     ],
     table_groups: [],

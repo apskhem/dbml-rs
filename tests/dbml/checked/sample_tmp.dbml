@@ -1,0 +1,62 @@
+Project project_name {
+  database_type: 'PostgreSQL'
+  Note: 'Description of the project'
+}
+
+TableGroup order {
+  users
+  P
+  orders
+}
+
+Table users {
+  id integer [pk]
+  age integer [default: 10]
+  username "character varying[]"
+  role varchar
+  created_at timestamp
+  // referral_id integer [ref: > users.id, null]
+
+  indexes {
+    (username, role) [type: btree]
+  }
+}
+
+Table posts as P {
+  id integer [pk]
+  title varchar
+  body text [note: 'Content of the post']
+  // user_id integer [ref: > users.id]
+  status post_status
+  created_at timestamp
+}
+
+Table orders {
+  id integer [pk]
+  status varchar [
+  note: '
+  💸 1 = processing, 
+  ✔️ 2 = shipped, 
+  ❌ 3 = cancelled,
+  😔 4 = refunded
+  ']
+
+  // indexes {
+  //   (id, country) [pk] // composite primary key
+  //   created_at [name: "created_at_index", note: 'Date']
+  //   booking_date
+  //   (country, booking_date) [type: btree, unique]
+  //   booking_date [type: hash]
+  //   (`id*2`)
+  //   (`id*3`,`getdate()`)
+  //   (`id*3`, id)
+  // }
+}
+
+enum post_status {
+  draft
+  published
+  private [note: 'visible via URL only']
+}
+
+// Ref: posts.user_id > users.id [update: restrict] // many-to-one

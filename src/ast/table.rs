@@ -17,8 +17,6 @@ pub struct TableBlock {
   pub indexes: Option<IndexesBlock>,
   /// A settings for the table.
   pub settings: Option<TableSettings>,
-  /// Meta indexer for the table.
-  pub meta_indexer: TableIndexer,
 }
 
 /// A struct representing settings of the table.
@@ -54,17 +52,6 @@ pub struct ColumnType {
   pub args: Vec<Value>,
   /// Type arrays.
   pub arrays: Vec<Option<u32>>,
-}
-
-/// A struct representing indexed meta data during parsing.
-#[derive(Debug, PartialEq, Clone, Default)]
-pub struct TableIndexer {
-  /// A list of primary column names
-  pub pk_list: Vec<String>,
-  /// A list of column names with unique constraint.
-  pub unique_list: Vec<String>,
-  /// A list of indexed column names
-  pub indexed_list: Vec<String>,
 }
 
 /// Represents data types of the database.
