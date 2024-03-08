@@ -1,9 +1,12 @@
-use super::indexer;
 use crate::ast::*;
+
+use super::*;
 
 /// A validated reference block.
 #[derive(Debug, Clone, Default)]
 pub struct IndexedRefBlock {
+  /// The range of the span.
+  pub span_range: SpanRange,
   pub rel: Relation,
   pub lhs: RefIdent,
   pub rhs: RefIdent,
@@ -25,13 +28,14 @@ impl IndexedRefBlock {
         let RefInline { span_range, rel, rhs } = ref_block;
 
         let lhs = RefIdent {
-          span_range,
+          span_range: span_range.clone(),
           schema: table_ident.schema,
           table: table_ident.name,
           compositions: vec![col_name],
         };
 
         Self {
+          span_range,
           rel,
           lhs,
           rhs,
@@ -45,14 +49,13 @@ impl IndexedRefBlock {
     &self,
     tables: &Vec<TableBlock>,
     indexer: &indexer::Indexer,
-  ) -> Result<(), String> {
+    input: &str,
+  ) -> AnalyzerResult<()> {
     let lhs_ident = indexer.resolve_ref_alias(&self.lhs);
     let rhs_ident = indexer.resolve_ref_alias(&self.rhs);
 
     if lhs_ident.compositions.len() != rhs_ident.compositions.len() {
-      return Err(format!(
-        "relation composition must have number of fields equal in both side"
-      ));
+      panic!("relation composition must have number of fields equal in both side");
     }
 
     indexer.lookup_table_fields(&lhs_ident.schema, &lhs_ident.table, &lhs_ident.compositions)?;
@@ -61,12 +64,12 @@ impl IndexedRefBlock {
     let lhs_table = tables
       .iter()
       .find(|table| table.ident.schema == lhs_ident.schema && table.ident.name == lhs_ident.table)
-      .ok_or_else(|| format!("cannot find lhs table"))?;
+      .ok_or_else(|| panic!("cannot find lhs table"))?;
 
     let rhs_table = tables
       .iter()
       .find(|table| table.ident.schema == rhs_ident.schema && table.ident.name == rhs_ident.table)
-      .ok_or_else(|| format!("cannot find rhs table"))?;
+      .ok_or_else(|| panic!("cannot find rhs table"))?;
 
     let field_pairs = lhs_ident
       .compositions
@@ -78,17 +81,17 @@ impl IndexedRefBlock {
         .cols
         .iter()
         .find(|col| &col.name == l)
-        .ok_or_else(|| format!("cannot find l col"))?;
+        .ok_or_else(|| panic!("cannot find l col"))?;
       let r_field = rhs_table
         .cols
         .iter()
         .find(|col| &col.name == r)
-        .ok_or_else(|| format!("cannot find r col"))?;
+        .ok_or_else(|| panic!("cannot find r col"))?;
 
       let l_type = &l_field.r#type;
       let r_type = &r_field.r#type;
       if l_type.type_name != r_type.type_name || l_type.args != r_type.args || l_type.arrays != r_type.arrays {
-        return Err(format!("reference (composite) column type is mismatched"));
+        panic!("reference (composite) column type is mismatched");
       }
     }
 
@@ -110,10 +113,11 @@ impl From<RefBlock> for IndexedRefBlock {
       lhs,
       rhs,
       settings,
-      ..
+      span_range,
     } = ref_block;
 
     Self {
+      span_range,
       rel,
       lhs,
       rhs,

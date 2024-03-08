@@ -1,6 +1,6 @@
 use std::ops::Range;
 
-type SpanRange = Range<usize>;
+pub(crate) type SpanRange = Range<usize>;
 
 mod enums;
 mod indexes;

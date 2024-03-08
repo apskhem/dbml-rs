@@ -163,7 +163,7 @@ impl SchemaBlock<'_> {
     // start indexing the schema
     indexer.index_table(&tables, &input)?;
     indexer.index_enums(&enums)?;
-    indexer.index_table_groups(&table_groups);
+    indexer.index_table_groups(&table_groups, &input)?;
 
     // collect refs from tables
     for table in &tables {
@@ -314,13 +314,11 @@ impl SchemaBlock<'_> {
 
     // validate ref
     for indexed_ref in indexed_refs.clone().into_iter() {
-      if let Err(msg) = indexed_ref.validate_ref_type(&tables, &indexer) {
-        panic!("{}", msg)
-      }
+      indexed_ref.validate_ref_type(&tables, &indexer, &input)?;
 
       for r in indexed_refs.iter() {
         if r.lhs.compositions.len() != r.rhs.compositions.len() {
-          panic!("composite reference must have the same length")
+          throw_err(Err::MismatchedCompositeForeignKey, indexed_ref.span_range.clone(), &input)?;
         }
       }
 
@@ -330,7 +328,7 @@ impl SchemaBlock<'_> {
         .count();
 
       if count != 1 {
-        panic!("dedup_relation_decl")
+        throw_err(Err::DuplicatedRelation, indexed_ref.span_range.clone(), &input)?;
       }
     }
 

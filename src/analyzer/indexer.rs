@@ -108,7 +108,8 @@ impl Indexer {
   pub fn index_table_groups(
     &mut self,
     table_groups: &Vec<TableGroupBlock>,
-  ) -> Result<(), String> {
+    input: &str,
+  ) -> AnalyzerResult<()> {
     for group_each in table_groups.into_iter() {
       for table in group_each.table_idents.iter() {
         let ident_alias = table.ident_alias.clone();
@@ -185,7 +186,7 @@ impl Indexer {
     schema: &Option<String>,
     table: &String,
     fields: &Vec<String>,
-  ) -> Result<(), String> {
+  ) -> AnalyzerResult<()> {
     let schema = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
 
     if let Some(block) = self.schema_map.get(&schema) {
@@ -199,18 +200,18 @@ impl Indexer {
         if unlisted_fields.is_empty() {
           return Ok(());
         } else {
-          return Err(format!(
+          panic!(
             "not found '{}' column in table '{}'",
             unlisted_fields.join(", "),
             table
-          ));
+          );
         }
       }
 
-      return Err(format!("table_not_found"));
+      panic!("table_not_found");
     }
 
-    return Err(format!("schema_not_found"));
+    panic!("table_not_found");
   }
 
   /// Gets the schema (if has) and table name from the given alias.

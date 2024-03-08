@@ -22,6 +22,8 @@ Table users {
   }
 }
 
+Ref: users.(role, age) > orders.(status, number)
+
 Table posts as P {
   id integer [pk]
   title varchar
@@ -33,6 +35,7 @@ Table posts as P {
 
 Table orders {
   id integer [pk]
+  number integer
   status varchar [
   note: '
   💸 1 = processing, 
