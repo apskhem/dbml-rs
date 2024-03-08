@@ -15,7 +15,10 @@ extern crate alloc;
 pub(crate) mod analyzer;
 pub mod ast;
 pub(crate) mod parser;
+#[cfg(not(feature = "utils"))]
 pub(crate) mod utils;
+#[cfg(feature = "utils")]
+pub mod utils;
 
 pub use analyzer::*;
 pub use parser::Rule;

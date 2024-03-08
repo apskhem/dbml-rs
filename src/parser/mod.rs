@@ -1,4 +1,5 @@
 mod err;
+mod helper;
 
 use std::str::FromStr;
 
@@ -7,7 +8,7 @@ use pest::iterators::Pair;
 use pest::Parser;
 
 use crate::ast::*;
-use crate::utils::*;
+use self::helper::*;
 
 #[derive(Parser)]
 #[grammar = "src/dbml.pest"]
