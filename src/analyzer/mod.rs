@@ -253,8 +253,33 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
           // TODO: add more validation
           if let Some(Some(default_value)) = col.settings.clone().map(|s| s.default) {
+            // validate default value association with a col type
             match default_value {
-              Value::String(_) => (),
+              Value::String(value) => {
+                if ![
+                  ColumnTypeName::Bit,
+                  ColumnTypeName::Varbit,
+                  ColumnTypeName::Char,
+                  ColumnTypeName::VarChar,
+                ].contains(&type_name) {
+                  panic!("defualt value is not associated with declared type")
+                }
+
+                // validate fixed and variable length data type
+                match type_name {
+                  ColumnTypeName::Bit
+                  | ColumnTypeName::Char
+                  if matches!(col.r#type.args[0], Value::Integer(len) if value.len() as i32 != len) => {
+                    panic!("defualt value is not matched with the specified fixed length")
+                  }
+                  ColumnTypeName::Varbit
+                  | ColumnTypeName::VarChar
+                  if matches!(col.r#type.args[0], Value::Integer(cap) if value.len() as i32 > cap) => {
+                    panic!("defualt value is not exceed the specified variable length")
+                  }
+                  _ => ()
+                };
+              },
               Value::Integer(_) => {
                 if ![
                   ColumnTypeName::SmallSerial,
@@ -265,9 +290,16 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                   ColumnTypeName::BigInt,
                 ].contains(&type_name) {
                   panic!("defualt value is not associated with declared type")
-                } 
+                }
               },
-              Value::Decimal(_) => (),
+              Value::Decimal(_) => {
+                if ![
+                  ColumnTypeName::Decimal,
+                  ColumnTypeName::DoublePrecision
+                ].contains(&type_name) {
+                  panic!("defualt value is not associated with declared type")
+                }
+              },
               Value::Bool(_) => {
                 if ![ColumnTypeName::Bool].contains(&type_name) {
                   panic!("defualt value is not associated with declared type")
