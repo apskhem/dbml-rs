@@ -497,10 +497,20 @@ fn parse_ref_decl(pair: Pair<Rule>) -> ParserResult<RefBlock> {
   for p1 in pair.into_inner() {
     match p1.as_rule() {
       Rule::ref_block | Rule::ref_short => {
+        let mut name = None;
+
         for p2 in p1.into_inner() {
           match p2.as_rule() {
-            Rule::ref_stmt => return parse_ref_stmt(p2),
-            _ => throw_rules(&[Rule::ref_stmt], p2)?,
+            Rule::ref_stmt => {
+              return parse_ref_stmt(p2).map(|mut o| {
+                o.name = name;
+                o
+              });
+            },
+            Rule::ident => {
+              name = Some(parse_ident(p2)?);
+            },
+            _ => throw_rules(&[Rule::ref_stmt, Rule::ident], p2)?,
           }
         }
       }

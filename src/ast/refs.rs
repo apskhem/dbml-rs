@@ -14,6 +14,7 @@ pub struct RefInline {
 pub struct RefBlock {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
+  pub name: Option<Ident>,
   pub rel: Relation,
   pub lhs: RefIdent,
   pub rhs: RefIdent,

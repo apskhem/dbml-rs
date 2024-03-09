@@ -468,6 +468,7 @@ SchemaBlock {
         Ref(
             RefBlock {
                 span_range: 448..484,
+                name: None,
                 rel: One2Many,
                 lhs: RefIdent {
                     span_range: 448..459,
@@ -507,6 +508,7 @@ SchemaBlock {
         Ref(
             RefBlock {
                 span_range: 488..528,
+                name: None,
                 rel: One2Many,
                 lhs: RefIdent {
                     span_range: 488..502,

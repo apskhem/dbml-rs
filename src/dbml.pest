@@ -46,8 +46,8 @@ ref_composition = { ident | ("(" ~ ident ~ ("," ~ ident)* ~ ")") }
 ref_ident = { ident ~ "." ~ (ident ~ ".")? ~ ref_composition }
 ref_inline = { "ref" ~ ":" ~ relation ~ ref_ident }
 ref_stmt = { ref_ident ~ relation ~ ref_ident ~ rel_settings? }
-ref_short = { ^"Ref" ~ ":" ~ ref_stmt }
-ref_block = { ^"Ref" ~ "{" ~ ref_stmt ~ "}" }
+ref_short = { ^"Ref" ~ ident? ~ ":" ~ ref_stmt }
+ref_block = { ^"Ref" ~ ident? ~ "{" ~ ref_stmt ~ "}" }
 ref_decl = { ref_block | ref_short }
 
 // note block

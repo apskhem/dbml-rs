@@ -122,6 +122,7 @@ impl From<RefBlock> for IndexedRefBlock {
       rhs,
       settings,
       span_range,
+      name
     } = ref_block;
 
     Self {

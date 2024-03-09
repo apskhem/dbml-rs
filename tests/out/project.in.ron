@@ -1080,6 +1080,7 @@ SchemaBlock {
         Ref(
             RefBlock {
                 span_range: 1254..1296,
+                name: None,
                 rel: One2Many,
                 lhs: RefIdent {
                     span_range: 1254..1267,
@@ -1119,6 +1120,7 @@ SchemaBlock {
         Ref(
             RefBlock {
                 span_range: 1300..1346,
+                name: None,
                 rel: One2Many,
                 lhs: RefIdent {
                     span_range: 1300..1315,
@@ -1158,6 +1160,7 @@ SchemaBlock {
         Ref(
             RefBlock {
                 span_range: 1350..1395,
+                name: None,
                 rel: One2Many,
                 lhs: RefIdent {
                     span_range: 1350..1368,
@@ -1197,6 +1200,7 @@ SchemaBlock {
         Ref(
             RefBlock {
                 span_range: 1399..1448,
+                name: None,
                 rel: One2Many,
                 lhs: RefIdent {
                     span_range: 1399..1417,
@@ -1236,6 +1240,7 @@ SchemaBlock {
         Ref(
             RefBlock {
                 span_range: 1452..1497,
+                name: None,
                 rel: One2Many,
                 lhs: RefIdent {
                     span_range: 1452..1468,
@@ -1275,6 +1280,7 @@ SchemaBlock {
         Ref(
             RefBlock {
                 span_range: 1501..1538,
+                name: None,
                 rel: One2Many,
                 lhs: RefIdent {
                     span_range: 1501..1513,
