@@ -74,7 +74,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
     throw_err(Err::DuplicatedProjectSetting, &schema_block.span_range, input)?;
   }
   match project.first() {
-    Some(project_block) => (),
+    Some(_) => (),
     _ => throw_err(Err::ProjectSettingNotFound, &schema_block.span_range, input)?,
   }
 

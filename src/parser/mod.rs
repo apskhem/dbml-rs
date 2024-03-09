@@ -115,39 +115,29 @@ fn parse_project_decl(pair: Pair<Rule>) -> ParserResult<ProjectBlock> {
       Rule::project_block => {
         for p2 in p1.into_inner() {
           match p2.as_rule() {
-            Rule::project_stmt => {
-              let (key, value) = parse_project_stmt(p2.clone())?;
-  
-              match key.as_str() {
+            Rule::key_value => {
+              let key_value = parse_key_value(p2.clone())?;
+
+              match key_value.key.to_string.as_str() {
                 "database_type" => {
-                  acc.database_type = match DatabaseType::from_str(&value) {
-                    Ok(val) => val,
-                    Err(msg) => throw_msg(msg, p2)?,
+                  if let Some(Value::String(db_name)) = key_value.value.clone().map(|v| v.value) {
+                    acc.database_type = match DatabaseType::from_str(&db_name) {
+                      Ok(val) => val,
+                      Err(msg) => throw_msg(msg, p2)?,
+                    }
                   }
                 }
-                _ => throw_msg(format!("'{}' key is invalid inside project_block", key), p2)?,
+                _ => (),
               }
+
+              acc.properties.push(key_value)
             }
             Rule::note_decl => acc.note = Some(parse_note_decl(p2)?),
-            _ => throw_rules(&[Rule::project_stmt, Rule::note_decl], p2)?,
+            _ => throw_rules(&[Rule::key_value, Rule::note_decl], p2)?,
           };
         }
       },
       _ => throw_rules(&[Rule::project_block], p1)?,
-    }
-
-    Ok(acc)
-  })
-}
-
-fn parse_project_stmt(pair: Pair<Rule>) -> ParserResult<(String, String)> {
-  let init = (String::new(), String::new());
-
-  pair.into_inner().try_fold(init, |mut acc, p1| {
-    match p1.as_rule() {
-      Rule::var => acc.0 = p1.as_str().to_string(),
-      Rule::string_value => acc.1 = parse_string_value(p1)?,
-      _ => throw_rules(&[Rule::var, Rule::string_value], p1)?,
     }
 
     Ok(acc)

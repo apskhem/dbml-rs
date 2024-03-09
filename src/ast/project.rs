@@ -21,7 +21,7 @@ impl FromStr for DatabaseType {
   fn from_str(s: &str) -> Result<Self, Self::Err> {
     match s {
       "PostgreSQL" => Ok(Self::PostgreSQL),
-      _ => Err(format!("'{}' database is not supported!", s)),
+      _ => Err(format!("'{}' database is not supported", s)),
     }
   }
 }
@@ -29,6 +29,7 @@ impl FromStr for DatabaseType {
 #[derive(Debug, Clone, Default)]
 pub struct ProjectBlock {
   pub span_range: SpanRange,
+  pub properties: Vec<KeyValue>,
   pub ident: Ident,
   pub database_type: DatabaseType,
   pub note: Option<String>,

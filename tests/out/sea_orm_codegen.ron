@@ -5,6 +5,25 @@ SchemaBlock {
         Project(
             ProjectBlock {
                 span_range: 0..57,
+                properties: [
+                    KeyValue {
+                        span_range: 28..55,
+                        key: Ident {
+                            span_range: 28..41,
+                            raw: "database_type",
+                            to_string: "database_type",
+                        },
+                        value: Some(
+                            Literal {
+                                span_range: 43..55,
+                                value: String(
+                                    "PostgreSQL",
+                                ),
+                                raw: "'PostgreSQL'",
+                            },
+                        ),
+                    },
+                ],
                 ident: Ident {
                     span_range: 8..23,
                     raw: "sea_orm_codegen",

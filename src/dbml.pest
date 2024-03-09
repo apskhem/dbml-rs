@@ -96,8 +96,7 @@ table_group_block = ${ "{" ~ wsc* ~ (decl_ident ~ wsc*)* ~ "}" }
 table_group_decl = { ^"TableGroup " ~ ident ~ table_group_block }
 
 // project block
-project_stmt = { var ~ ":" ~ string_value }
-project_block = { "{" ~ (note_decl | project_stmt)* ~ "}" }
+project_block = { "{" ~ (note_decl | key_value)* ~ "}" }
 project_decl = { ^"Project " ~ ident ~ project_block }
 
 schema = { SOI ~ (project_decl | table_decl | enum_decl | ref_decl | table_group_decl)* ~ EOI }

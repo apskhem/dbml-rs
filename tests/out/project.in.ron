@@ -5,6 +5,25 @@ SchemaBlock {
         Project(
             ProjectBlock {
                 span_range: 0..148,
+                properties: [
+                    KeyValue {
+                        span_range: 119..146,
+                        key: Ident {
+                            span_range: 119..132,
+                            raw: "database_type",
+                            to_string: "database_type",
+                        },
+                        value: Some(
+                            Literal {
+                                span_range: 134..146,
+                                value: String(
+                                    "PostgreSQL",
+                                ),
+                                raw: "'PostgreSQL'",
+                            },
+                        ),
+                    },
+                ],
                 ident: Ident {
                     span_range: 8..17,
                     raw: "ecommerce",
