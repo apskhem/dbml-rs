@@ -254,6 +254,7 @@ fn parse_table_col(pair: Pair<Rule>) -> ParserResult<TableColumn> {
 fn parse_col_type(pair: Pair<Rule>) -> ParserResult<ColumnType> {
   let mut out = ColumnType {
     span_range: s2r(pair.as_span()),
+    raw: pair.as_str().to_string(),
     ..Default::default()
   };
 

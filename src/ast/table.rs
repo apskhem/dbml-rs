@@ -46,6 +46,8 @@ pub struct TableColumn {
 pub struct ColumnType {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
+  /// The raw type including type name, args, and arrays.
+  pub raw: String,
   /// The parsed data type.
   pub type_name: ColumnTypeName,
   /// Type arguments.

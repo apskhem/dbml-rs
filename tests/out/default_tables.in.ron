@@ -15,6 +15,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 20..24,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -71,6 +72,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 53..57,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -121,6 +123,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 85..93,
+                            raw: "varchar ",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -168,6 +171,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 129..137,
+                            raw: "varchar ",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -235,6 +239,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 190..196,
+                            raw: "int\n  ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -252,6 +257,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 207..213,
+                            raw: "int\n  ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -269,6 +275,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 222..226,
+                            raw: "int\n",
                             type_name: Raw(
                                 "int",
                             ),
@@ -306,6 +313,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 251..255,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -345,6 +353,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 267..275,
+                            raw: "varchar ",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -390,6 +399,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 305..309,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -431,6 +441,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 328..334,
+                            raw: "float ",
                             type_name: Raw(
                                 "float",
                             ),
@@ -478,6 +489,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 360..368,
+                            raw: "boolean ",
                             type_name: Raw(
                                 "boolean",
                             ),
@@ -525,6 +537,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 397..402,
+                            raw: "date ",
                             type_name: Raw(
                                 "date",
                             ),

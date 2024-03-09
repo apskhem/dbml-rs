@@ -15,6 +15,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 23..30,
+                            raw: "text\n  ",
                             type_name: Raw(
                                 "text",
                             ),
@@ -32,6 +33,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 45..52,
+                            raw: "\"int[]\"",
                             type_name: Raw(
                                 "int",
                             ),
@@ -75,6 +77,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 75..85,
+                            raw: "\"text[][]\"",
                             type_name: Raw(
                                 "text",
                             ),
@@ -139,6 +142,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 124..139,
+                            raw: "\"integer[3][3]\"",
                             type_name: Raw(
                                 "integer",
                             ),

@@ -15,6 +15,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 19..23,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),

@@ -82,6 +82,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 218..226,
+                            raw: "integer ",
                             type_name: Raw(
                                 "integer",
                             ),
@@ -121,6 +122,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 240..251,
+                            raw: "job_status ",
                             type_name: Raw(
                                 "job_status",
                             ),
@@ -236,6 +238,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 400..404,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -253,6 +256,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 407..416,
+                            raw: "unique\n  ",
                             type_name: Raw(
                                 "unique",
                             ),
@@ -270,6 +274,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 423..437,
+                            raw: "\"order status\"",
                             type_name: Raw(
                                 "order status",
                             ),
@@ -287,6 +292,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 451..459,
+                            raw: "varchar\n",
                             type_name: Raw(
                                 "varchar",
                             ),

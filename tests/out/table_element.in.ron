@@ -15,6 +15,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 52..56,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -54,6 +55,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 68..76,
+                            raw: "varchar ",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -93,6 +95,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 90..100,
+                            raw: "varchar\n  ",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -110,6 +113,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 111..123,
+                            raw: "datetime\n\n  ",
                             type_name: Raw(
                                 "datetime",
                             ),

@@ -101,6 +101,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 172..176,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -149,6 +150,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 204..208,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -199,6 +201,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 238..254,
+                            raw: "orders_status\n  ",
                             type_name: Raw(
                                 "orders_status",
                             ),
@@ -216,6 +219,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 267..275,
+                            raw: "varchar\n",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -276,6 +280,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 313..319,
+                            raw: "int\n  ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -293,6 +298,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 332..338,
+                            raw: "int\n  ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -310,6 +316,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 349..353,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -377,6 +384,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 395..399,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -416,6 +424,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 413..423,
+                            raw: "varchar\n  ",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -433,6 +442,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 437..441,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -474,6 +484,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 462..468,
+                            raw: "int\n  ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -491,6 +502,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 477..493,
+                            raw: "\"product status\"",
                             type_name: Raw(
                                 "product status",
                             ),
@@ -508,6 +520,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 509..518,
+                            raw: "datetime ",
                             type_name: Raw(
                                 "datetime",
                             ),
@@ -624,6 +637,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 660..664,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -663,6 +677,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 683..693,
+                            raw: "varchar\n  ",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -680,6 +695,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 701..709,
+                            raw: "varchar ",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -719,6 +735,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 729..739,
+                            raw: "varchar\n  ",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -736,6 +753,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 755..765,
+                            raw: "varchar\n  ",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -753,6 +771,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 778..788,
+                            raw: "varchar\n  ",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -770,6 +789,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 803..807,
+                            raw: "int\n",
                             type_name: Raw(
                                 "int",
                             ),
@@ -867,6 +887,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 916..920,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -906,6 +927,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 943..953,
+                            raw: "varchar\n  ",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -923,6 +945,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 968..974,
+                            raw: "int\n  ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -940,6 +963,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 987..997,
+                            raw: "varchar\n  ",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -957,6 +981,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 1008..1012,
+                            raw: "int\n",
                             type_name: Raw(
                                 "int",
                             ),
@@ -994,6 +1019,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 1044..1048,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -1033,6 +1059,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 1062..1072,
+                            raw: "varchar\n  ",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -1050,6 +1077,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 1089..1097,
+                            raw: "varchar\n",
                             type_name: Raw(
                                 "varchar",
                             ),

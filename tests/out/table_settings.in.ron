@@ -15,6 +15,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 42..46,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -54,6 +55,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 60..67,
+                            raw: "string\n",
                             type_name: Raw(
                                 "string",
                             ),
@@ -114,6 +116,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 122..126,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -153,6 +156,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 140..147,
+                            raw: "string ",
                             type_name: Raw(
                                 "string",
                             ),
@@ -237,6 +241,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 242..246,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -276,6 +281,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 260..269,
+                            raw: "string\n  ",
                             type_name: Raw(
                                 "string",
                             ),
@@ -293,6 +299,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 277..285,
+                            raw: "decimal ",
                             type_name: Raw(
                                 "decimal",
                             ),
@@ -394,6 +401,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 378..382,
+                            raw: "int ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -433,6 +441,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 399..405,
+                            raw: "int\n  ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -450,6 +459,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 418..424,
+                            raw: "int\n  ",
                             type_name: Raw(
                                 "int",
                             ),
@@ -467,6 +477,7 @@ SchemaBlock {
                         },
                         type: ColumnType {
                             span_range: 434..441,
+                            raw: "string\n",
                             type_name: Raw(
                                 "string",
                             ),
