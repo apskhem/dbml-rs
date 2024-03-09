@@ -148,7 +148,11 @@ SchemaBlock {
                                 is_nullable: None,
                                 is_incremental: false,
                                 note: None,
-                                default: None,
+                                default: Some(
+                                    Integer(
+                                        10,
+                                    ),
+                                ),
                                 refs: [],
                             },
                         ),
@@ -383,7 +387,15 @@ SchemaBlock {
                                             raw: "note",
                                             to_string: "note",
                                         },
-                                        value: None,
+                                        value: Some(
+                                            Literal {
+                                                span_range: 431..452,
+                                                value: String(
+                                                    "Content of the post",
+                                                ),
+                                                raw: "'Content of the post'",
+                                            },
+                                        ),
                                     },
                                 ],
                                 is_pk: false,
@@ -578,7 +590,15 @@ SchemaBlock {
                                             raw: "note",
                                             to_string: "note",
                                         },
-                                        value: None,
+                                        value: Some(
+                                            Literal {
+                                                span_range: 597..690,
+                                                value: String(
+                                                    "💸 1 = processing, \n  ✔\u{fe0f} 2 = shipped, \n  ❌ 3 = cancelled,\n  😔 4 = refunded\n  ",
+                                                ),
+                                                raw: "'\n  💸 1 = processing, \n  ✔\u{fe0f} 2 = shipped, \n  ❌ 3 = cancelled,\n  😔 4 = refunded\n  '",
+                                            },
+                                        ),
                                     },
                                 ],
                                 is_pk: false,

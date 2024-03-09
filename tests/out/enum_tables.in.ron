@@ -140,7 +140,15 @@ SchemaBlock {
                                             raw: "note",
                                             to_string: "note",
                                         },
-                                        value: None,
+                                        value: Some(
+                                            Literal {
+                                                span_range: 258..281,
+                                                value: String(
+                                                    "This is a column note",
+                                                ),
+                                                raw: "'This is a column note'",
+                                            },
+                                        ),
                                     },
                                 ],
                                 is_pk: false,

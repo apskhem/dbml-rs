@@ -24,7 +24,7 @@ pub struct KeyValue {
   pub value: Option<Literal>
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub enum Nullable {
   NotNull,
   Null
@@ -58,12 +58,12 @@ impl FromStr for Value {
 impl ToString for Value {
   fn to_string(&self) -> String {
     match self {
-      Self::String(v) => format!("{v}"),
+      Self::String(v) => v.clone(),
       Self::Integer(v) => format!("{v}"),
       Self::Decimal(v) => format!("{v}"),
       Self::Bool(v) => format!("{v}"),
-      Self::HexColor(v) => format!("{v}"),
-      Self::Expr(v) => format!("{v}"),
+      Self::HexColor(v) => v.clone(),
+      Self::Expr(v) => v.clone(),
       Self::Null => format!("null"),
     }
   }

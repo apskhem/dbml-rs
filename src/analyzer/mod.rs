@@ -26,7 +26,9 @@ pub struct TableRef {
   pub ref_self: Vec<block::IndexedRefBlock>,
 }
 
-/// Performs semantic checks of the unsanitized Abstract Syntax Tree (AST) and returns a sanitized AST.
+/// Performs semantic checks of the unsanitized AST and returns an indexed metadata.
+/// This function also mutates the internal structure of the AST by changing column types after validating.
+/// 
 ///
 /// # Arguments
 ///
@@ -187,55 +189,49 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           let type_name = col.r#type.type_name;
 
           if type_name == ColumnTypeName::Undef {
-            panic!("undef_table_field")
+            unreachable!("undef field type must not appear");
           }
 
           let type_name = match type_name {
             ColumnTypeName::Raw(raw_type) => {
               match ColumnTypeName::from_str(&raw_type) {
                 Ok(type_name) => {
-                  if col.r#type.args.is_empty() {
-                    type_name
-                  } else {
-                    // validate args (if has)
+                  if !col.r#type.args.is_empty() {
+                    // TODO: add support for interval
                     match type_name {
-                      ColumnTypeName::VarChar | ColumnTypeName::Char => {
+                      ColumnTypeName::VarChar
+                      | ColumnTypeName::Char
+                      | ColumnTypeName::Time
+                      | ColumnTypeName::Timestamp
+                      | ColumnTypeName::Timetz
+                      | ColumnTypeName::Timestamptz
+                      | ColumnTypeName::Bit
+                      | ColumnTypeName::Varbit => {
                         if col.r#type.args.len() != 1 {
                           panic!("varchar_incompatible_args")
                         }
-
-                        col
-                          .r#type
-                          .args
-                          .iter()
-                          .fold(type_name, |acc, arg| match arg {
-                            Value::Integer(_) => acc,
-                            _ => panic!("varchar_args_is_not_integer"),
-                          })
                       }
                       ColumnTypeName::Decimal => {
                         if col.r#type.args.len() != 2 {
                           panic!("decimal_incompatible_args")
                         }
-
-                        col
-                          .r#type
-                          .args
-                          .iter()
-                          .fold(type_name, |acc, arg| match arg {
-                            Value::Integer(_) => acc,
-                            _ => panic!("decimal_args_is_not_integer"),
-                          })
                       }
                       _ => panic!("invalid args usage"),
+                    };
+
+                    if !col.r#type.args.iter().all(|arg| matches!(arg, Value::Integer(_))) {
+                      panic!("args_is_not_integer");
                     }
                   }
+                  
+                  type_name
                 }
                 Err(_) => {
-                  let default_enum = match col.settings.as_ref().map(|s| s.default.clone()) {
-                    Some(Some(default)) => vec![default.to_string()],
-                    _ => vec![],
-                  };
+                  let default_enum = col.settings
+                    .as_ref()
+                    .map(|s| s.default.clone().map(|d| vec![d.to_string()]))
+                    .flatten()
+                    .unwrap_or_default();
 
                   let splited: Vec<_> = raw_type.split(".").collect();
 
@@ -256,10 +252,21 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           };
 
           // TODO: add more validation
-          if let Some(Some(default_value)) = col.settings.as_ref().map(|s| s.default.clone()) {
+          if let Some(Some(default_value)) = col.settings.clone().map(|s| s.default) {
             match default_value {
               Value::String(_) => (),
-              Value::Integer(_) => (),
+              Value::Integer(_) => {
+                if ![
+                  ColumnTypeName::SmallSerial,
+                  ColumnTypeName::Serial,
+                  ColumnTypeName::BigSerial,
+                  ColumnTypeName::SmallInt,
+                  ColumnTypeName::Integer,
+                  ColumnTypeName::BigInt,
+                ].contains(&type_name) {
+                  panic!("defualt value is not associated with declared type")
+                } 
+              },
               Value::Decimal(_) => (),
               Value::Bool(_) => {
                 if ![ColumnTypeName::Bool].contains(&type_name) {
@@ -269,7 +276,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
               Value::HexColor(_) => (),
               Value::Expr(_) => (),
               Value::Null => {
-                if !col.settings.as_ref().is_some_and(|s| matches!(s.is_nullable, Some(Nullable::Null))) {
+                if !col.settings.as_ref().is_some_and(|s| s.is_nullable == Some(Nullable::Null)) {
                   panic!("default value cannot be null in non-nullable field")
                 }
               }
@@ -335,4 +342,3 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
     indexer
   })
 }
-

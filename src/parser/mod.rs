@@ -324,59 +324,24 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
       match p1.as_rule() {
         Rule::col_attribute => {
           for p2 in p1.into_inner() {
-            let mut key_value = KeyValue {
-              span_range: s2r(p2.as_span()),
-              ..Default::default()
-            };
-            
-            // parse the result
             match p2.as_rule() {
               Rule::key_value => {
-                for p3 in p2.into_inner() {
-                  match p3.as_rule() {
-                    Rule::spaced_var => {
-                      key_value.key = Ident {
-                        span_range: s2r(p3.as_span()),
-                        raw: p3.as_str().to_owned(),
-                        to_string: p3.as_str().to_owned()
-                      };
+                let key_value = parse_key_value(p2)?;
 
-                      match p3.as_str() {
-                        "unique" => acc.is_unique = true,
-                        "primary key" | "pk" => acc.is_pk = true,
-                        "null" => acc.is_nullable = Some(Nullable::Null),
-                        "not null" => acc.is_nullable = Some(Nullable::NotNull),
-                        "increment" => acc.is_incremental = true,
-                        _ => ()
-                      }
-                    },
-                    Rule::value => {
-                      match key_value.key.to_string.as_str() {
-                        "default" => {
-                          key_value.value = Some(Literal {
-                            span_range: s2r(p3.as_span()),
-                            value: parse_value(p3.clone())?,
-                            raw: p3.as_str().to_owned()
-                          });
-                        }
-                        "note" => {
-                          acc.note = Some(parse_note_inline(p3)?)
-                        }
-                        _ => ()
-                      }
-                    },
-                    _ => throw_rules(&[Rule::spaced_var, Rule::value], p3)?
-                  }
+                match key_value.key.to_string.as_str() {
+                  "unique" => acc.is_unique = true,
+                  "primary key" | "pk" => acc.is_pk = true,
+                  "null" => acc.is_nullable = Some(Nullable::Null),
+                  "not null" => acc.is_nullable = Some(Nullable::NotNull),
+                  "increment" => acc.is_incremental = true,
+                  "default" =>  acc.default = key_value.value.clone().map(|v| v.value),
+                  "note" => acc.note = key_value.value.clone().map(|v| v.value.to_string()),
+                  _ => ()
                 }
+
+                acc.properties.push(key_value);
               },
               Rule::ref_inline => {
-                key_value.key = Ident {
-                  span_range: s2r(p2.as_span()),
-                  // raw and string need to be filter out after the process
-                  raw: String::new(),
-                  to_string: p2.as_str().to_owned()
-                };
-
                 acc.refs.push(parse_ref_inline(p2)?)
               },
               _ => throw_rules(
@@ -386,10 +351,6 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
                 ],
                 p2,
               )?,
-            }
-
-            if !key_value.key.to_string.replace(" ", "").starts_with("ref:") {
-              acc.properties.push(key_value);
             }
           }
         }

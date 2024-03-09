@@ -364,7 +364,11 @@ SchemaBlock {
                                 is_nullable: None,
                                 is_incremental: false,
                                 note: None,
-                                default: None,
+                                default: Some(
+                                    Integer(
+                                        1,
+                                    ),
+                                ),
                                 refs: [],
                             },
                         ),
@@ -568,7 +572,11 @@ SchemaBlock {
                                 is_nullable: None,
                                 is_incremental: false,
                                 note: None,
-                                default: None,
+                                default: Some(
+                                    Expr(
+                                        "now()",
+                                    ),
+                                ),
                                 refs: [],
                             },
                         ),

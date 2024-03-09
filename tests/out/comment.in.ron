@@ -124,7 +124,15 @@ SchemaBlock {
                                             raw: "note",
                                             to_string: "note",
                                         },
-                                        value: None,
+                                        value: Some(
+                                            Literal {
+                                                span_range: 108..128,
+                                                value: String(
+                                                    "Status of an order",
+                                                ),
+                                                raw: "'Status of an order'",
+                                            },
+                                        ),
                                     },
                                 ],
                                 is_pk: false,
@@ -166,7 +174,15 @@ SchemaBlock {
                                             raw: "note",
                                             to_string: "note",
                                         },
-                                        value: None,
+                                        value: Some(
+                                            Literal {
+                                                span_range: 158..178,
+                                                value: String(
+                                                    "When order created",
+                                                ),
+                                                raw: "'When order created'",
+                                            },
+                                        ),
                                     },
                                 ],
                                 is_pk: false,
