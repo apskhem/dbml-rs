@@ -160,13 +160,24 @@ SchemaBlock {
                 settings: Some(
                     TableSettings {
                         span_range: 12..44,
-                        values: [
-                            (
-                                "note",
-                                String(
-                                    "note in table settings",
+                        properties: [
+                            KeyValue {
+                                span_range: 13..43,
+                                key: Ident {
+                                    span_range: 13..17,
+                                    raw: "note",
+                                    to_string: "note",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 19..43,
+                                        value: String(
+                                            "note in table settings",
+                                        ),
+                                        raw: "'note in table settings'",
+                                    },
                                 ),
-                            ),
+                            },
                         ],
                     },
                 ),

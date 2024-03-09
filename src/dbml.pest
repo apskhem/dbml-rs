@@ -77,16 +77,15 @@ enum_block = { "{" ~ enum_value* ~ "}" }
 enum_decl = { ^"Enum " ~ decl_ident ~ enum_block }
 
 // table block
-col_key_value = { spaced_var ~ (":" ~ value)? }
-col_attribute = { ref_inline | col_key_value }
+key_value = { spaced_var ~ (":" ~ value)? }
+col_attribute = { ref_inline | key_value }
 col_settings = { "[" ~ (col_attribute ~ ("," ~ col_attribute)*)? ~ "]" }
 col_type_arg = { "(" ~ (value ~ ("," ~ value)*)? ~ ")" }
 col_type_array = { "[" ~ integer? ~ "]" }
 col_type_unquoted = { var ~ col_type_arg? }
 col_type_quoted = { "\"" ~ spaced_var ~ col_type_arg? ~ col_type_array* ~ "\"" }
 col_type = { col_type_unquoted | col_type_quoted }
-table_attribute = { var ~ ":" ~ value }
-table_settings = { "[" ~ (table_attribute ~ ("," ~ table_attribute)*)? ~ "]" }
+table_settings = { "[" ~ (key_value ~ ("," ~ key_value)*)? ~ "]" }
 table_col = { ident ~ col_type ~ col_settings? }
 table_block = { "{" ~ (table_col | note_decl | indexes_decl)* ~ "}" }
 table_alias = { ^"as " ~ ident }

@@ -90,13 +90,24 @@ SchemaBlock {
                 settings: Some(
                     TableSettings {
                         span_range: 13..35,
-                        values: [
-                            (
-                                "HeaderColor",
-                                HexColor(
-                                    "#0065ab",
+                        properties: [
+                            KeyValue {
+                                span_range: 14..34,
+                                key: Ident {
+                                    span_range: 14..25,
+                                    raw: "HeaderColor",
+                                    to_string: "HeaderColor",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 27..34,
+                                        value: HexColor(
+                                            "#0065ab",
+                                        ),
+                                        raw: "#0065ab",
+                                    },
                                 ),
-                            ),
+                            },
                         ],
                     },
                 ),

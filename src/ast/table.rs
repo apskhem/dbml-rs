@@ -24,8 +24,8 @@ pub struct TableBlock {
 pub struct TableSettings {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
-  /// Settings values.
-  pub values: Vec<(String, Value)>,
+  /// A vector of key-value pairs representing properties of the table.
+  pub properties: Vec<KeyValue>,
 }
 
 /// A struct representing a single column or field of the table.

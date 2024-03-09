@@ -207,40 +207,22 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
 }
 
 fn parse_table_settings(pair: Pair<Rule>) -> ParserResult<TableSettings> {
-  let init = TableSettings {
+  let mut init = TableSettings {
     span_range: s2r(pair.as_span()),
     ..Default::default()
   };
 
-  pair.into_inner().try_fold(init, |mut acc, p2| {
-    match p2.as_rule() {
-      Rule::table_attribute => {
-        let p2_cloned = p2.clone();
-        let mut s_key = None;
-        let mut s_val = None;
-
-        for p3 in p2.into_inner() {
-          if s_key.is_none() {
-            s_key = Some(p3.as_str().to_string());
-          } else if s_val.is_none() {
-            s_val = Some(parse_value(p3)?);
-          } else {
-            throw_rules(&[Rule::table_attribute], p3)?
-          }
-        }
-
-        let (s_key, s_val) = match (s_key, s_val) {
-          (Some(k), Some(v)) => (k, v),
-          _ => throw_rules(&[Rule::table_attribute], p2_cloned)?,
-        };
-
-        acc.values.push((s_key, s_val));
+  init.properties = pair
+    .into_inner()
+    .map(|p1| {
+      match p1.as_rule() {
+        Rule::key_value => parse_key_value(p1),
+        _ => throw_rules(&[Rule::key_value], p1),
       }
-      _ => throw_rules(&[Rule::table_attribute], p2)?,
-    }
+    })
+    .collect::<ParserResult<_>>()?;
 
-    Ok(acc)
-  })
+  Ok(init)
 }
 
 fn parse_table_col(pair: Pair<Rule>) -> ParserResult<TableColumn> {
@@ -348,7 +330,7 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
             
             // parse the result
             match p2.as_rule() {
-              Rule::col_key_value => {
+              Rule::key_value => {
                 for p3 in p2.into_inner() {
                   match p3.as_rule() {
                     Rule::spaced_var => {
@@ -399,7 +381,7 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
               _ => throw_rules(
                 &[
                   Rule::ref_inline,
-                  Rule::col_key_value,
+                  Rule::key_value,
                 ],
                 p2,
               )?,
@@ -410,7 +392,7 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
             }
           }
         }
-        _ => throw_rules(&[Rule::col_key_value], p1)?,
+        _ => throw_rules(&[Rule::key_value], p1)?,
       }
 
       Ok(acc)
@@ -984,4 +966,33 @@ fn parse_ident(pair: Pair<Rule>) -> ParserResult<Ident> {
     }),
     _ => throw_rules(&[Rule::var, Rule::double_quoted_string], p1)?,
   }
+}
+
+pub fn parse_key_value(pair: Pair<Rule>) -> ParserResult<KeyValue> {
+  let mut init = KeyValue {
+    span_range: s2r(pair.as_span()),
+    ..Default::default()
+  };
+
+  for p1 in pair.into_inner() {
+    match p1.as_rule() {
+      Rule::spaced_var => {
+        init.key = Ident {
+          span_range: s2r(p1.as_span()),
+          raw: p1.as_str().to_owned(),
+          to_string: p1.as_str().to_owned()
+        };
+      },
+      Rule::value =>{
+        init.value = Some(Literal {
+          span_range: s2r(p1.as_span()),
+          raw: p1.as_str().to_owned(),
+          value: parse_value(p1)?
+        })
+      },
+      _ => throw_rules(&[Rule::var, Rule::value], p1)?
+    }
+  }
+
+  Ok(init)
 }

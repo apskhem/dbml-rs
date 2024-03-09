@@ -78,13 +78,24 @@ SchemaBlock {
                 settings: Some(
                     TableSettings {
                         span_range: 13..32,
-                        values: [
-                            (
-                                "headerColor",
-                                HexColor(
-                                    "#555",
+                        properties: [
+                            KeyValue {
+                                span_range: 14..31,
+                                key: Ident {
+                                    span_range: 14..25,
+                                    raw: "headerColor",
+                                    to_string: "headerColor",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 27..31,
+                                        value: HexColor(
+                                            "#555",
+                                        ),
+                                        raw: "#555",
+                                    },
                                 ),
-                            ),
+                            },
                         ],
                     },
                 ),
@@ -190,13 +201,24 @@ SchemaBlock {
                 settings: Some(
                     TableSettings {
                         span_range: 86..112,
-                        values: [
-                            (
-                                "note",
-                                String(
-                                    "name is required",
+                        properties: [
+                            KeyValue {
+                                span_range: 87..111,
+                                key: Ident {
+                                    span_range: 87..91,
+                                    raw: "note",
+                                    to_string: "note",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 93..111,
+                                        value: String(
+                                            "name is required",
+                                        ),
+                                        raw: "'name is required'",
+                                    },
                                 ),
-                            ),
+                            },
                         ],
                     },
                 ),
@@ -319,19 +341,41 @@ SchemaBlock {
                 settings: Some(
                     TableSettings {
                         span_range: 177..232,
-                        values: [
-                            (
-                                "headerColor",
-                                HexColor(
-                                    "#17DACC",
+                        properties: [
+                            KeyValue {
+                                span_range: 178..198,
+                                key: Ident {
+                                    span_range: 178..189,
+                                    raw: "headerColor",
+                                    to_string: "headerColor",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 191..198,
+                                        value: HexColor(
+                                            "#17DACC",
+                                        ),
+                                        raw: "#17DACC",
+                                    },
                                 ),
-                            ),
-                            (
-                                "note",
-                                String(
-                                    "product must have price",
+                            },
+                            KeyValue {
+                                span_range: 200..231,
+                                key: Ident {
+                                    span_range: 200..204,
+                                    raw: "note",
+                                    to_string: "note",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 206..231,
+                                        value: String(
+                                            "product must have price",
+                                        ),
+                                        raw: "'product must have price'",
+                                    },
                                 ),
-                            ),
+                            },
                         ],
                     },
                 ),
@@ -447,19 +491,41 @@ SchemaBlock {
                 settings: Some(
                     TableSettings {
                         span_range: 316..368,
-                        values: [
-                            (
-                                "headerColor",
-                                HexColor(
-                                    "#08DAFF",
+                        properties: [
+                            KeyValue {
+                                span_range: 317..337,
+                                key: Ident {
+                                    span_range: 317..328,
+                                    raw: "headerColor",
+                                    to_string: "headerColor",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 330..337,
+                                        value: HexColor(
+                                            "#08DAFF",
+                                        ),
+                                        raw: "#08DAFF",
+                                    },
                                 ),
-                            ),
-                            (
-                                "note",
-                                String(
-                                    "merchants sell a lot",
+                            },
+                            KeyValue {
+                                span_range: 339..367,
+                                key: Ident {
+                                    span_range: 339..343,
+                                    raw: "note",
+                                    to_string: "note",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 345..367,
+                                        value: String(
+                                            "merchants sell a lot",
+                                        ),
+                                        raw: "'merchants sell a lot'",
+                                    },
                                 ),
-                            ),
+                            },
                         ],
                     },
                 ),
