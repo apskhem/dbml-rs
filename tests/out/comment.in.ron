@@ -127,10 +127,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 108..128,
+                                                raw: "'Status of an order'",
                                                 value: String(
                                                     "Status of an order",
                                                 ),
-                                                raw: "'Status of an order'",
                                             },
                                         ),
                                     },
@@ -177,10 +177,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 158..178,
+                                                raw: "'When order created'",
                                                 value: String(
                                                     "When order created",
                                                 ),
-                                                raw: "'When order created'",
                                             },
                                         ),
                                     },

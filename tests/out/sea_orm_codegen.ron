@@ -16,10 +16,10 @@ SchemaBlock {
                         value: Some(
                             Literal {
                                 span_range: 43..55,
+                                raw: "'PostgreSQL'",
                                 value: String(
                                     "PostgreSQL",
                                 ),
-                                raw: "'PostgreSQL'",
                             },
                         ),
                     },

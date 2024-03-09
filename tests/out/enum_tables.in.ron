@@ -143,10 +143,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 258..281,
+                                                raw: "'This is a column note'",
                                                 value: String(
                                                     "This is a column note",
                                                 ),
-                                                raw: "'This is a column note'",
                                             },
                                         ),
                                     },

@@ -36,10 +36,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 30..194,
+                                                raw: "'''\n\n    # Objective\n      * Support writing long string that can \\\n'span' over multiple lines\n      * Support writing markdown for DBML Note\n  \n    # Syntax\n\n  '''",
                                                 value: String(
                                                     "# Objective\n      * Support writing long string that can \\\n'span' over multiple lines\n      * Support writing markdown for DBML Note\n  \n    # Syntax\n\n  ",
                                                 ),
-                                                raw: "'''\n\n    # Objective\n      * Support writing long string that can \\\n'span' over multiple lines\n      * Support writing markdown for DBML Note\n  \n    # Syntax\n\n  '''",
                                             },
                                         ),
                                     },

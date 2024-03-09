@@ -175,10 +175,10 @@ SchemaBlock {
                                 value: Some(
                                     Literal {
                                         span_range: 19..43,
+                                        raw: "'note in table settings'",
                                         value: String(
                                             "note in table settings",
                                         ),
-                                        raw: "'note in table settings'",
                                     },
                                 ),
                             },

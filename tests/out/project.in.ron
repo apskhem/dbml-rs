@@ -16,10 +16,10 @@ SchemaBlock {
                         value: Some(
                             Literal {
                                 span_range: 134..146,
+                                raw: "'PostgreSQL'",
                                 value: String(
                                     "PostgreSQL",
                                 ),
-                                raw: "'PostgreSQL'",
                             },
                         ),
                     },
@@ -288,10 +288,10 @@ SchemaBlock {
                                 value: Some(
                                     Literal {
                                         span_range: 307..311,
+                                        raw: "#fff",
                                         value: HexColor(
                                             "#fff",
                                         ),
-                                        raw: "#fff",
                                     },
                                 ),
                             },
@@ -370,10 +370,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 513..514,
+                                                raw: "1",
                                                 value: Integer(
                                                     1,
                                                 ),
-                                                raw: "1",
                                             },
                                         ),
                                     },
@@ -578,10 +578,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 678..685,
+                                                raw: "`now()`",
                                                 value: Expr(
                                                     "now()",
                                                 ),
-                                                raw: "`now()`",
                                             },
                                         ),
                                     },

@@ -6,8 +6,8 @@ use super::SpanRange;
 #[derive(Debug, Clone)]
 pub struct Literal {
   pub span_range: SpanRange,
-  pub value: Value,
   pub raw: String,
+  pub value: Value,
 }
 
 #[derive(Debug, Clone, Default)]

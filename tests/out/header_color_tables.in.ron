@@ -105,10 +105,10 @@ SchemaBlock {
                                 value: Some(
                                     Literal {
                                         span_range: 27..34,
+                                        raw: "#0065ab",
                                         value: HexColor(
                                             "#0065ab",
                                         ),
-                                        raw: "#0065ab",
                                     },
                                 ),
                             },

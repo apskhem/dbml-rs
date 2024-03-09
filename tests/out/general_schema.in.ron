@@ -255,10 +255,10 @@ SchemaBlock {
                                 value: Some(
                                     Literal {
                                         span_range: 157..161,
+                                        raw: "#fff",
                                         value: HexColor(
                                             "#fff",
                                         ),
-                                        raw: "#fff",
                                     },
                                 ),
                             },
@@ -337,10 +337,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 363..364,
+                                                raw: "1",
                                                 value: Integer(
                                                     1,
                                                 ),
-                                                raw: "1",
                                             },
                                         ),
                                     },
@@ -545,10 +545,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 528..535,
+                                                raw: "`now()`",
                                                 value: Expr(
                                                     "now()",
                                                 ),
-                                                raw: "`now()`",
                                             },
                                         ),
                                     },

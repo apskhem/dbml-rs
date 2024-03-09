@@ -254,10 +254,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 255..256,
+                                                raw: "1",
                                                 value: Integer(
                                                     1,
                                                 ),
-                                                raw: "1",
                                             },
                                         ),
                                     },
@@ -391,10 +391,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 371..378,
+                                                raw: "`now()`",
                                                 value: Expr(
                                                     "now()",
                                                 ),
-                                                raw: "`now()`",
                                             },
                                         ),
                                     },
@@ -623,10 +623,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 572..579,
+                                                raw: "`now()`",
                                                 value: Expr(
                                                     "now()",
                                                 ),
-                                                raw: "`now()`",
                                             },
                                         ),
                                     },

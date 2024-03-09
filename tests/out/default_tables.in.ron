@@ -45,10 +45,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 38..41,
+                                                raw: "123",
                                                 value: Integer(
                                                     123,
                                                 ),
-                                                raw: "123",
                                             },
                                         ),
                                     },
@@ -148,10 +148,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 103..114,
+                                                raw: "'Completed'",
                                                 value: String(
                                                     "Completed",
                                                 ),
-                                                raw: "'Completed'",
                                             },
                                         ),
                                     },
@@ -200,10 +200,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 147..154,
+                                                raw: "`now()`",
                                                 value: Expr(
                                                     "now()",
                                                 ),
-                                                raw: "`now()`",
                                             },
                                         ),
                                     },
@@ -386,8 +386,8 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 285..289,
-                                                value: Null,
                                                 raw: "null",
+                                                value: Null,
                                             },
                                         ),
                                     },
@@ -476,10 +476,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 344..350,
+                                                raw: "123.12",
                                                 value: Decimal(
                                                     123.12,
                                                 ),
-                                                raw: "123.12",
                                             },
                                         ),
                                     },
@@ -528,10 +528,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 378..382,
+                                                raw: "true",
                                                 value: Bool(
                                                     true,
                                                 ),
-                                                raw: "true",
                                             },
                                         ),
                                     },
@@ -580,10 +580,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 411..443,
+                                                raw: "`current_date + interval 1 year`",
                                                 value: Expr(
                                                     "current_date + interval 1 year",
                                                 ),
-                                                raw: "`current_date + interval 1 year`",
                                             },
                                         ),
                                     },

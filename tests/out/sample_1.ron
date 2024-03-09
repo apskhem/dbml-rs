@@ -16,10 +16,10 @@ SchemaBlock {
                         value: Some(
                             Literal {
                                 span_range: 40..52,
+                                raw: "'PostgreSQL'",
                                 value: String(
                                     "PostgreSQL",
                                 ),
-                                raw: "'PostgreSQL'",
                             },
                         ),
                     },
@@ -154,10 +154,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 235..237,
+                                                raw: "10",
                                                 value: Integer(
                                                     10,
                                                 ),
-                                                raw: "10",
                                             },
                                         ),
                                     },
@@ -409,10 +409,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 431..452,
+                                                raw: "'Content of the post'",
                                                 value: String(
                                                     "Content of the post",
                                                 ),
-                                                raw: "'Content of the post'",
                                             },
                                         ),
                                     },
@@ -612,10 +612,10 @@ SchemaBlock {
                                         value: Some(
                                             Literal {
                                                 span_range: 597..690,
+                                                raw: "'\n  💸 1 = processing, \n  ✔\u{fe0f} 2 = shipped, \n  ❌ 3 = cancelled,\n  😔 4 = refunded\n  '",
                                                 value: String(
                                                     "💸 1 = processing, \n  ✔\u{fe0f} 2 = shipped, \n  ❌ 3 = cancelled,\n  😔 4 = refunded\n  ",
                                                 ),
-                                                raw: "'\n  💸 1 = processing, \n  ✔\u{fe0f} 2 = shipped, \n  ❌ 3 = cancelled,\n  😔 4 = refunded\n  '",
                                             },
                                         ),
                                     },
