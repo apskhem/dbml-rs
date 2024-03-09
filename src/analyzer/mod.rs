@@ -206,7 +206,8 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                       | ColumnTypeName::Timetz
                       | ColumnTypeName::Timestamptz
                       | ColumnTypeName::Bit
-                      | ColumnTypeName::Varbit => {
+                      | ColumnTypeName::Varbit
+                      if col.r#type.args.len() != 1 => {
                         if col.r#type.args.len() != 1 {
                           panic!("varchar_incompatible_args")
                         }
@@ -255,7 +256,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           if let Some(Some(default_value)) = col.settings.clone().map(|s| s.default) {
             // validate default value association with a col type
             match default_value {
-              Value::String(value) => {
+              Value::String(val) => {
                 if ![
                   ColumnTypeName::Bit,
                   ColumnTypeName::Varbit,
@@ -269,18 +270,18 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                 match type_name {
                   ColumnTypeName::Bit
                   | ColumnTypeName::Char
-                  if matches!(col.r#type.args[0], Value::Integer(len) if value.len() as i32 != len) => {
-                    panic!("defualt value is not matched with the specified fixed length")
+                  if matches!(col.r#type.args[0], Value::Integer(len) if val.len() as i64 != len) => {
+                    panic!("defualt value does not match with the specified fixed length")
                   }
                   ColumnTypeName::Varbit
                   | ColumnTypeName::VarChar
-                  if matches!(col.r#type.args[0], Value::Integer(cap) if value.len() as i32 > cap) => {
-                    panic!("defualt value is not exceed the specified variable length")
+                  if matches!(col.r#type.args[0], Value::Integer(cap) if val.len() as i64 > cap) => {
+                    panic!("defualt value exceeds the specified variable length")
                   }
                   _ => ()
                 };
               },
-              Value::Integer(_) => {
+              Value::Integer(val) => {
                 if ![
                   ColumnTypeName::SmallSerial,
                   ColumnTypeName::Serial,
@@ -291,15 +292,24 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                 ].contains(&type_name) {
                   panic!("defualt value is not associated with declared type")
                 }
+
+                match type_name {
+                  ColumnTypeName::SmallInt
+                  if (val > i16::MAX as i64) || (val < i16::MIN as i64) => {
+                    panic!("defualt value exceeds the maximum value of the specified type")
+                  }
+                  ColumnTypeName::Integer
+                  if (val > i32::MAX as i64) || (val < i32::MIN as i64) => {
+                    panic!("defualt value exceeds the maximum value of the specified type")
+                  }
+                  ColumnTypeName::BigInt
+                  if val.overflowing_add(1).1 || val.overflowing_sub(1).1 => {
+                    panic!("defualt value exceeds the maximum value of the specified type")
+                  }
+                  _ => ()
+                };
               },
-              Value::Decimal(_) => {
-                if ![
-                  ColumnTypeName::Decimal,
-                  ColumnTypeName::DoublePrecision
-                ].contains(&type_name) {
-                  panic!("defualt value is not associated with declared type")
-                }
-              },
+              Value::Decimal(_) => (),
               Value::Bool(_) => {
                 if ![ColumnTypeName::Bool].contains(&type_name) {
                   panic!("defualt value is not associated with declared type")

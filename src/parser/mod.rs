@@ -848,11 +848,11 @@ fn parse_value(pair: Pair<Rule>) -> ParserResult<Value> {
         .ok_or_else(|| unreachable!("something went wrong at value"))?;
 
       match p2.as_rule() {
-        Rule::decimal => match p2.as_str().parse::<f32>() {
+        Rule::decimal => match p2.as_str().parse::<f64>() {
           Ok(val) => Ok(Value::Decimal(val)),
           Err(err) => throw_msg(err.to_string(), p2)?,
         },
-        Rule::integer => match p2.as_str().parse::<i32>() {
+        Rule::integer => match p2.as_str().parse::<i64>() {
           Ok(val) => Ok(Value::Integer(val)),
           Err(err) => throw_msg(err.to_string(), p2)?,
         },

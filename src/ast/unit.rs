@@ -34,8 +34,8 @@ pub enum Nullable {
 #[derive(Debug, PartialEq, Clone)]
 pub enum Value {
   String(String),
-  Integer(i32),
-  Decimal(f32),
+  Integer(i64),
+  Decimal(f64),
   Bool(bool),
   HexColor(String),
   Expr(String),
