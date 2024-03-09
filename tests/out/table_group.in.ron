@@ -10,6 +10,7 @@ SchemaBlock {
                         span_range: 21..29,
                         name: Ident {
                             span_range: 21..23,
+                            raw: "id",
                             to_string: "id",
                         },
                         type: ColumnType {
@@ -26,6 +27,7 @@ SchemaBlock {
                         span_range: 29..49,
                         name: Ident {
                             span_range: 29..38,
+                            raw: "full_name",
                             to_string: "full_name",
                         },
                         type: ColumnType {
@@ -42,6 +44,7 @@ SchemaBlock {
                         span_range: 49..72,
                         name: Ident {
                             span_range: 49..59,
+                            raw: "created_at",
                             to_string: "created_at",
                         },
                         type: ColumnType {
@@ -58,6 +61,7 @@ SchemaBlock {
                         span_range: 72..89,
                         name: Ident {
                             span_range: 72..84,
+                            raw: "country_code",
                             to_string: "country_code",
                         },
                         type: ColumnType {
@@ -75,12 +79,14 @@ SchemaBlock {
                     span_range: 6..12,
                     name: Ident {
                         span_range: 6..11,
+                        raw: "users",
                         to_string: "users",
                     },
                     schema: None,
                     alias: Some(
                         Ident {
-                            span_range: 12..16,
+                            span_range: 15..16,
+                            raw: "U",
                             to_string: "U",
                         },
                     ),
@@ -98,6 +104,7 @@ SchemaBlock {
                         span_range: 112..122,
                         name: Ident {
                             span_range: 112..114,
+                            raw: "id",
                             to_string: "id",
                         },
                         type: ColumnType {
@@ -114,6 +121,7 @@ SchemaBlock {
                         span_range: 122..145,
                         name: Ident {
                             span_range: 122..135,
+                            raw: "merchant_name",
                             to_string: "merchant_name",
                         },
                         type: ColumnType {
@@ -130,6 +138,7 @@ SchemaBlock {
                         span_range: 145..164,
                         name: Ident {
                             span_range: 145..157,
+                            raw: "country_code",
                             to_string: "country_code",
                         },
                         type: ColumnType {
@@ -146,6 +155,7 @@ SchemaBlock {
                         span_range: 164..187,
                         name: Ident {
                             span_range: 164..176,
+                            raw: "\"created at\"",
                             to_string: "created at",
                         },
                         type: ColumnType {
@@ -162,6 +172,7 @@ SchemaBlock {
                         span_range: 187..213,
                         name: Ident {
                             span_range: 187..195,
+                            raw: "admin_id",
                             to_string: "admin_id",
                         },
                         type: ColumnType {
@@ -191,11 +202,13 @@ SchemaBlock {
                                             schema: None,
                                             table: Ident {
                                                 span_range: 208..209,
+                                                raw: "U",
                                                 to_string: "U",
                                             },
                                             compositions: [
                                                 Ident {
                                                     span_range: 210..212,
+                                                    raw: "id",
                                                     to_string: "id",
                                                 },
                                             ],
@@ -210,6 +223,7 @@ SchemaBlock {
                     span_range: 98..108,
                     name: Ident {
                         span_range: 98..107,
+                        raw: "merchants",
                         to_string: "merchants",
                     },
                     schema: None,
@@ -225,6 +239,7 @@ SchemaBlock {
                 span_range: 254..291,
                 ident: Ident {
                     span_range: 265..267,
+                    raw: "g1",
                     to_string: "g1",
                 },
                 items: [
@@ -233,6 +248,7 @@ SchemaBlock {
                         schema: None,
                         ident_alias: Ident {
                             span_range: 272..277,
+                            raw: "users",
                             to_string: "users",
                         },
                     },
@@ -241,6 +257,7 @@ SchemaBlock {
                         schema: None,
                         ident_alias: Ident {
                             span_range: 280..289,
+                            raw: "merchants",
                             to_string: "merchants",
                         },
                     },

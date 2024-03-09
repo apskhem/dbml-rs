@@ -175,10 +175,8 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
           acc.ident.schema = schema;
         }
         Rule::table_alias => {
-          acc.ident.alias = Some(Ident {
-            span_range: s2r(p1.as_span()),
-            to_string: p1.into_inner().as_str().to_string()
-          })
+          let ident = p1.into_inner().next().unwrap();
+          acc.ident.alias = Some(parse_ident(ident)?)
         },
         Rule::table_block => {
           for p2 in p1.into_inner() {
@@ -356,6 +354,7 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
                     Rule::spaced_var => {
                       key_value.key = Ident {
                         span_range: s2r(p3.as_span()),
+                        raw: p3.as_str().to_owned(),
                         to_string: p3.as_str().to_owned()
                       };
 
@@ -390,6 +389,8 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
               Rule::ref_inline => {
                 key_value.key = Ident {
                   span_range: s2r(p2.as_span()),
+                  // raw and string need to be filter out after the process
+                  raw: String::new(),
                   to_string: p2.as_str().to_owned()
                 };
 
@@ -963,10 +964,12 @@ fn parse_ident(pair: Pair<Rule>) -> ParserResult<Ident> {
   match p1.as_rule() {
     Rule::var => Ok(Ident {
       span_range: s2r(p1.as_span()),
+      raw: p1.as_str().to_string(),
       to_string: p1.as_str().to_string()
     }),
     Rule::double_quoted_string => Ok(Ident {
       span_range: s2r(p1.as_span()),
+      raw: p1.as_str().to_string(),
       to_string: p1.into_inner().as_str().to_string()
     }),
     _ => throw_rules(&[Rule::var, Rule::double_quoted_string], p1)?,

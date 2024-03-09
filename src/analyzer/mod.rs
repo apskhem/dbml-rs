@@ -298,7 +298,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                 .lookup_table_fields(
                   &table.ident.schema,
                   &table.ident.name,
-                  &vec![Ident { span_range: 0..0, to_string: col_name.clone() }],
+                  &vec![Ident { span_range: 0..0, raw: String::new(), to_string: col_name.clone() }],
                 )
                 .unwrap_or_else(|x| panic!("{}", x));
             }

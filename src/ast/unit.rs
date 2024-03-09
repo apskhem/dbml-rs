@@ -13,6 +13,7 @@ pub struct Literal {
 #[derive(Debug, Clone, Default)]
 pub struct Ident {
   pub span_range: SpanRange,
+  pub raw: String,
   pub to_string: String,
 }
 

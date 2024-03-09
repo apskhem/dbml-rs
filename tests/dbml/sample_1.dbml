@@ -11,7 +11,7 @@ TableGroup order {
   orders
 }
 
-Table public.users {
+Table public."users" {
   id integer [pk]
   age integer [default: 10]
   username "character varying[]"

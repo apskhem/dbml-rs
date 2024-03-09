@@ -10,6 +10,7 @@ SchemaBlock {
                         span_range: 75..93,
                         name: Ident {
                             span_range: 75..77,
+                            raw: "id",
                             to_string: "id",
                         },
                         type: ColumnType {
@@ -26,6 +27,7 @@ SchemaBlock {
                         span_range: 93..106,
                         name: Ident {
                             span_range: 93..100,
+                            raw: "user_id",
                             to_string: "user_id",
                         },
                         type: ColumnType {
@@ -42,6 +44,7 @@ SchemaBlock {
                         span_range: 106..122,
                         name: Ident {
                             span_range: 106..112,
+                            raw: "status",
                             to_string: "status",
                         },
                         type: ColumnType {
@@ -58,6 +61,7 @@ SchemaBlock {
                         span_range: 122..142,
                         name: Ident {
                             span_range: 122..131,
+                            raw: "create_at",
                             to_string: "create_at",
                         },
                         type: ColumnType {
@@ -75,6 +79,7 @@ SchemaBlock {
                     span_range: 6..13,
                     name: Ident {
                         span_range: 6..12,
+                        raw: "orders",
                         to_string: "orders",
                     },
                     schema: None,

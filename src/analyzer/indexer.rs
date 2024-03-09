@@ -123,7 +123,7 @@ impl Indexer {
           ident_alias.to_string
         };
 
-        self.lookup_table_fields(&table.schema, &Ident { span_range: 0..0, to_string: ident }, &vec![])?;
+        self.lookup_table_fields(&table.schema, &Ident { span_range: 0..0, raw: String::new(), to_string: ident }, &vec![])?;
       }
 
       let mut table_sets = HashSet::new();
@@ -228,10 +228,12 @@ impl Indexer {
         span_range: ident.span_range.clone(),
         schema: schema.clone().map(|s| Ident {
           span_range: 0..0,
+          raw: s.clone(),
           to_string: s
         }),
         table: Ident {
           span_range: ident.table.span_range.clone(),
+          raw: table.clone(),
           to_string: table.clone()
         },
         compositions: ident.compositions.clone(),

@@ -10,6 +10,7 @@ SchemaBlock {
                         span_range: 16..195,
                         name: Ident {
                             span_range: 16..18,
+                            raw: "id",
                             to_string: "id",
                         },
                         type: ColumnType {
@@ -28,6 +29,7 @@ SchemaBlock {
                                         span_range: 24..194,
                                         key: Ident {
                                             span_range: 24..28,
+                                            raw: "note",
                                             to_string: "note",
                                         },
                                         value: None,
@@ -50,6 +52,7 @@ SchemaBlock {
                     span_range: 6..12,
                     name: Ident {
                         span_range: 6..11,
+                        raw: "users",
                         to_string: "users",
                     },
                     schema: None,
