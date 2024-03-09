@@ -206,8 +206,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                       | ColumnTypeName::Timetz
                       | ColumnTypeName::Timestamptz
                       | ColumnTypeName::Bit
-                      | ColumnTypeName::Varbit
-                      if col.r#type.args.len() != 1 => {
+                      | ColumnTypeName::Varbit => {
                         if col.r#type.args.len() != 1 {
                           panic!("varchar_incompatible_args")
                         }
