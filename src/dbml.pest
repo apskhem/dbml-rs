@@ -42,11 +42,7 @@ decl_ident = { ident ~ ("." ~ ident)? }
 
 // ref block
 relation = @{ "<>" | "-" | ">" | "<" }
-rel_action = @{ "cascade" | "restrict" | "set null" | "set default" | "no action" }
-rel_update = { "update" ~ ":" ~ rel_action }
-rel_delete = { "delete" ~ ":" ~ rel_action }
-rel_attribute = { rel_update | rel_delete }
-rel_settings = { "[" ~ (rel_attribute ~ ("," ~ rel_attribute)*)? ~ "]" }
+rel_settings = { "[" ~ (attribute ~ ("," ~ attribute)*)? ~ "]" }
 ref_composition = { ident | ("(" ~ ident ~ ("," ~ ident)* ~ ")") }
 ref_ident = { ident ~ "." ~ (ident ~ ".")? ~ ref_composition }
 ref_inline = { "ref" ~ ":" ~ relation ~ ref_ident }

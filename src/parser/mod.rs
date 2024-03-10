@@ -605,30 +605,30 @@ fn parse_rel_settings(pair: Pair<Rule>) -> ParserResult<RefSettings> {
     .into_inner()
     .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
-        Rule::rel_attribute => {
-          for p2 in p1.into_inner() {
-            match p2.as_rule() {
-              Rule::rel_update => {
-                for p3 in p2.into_inner() {
-                  acc.on_update = match ReferentialAction::from_str(p3.as_str()) {
-                    Ok(val) => Some(val),
-                    Err(_) => throw_rules(&[Rule::rel_update], p3)?,
-                  }
-                }
+        Rule::attribute => {
+          let attr = parse_attribute(p1.clone())?;
+
+          match attr.key.to_string.as_str() {
+            "update" => {
+              // FIXME: handle unwrap
+              acc.on_update = match ReferentialAction::from_str(&attr.value.clone().unwrap().value.to_string()) {
+                Ok(val) => Some(val),
+                Err(err) => throw_msg(err, p1)?,
               }
-              Rule::rel_delete => {
-                for p3 in p2.into_inner() {
-                  acc.on_delete = match ReferentialAction::from_str(p3.as_str()) {
-                    Ok(val) => Some(val),
-                    Err(_) => throw_rules(&[Rule::rel_delete], p3)?,
-                  }
-                }
-              }
-              _ => throw_rules(&[Rule::rel_update, Rule::rel_delete], p2)?,
             }
+            "delete" => {
+              // FIXME: handle unwrap
+              acc.on_delete = match ReferentialAction::from_str(&attr.value.clone().unwrap().value.to_string()) {
+                Ok(val) => Some(val),
+                Err(msg) => throw_msg(msg, p1)?,
+              }
+            }
+            _ => ()
           }
+
+          acc.attributes.push(attr);
         }
-        _ => throw_rules(&[Rule::rel_attribute], p1)?,
+        _ => throw_rules(&[Rule::attribute], p1)?,
       }
 
       Ok(acc)

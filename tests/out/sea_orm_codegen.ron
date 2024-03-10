@@ -663,6 +663,42 @@ SchemaBlock {
                 settings: Some(
                     RefSettings {
                         span_range: 509..543,
+                        attributes: [
+                            Attribute {
+                                span_range: 510..525,
+                                key: Ident {
+                                    span_range: 510..516,
+                                    raw: "delete",
+                                    to_string: "delete",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 518..525,
+                                        raw: "cascade",
+                                        value: Enum(
+                                            "cascade",
+                                        ),
+                                    },
+                                ),
+                            },
+                            Attribute {
+                                span_range: 527..542,
+                                key: Ident {
+                                    span_range: 527..533,
+                                    raw: "update",
+                                    to_string: "update",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 535..542,
+                                        raw: "cascade",
+                                        value: Enum(
+                                            "cascade",
+                                        ),
+                                    },
+                                ),
+                            },
+                        ],
                         on_delete: Some(
                             Cascade,
                         ),
@@ -713,6 +749,42 @@ SchemaBlock {
                 settings: Some(
                     RefSettings {
                         span_range: 587..621,
+                        attributes: [
+                            Attribute {
+                                span_range: 588..603,
+                                key: Ident {
+                                    span_range: 588..594,
+                                    raw: "delete",
+                                    to_string: "delete",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 596..603,
+                                        raw: "cascade",
+                                        value: Enum(
+                                            "cascade",
+                                        ),
+                                    },
+                                ),
+                            },
+                            Attribute {
+                                span_range: 605..620,
+                                key: Ident {
+                                    span_range: 605..611,
+                                    raw: "update",
+                                    to_string: "update",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 613..620,
+                                        raw: "cascade",
+                                        value: Enum(
+                                            "cascade",
+                                        ),
+                                    },
+                                ),
+                            },
+                        ],
                         on_delete: Some(
                             Cascade,
                         ),

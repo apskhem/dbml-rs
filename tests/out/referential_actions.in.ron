@@ -858,6 +858,25 @@ SchemaBlock {
                 settings: Some(
                     RefSettings {
                         span_range: 749..767,
+                        attributes: [
+                            Attribute {
+                                span_range: 750..766,
+                                key: Ident {
+                                    span_range: 750..756,
+                                    raw: "delete",
+                                    to_string: "delete",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 758..766,
+                                        raw: "restrict",
+                                        value: Enum(
+                                            "restrict",
+                                        ),
+                                    },
+                                ),
+                            },
+                        ],
                         on_delete: Some(
                             Restrict,
                         ),
@@ -906,6 +925,25 @@ SchemaBlock {
                 settings: Some(
                     RefSettings {
                         span_range: 814..831,
+                        attributes: [
+                            Attribute {
+                                span_range: 815..830,
+                                key: Ident {
+                                    span_range: 815..821,
+                                    raw: "delete",
+                                    to_string: "delete",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 823..830,
+                                        raw: "cascade",
+                                        value: Enum(
+                                            "cascade",
+                                        ),
+                                    },
+                                ),
+                            },
+                        ],
                         on_delete: Some(
                             Cascade,
                         ),
@@ -964,6 +1002,25 @@ SchemaBlock {
                 settings: Some(
                     RefSettings {
                         span_range: 910..928,
+                        attributes: [
+                            Attribute {
+                                span_range: 911..927,
+                                key: Ident {
+                                    span_range: 911..917,
+                                    raw: "delete",
+                                    to_string: "delete",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 919..927,
+                                        raw: "set null",
+                                        value: Enum(
+                                            "set null",
+                                        ),
+                                    },
+                                ),
+                            },
+                        ],
                         on_delete: Some(
                             SetNull,
                         ),
@@ -1012,6 +1069,25 @@ SchemaBlock {
                 settings: Some(
                     RefSettings {
                         span_range: 978..997,
+                        attributes: [
+                            Attribute {
+                                span_range: 979..996,
+                                key: Ident {
+                                    span_range: 979..985,
+                                    raw: "delete",
+                                    to_string: "delete",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 987..996,
+                                        raw: "no action",
+                                        value: Enum(
+                                            "no action",
+                                        ),
+                                    },
+                                ),
+                            },
+                        ],
                         on_delete: Some(
                             NoAction,
                         ),
