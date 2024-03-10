@@ -76,7 +76,7 @@ SchemaBlock {
                                 ],
                                 is_pk: true,
                                 is_unique: false,
-                                is_nullable: None,
+                                nullable: None,
                                 is_incremental: true,
                                 note: None,
                                 default: None,
@@ -116,7 +116,7 @@ SchemaBlock {
                                 ],
                                 is_pk: false,
                                 is_unique: false,
-                                is_nullable: Some(
+                                nullable: Some(
                                     Null,
                                 ),
                                 is_incremental: false,
@@ -187,7 +187,7 @@ SchemaBlock {
                                 ],
                                 is_pk: true,
                                 is_unique: false,
-                                is_nullable: None,
+                                nullable: None,
                                 is_incremental: true,
                                 note: None,
                                 default: None,
@@ -245,7 +245,7 @@ SchemaBlock {
                                 ],
                                 is_pk: false,
                                 is_unique: false,
-                                is_nullable: Some(
+                                nullable: Some(
                                     Null,
                                 ),
                                 is_incremental: false,
@@ -337,7 +337,7 @@ SchemaBlock {
                                 ],
                                 is_pk: true,
                                 is_unique: false,
-                                is_nullable: None,
+                                nullable: None,
                                 is_incremental: true,
                                 note: None,
                                 default: None,
@@ -395,7 +395,7 @@ SchemaBlock {
                                 ],
                                 is_pk: false,
                                 is_unique: false,
-                                is_nullable: Some(
+                                nullable: Some(
                                     Null,
                                 ),
                                 is_incremental: false,
@@ -487,7 +487,7 @@ SchemaBlock {
                                 ],
                                 is_pk: true,
                                 is_unique: false,
-                                is_nullable: None,
+                                nullable: None,
                                 is_incremental: true,
                                 note: None,
                                 default: None,

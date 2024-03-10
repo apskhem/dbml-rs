@@ -6,6 +6,8 @@ use std::result::Result;
 use ast::SchemaBlock;
 use pest::error::Error as ParseError;
 
+extern crate derive_more;
+
 #[macro_use]
 extern crate pest_derive;
 

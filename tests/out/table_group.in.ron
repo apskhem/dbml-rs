@@ -198,7 +198,7 @@ SchemaBlock {
                                 attributes: [],
                                 is_pk: false,
                                 is_unique: false,
-                                is_nullable: None,
+                                nullable: None,
                                 is_incremental: false,
                                 note: None,
                                 default: None,

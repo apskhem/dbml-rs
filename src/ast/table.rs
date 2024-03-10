@@ -174,7 +174,7 @@ pub struct ColumnSettings {
   /// A boolean indicating if the column is unique.
   pub is_unique: bool,
   /// An enum indicating the nullable status of the column.
-  pub is_nullable: Option<Nullable>,
+  pub nullable: Option<Nullable>,
   /// A boolean indicating if the column is incremental.
   pub is_incremental: bool,
   /// A note associated with the column.

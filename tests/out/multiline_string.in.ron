@@ -46,7 +46,7 @@ SchemaBlock {
                                 ],
                                 is_pk: false,
                                 is_unique: false,
-                                is_nullable: None,
+                                nullable: None,
                                 is_incremental: false,
                                 note: Some(
                                     "# Objective\n      * Support writing long string that can \\\n'span' over multiple lines\n      * Support writing markdown for DBML Note\n  \n    # Syntax\n\n  ",

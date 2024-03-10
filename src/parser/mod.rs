@@ -329,8 +329,8 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
                 match attr.key.to_string.as_str() {
                   "unique" => acc.is_unique = true,
                   "primary key" | "pk" => acc.is_pk = true,
-                  "null" => acc.is_nullable = Some(Nullable::Null),
-                  "not null" => acc.is_nullable = Some(Nullable::NotNull),
+                  "null" => acc.nullable = Some(Nullable::Null),
+                  "not null" => acc.nullable = Some(Nullable::NotNull),
                   "increment" => acc.is_incremental = true,
                   "default" =>  acc.default = attr.value.clone().map(|v| v.value),
                   "note" => acc.note = attr.value.clone().map(|v| v.value.to_string()),

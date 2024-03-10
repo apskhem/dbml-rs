@@ -55,7 +55,7 @@ SchemaBlock {
                                 ],
                                 is_pk: true,
                                 is_unique: false,
-                                is_nullable: None,
+                                nullable: None,
                                 is_incremental: false,
                                 note: None,
                                 default: Some(
@@ -108,7 +108,7 @@ SchemaBlock {
                                 ],
                                 is_pk: false,
                                 is_unique: true,
-                                is_nullable: Some(
+                                nullable: Some(
                                     NotNull,
                                 ),
                                 is_incremental: false,
@@ -158,7 +158,7 @@ SchemaBlock {
                                 ],
                                 is_pk: false,
                                 is_unique: false,
-                                is_nullable: None,
+                                nullable: None,
                                 is_incremental: false,
                                 note: None,
                                 default: Some(
@@ -210,7 +210,7 @@ SchemaBlock {
                                 ],
                                 is_pk: false,
                                 is_unique: false,
-                                is_nullable: None,
+                                nullable: None,
                                 is_incremental: false,
                                 note: None,
                                 default: Some(
@@ -348,7 +348,7 @@ SchemaBlock {
                                 ],
                                 is_pk: true,
                                 is_unique: false,
-                                is_nullable: None,
+                                nullable: None,
                                 is_incremental: false,
                                 note: None,
                                 default: None,
@@ -394,7 +394,7 @@ SchemaBlock {
                                 ],
                                 is_pk: false,
                                 is_unique: false,
-                                is_nullable: None,
+                                nullable: None,
                                 is_incremental: false,
                                 note: None,
                                 default: Some(
@@ -436,7 +436,7 @@ SchemaBlock {
                                 ],
                                 is_pk: false,
                                 is_unique: false,
-                                is_nullable: Some(
+                                nullable: Some(
                                     NotNull,
                                 ),
                                 is_incremental: false,
@@ -486,7 +486,7 @@ SchemaBlock {
                                 ],
                                 is_pk: false,
                                 is_unique: false,
-                                is_nullable: None,
+                                nullable: None,
                                 is_incremental: false,
                                 note: None,
                                 default: Some(
@@ -538,7 +538,7 @@ SchemaBlock {
                                 ],
                                 is_pk: false,
                                 is_unique: false,
-                                is_nullable: None,
+                                nullable: None,
                                 is_incremental: false,
                                 note: None,
                                 default: Some(
@@ -590,7 +590,7 @@ SchemaBlock {
                                 ],
                                 is_pk: false,
                                 is_unique: false,
-                                is_nullable: None,
+                                nullable: None,
                                 is_incremental: false,
                                 note: None,
                                 default: Some(
