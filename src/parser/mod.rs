@@ -169,8 +169,12 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
           acc.ident.schema = schema;
         }
         Rule::table_alias => {
-          let ident = p1.into_inner().next().unwrap();
-          acc.ident.alias = Some(parse_ident(ident)?)
+          for p2 in p1.into_inner() {
+            match p2.as_rule() {
+              Rule::ident => acc.ident.alias = Some(parse_ident(p2)?),
+              _ => throw_rules(&[Rule::ident], p2)?,
+            }
+          }
         },
         Rule::table_block => {
           for p2 in p1.into_inner() {
@@ -610,17 +614,21 @@ fn parse_rel_settings(pair: Pair<Rule>) -> ParserResult<RefSettings> {
 
           match attr.key.to_string.as_str() {
             "update" => {
-              // FIXME: handle unwrap
-              acc.on_update = match ReferentialAction::from_str(&attr.value.clone().unwrap().value.to_string()) {
-                Ok(val) => Some(val),
-                Err(err) => throw_msg(err, p1)?,
+              acc.on_update = match &attr.value {
+                Some(Literal { value: Value::Enum(value), .. }) => match ReferentialAction::from_str(value) {
+                  Ok(value) => Some(value),
+                  Err(msg) => throw_msg(msg, p1)?,
+                },
+                _ => None
               }
             }
             "delete" => {
-              // FIXME: handle unwrap
-              acc.on_delete = match ReferentialAction::from_str(&attr.value.clone().unwrap().value.to_string()) {
-                Ok(val) => Some(val),
-                Err(msg) => throw_msg(msg, p1)?,
+              acc.on_delete = match &attr.value {
+                Some(Literal { value: Value::Enum(value), .. }) => match ReferentialAction::from_str(value) {
+                  Ok(value) => Some(value),
+                  Err(msg) => throw_msg(msg, p1)?,
+                },
+                _ => None
               }
             }
             _ => ()
