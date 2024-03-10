@@ -236,8 +236,8 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                   let splited: Vec<_> = raw_type.split(".").collect();
 
                   let (enum_schema, enum_name) = match splited.len() {
-                    2 => (Some(splited[0].to_string()), splited[1].to_string()),
                     1 => (None, raw_type),
+                    2 => (Some(splited[0].to_string()), splited[1].to_string()),
                     _ => panic!("incorrect enum field format"),
                   };
 
@@ -255,13 +255,16 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           if let Some(Some(default_value)) = col.settings.clone().map(|s| s.default) {
             // validate default value association with a col type
             match default_value {
+              Value::Enum(_) => (),
               Value::String(val) => {
-                if ![
-                  ColumnTypeName::Bit,
-                  ColumnTypeName::Varbit,
-                  ColumnTypeName::Char,
-                  ColumnTypeName::VarChar,
-                ].contains(&type_name) {
+                if !matches!(
+                  type_name,
+                  ColumnTypeName::Bit
+                  | ColumnTypeName::Varbit
+                  | ColumnTypeName::Char
+                  | ColumnTypeName::VarChar
+                  | ColumnTypeName::Enum(_)
+                ) {
                   panic!("defualt value is not associated with declared type")
                 }
 
@@ -281,14 +284,15 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                 };
               },
               Value::Integer(val) => {
-                if ![
-                  ColumnTypeName::SmallSerial,
-                  ColumnTypeName::Serial,
-                  ColumnTypeName::BigSerial,
-                  ColumnTypeName::SmallInt,
-                  ColumnTypeName::Integer,
-                  ColumnTypeName::BigInt,
-                ].contains(&type_name) {
+                if !matches!(
+                  type_name,
+                  ColumnTypeName::SmallSerial
+                  | ColumnTypeName::Serial
+                  | ColumnTypeName::BigSerial
+                  | ColumnTypeName::SmallInt
+                  | ColumnTypeName::Integer
+                  | ColumnTypeName::BigInt
+                ) {
                   panic!("defualt value is not associated with declared type")
                 }
 

@@ -898,19 +898,21 @@ fn parse_ident(pair: Pair<Rule>) -> ParserResult<Ident> {
     .next()
     .ok_or_else(|| unreachable!("something went wrong at ident"))?;
 
-  match p1.as_rule() {
-    Rule::var => Ok(Ident {
+  let ident = match p1.as_rule() {
+    Rule::var => Ident {
       span_range: s2r(p1.as_span()),
       raw: p1.as_str().to_string(),
       to_string: p1.as_str().to_string()
-    }),
-    Rule::double_quoted_string => Ok(Ident {
+    },
+    Rule::double_quoted_string => Ident {
       span_range: s2r(p1.as_span()),
       raw: p1.as_str().to_string(),
       to_string: p1.into_inner().as_str().to_string()
-    }),
+    },
     _ => throw_rules(&[Rule::var, Rule::double_quoted_string], p1)?,
-  }
+  };
+
+  Ok(ident)
 }
 
 pub fn parse_attribute(pair: Pair<Rule>) -> ParserResult<Attribute> {
@@ -932,7 +934,7 @@ pub fn parse_attribute(pair: Pair<Rule>) -> ParserResult<Attribute> {
           init.value = Some(Literal {
             span_range: s2r(p1.as_span()),
             raw: p1.as_str().to_owned(),
-            value: Value::String(p1.as_str().to_owned()),
+            value: Value::Enum(p1.as_str().to_owned()),
           })
         }
       },

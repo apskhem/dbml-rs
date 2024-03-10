@@ -693,7 +693,7 @@ SchemaBlock {
                                                     Literal {
                                                         span_range: 768..772,
                                                         raw: "hash",
-                                                        value: String(
+                                                        value: Enum(
                                                             "hash",
                                                         ),
                                                     },

@@ -40,6 +40,7 @@ pub enum Nullable {
 /// Represents settings and arguments values.
 #[derive(Debug, PartialEq, Clone)]
 pub enum Value {
+  Enum(String),
   String(String),
   Integer(i64),
   Decimal(f64),
@@ -65,6 +66,7 @@ impl FromStr for Value {
 impl ToString for Value {
   fn to_string(&self) -> String {
     match self {
+      Self::Enum(v) => v.clone(),
       Self::String(v) => v.clone(),
       Self::Integer(v) => format!("{v}"),
       Self::Decimal(v) => format!("{v}"),

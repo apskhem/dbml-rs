@@ -25,7 +25,7 @@ Table posts as P {
   title varchar
   body text [note: 'Content of the post']
   user_id integer [ref: > users.id]
-  status post_status
+  status post_status [default: draft]
   created_at timestamp
 }
 

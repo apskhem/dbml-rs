@@ -1,6 +1,6 @@
 SchemaBlock {
-    span_range: 0..1199,
-    input: "Project project_name {\n  database_type: 'PostgreSQL'\n  Note: 'Description of the project'\n}\n\nTableGroup order {\n  public.users // users\n  // posts\n  // P\n  P\n  orders\n}\n\nTable public.\"users\" {\n  id integer [pk]\n  age integer [default: 10]\n  username \"character varying[]\"\n  role varchar\n  created_at timestamp\n  referral_id integer [ref: > users.id, null]\n}\n\nTable posts as P {\n  id integer [pk]\n  title varchar\n  body text [note: 'Content of the post']\n  user_id integer [ref: > users.id]\n  status post_status\n  created_at timestamp\n}\n\nTable orders {\n  id integer [pk]\n  status varchar [\n  note: '\n  💸 1 = processing, \n  ✔\u{fe0f} 2 = shipped, \n  ❌ 3 = cancelled,\n  😔 4 = refunded\n  ']\n\n  // indexes {\n  //   (id, country) [pk] // composite primary key\n  //   created_at [name: \"created_at_index\", note: 'Date']\n  //   booking_date\n  //   (country, booking_date) [type: btree, unique]\n  //   booking_date [type: hash]\n  //   (`id*2`)\n  //   (`id*3`,`getdate()`)\n  //   (`id*3`, id)\n  // }\n}\n\nenum post_status {\n  draft\n  published\n  private [note: 'visible via URL only']\n}\n\nenum grade {\n  \"A+\"\n  \"A\"\n  \"A-\"\n  \"Not Yet Set\"\n}\n\n// Ref: posts.user_id > users.id [update: restrict] // many-to-one",
+    span_range: 0..1216,
+    input: "Project project_name {\n  database_type: 'PostgreSQL'\n  Note: 'Description of the project'\n}\n\nTableGroup order {\n  public.users // users\n  // posts\n  // P\n  P\n  orders\n}\n\nTable public.\"users\" {\n  id integer [pk]\n  age integer [default: 10]\n  username \"character varying[]\"\n  role varchar\n  created_at timestamp\n  referral_id integer [ref: > users.id, null]\n}\n\nTable posts as P {\n  id integer [pk]\n  title varchar\n  body text [note: 'Content of the post']\n  user_id integer [ref: > users.id]\n  status post_status [default: draft]\n  created_at timestamp\n}\n\nTable orders {\n  id integer [pk]\n  status varchar [\n  note: '\n  💸 1 = processing, \n  ✔\u{fe0f} 2 = shipped, \n  ❌ 3 = cancelled,\n  😔 4 = refunded\n  ']\n\n  // indexes {\n  //   (id, country) [pk] // composite primary key\n  //   created_at [name: \"created_at_index\", note: 'Date']\n  //   booking_date\n  //   (country, booking_date) [type: btree, unique]\n  //   booking_date [type: hash]\n  //   (`id*2`)\n  //   (`id*3`,`getdate()`)\n  //   (`id*3`, id)\n  // }\n}\n\nenum post_status {\n  draft\n  published\n  private [note: 'visible via URL only']\n}\n\nenum grade {\n  \"A+\"\n  \"A\"\n  \"A-\"\n  \"Not Yet Set\"\n}\n\n// Ref: posts.user_id > users.id [update: restrict] // many-to-one",
     blocks: [
         Project(
             ProjectBlock {
@@ -326,7 +326,7 @@ SchemaBlock {
         ),
         Table(
             TableBlock {
-                span_range: 359..535,
+                span_range: 359..552,
                 cols: [
                     TableColumn {
                         span_range: 380..395,
@@ -488,32 +488,66 @@ SchemaBlock {
                         ),
                     },
                     TableColumn {
-                        span_range: 492..513,
+                        span_range: 492..527,
                         name: Ident {
                             span_range: 492..498,
                             raw: "status",
                             to_string: "status",
                         },
                         type: ColumnType {
-                            span_range: 499..513,
-                            raw: "post_status\n  ",
+                            span_range: 499..511,
+                            raw: "post_status ",
                             type_name: Raw(
                                 "post_status",
                             ),
                             args: [],
                             arrays: [],
                         },
-                        settings: None,
+                        settings: Some(
+                            ColumnSettings {
+                                span_range: 511..527,
+                                attributes: [
+                                    Attribute {
+                                        span_range: 512..526,
+                                        key: Ident {
+                                            span_range: 512..519,
+                                            raw: "default",
+                                            to_string: "default",
+                                        },
+                                        value: Some(
+                                            Literal {
+                                                span_range: 521..526,
+                                                raw: "draft",
+                                                value: Enum(
+                                                    "draft",
+                                                ),
+                                            },
+                                        ),
+                                    },
+                                ],
+                                is_pk: false,
+                                is_unique: false,
+                                is_nullable: None,
+                                is_incremental: false,
+                                note: None,
+                                default: Some(
+                                    Enum(
+                                        "draft",
+                                    ),
+                                ),
+                                refs: [],
+                            },
+                        ),
                     },
                     TableColumn {
-                        span_range: 513..534,
+                        span_range: 530..551,
                         name: Ident {
-                            span_range: 513..523,
+                            span_range: 530..540,
                             raw: "created_at",
                             to_string: "created_at",
                         },
                         type: ColumnType {
-                            span_range: 524..534,
+                            span_range: 541..551,
                             raw: "timestamp\n",
                             type_name: Raw(
                                 "timestamp",
@@ -547,17 +581,17 @@ SchemaBlock {
         ),
         Table(
             TableBlock {
-                span_range: 537..996,
+                span_range: 554..1013,
                 cols: [
                     TableColumn {
-                        span_range: 554..569,
+                        span_range: 571..586,
                         name: Ident {
-                            span_range: 554..556,
+                            span_range: 571..573,
                             raw: "id",
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 557..565,
+                            span_range: 574..582,
                             raw: "integer ",
                             type_name: Raw(
                                 "integer",
@@ -567,12 +601,12 @@ SchemaBlock {
                         },
                         settings: Some(
                             ColumnSettings {
-                                span_range: 565..569,
+                                span_range: 582..586,
                                 attributes: [
                                     Attribute {
-                                        span_range: 566..568,
+                                        span_range: 583..585,
                                         key: Ident {
-                                            span_range: 566..568,
+                                            span_range: 583..585,
                                             raw: "pk",
                                             to_string: "pk",
                                         },
@@ -590,14 +624,14 @@ SchemaBlock {
                         ),
                     },
                     TableColumn {
-                        span_range: 572..691,
+                        span_range: 589..708,
                         name: Ident {
-                            span_range: 572..578,
+                            span_range: 589..595,
                             raw: "status",
                             to_string: "status",
                         },
                         type: ColumnType {
-                            span_range: 579..587,
+                            span_range: 596..604,
                             raw: "varchar ",
                             type_name: Raw(
                                 "varchar",
@@ -607,18 +641,18 @@ SchemaBlock {
                         },
                         settings: Some(
                             ColumnSettings {
-                                span_range: 587..691,
+                                span_range: 604..708,
                                 attributes: [
                                     Attribute {
-                                        span_range: 591..690,
+                                        span_range: 608..707,
                                         key: Ident {
-                                            span_range: 591..595,
+                                            span_range: 608..612,
                                             raw: "note",
                                             to_string: "note",
                                         },
                                         value: Some(
                                             Literal {
-                                                span_range: 597..690,
+                                                span_range: 614..707,
                                                 raw: "'\n  💸 1 = processing, \n  ✔\u{fe0f} 2 = shipped, \n  ❌ 3 = cancelled,\n  😔 4 = refunded\n  '",
                                                 value: String(
                                                     "💸 1 = processing, \n  ✔\u{fe0f} 2 = shipped, \n  ❌ 3 = cancelled,\n  😔 4 = refunded\n  ",
@@ -641,9 +675,9 @@ SchemaBlock {
                     },
                 ],
                 ident: TableIdent {
-                    span_range: 543..550,
+                    span_range: 560..567,
                     name: Ident {
-                        span_range: 543..549,
+                        span_range: 560..566,
                         raw: "orders",
                         to_string: "orders",
                     },
@@ -657,11 +691,11 @@ SchemaBlock {
         ),
         Enum(
             EnumBlock {
-                span_range: 998..1079,
+                span_range: 1015..1096,
                 ident: EnumIdent {
-                    span_range: 1003..1015,
+                    span_range: 1020..1032,
                     name: Ident {
-                        span_range: 1003..1014,
+                        span_range: 1020..1031,
                         raw: "post_status",
                         to_string: "post_status",
                     },
@@ -669,38 +703,38 @@ SchemaBlock {
                 },
                 values: [
                     EnumValue {
-                        span_range: 1019..1027,
+                        span_range: 1036..1044,
                         attributes: [],
                         value: Ident {
-                            span_range: 1019..1024,
+                            span_range: 1036..1041,
                             raw: "draft",
                             to_string: "draft",
                         },
                         note: None,
                     },
                     EnumValue {
-                        span_range: 1027..1039,
+                        span_range: 1044..1056,
                         attributes: [],
                         value: Ident {
-                            span_range: 1027..1036,
+                            span_range: 1044..1053,
                             raw: "published",
                             to_string: "published",
                         },
                         note: None,
                     },
                     EnumValue {
-                        span_range: 1039..1077,
+                        span_range: 1056..1094,
                         attributes: [
                             Attribute {
-                                span_range: 1048..1076,
+                                span_range: 1065..1093,
                                 key: Ident {
-                                    span_range: 1048..1052,
+                                    span_range: 1065..1069,
                                     raw: "note",
                                     to_string: "note",
                                 },
                                 value: Some(
                                     Literal {
-                                        span_range: 1054..1076,
+                                        span_range: 1071..1093,
                                         raw: "'visible via URL only'",
                                         value: String(
                                             "visible via URL only",
@@ -710,7 +744,7 @@ SchemaBlock {
                             },
                         ],
                         value: Ident {
-                            span_range: 1039..1046,
+                            span_range: 1056..1063,
                             raw: "private",
                             to_string: "private",
                         },
@@ -723,11 +757,11 @@ SchemaBlock {
         ),
         Enum(
             EnumBlock {
-                span_range: 1081..1131,
+                span_range: 1098..1148,
                 ident: EnumIdent {
-                    span_range: 1086..1092,
+                    span_range: 1103..1109,
                     name: Ident {
-                        span_range: 1086..1091,
+                        span_range: 1103..1108,
                         raw: "grade",
                         to_string: "grade",
                     },
@@ -735,40 +769,40 @@ SchemaBlock {
                 },
                 values: [
                     EnumValue {
-                        span_range: 1096..1103,
+                        span_range: 1113..1120,
                         attributes: [],
                         value: Ident {
-                            span_range: 1096..1100,
+                            span_range: 1113..1117,
                             raw: "\"A+\"",
                             to_string: "A+",
                         },
                         note: None,
                     },
                     EnumValue {
-                        span_range: 1103..1109,
+                        span_range: 1120..1126,
                         attributes: [],
                         value: Ident {
-                            span_range: 1103..1106,
+                            span_range: 1120..1123,
                             raw: "\"A\"",
                             to_string: "A",
                         },
                         note: None,
                     },
                     EnumValue {
-                        span_range: 1109..1116,
+                        span_range: 1126..1133,
                         attributes: [],
                         value: Ident {
-                            span_range: 1109..1113,
+                            span_range: 1126..1130,
                             raw: "\"A-\"",
                             to_string: "A-",
                         },
                         note: None,
                     },
                     EnumValue {
-                        span_range: 1116..1130,
+                        span_range: 1133..1147,
                         attributes: [],
                         value: Ident {
-                            span_range: 1116..1129,
+                            span_range: 1133..1146,
                             raw: "\"Not Yet Set\"",
                             to_string: "Not Yet Set",
                         },
