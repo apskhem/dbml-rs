@@ -629,13 +629,24 @@ fn parse_rel_settings(pair: Pair<Rule>) -> ParserResult<RefSettings> {
     })
 }
 
-fn parse_note_decl(pair: Pair<Rule>) -> ParserResult<String> {
+fn parse_note_decl(pair: Pair<Rule>) -> ParserResult<NoteBlock> {
   for p1 in pair.into_inner() {
     match p1.as_rule() {
       Rule::note_short | Rule::note_block => {
-        for p2 in p1.into_inner() {
+        for p2 in p1.clone().into_inner() {
           match p2.as_rule() {
-            Rule::string_value => return parse_string_value(p2),
+            Rule::string_value => {
+              return parse_string_value(p2.clone()).map(|value| {
+                NoteBlock {
+                  span_range: s2r(p1.as_span()),
+                  value: Literal {
+                    span_range: s2r(p2.as_span()),
+                    raw: p2.as_str().to_owned(),
+                    value: Value::String(value)
+                  }
+                }
+              })
+            },
             _ => throw_rules(&[Rule::string_value], p2)?,
           }
         }

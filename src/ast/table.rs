@@ -12,7 +12,7 @@ pub struct TableBlock {
   /// Identifier for the table.
   pub ident: TableIdent,
   /// The note for the table.
-  pub note: Option<String>,
+  pub note: Option<NoteBlock>,
   /// The indexes block.
   pub indexes: Option<IndexesBlock>,
   /// The settings for the table.

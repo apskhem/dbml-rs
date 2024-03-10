@@ -32,5 +32,5 @@ pub struct ProjectBlock {
   pub properties: Vec<KeyValue>,
   pub ident: Ident,
   pub database_type: DatabaseType,
-  pub note: Option<String>,
+  pub note: Option<NoteBlock>,
 }

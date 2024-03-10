@@ -31,7 +31,16 @@ SchemaBlock {
                 },
                 database_type: PostgreSQL,
                 note: Some(
-                    "Description of the project",
+                    NoteBlock {
+                        span_range: 55..89,
+                        value: Literal {
+                            span_range: 61..89,
+                            raw: "'Description of the project'",
+                            value: String(
+                                "Description of the project",
+                            ),
+                        },
+                    },
                 ),
             },
         ),

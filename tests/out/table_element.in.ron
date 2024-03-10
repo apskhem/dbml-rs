@@ -134,7 +134,16 @@ SchemaBlock {
                     alias: None,
                 },
                 note: Some(
-                    "# Note\n\n    ## Objective\n      * Support define element's note inside element body\n      * Make writing long note easier with the new syntax\n      \n    ",
+                    NoteBlock {
+                        span_range: 227..405,
+                        value: Literal {
+                            span_range: 238..401,
+                            raw: "'''\n    # Note\n\n    ## Objective\n      * Support define element's note inside element body\n      * Make writing long note easier with the new syntax\n      \n    '''",
+                            value: String(
+                                "# Note\n\n    ## Objective\n      * Support define element's note inside element body\n      * Make writing long note easier with the new syntax\n      \n    ",
+                            ),
+                        },
+                    },
                 ),
                 indexes: Some(
                     IndexesBlock {

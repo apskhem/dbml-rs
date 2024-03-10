@@ -68,3 +68,9 @@ impl ToString for Value {
     }
   }
 }
+
+#[derive(Debug, Clone)]
+pub struct  NoteBlock {
+  pub span_range: SpanRange,
+  pub value: Literal
+}
