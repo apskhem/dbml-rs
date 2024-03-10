@@ -1,6 +1,6 @@
 SchemaBlock {
     span_range: 0..1389,
-    input: "Enum \"orders_status\" {\n  \"created\"\n  \"running\"\n  \"done\"\n  \"failure\"\n}\n\nEnum \"product status\" {\n  \"Out of Stock\"\n  \"In Stock\"\n}\n\nTable \"orders\" [headercolor: #fff] {\n  \"id\" int [pk, increment]\n  \"user_id\" int [unique, not null]\n  \"status\" orders_status\n  \"created_at\" varchar\n}\n\nTable \"order_items\" {\n  \"order_id\" int\n  \"product_id\" int\n  \"quantity\" int [default: 1]\n}\n\nTable \"products\" {\n  \"id\" int [pk]\n  \"name\" varchar\n  \"merchant_id\" int [not null]\n  \"price\" int\n  \"status\" \"product status\"\n  \"created_at\" datetime [default: `now()`]\n\n        \nIndexes {\n  (merchant_id, status) [name: \"product_status\"]\n  id [type: hash, unique]\n}\n}\n\nTable \"users\" {\n  \"id\" int [pk]\n  \"full_name\" varchar\n  \"email\" varchar [unique]\n  \"gender\" varchar\n  \"date_of_birth\" varchar\n  \"created_at\" varchar\n  \"country_code\" int\n}\n\nTableGroup g1 {\n  users\n  merchants\n}\n\nTableGroup g2 {\n  countries\n  orders\n}\n\nTable \"merchants\" {\n  \"id\" int [pk]\n  \"merchant_name\" varchar\n  \"country_code\" int\n  \"created_at\" varchar\n  \"admin_id\" int\n}\n\nTable \"countries\" {\n  \"code\" int [pk]\n  \"name\" varchar\n  \"continent_name\" varchar\n}\n\nRef:\"orders\".\"id\" < \"order_items\".\"order_id\"\n\nRef:\"products\".\"id\" < \"order_items\".\"product_id\"\n\nRef:\"countries\".\"code\" < \"users\".\"country_code\"\n\nRef:\"countries\".\"code\" < \"merchants\".\"country_code\"\n\nRef:\"merchants\".\"id\" < \"products\".\"merchant_id\"\n\nRef:\"users\".\"id\" < \"merchants\".\"admin_id\"\n",
+    input: "Enum \"orders_status\" {\n  \"created\"\n  \"running\"\n  \"done\"\n  \"failure\"\n}\n\nEnum \"product status\" {\n  \"Out of Stock\"\n  \"In Stock\"\n}\n\nTable \"orders\" [headercolor: #fff] {\n  \"id\" int [pk, increment]\n  \"user_id\" int [unique, not null]\n  \"status\" orders_status\n  \"created_at\" varchar\n}\n\nTable \"order_items\" {\n  \"order_id\" int\n  \"product_id\" int\n  \"quantity\" int [default: 1]\n}\n\nTable \"products\" {\n  \"id\" int [pk]\n  \"name\" varchar\n  \"merchant_id\" int [not null]\n  \"price\" int\n  \"status\" \"product status\"\n  \"created_at\" datetime [default: `now()`]\n\n        \nIndexes {\n  (merchant_id, status) [name: 'product_status']\n  id [type: hash, unique]\n}\n}\n\nTable \"users\" {\n  \"id\" int [pk]\n  \"full_name\" varchar\n  \"email\" varchar [unique]\n  \"gender\" varchar\n  \"date_of_birth\" varchar\n  \"created_at\" varchar\n  \"country_code\" int\n}\n\nTableGroup g1 {\n  users\n  merchants\n}\n\nTableGroup g2 {\n  countries\n  orders\n}\n\nTable \"merchants\" {\n  \"id\" int [pk]\n  \"merchant_name\" varchar\n  \"country_code\" int\n  \"created_at\" varchar\n  \"admin_id\" int\n}\n\nTable \"countries\" {\n  \"code\" int [pk]\n  \"name\" varchar\n  \"continent_name\" varchar\n}\n\nRef:\"orders\".\"id\" < \"order_items\".\"order_id\"\n\nRef:\"products\".\"id\" < \"order_items\".\"product_id\"\n\nRef:\"countries\".\"code\" < \"users\".\"country_code\"\n\nRef:\"countries\".\"code\" < \"merchants\".\"country_code\"\n\nRef:\"merchants\".\"id\" < \"products\".\"merchant_id\"\n\nRef:\"users\".\"id\" < \"merchants\".\"admin_id\"\n",
     blocks: [
         Enum(
             EnumBlock {
@@ -602,6 +602,25 @@ SchemaBlock {
                                 settings: Some(
                                     IndexesSettings {
                                         span_range: 581..605,
+                                        attributes: [
+                                            Attribute {
+                                                span_range: 582..604,
+                                                key: Ident {
+                                                    span_range: 582..586,
+                                                    raw: "name",
+                                                    to_string: "name",
+                                                },
+                                                value: Some(
+                                                    Literal {
+                                                        span_range: 588..604,
+                                                        raw: "'product_status'",
+                                                        value: String(
+                                                            "product_status",
+                                                        ),
+                                                    },
+                                                ),
+                                            },
+                                        ],
                                         type: None,
                                         is_unique: false,
                                         is_pk: false,
@@ -622,6 +641,34 @@ SchemaBlock {
                                 settings: Some(
                                     IndexesSettings {
                                         span_range: 611..631,
+                                        attributes: [
+                                            Attribute {
+                                                span_range: 612..622,
+                                                key: Ident {
+                                                    span_range: 612..616,
+                                                    raw: "type",
+                                                    to_string: "type",
+                                                },
+                                                value: Some(
+                                                    Literal {
+                                                        span_range: 618..622,
+                                                        raw: "hash",
+                                                        value: String(
+                                                            "hash",
+                                                        ),
+                                                    },
+                                                ),
+                                            },
+                                            Attribute {
+                                                span_range: 624..630,
+                                                key: Ident {
+                                                    span_range: 624..630,
+                                                    raw: "unique",
+                                                    to_string: "unique",
+                                                },
+                                                value: None,
+                                            },
+                                        ],
                                         type: Some(
                                             Hash,
                                         ),

@@ -1,6 +1,6 @@
 SchemaBlock {
     span_range: 0..430,
-    input: "Table users {\n  id int [primary key]\n  full_name varchar\n  email varchar [unique]\n  gender varchar\n  date_of_birth varchar\n  created_at varchar\n  country_code int \n  active boolean [not null]\n  \n  indexes {\n    (id) [unique, note: 'index note']\n    full_name [name: \"User Name\"]\n    (email,created_at) [type: hash]\n    `now()`\n    (active, `lower(full_name)`)\n    (`getdate()`, `upper(gender)`)\n    (`reverse(country_code)`)\n  }\n}",
+    input: "Table users {\n  id int [primary key]\n  full_name varchar\n  email varchar [unique]\n  gender varchar\n  date_of_birth varchar\n  created_at varchar\n  country_code int \n  active boolean [not null]\n  \n  indexes {\n    (id) [unique, note: 'index note']\n    full_name [name: 'User Name']\n    (email,created_at) [type: hash]\n    `now()`\n    (active, `lower(full_name)`)\n    (`getdate()`, `upper(gender)`)\n    (`reverse(country_code)`)\n  }\n}",
     blocks: [
         Table(
             TableBlock {
@@ -244,6 +244,34 @@ SchemaBlock {
                                 settings: Some(
                                     IndexesSettings {
                                         span_range: 216..244,
+                                        attributes: [
+                                            Attribute {
+                                                span_range: 217..223,
+                                                key: Ident {
+                                                    span_range: 217..223,
+                                                    raw: "unique",
+                                                    to_string: "unique",
+                                                },
+                                                value: None,
+                                            },
+                                            Attribute {
+                                                span_range: 225..243,
+                                                key: Ident {
+                                                    span_range: 225..229,
+                                                    raw: "note",
+                                                    to_string: "note",
+                                                },
+                                                value: Some(
+                                                    Literal {
+                                                        span_range: 231..243,
+                                                        raw: "'index note'",
+                                                        value: String(
+                                                            "index note",
+                                                        ),
+                                                    },
+                                                ),
+                                            },
+                                        ],
                                         type: None,
                                         is_unique: true,
                                         is_pk: false,
@@ -264,6 +292,25 @@ SchemaBlock {
                                 settings: Some(
                                     IndexesSettings {
                                         span_range: 259..278,
+                                        attributes: [
+                                            Attribute {
+                                                span_range: 260..277,
+                                                key: Ident {
+                                                    span_range: 260..264,
+                                                    raw: "name",
+                                                    to_string: "name",
+                                                },
+                                                value: Some(
+                                                    Literal {
+                                                        span_range: 266..277,
+                                                        raw: "'User Name'",
+                                                        value: String(
+                                                            "User Name",
+                                                        ),
+                                                    },
+                                                ),
+                                            },
+                                        ],
                                         type: None,
                                         is_unique: false,
                                         is_pk: false,
@@ -287,6 +334,25 @@ SchemaBlock {
                                 settings: Some(
                                     IndexesSettings {
                                         span_range: 302..314,
+                                        attributes: [
+                                            Attribute {
+                                                span_range: 303..313,
+                                                key: Ident {
+                                                    span_range: 303..307,
+                                                    raw: "type",
+                                                    to_string: "type",
+                                                },
+                                                value: Some(
+                                                    Literal {
+                                                        span_range: 309..313,
+                                                        raw: "hash",
+                                                        value: String(
+                                                            "hash",
+                                                        ),
+                                                    },
+                                                ),
+                                            },
+                                        ],
                                         type: Some(
                                             Hash,
                                         ),

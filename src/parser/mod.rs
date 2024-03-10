@@ -664,15 +664,6 @@ fn parse_note_decl(pair: Pair<Rule>) -> ParserResult<NoteBlock> {
   unreachable!("something went wrong parsing note_decl")
 }
 
-fn parse_note_inline(pair: Pair<Rule>) -> ParserResult<String> {
-  pair
-    .into_inner()
-    .try_fold(String::new(), |_, p1| match p1.as_rule() {
-      Rule::string_value => parse_string_value(p1),
-      _ => throw_rules(&[Rule::string_value], p1)?,
-    })
-}
-
 fn parse_indexes_decl(pair: Pair<Rule>) -> ParserResult<IndexesBlock> {
   let p1 = pair
     .into_inner()
@@ -763,42 +754,27 @@ fn parse_indexes_settings(pair: Pair<Rule>) -> ParserResult<IndexesSettings> {
     .into_inner()
     .try_fold(init, |mut acc, p1| {
       match p1.as_rule() {
-        Rule::indexes_attribute => {
-          for p2 in p1.into_inner() {
-            match p2.as_rule() {
-              Rule::indexes_attribute_key => match p2.as_str() {
-                "unique" => acc.is_unique = true,
-                "pk" => acc.is_pk = true,
-                _ => throw_msg(
-                  format!("'{}' key is invalid inside indexes_attribute", p2.as_str()),
-                  p2,
-                )?,
+        Rule::attribute => {
+          let attr = parse_attribute(p1.clone())?;
+
+          match attr.key.to_string.as_str() {
+            "unique" => acc.is_unique = true,
+            "pk" => acc.is_pk = true,
+            "type" => acc.r#type = match attr.value.clone().map(|v| IndexesType::from_str(&v.value.to_string())) {
+              Some(val) => match val {
+                Ok(val) => Some(val),
+                Err(msg) => throw_msg(msg, p1)?
               },
-              Rule::indexes_type => {
-                acc.r#type = p2
-                  .into_inner()
-                  .try_fold(None, |_, p3| match IndexesType::from_str(p3.as_str()) {
-                    Ok(val) => Ok(Some(val)),
-                    Err(msg) => throw_msg(msg, p3)?,
-                  })?
-              }
-              Rule::indexes_name => p2.into_inner().for_each(|p3| {
-                acc.name = Some(p3.into_inner().as_str().to_string());
-              }),
-              Rule::note_inline => acc.note = Some(parse_note_inline(p2)?),
-              _ => throw_rules(
-                &[
-                  Rule::indexes_attribute_key,
-                  Rule::indexes_type,
-                  Rule::indexes_name,
-                  Rule::note_inline,
-                ],
-                p2,
-              )?,
-            }
+              None => None
+            },
+            "name" => acc.name = attr.value.clone().map(|v| v.value.to_string()),
+            "note" => acc.note = attr.value.clone().map(|v| v.value.to_string()),
+            _ => ()
           }
+
+          acc.attributes.push(attr);
         }
-        _ => throw_rules(&[Rule::indexes_attribute], p1)?,
+        _ => throw_rules(&[Rule::attribute], p1)?,
       }
 
       Ok(acc)
@@ -946,11 +922,19 @@ pub fn parse_attribute(pair: Pair<Rule>) -> ParserResult<Attribute> {
   for p1 in pair.into_inner() {
     match p1.as_rule() {
       Rule::spaced_var => {
-        init.key = Ident {
-          span_range: s2r(p1.as_span()),
-          raw: p1.as_str().to_owned(),
-          to_string: p1.as_str().to_owned()
-        };
+        if init.key.raw.is_empty() {
+          init.key = Ident {
+            span_range: s2r(p1.as_span()),
+            raw: p1.as_str().to_owned(),
+            to_string: p1.as_str().to_owned()
+          };
+        } else {
+          init.value = Some(Literal {
+            span_range: s2r(p1.as_span()),
+            raw: p1.as_str().to_owned(),
+            value: Value::String(p1.as_str().to_owned()),
+          })
+        }
       },
       Rule::value =>{
         init.value = Some(Literal {
@@ -959,7 +943,7 @@ pub fn parse_attribute(pair: Pair<Rule>) -> ParserResult<Attribute> {
           value: parse_value(p1)?
         })
       },
-      _ => throw_rules(&[Rule::var, Rule::value], p1)?
+      _ => throw_rules(&[Rule::value, Rule::spaced_var], p1)?
     }
   }
 

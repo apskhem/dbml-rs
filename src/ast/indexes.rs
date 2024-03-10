@@ -1,6 +1,6 @@
 use std::str::FromStr;
 
-use super::SpanRange;
+use super::{Attribute, SpanRange};
 
 #[derive(Debug, Clone, Default)]
 pub struct IndexesBlock {
@@ -24,6 +24,7 @@ pub struct IndexesDef {
 pub struct IndexesSettings {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
+  pub attributes: Vec<Attribute>,
   /// A Type of index (btree, gin, gist, hash depending on DB).
   pub r#type: Option<IndexesType>,
   /// A unique index.

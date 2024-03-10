@@ -223,6 +223,25 @@ SchemaBlock {
                                 settings: Some(
                                     IndexesSettings {
                                         span_range: 226..238,
+                                        attributes: [
+                                            Attribute {
+                                                span_range: 227..237,
+                                                key: Ident {
+                                                    span_range: 227..231,
+                                                    raw: "type",
+                                                    to_string: "type",
+                                                },
+                                                value: Some(
+                                                    Literal {
+                                                        span_range: 233..237,
+                                                        raw: "hash",
+                                                        value: String(
+                                                            "hash",
+                                                        ),
+                                                    },
+                                                ),
+                                            },
+                                        ],
                                         type: Some(
                                             Hash,
                                         ),

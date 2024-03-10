@@ -10,7 +10,7 @@ Table users {
   
   indexes {
     (id) [unique, note: 'index note']
-    full_name [name: "User Name"]
+    full_name [name: 'User Name']
     (email,created_at) [type: hash]
     `now()`
     (active, `lower(full_name)`)

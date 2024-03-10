@@ -24,8 +24,8 @@ spaced_var = @{ ASCII_ALPHA ~ (" "? ~ (ASCII_ALPHANUMERIC | "_"))* }
 ident = { var | double_quoted_string }
 
 // attributes and properties
-property = { spaced_var ~ ":" ~ value }
-attribute = { spaced_var ~ (":" ~ value)? }
+property = { spaced_var ~ ":" ~ (value | spaced_var) }
+attribute = { spaced_var ~ (":" ~ (value | spaced_var))? }
 block_settings = { "[" ~ (attribute ~ ("," ~ attribute)*)? ~ "]" }
 
 // values
@@ -62,12 +62,7 @@ note_block = { ^"Note" ~ "{" ~ string_value ~ "}" }
 note_decl = { note_short | note_block }
 
 // indexes block
-indexes_type_value = @{ "btree" | "gin" | "gist" | "hash" }
-indexes_type = { "type" ~ ":" ~ indexes_type_value }
-indexes_name = { "name" ~ ":" ~ double_quoted_string }
-indexes_attribute_key = @{ "unique" | "pk" }
-indexes_attribute = { indexes_attribute_key | indexes_type | indexes_name | note_inline }
-indexes_settings = { "[" ~ (indexes_attribute ~ ("," ~ indexes_attribute)*)? ~ "]" }
+indexes_settings = { "[" ~ (attribute ~ ("," ~ attribute)*)? ~ "]" }
 indexes_ident = { ident | backquoted_quoted_string }
 indexes_multi = { "(" ~ (indexes_ident ~ ("," ~ indexes_ident)*)? ~ ")" ~ indexes_settings? }
 indexes_single = { indexes_ident ~ indexes_settings? }

@@ -598,6 +598,17 @@ SchemaBlock {
                                 settings: Some(
                                     IndexesSettings {
                                         span_range: 461..465,
+                                        attributes: [
+                                            Attribute {
+                                                span_range: 462..464,
+                                                key: Ident {
+                                                    span_range: 462..464,
+                                                    raw: "pk",
+                                                    to_string: "pk",
+                                                },
+                                                value: None,
+                                            },
+                                        ],
                                         type: None,
                                         is_unique: false,
                                         is_pk: true,
