@@ -6,22 +6,20 @@ SchemaBlock {
             ProjectBlock {
                 span_range: 0..91,
                 properties: [
-                    KeyValue {
+                    Property {
                         span_range: 25..52,
                         key: Ident {
                             span_range: 25..38,
                             raw: "database_type",
                             to_string: "database_type",
                         },
-                        value: Some(
-                            Literal {
-                                span_range: 40..52,
-                                raw: "'PostgreSQL'",
-                                value: String(
-                                    "PostgreSQL",
-                                ),
-                            },
-                        ),
+                        value: Literal {
+                            span_range: 40..52,
+                            raw: "'PostgreSQL'",
+                            value: String(
+                                "PostgreSQL",
+                            ),
+                        },
                     },
                 ],
                 ident: Ident {
@@ -112,8 +110,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 206..210,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 207..209,
                                         key: Ident {
                                             span_range: 207..209,
@@ -152,8 +150,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 225..238,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 226..237,
                                         key: Ident {
                                             span_range: 226..233,
@@ -260,8 +258,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 332..355,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 350..354,
                                         key: Ident {
                                             span_range: 350..354,
@@ -349,8 +347,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 391..395,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 392..394,
                                         key: Ident {
                                             span_range: 392..394,
@@ -407,8 +405,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 424..453,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 425..452,
                                         key: Ident {
                                             span_range: 425..429,
@@ -457,7 +455,7 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 472..489,
-                                properties: [],
+                                attributes: [],
                                 is_pk: false,
                                 is_unique: false,
                                 is_nullable: None,
@@ -570,8 +568,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 565..569,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 566..568,
                                         key: Ident {
                                             span_range: 566..568,
@@ -610,8 +608,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 587..691,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 591..690,
                                         key: Ident {
                                             span_range: 591..595,
@@ -672,6 +670,7 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 1019..1027,
+                        attributes: [],
                         value: Ident {
                             span_range: 1019..1024,
                             raw: "draft",
@@ -681,6 +680,7 @@ SchemaBlock {
                     },
                     EnumValue {
                         span_range: 1027..1039,
+                        attributes: [],
                         value: Ident {
                             span_range: 1027..1036,
                             raw: "published",
@@ -690,6 +690,25 @@ SchemaBlock {
                     },
                     EnumValue {
                         span_range: 1039..1077,
+                        attributes: [
+                            Attribute {
+                                span_range: 1048..1076,
+                                key: Ident {
+                                    span_range: 1048..1052,
+                                    raw: "note",
+                                    to_string: "note",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 1054..1076,
+                                        raw: "'visible via URL only'",
+                                        value: String(
+                                            "visible via URL only",
+                                        ),
+                                    },
+                                ),
+                            },
+                        ],
                         value: Ident {
                             span_range: 1039..1046,
                             raw: "private",
@@ -717,6 +736,7 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 1096..1103,
+                        attributes: [],
                         value: Ident {
                             span_range: 1096..1100,
                             raw: "\"A+\"",
@@ -726,6 +746,7 @@ SchemaBlock {
                     },
                     EnumValue {
                         span_range: 1103..1109,
+                        attributes: [],
                         value: Ident {
                             span_range: 1103..1106,
                             raw: "\"A\"",
@@ -735,6 +756,7 @@ SchemaBlock {
                     },
                     EnumValue {
                         span_range: 1109..1116,
+                        attributes: [],
                         value: Ident {
                             span_range: 1109..1113,
                             raw: "\"A-\"",
@@ -744,6 +766,7 @@ SchemaBlock {
                     },
                     EnumValue {
                         span_range: 1116..1130,
+                        attributes: [],
                         value: Ident {
                             span_range: 1116..1129,
                             raw: "\"Not Yet Set\"",

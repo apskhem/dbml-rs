@@ -25,8 +25,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 56..60,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 57..59,
                                         key: Ident {
                                             span_range: 57..59,
@@ -65,8 +65,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 76..80,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 77..79,
                                         key: Ident {
                                             span_range: 77..79,
@@ -173,8 +173,8 @@ SchemaBlock {
                 settings: Some(
                     TableSettings {
                         span_range: 12..44,
-                        properties: [
-                            KeyValue {
+                        attributes: [
+                            Attribute {
                                 span_range: 13..43,
                                 key: Ident {
                                     span_range: 13..17,

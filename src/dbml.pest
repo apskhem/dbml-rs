@@ -23,6 +23,11 @@ spaced_var = @{ ASCII_ALPHA ~ (" "? ~ (ASCII_ALPHANUMERIC | "_"))* }
 
 ident = { var | double_quoted_string }
 
+// attributes and properties
+property = { spaced_var ~ ":" ~ value }
+attribute = { spaced_var ~ (":" ~ value)? }
+block_settings = { "[" ~ (attribute ~ ("," ~ attribute)*)? ~ "]" }
+
 // values
 string_value = { triple_quoted_string | single_quoted_string }
 integer = @{ ASCII_DIGIT+ }
@@ -70,33 +75,30 @@ indexes_block = { "{" ~ (indexes_single | indexes_multi)* ~ "}" }
 indexes_decl = { ^"Indexes" ~ indexes_block }
 
 // enum block
-enum_attribute = { note_inline }
-enum_settings = { "[" ~ (enum_attribute ~ ("," ~ enum_attribute)*)? ~ "]" }
+enum_settings = { "[" ~ (attribute ~ ("," ~ attribute)*)? ~ "]" }
 enum_value = { ident ~ enum_settings? }
 enum_block = { "{" ~ enum_value* ~ "}" }
 enum_decl = { ^"Enum " ~ decl_ident ~ enum_block }
 
 // table block
-key_value = { spaced_var ~ (":" ~ value)? }
-col_attribute = { ref_inline | key_value }
+col_attribute = { ref_inline | attribute }
 col_settings = { "[" ~ (col_attribute ~ ("," ~ col_attribute)*)? ~ "]" }
 col_type_arg = { "(" ~ (value ~ ("," ~ value)*)? ~ ")" }
 col_type_array = { "[" ~ integer? ~ "]" }
 col_type_unquoted = { var ~ col_type_arg? }
 col_type_quoted = { "\"" ~ spaced_var ~ col_type_arg? ~ col_type_array* ~ "\"" }
 col_type = { col_type_unquoted | col_type_quoted }
-table_settings = { "[" ~ (key_value ~ ("," ~ key_value)*)? ~ "]" }
 table_col = { ident ~ col_type ~ col_settings? }
 table_block = { "{" ~ (table_col | note_decl | indexes_decl)* ~ "}" }
 table_alias = { ^"as " ~ ident }
-table_decl = { ^"Table " ~ decl_ident ~ table_alias? ~ table_settings?  ~ table_block }
+table_decl = { ^"Table " ~ decl_ident ~ table_alias? ~ block_settings?  ~ table_block }
 
 // table group block
 table_group_block = ${ "{" ~ wsc* ~ (decl_ident ~ wsc*)* ~ "}" }
 table_group_decl = { ^"TableGroup " ~ ident ~ table_group_block }
 
 // project block
-project_block = { "{" ~ (note_decl | key_value)* ~ "}" }
+project_block = { "{" ~ (note_decl | property)* ~ "}" }
 project_decl = { ^"Project " ~ ident ~ project_block }
 
 schema = { SOI ~ (project_decl | table_decl | enum_decl | ref_decl | table_group_decl)* ~ EOI }

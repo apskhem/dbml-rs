@@ -12,6 +12,7 @@ pub struct EnumBlock {
 pub struct EnumValue {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
+  pub attributes: Vec<Attribute>,
   pub value: Ident,
   pub note: Option<String>,
 }

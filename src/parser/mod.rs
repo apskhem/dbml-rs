@@ -115,12 +115,12 @@ fn parse_project_decl(pair: Pair<Rule>) -> ParserResult<ProjectBlock> {
       Rule::project_block => {
         for p2 in p1.into_inner() {
           match p2.as_rule() {
-            Rule::key_value => {
-              let key_value = parse_key_value(p2.clone())?;
+            Rule::property => {
+              let prop = parse_property(p2.clone())?;
 
-              match key_value.key.to_string.as_str() {
+              match prop.key.to_string.as_str() {
                 "database_type" => {
-                  if let Some(Value::String(db_name)) = key_value.value.clone().map(|v| v.value) {
+                  if let Value::String(db_name) = prop.value.value.clone() {
                     acc.database_type = match DatabaseType::from_str(&db_name) {
                       Ok(val) => val,
                       Err(msg) => throw_msg(msg, p2)?,
@@ -130,10 +130,14 @@ fn parse_project_decl(pair: Pair<Rule>) -> ParserResult<ProjectBlock> {
                 _ => (),
               }
 
-              acc.properties.push(key_value)
+              acc.properties.push(prop)
             }
-            Rule::note_decl => acc.note = Some(parse_note_decl(p2)?),
-            _ => throw_rules(&[Rule::key_value, Rule::note_decl], p2)?,
+            Rule::note_decl => {
+              acc.note = Some(parse_note_decl(p2)?)
+            },
+            _ => {
+              throw_rules(&[Rule::property, Rule::note_decl], p2)?
+            },
           };
         }
       },
@@ -178,15 +182,15 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
             }
           }
         },
-        Rule::table_settings => {
-          acc.settings = Some(parse_table_settings(p1)?);
+        Rule::block_settings => {
+          acc.settings = Some(parse_block_settings(p1)?);
         }
         _ => throw_rules(
           &[
             Rule::decl_ident,
             Rule::table_alias,
             Rule::table_block,
-            Rule::table_settings,
+            Rule::block_settings,
           ],
           p1,
         )?,
@@ -196,18 +200,18 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
     })
 }
 
-fn parse_table_settings(pair: Pair<Rule>) -> ParserResult<TableSettings> {
+fn parse_block_settings(pair: Pair<Rule>) -> ParserResult<TableSettings> {
   let mut init = TableSettings {
     span_range: s2r(pair.as_span()),
     ..Default::default()
   };
 
-  init.properties = pair
+  init.attributes = pair
     .into_inner()
     .map(|p1| {
       match p1.as_rule() {
-        Rule::key_value => parse_key_value(p1),
-        _ => throw_rules(&[Rule::key_value], p1),
+        Rule::attribute => parse_attribute(p1),
+        _ => throw_rules(&[Rule::attribute], p1),
       }
     })
     .collect::<ParserResult<_>>()?;
@@ -315,21 +319,21 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
         Rule::col_attribute => {
           for p2 in p1.into_inner() {
             match p2.as_rule() {
-              Rule::key_value => {
-                let key_value = parse_key_value(p2)?;
+              Rule::attribute => {
+                let attr = parse_attribute(p2)?;
 
-                match key_value.key.to_string.as_str() {
+                match attr.key.to_string.as_str() {
                   "unique" => acc.is_unique = true,
                   "primary key" | "pk" => acc.is_pk = true,
                   "null" => acc.is_nullable = Some(Nullable::Null),
                   "not null" => acc.is_nullable = Some(Nullable::NotNull),
                   "increment" => acc.is_incremental = true,
-                  "default" =>  acc.default = key_value.value.clone().map(|v| v.value),
-                  "note" => acc.note = key_value.value.clone().map(|v| v.value.to_string()),
+                  "default" =>  acc.default = attr.value.clone().map(|v| v.value),
+                  "note" => acc.note = attr.value.clone().map(|v| v.value.to_string()),
                   _ => ()
                 }
 
-                acc.properties.push(key_value);
+                acc.attributes.push(attr);
               },
               Rule::ref_inline => {
                 acc.refs.push(parse_ref_inline(p2)?)
@@ -337,14 +341,14 @@ fn parse_col_settings(pair: Pair<Rule>) -> ParserResult<ColumnSettings> {
               _ => throw_rules(
                 &[
                   Rule::ref_inline,
-                  Rule::key_value,
+                  Rule::attribute,
                 ],
                 p2,
               )?,
             }
           }
         }
-        _ => throw_rules(&[Rule::key_value], p1)?,
+        _ => throw_rules(&[Rule::col_attribute], p1)?,
       }
 
       Ok(acc)
@@ -408,15 +412,17 @@ fn parse_enum_value(pair: Pair<Rule>) -> ParserResult<EnumValue> {
         Rule::enum_settings => {
           for p2 in p1.into_inner() {
             match p2.as_rule() {
-              Rule::enum_attribute => {
-                for p3 in p2.into_inner() {
-                  match p3.as_rule() {
-                    Rule::note_inline => acc.note = Some(parse_note_inline(p3)?),
-                    _ => throw_rules(&[Rule::note_inline], p3)?,
-                  }
+              Rule::attribute => {
+                let attr = parse_attribute(p2)?;
+
+                match attr.key.to_string.as_str() {
+                  "note" => acc.note = attr.value.clone().map(|v| v.value.to_string()),
+                  _ => ()
                 }
+
+                acc.attributes.push(attr);
               }
-              _ => throw_rules(&[Rule::enum_attribute], p2)?,
+              _ => throw_rules(&[Rule::attribute], p2)?,
             }
           }
         }
@@ -931,8 +937,8 @@ fn parse_ident(pair: Pair<Rule>) -> ParserResult<Ident> {
   }
 }
 
-pub fn parse_key_value(pair: Pair<Rule>) -> ParserResult<KeyValue> {
-  let mut init = KeyValue {
+pub fn parse_attribute(pair: Pair<Rule>) -> ParserResult<Attribute> {
+  let mut init = Attribute {
     span_range: s2r(pair.as_span()),
     ..Default::default()
   };
@@ -958,4 +964,19 @@ pub fn parse_key_value(pair: Pair<Rule>) -> ParserResult<KeyValue> {
   }
 
   Ok(init)
+}
+
+pub fn parse_property(pair: Pair<Rule>) -> ParserResult<Property> {
+  let init = parse_attribute(pair.clone())?;
+
+  match init.value {
+    Some(value) => {
+      Ok(Property {
+        span_range: init.span_range,
+        key: init.key,
+        value
+      })
+    }
+    None => throw_rules(&[Rule::property], pair)
+  }
 }

@@ -18,10 +18,17 @@ pub struct Ident {
 }
 
 #[derive(Debug, Clone, Default)]
-pub struct KeyValue {
+pub struct Attribute {
   pub span_range: SpanRange,
   pub key: Ident,
   pub value: Option<Literal>
+}
+
+#[derive(Debug, Clone)]
+pub struct Property {
+  pub span_range: SpanRange,
+  pub key: Ident,
+  pub value: Literal
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]

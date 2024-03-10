@@ -25,7 +25,7 @@ pub struct TableSettings {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
   /// A vector of key-value pairs representing properties of the table.
-  pub properties: Vec<KeyValue>,
+  pub attributes: Vec<Attribute>,
 }
 
 /// A struct representing a single column or field of the table.
@@ -168,7 +168,7 @@ pub struct ColumnSettings {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
   /// A vector of key-value pairs representing properties of the column.
-  pub properties: Vec<KeyValue>,
+  pub attributes: Vec<Attribute>,
   /// A boolean indicating if the column is a primary key.
   pub is_pk: bool,
   /// A boolean indicating if the column is unique.

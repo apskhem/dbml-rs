@@ -195,7 +195,7 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 200..213,
-                                properties: [],
+                                attributes: [],
                                 is_pk: false,
                                 is_unique: false,
                                 is_nullable: None,

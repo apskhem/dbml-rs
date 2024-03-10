@@ -25,8 +25,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 24..42,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 25..27,
                                         key: Ident {
                                             span_range: 25..27,
@@ -35,7 +35,7 @@ SchemaBlock {
                                         },
                                         value: None,
                                     },
-                                    KeyValue {
+                                    Attribute {
                                         span_range: 29..41,
                                         key: Ident {
                                             span_range: 29..36,
@@ -86,8 +86,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 57..75,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 58..66,
                                         key: Ident {
                                             span_range: 58..66,
@@ -96,7 +96,7 @@ SchemaBlock {
                                         },
                                         value: None,
                                     },
-                                    KeyValue {
+                                    Attribute {
                                         span_range: 68..74,
                                         key: Ident {
                                             span_range: 68..74,
@@ -137,8 +137,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 93..115,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 94..114,
                                         key: Ident {
                                             span_range: 94..101,
@@ -189,8 +189,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 137..155,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 138..154,
                                         key: Ident {
                                             span_range: 138..145,
@@ -335,8 +335,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 255..259,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 256..258,
                                         key: Ident {
                                             span_range: 256..258,
@@ -375,8 +375,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 275..290,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 276..289,
                                         key: Ident {
                                             span_range: 276..283,
@@ -423,8 +423,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 309..319,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 310..318,
                                         key: Ident {
                                             span_range: 310..318,
@@ -465,8 +465,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 334..351,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 335..350,
                                         key: Ident {
                                             span_range: 335..342,
@@ -517,8 +517,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 368..383,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 369..382,
                                         key: Ident {
                                             span_range: 369..376,
@@ -569,8 +569,8 @@ SchemaBlock {
                         settings: Some(
                             ColumnSettings {
                                 span_range: 402..444,
-                                properties: [
-                                    KeyValue {
+                                attributes: [
+                                    Attribute {
                                         span_range: 403..443,
                                         key: Ident {
                                             span_range: 403..410,

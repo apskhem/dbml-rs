@@ -94,8 +94,8 @@ SchemaBlock {
                 settings: Some(
                     TableSettings {
                         span_range: 13..35,
-                        properties: [
-                            KeyValue {
+                        attributes: [
+                            Attribute {
                                 span_range: 14..34,
                                 key: Ident {
                                     span_range: 14..25,
