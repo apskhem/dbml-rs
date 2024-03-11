@@ -42,19 +42,14 @@ impl Indexer {
 
       let schema = schema.as_ref().map(|s| s.to_string.clone()).unwrap_or_else(|| DEFAULT_SCHEMA.to_owned());
 
-      let has_dup_ident = self.schema_map
-        .get(&schema)
-        .iter()
-        .any(|item| item.table_map.contains_key(&name.to_string));
-
-      if has_dup_ident {
+      if self.contains_table(&schema, &name.to_string) {
         throw_err(Err::DuplicatedTableName, &span_range, input)?;
       }
 
       let mut indexed_cols = HashSet::new();
       for col in table.cols.iter() {
         match indexed_cols.get(&col.name.to_string) {
-          Some(col_name) => throw_err(Err::DuplicatedColumnName, &col.span_range, input)?,
+          Some(_) => throw_err(Err::DuplicatedColumnName, &col.span_range, input)?,
           None => indexed_cols.insert(col.name.to_string.clone())
         };
       }
@@ -65,7 +60,7 @@ impl Indexer {
 
           if let Some(alias) = alias {
             match self.table_alias_map.get(&alias.to_string) {
-              Some(dup_alias) => {
+              Some(_) => {
                 throw_err(Err::DuplicatedAlias, &alias.span_range, input)?;
               },
               None => {
@@ -96,21 +91,30 @@ impl Indexer {
   }
 
   /// Collects and validates enum identifiers and their values.
+  /// 
+  /// # Errors
+  /// 
+  /// - `DuplicatedEnumName`
+  /// - `DuplicatedEnumValue`
   pub(super) fn index_enums(&mut self, enums: &Vec<&EnumBlock>, input: &str) -> AnalyzerResult<()> {
     for r#enum in enums.iter() {
-      let EnumIdent { schema, name, .. } = r#enum.ident.clone();
+      let EnumIdent { span_range, schema, name, .. } = r#enum.ident.clone();
 
-      let schema_name = schema.clone().map(|s| s.to_string.clone()).unwrap_or_else(|| DEFAULT_SCHEMA.into());
+      let schema = schema.clone().map(|s| s.to_string.clone()).unwrap_or_else(|| DEFAULT_SCHEMA.into());
+
+      if self.contains_enum(&schema, &name.to_string) {
+        throw_err(Err::DuplicatedEnumName, &span_range, input)?;
+      }
+
       let mut value_sets = HashSet::new();
-
       for value in r#enum.values.iter() {
         match value_sets.get(&value.value.to_string) {
-          Some(dup_col_name) => throw_err(Err::DuplicatedEnumValue, &value.span_range, input)?,
+          Some(_) => throw_err(Err::DuplicatedEnumValue, &value.span_range, input)?,
           None => value_sets.insert(value.value.to_string.clone())
         };
       }
 
-      match self.schema_map.get_mut(&schema_name) {
+      match self.schema_map.get_mut(&schema) {
         Some(index_block) => {
           index_block.enum_map.insert(name.to_string.clone(), value_sets);
         }
@@ -119,7 +123,7 @@ impl Indexer {
 
           index_block.enum_map.insert(name.to_string.clone(), value_sets);
 
-          self.schema_map.insert(schema_name, index_block);
+          self.schema_map.insert(schema, index_block);
         }
       }
     }
@@ -185,6 +189,23 @@ impl Indexer {
     Ok(())
   }
 
+  /// Checks if the specified table identifier exists.
+  pub fn contains_table(&self, schema: &String, name: &String) -> bool {
+    self.schema_map
+      .get(schema)
+      .iter()
+      .any(|item| item.table_map.contains_key(name))
+  }
+
+  /// Checks if the specified enum identifier exists.
+  pub fn contains_enum(&self, schema: &String, name: &String) -> bool {
+    self.schema_map
+      .get(schema)
+      .iter()
+      .any(|item| item.enum_map.contains_key(name))
+  }
+
+  /// Checks if the enum contains the specified values.
   pub fn lookup_enum_values(
     &self,
     schema: &Option<String>,
@@ -216,6 +237,7 @@ impl Indexer {
     }
   }
 
+  /// Checks if the table contains the specified fields.
   pub fn lookup_table_fields(
     &self,
     schema: &Option<Ident>,
@@ -255,6 +277,7 @@ impl Indexer {
     self.table_alias_map.get(table_alias)
   }
 
+  /// Gets a new ref block if it is pointing to an alias.
   pub fn resolve_ref_alias(&self, ident: &RefIdent) -> RefIdent {
     match self.resolve_alias(&ident.table.to_string) {
       Some((schema, table)) => RefIdent {
