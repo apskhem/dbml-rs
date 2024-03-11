@@ -130,6 +130,10 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
     if let Some(indexes_block) = &table.indexes {
       for def in &indexes_block.defs {
+        if def.cols.is_empty() {
+          throw_err(Err::EmptyIndexesBlock, &indexes_block.span_range, input)?;
+        }
+
         let idents: Vec<_> = def
           .cols
           .iter()
@@ -141,6 +145,14 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           })
           .cloned()
           .collect();
+
+        for ident in &def.cols {
+          if let IndexesColumnType::String(col_name) = ident {
+            if table.cols.iter().find(|col| &col.name.to_string == col_name).is_none() {
+              throw_err(Err::ColumnNotFound, &(0..0), input)?; // FIXME:
+            }
+          }
+        }
 
         match &def.settings {
           Some(settings) => {
@@ -367,27 +379,6 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           })
         })
         .collect::<AnalyzerResult<_>>()?;
-
-      if let Some(block) = &table.indexes {
-        for def in block.defs.iter() {
-          if def.cols.is_empty() {
-            panic!("indexes def (..) cannot be empty")
-          }
-
-          for ident in def.cols.iter() {
-            if let IndexesColumnType::String(col_name) = ident {
-              indexer
-                .lookup_table_fields(
-                  &table.ident.schema,
-                  &table.ident.name,
-                  &vec![Ident { span_range: 0..0, raw: String::new(), to_string: col_name.clone() }],
-                  input
-                )
-                .unwrap_or_else(|x| panic!("{}", x));
-            }
-          }
-        }
-      }
 
       Ok(TableBlock { cols, ..table.clone() })
     })

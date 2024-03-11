@@ -52,6 +52,8 @@ pub enum Err {
   ConflictedNullableSetting,
   #[display(fmt = "Project setting not found")]
   ProjectSettingNotFound,
+  #[display(fmt = "Empty indexes block")]
+  EmptyIndexesBlock,
   #[display(fmt = "Invalid enum")]
   InvalidEnum,
   #[display(fmt = "Invalid data type")]

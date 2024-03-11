@@ -350,6 +350,7 @@ impl IndexedRef {
     let lhs_ident = indexer.resolve_ref_alias(&self.lhs);
     let rhs_ident = indexer.resolve_ref_alias(&self.rhs);
 
+    let composition_len = lhs_ident.compositions.len().max(rhs_ident.compositions.len());
     if lhs_ident.compositions.len() != rhs_ident.compositions.len() {
       throw_err(Err::MismatchedCompositeForeignKey, &self.span_range, input)?;
     }
@@ -377,6 +378,23 @@ impl IndexedRef {
         Some(col) => Ok(col.clone()),
         None => throw_err(Err::ColumnNotFound, &col_ident.span_range, input)
       }
+    };
+    let is_valid_many2many_composite = |compositions: &Vec<Ident>, table_indexes: &Option<IndexesBlock>| -> bool {
+      table_indexes.as_ref().map(|indexes| {
+        indexes.defs.iter().any(|def_item| {
+          let composition_cols = BTreeSet::from_iter(compositions.iter().map(|s| s.to_string.clone()));
+          let indexes_cols = BTreeSet::from_iter(def_item.cols.iter().filter_map(|s| {
+            match s {
+              IndexesColumnType::String(s) => Some(s.clone()),
+              _ => None
+            }
+          }));
+
+          self.lhs.compositions.len() == def_item.cols.len()
+          && def_item.settings.as_ref().is_some_and(|s| s.is_pk || s.is_unique)
+          && composition_cols == indexes_cols
+        })
+      }).unwrap_or_default()
     };
 
     let lhs_table = find_ref_table(&lhs_ident)?;
@@ -411,8 +429,8 @@ impl IndexedRef {
         (Relation::One2One, false, false) => {
           throw_err(Err::InvalidForeignKeyOne2One, &self.lhs.span_range, input)?;
         }
-        (Relation::Many2Many, false, false) => {
-          throw_err(Err::InvalidForeignKeyMany2Many, &self.lhs.span_range, input)?;
+        (Relation::Many2Many, false, false) if composition_len == 1 => {
+          throw_err(Err::InvalidForeignKeyMany2Many, &self.span_range, input)?;
         }
         (Relation::One2Many, false, _) => {
           throw_err(Err::InvalidForeignKey, &self.lhs.span_range, input)?;
@@ -424,8 +442,13 @@ impl IndexedRef {
       };
     }
 
-    if self.rel == Relation::Many2Many {
-      // self.lhs.compositions.iter().all(|c| indexer.)
+    if self.rel == Relation::Many2Many && composition_len > 1 {
+      let is_valid_lhs = is_valid_many2many_composite(&self.lhs.compositions, &lhs_table.indexes);
+      let is_valid_rhs = is_valid_many2many_composite(&self.lhs.compositions, &rhs_table.indexes);
+
+      if !is_valid_lhs && !is_valid_rhs {
+        throw_err(Err::InvalidForeignKeyMany2Many, &self.span_range, input)?;
+      }
     }
 
     Ok(())

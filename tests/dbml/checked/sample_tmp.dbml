@@ -22,7 +22,7 @@ Table users {
   }
 }
 
-// Ref: users.(role, age) > orders.(status, number)
+Ref: users.(role, age) > orders.(status, number)
 // Ref: users.role > orders.status
 // Ref: users.role < orders.tmp
 
@@ -46,6 +46,10 @@ Table orders {
   ❌ 3 = cancelled,
   😔 4 = refunded
   ']
+
+  indexes {
+    (status, tmp) [unique]
+  }
 
   // indexes {
   //   (id, country) [pk] // composite primary key
