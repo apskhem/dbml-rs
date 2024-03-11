@@ -11,8 +11,8 @@ pub(super) fn check_attr_duplicate_keys(attrs: &Vec<Attribute>, input: &str) -> 
     .collect();
 
   // TODO: handle multiple errs
-  if let Some(dup_key) = dup_keys.first() {
-    throw_err(Err::DuplicatedAttributeKey, &dup_key.span_range, input)?;
+  if let Some(attr) = dup_keys.first() {
+    throw_err(Err::DuplicatedAttributeKey, &attr.span_range, input)?;
   }
 
   Ok(())

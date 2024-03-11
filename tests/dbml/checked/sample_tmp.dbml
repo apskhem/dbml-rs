@@ -22,7 +22,9 @@ Table users {
   }
 }
 
-Ref: users.(role, age) > orders.(status, number)
+// Ref: users.(role, age) > orders.(status, number)
+Ref: users.role > orders.status
+// Ref: users.role < orders.tmp
 
 Table posts as P {
   id integer [pk]
@@ -30,6 +32,7 @@ Table posts as P {
   body text [note: 'Content of the post']
   user_id integer [ref: > users.id]
   status post_status [default: draft]
+  tmp post_status
   created_at timestamp
 }
 

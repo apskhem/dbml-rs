@@ -6,27 +6,27 @@ use self::err::*;
 use crate::ast::*;
 use crate::DEFAULT_SCHEMA;
 
-mod block;
 mod err;
 mod helper;
 mod indexer;
 
 use helper::*;
+use indexer::*;
 
 #[derive(Debug, Clone, Default)]
 pub struct AnalyzedIndexer {
-  pub indexed_refs: Vec<block::IndexedRefBlock>,
-  pub indexer: indexer::Indexer,
+  pub indexed_refs: Vec<IndexedRef>,
+  pub indexer: Indexer,
 }
 
 /// Represents a reference to a table, indicating relationships between tables.
 pub struct TableRef {
   /// References that this table points to, such as foreign keys in its fields.
-  pub ref_to: Vec<block::IndexedRefBlock>,
+  pub ref_to: Vec<IndexedRef>,
   /// References to this table, indicating other tables that have foreign keys pointing to it.
-  pub ref_by: Vec<block::IndexedRefBlock>,
+  pub ref_by: Vec<IndexedRef>,
   /// Self-references within this table.
-  pub ref_self: Vec<block::IndexedRefBlock>,
+  pub ref_self: Vec<IndexedRef>,
 }
 
 /// Performs semantic checks of the unsanitized AST and returns an indexed metadata.
@@ -174,8 +174,8 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
   }
 
   // collect tables
-  let mut indexer = indexer::Indexer::default();
-  let mut indexed_refs: Vec<_> = refs.clone().into_iter().cloned().map(block::IndexedRefBlock::from).collect();
+  let mut indexer = Indexer::default();
+  let mut indexed_refs: Vec<_> = refs.clone().into_iter().cloned().map(IndexedRef::from).collect();
 
   // start indexing the schema
   indexer.index_table(&tables, input)?;
@@ -185,7 +185,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
   // collect refs from tables
   for table in &tables {
     for col in &table.cols {
-      let indexed_ref = block::IndexedRefBlock::from_inline(
+      let indexed_ref = IndexedRef::from_inline(
         col.settings.clone().map(|s| s.refs).unwrap_or_default(),
         table.ident.clone(),
         col.name.clone(),
@@ -405,7 +405,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
     let count = indexed_refs
       .iter()
-      .filter(|other_indexed_ref| indexed_ref.eq(other_indexed_ref, &indexer))
+      .filter(|other_indexed_ref| indexed_ref.occupy_same_column(other_indexed_ref, &indexer))
       .count();
 
     if count != 1 {
