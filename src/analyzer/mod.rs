@@ -267,22 +267,25 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                     _ => throw_err(Err::InvalidEnum, &col.r#type.span_range, input)?,
                   };
 
-                  let (default_enum_span, default_enum) = match &col.settings {
+                  match &col.settings {
                     Some(ColumnSettings { attributes, default: Some(default_value), .. }) => {
                       let default_value_span = attributes.iter()
-                        .find_map(|attr| (attr.key.to_string == "default").then(|| attr.value.clone().unwrap().span_range))
-                        .unwrap(); // FIXME: handle unwrap
+                        .find_map(|attr| {
+                          (attr.key.to_string == "default").then(|| attr.value.clone().map(|v| v.span_range))
+                        })
+                        .and_then(|opt_span| opt_span)
+                        .unwrap_or_else(|| unreachable!("default value is missing"));
 
-                      (default_value_span, vec![default_value.to_string()])
-                    },
-                    _ => (0..0, vec![])
-                  };
-
-                  match indexer.lookup_enum_values(&enum_schema, &enum_name, &default_enum) {
-                    (false, (_, _)) => throw_err(Err::SchemaNotFound, &col.r#type.span_range, input)?,
-                    (true, (false, _)) => throw_err(Err::EnumNotFound, &col.r#type.span_range, input)?,
-                    (true, (true, f)) if f.iter().any(|f| f == &false) => throw_err(Err::EnumValueNotFound, &default_enum_span, input)?,
-                    _ => ColumnTypeName::Enum(enum_name)
+                      match indexer.lookup_enum_values(&enum_schema, &enum_name, &vec![default_value.to_string()]) {
+                        (false, (_, _)) => throw_err(Err::SchemaNotFound, &col.r#type.span_range, input)?,
+                        (true, (false, _)) => throw_err(Err::EnumNotFound, &col.r#type.span_range, input)?,
+                        (true, (true, f)) if f.iter().any(|f| f == &false) => throw_err(Err::EnumValueNotFound, &default_value_span, input)?,
+                        _ => ColumnTypeName::Enum(enum_name)
+                      }
+                    }
+                    _ => {
+                      ColumnTypeName::Enum(enum_name)
+                    }
                   }
                 }
               }
