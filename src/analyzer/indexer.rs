@@ -216,6 +216,7 @@ impl Indexer {
     schema: &Option<String>,
     enum_name: &String,
     values: &Vec<String>,
+    input: &str
   ) -> AnalyzerResult<()> {
     let schema = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
 
@@ -248,33 +249,32 @@ impl Indexer {
     schema: &Option<Ident>,
     table: &Ident,
     fields: &Vec<Ident>,
+    input: &str
   ) -> AnalyzerResult<()> {
+    let schema_span = schema.clone().map(|s| s.span_range).unwrap_or_default();
     let schema = schema.clone().map(|s| s.to_string).unwrap_or_else(|| DEFAULT_SCHEMA.into());
 
-    if let Some(block) = self.schema_map.get(&schema) {
-      if let Some(col_set) = block.table_map.get(&table.to_string) {
-        let unlisted_fields: Vec<_> = fields
-          .iter()
-          .filter(|v| !col_set.contains(&v.to_string))
-          .cloned()
-          .collect();
+    match self.schema_map.get(&schema) {
+      Some(block) => {
+        match block.table_map.get(&table.to_string) {
+          Some(col_set) => {
+            let unlisted_fields: Vec<_> = fields
+              .iter()
+              .filter(|v| !col_set.contains(&v.to_string))
+              .cloned()
+              .collect();
 
-        match unlisted_fields.is_empty() {
-          true => return Ok(()),
-          false => {
-            panic!(
-              "not found '{}' column in table '{}'",
-              unlisted_fields.iter().map(|s| s.to_string.clone()).collect::<Vec<_>>().join(", "),
-              table.to_string
-            );
+            if let Some(first) = unlisted_fields.first() {
+              throw_err(Err::ColumnNotFound, &first.span_range, input)?;
+            }
+
+            Ok(())
           }
+          None => throw_err(Err::TableNotFound, &table.span_range, input)
         }
       }
-
-      panic!("table_not_found");
+      None => throw_err(Err::SchemaNotFound, &schema_span, input)
     }
-
-    panic!("table_not_found");
   }
 
   /// Gets the schema (if has) and table name from the given alias.

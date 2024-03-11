@@ -58,8 +58,8 @@ impl IndexedRefBlock {
       panic!("relation composition must have number of fields equal in both side");
     }
 
-    indexer.lookup_table_fields(&lhs_ident.schema, &lhs_ident.table, &lhs_ident.compositions)?;
-    indexer.lookup_table_fields(&rhs_ident.schema, &rhs_ident.table, &rhs_ident.compositions)?;
+    indexer.lookup_table_fields(&lhs_ident.schema, &lhs_ident.table, &lhs_ident.compositions, input)?;
+    indexer.lookup_table_fields(&rhs_ident.schema, &rhs_ident.table, &rhs_ident.compositions, input)?;
 
     let lhs_table = tables
       .iter()

@@ -259,10 +259,9 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                     _ => throw_err(Err::InvalidEnum, &col.r#type.span_range, input)?,
                   };
 
-                  match indexer.lookup_enum_values(&enum_schema, &enum_name, &default_enum) {
-                    Ok(_) => ColumnTypeName::Enum(enum_name),
-                    Err(_) => throw_err(Err::InvalidDataType, &col.r#type.span_range, input)?,
-                  }
+                  indexer.lookup_enum_values(&enum_schema, &enum_name, &default_enum, input)?;
+
+                  ColumnTypeName::Enum(enum_name)
                 }
               }
             }
@@ -373,6 +372,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                   &table.ident.schema,
                   &table.ident.name,
                   &vec![Ident { span_range: 0..0, raw: String::new(), to_string: col_name.clone() }],
+                  input
                 )
                 .unwrap_or_else(|x| panic!("{}", x));
             }
