@@ -131,7 +131,7 @@ impl Indexer {
           None => {
             match self.resolve_alias(&group_item.ident_alias.to_string) {
               Some(ident) => ident.clone(),
-              None => (None, group_item.ident_alias.to_string.clone())
+              None => (Some(DEFAULT_SCHEMA.to_string()), group_item.ident_alias.to_string.clone())
             }
           }
         };
