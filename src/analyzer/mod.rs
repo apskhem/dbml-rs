@@ -8,7 +8,10 @@ use crate::DEFAULT_SCHEMA;
 
 mod block;
 mod err;
+mod helper;
 mod indexer;
+
+use helper::*;
 
 #[derive(Debug, Clone, Default)]
 pub struct AnalyzedIndexer {
@@ -74,7 +77,9 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
     throw_err(Err::DuplicatedProjectSetting, &schema_block.span_range, input)?;
   }
   match project.first() {
-    Some(_) => (),
+    Some(project_block) => {
+      check_prop_duplicate_keys(&project_block.properties, input)?;
+    },
     _ => throw_err(Err::ProjectSettingNotFound, &schema_block.span_range, input)?,
   }
 
@@ -101,11 +106,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           tmp_table_indexer.unique_list.push(BTreeSet::from([col.name.to_string.clone()]))
         }
 
-        // TODO: handle multiple errs
-        let dup_keys = get_attr_duplicate_keys(&settings.attributes);
-        if let Some(dup_key) = dup_keys.first() {
-          throw_err(Err::DuplicatedAttributeKey, &dup_key.span_range, input)?;
-        }
+        check_attr_duplicate_keys(&settings.attributes, input)?;
 
         let filtered: BTreeSet<_> = settings.attributes
           .iter()
@@ -416,17 +417,4 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
     indexed_refs,
     indexer
   })
-}
-
-fn get_attr_duplicate_keys(attrs: &Vec<Attribute>) -> Vec<Attribute> {
-  let mut sum = BTreeSet::new();
-  let mut dup = vec![];
-  for attr in attrs {
-    if sum.contains(&attr.key.to_string) {
-      dup.push(attr.clone())
-    } else {
-      sum.insert(attr.key.to_string.clone());
-    }
-  }
-  dup
 }
