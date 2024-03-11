@@ -390,7 +390,7 @@ impl IndexedRef {
             }
           }));
 
-          self.lhs.compositions.len() == def_item.cols.len()
+          compositions.len() == def_item.cols.len()
           && def_item.settings.as_ref().is_some_and(|s| s.is_pk || s.is_unique)
           && composition_cols == indexes_cols
         })
@@ -444,7 +444,7 @@ impl IndexedRef {
 
     if self.rel == Relation::Many2Many && composition_len > 1 {
       let is_valid_lhs = is_valid_many2many_composite(&self.lhs.compositions, &lhs_table.indexes);
-      let is_valid_rhs = is_valid_many2many_composite(&self.lhs.compositions, &rhs_table.indexes);
+      let is_valid_rhs = is_valid_many2many_composite(&self.rhs.compositions, &rhs_table.indexes);
 
       if !is_valid_lhs && !is_valid_rhs {
         throw_err(Err::InvalidForeignKeyMany2Many, &self.span_range, input)?;

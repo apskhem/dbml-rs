@@ -22,7 +22,7 @@ Table users {
   }
 }
 
-Ref: users.(role, age) > orders.(status, number)
+Ref: users.(role, age) <> orders.(status, number)
 // Ref: users.role > orders.status
 // Ref: users.role < orders.tmp
 
@@ -48,7 +48,7 @@ Table orders {
   ']
 
   indexes {
-    (status, tmp) [unique]
+    (status, number) [unique]
   }
 
   // indexes {
