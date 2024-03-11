@@ -153,7 +153,11 @@ SchemaBlock {
                                 span_range: 198..209,
                                 cols: [
                                     String(
-                                        "gender",
+                                        Ident {
+                                            span_range: 198..204,
+                                            raw: "gender",
+                                            to_string: "gender",
+                                        },
                                     ),
                                 ],
                                 settings: None,
@@ -162,7 +166,11 @@ SchemaBlock {
                                 span_range: 209..222,
                                 cols: [
                                     String(
-                                        "created_at",
+                                        Ident {
+                                            span_range: 209..219,
+                                            raw: "created_at",
+                                            to_string: "created_at",
+                                        },
                                     ),
                                 ],
                                 settings: None,

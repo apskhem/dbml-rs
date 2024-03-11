@@ -589,10 +589,18 @@ SchemaBlock {
                                 span_range: 439..465,
                                 cols: [
                                     String(
-                                        "cake_id",
+                                        Ident {
+                                            span_range: 440..447,
+                                            raw: "cake_id",
+                                            to_string: "cake_id",
+                                        },
                                     ),
                                     String(
-                                        "filling_id",
+                                        Ident {
+                                            span_range: 449..459,
+                                            raw: "filling_id",
+                                            to_string: "filling_id",
+                                        },
                                     ),
                                 ],
                                 settings: Some(

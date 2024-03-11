@@ -66,7 +66,7 @@ pub enum Err {
   InvalidDefaultValue { raw_value: String, raw_type: String },
   #[display(fmt = "Default null in non-nullable: the default value cannot be null in non-nullable field")]
   DefaultNullInNonNullable,
-  #[display(fmt = "Data type exceeded: the defualt value exceeds the maximum value of '{}'", raw_type)]
+  #[display(fmt = "Data type exceeded: the default value exceeds the maximum value of '{}'", raw_type)]
   DataTypeExceeded { raw_type: String },
   #[display(fmt = "Table group not found")]
   TableGroupNotFound,

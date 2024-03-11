@@ -238,7 +238,11 @@ SchemaBlock {
                                 span_range: 211..244,
                                 cols: [
                                     String(
-                                        "id",
+                                        Ident {
+                                            span_range: 212..214,
+                                            raw: "id",
+                                            to_string: "id",
+                                        },
                                     ),
                                 ],
                                 settings: Some(
@@ -286,7 +290,11 @@ SchemaBlock {
                                 span_range: 249..278,
                                 cols: [
                                     String(
-                                        "full_name",
+                                        Ident {
+                                            span_range: 249..258,
+                                            raw: "full_name",
+                                            to_string: "full_name",
+                                        },
                                     ),
                                 ],
                                 settings: Some(
@@ -325,10 +333,18 @@ SchemaBlock {
                                 span_range: 283..314,
                                 cols: [
                                     String(
-                                        "email",
+                                        Ident {
+                                            span_range: 284..289,
+                                            raw: "email",
+                                            to_string: "email",
+                                        },
                                     ),
                                     String(
-                                        "created_at",
+                                        Ident {
+                                            span_range: 290..300,
+                                            raw: "created_at",
+                                            to_string: "created_at",
+                                        },
                                     ),
                                 ],
                                 settings: Some(
@@ -367,7 +383,13 @@ SchemaBlock {
                                 span_range: 319..331,
                                 cols: [
                                     Expr(
-                                        "now()",
+                                        Literal {
+                                            span_range: 319..326,
+                                            raw: "`now()`",
+                                            value: String(
+                                                "now()",
+                                            ),
+                                        },
                                     ),
                                 ],
                                 settings: None,
@@ -376,10 +398,20 @@ SchemaBlock {
                                 span_range: 331..364,
                                 cols: [
                                     String(
-                                        "active",
+                                        Ident {
+                                            span_range: 332..338,
+                                            raw: "active",
+                                            to_string: "active",
+                                        },
                                     ),
                                     Expr(
-                                        "lower(full_name)",
+                                        Literal {
+                                            span_range: 340..358,
+                                            raw: "`lower(full_name)`",
+                                            value: String(
+                                                "lower(full_name)",
+                                            ),
+                                        },
                                     ),
                                 ],
                                 settings: None,
@@ -388,10 +420,22 @@ SchemaBlock {
                                 span_range: 364..399,
                                 cols: [
                                     Expr(
-                                        "getdate()",
+                                        Literal {
+                                            span_range: 365..376,
+                                            raw: "`getdate()`",
+                                            value: String(
+                                                "getdate()",
+                                            ),
+                                        },
                                     ),
                                     Expr(
-                                        "upper(gender)",
+                                        Literal {
+                                            span_range: 378..393,
+                                            raw: "`upper(gender)`",
+                                            value: String(
+                                                "upper(gender)",
+                                            ),
+                                        },
                                     ),
                                 ],
                                 settings: None,
@@ -400,7 +444,13 @@ SchemaBlock {
                                 span_range: 399..427,
                                 cols: [
                                     Expr(
-                                        "reverse(country_code)",
+                                        Literal {
+                                            span_range: 400..423,
+                                            raw: "`reverse(country_code)`",
+                                            value: String(
+                                                "reverse(country_code)",
+                                            ),
+                                        },
                                     ),
                                 ],
                                 settings: None,

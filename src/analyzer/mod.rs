@@ -145,11 +145,12 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           })
           .cloned()
           .collect();
+        let ident_strings: Vec<_> = idents.iter().map(|s| s.to_string.clone()).collect();
 
         for ident in &def.cols {
           if let IndexesColumnType::String(col_name) = ident {
-            if table.cols.iter().find(|col| &col.name.to_string == col_name).is_none() {
-              throw_err(Err::ColumnNotFound, &(0..0), input)?; // FIXME:
+            if table.cols.iter().find(|col| col.name.to_string == col_name.to_string).is_none() {
+              throw_err(Err::ColumnNotFound, &col_name.span_range, input)?;
             }
           }
         }
@@ -165,29 +166,29 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                 throw_err(Err::DuplicatedPrimaryKey, &def.span_range, input)?;
               }
 
-              tmp_table_indexer.pk_list.extend(idents.clone())
+              tmp_table_indexer.pk_list.extend(ident_strings.clone())
             } else if settings.is_unique {
-              if tmp_table_indexer.unique_list.iter().any(|uniq_item| idents.iter().all(|id| uniq_item.contains(id))) {
+              if tmp_table_indexer.unique_list.iter().any(|uniq_item| idents.iter().all(|id| uniq_item.contains(&id.to_string))) {
                 throw_err(Err::DuplicatedUniqueKey, &def.span_range, input)?;
               }
 
-              tmp_table_indexer.unique_list.push(idents.clone().into_iter().collect())
+              tmp_table_indexer.unique_list.push(ident_strings.clone().into_iter().collect())
             }
 
             if settings.r#type.is_some() {
-              if tmp_table_indexer.indexed_list.iter().any(|(idx_item, idx_type)| idx_item == &idents && idx_type == &settings.r#type) {
+              if tmp_table_indexer.indexed_list.iter().any(|(idx_item, idx_type)| idx_item == &ident_strings && idx_type == &settings.r#type) {
                 throw_err(Err::DuplicatedIndexKey, &def.span_range, input)?;
               }
 
-              tmp_table_indexer.indexed_list.push((idents, settings.r#type.clone()));
+              tmp_table_indexer.indexed_list.push((ident_strings, settings.r#type.clone()));
             }
           }
           None => {
-            if tmp_table_indexer.indexed_list.iter().any(|(idx_item, _)| idx_item == &idents) {
+            if tmp_table_indexer.indexed_list.iter().any(|(idx_item, _)| idx_item == &ident_strings) {
               throw_err(Err::DuplicatedIndexKey, &def.span_range, input)?;
             }
 
-            tmp_table_indexer.indexed_list.push((idents, None))
+            tmp_table_indexer.indexed_list.push((ident_strings, None))
           },
         };
       }
@@ -299,6 +300,8 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
             match default_value {
               Value::Enum(_) => (),
               Value::String(val) => {
+                let err = Err::InvalidDefaultValue { raw_value: val.clone(), raw_type: col.r#type.raw.clone() };
+
                 if !matches!(
                   type_name,
                   ColumnTypeName::Bit
@@ -307,7 +310,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                   | ColumnTypeName::VarChar
                   | ColumnTypeName::Enum(_)
                 ) {
-                  throw_err(Err::InvalidDefaultValue { raw_value: val.clone(), raw_type: col.r#type.raw.clone() }, &span_range, input)?;
+                  throw_err(err.clone(), &span_range, input)?;
                 }
 
                 // validate fixed and variable length data type
@@ -315,17 +318,19 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                   ColumnTypeName::Bit
                   | ColumnTypeName::Char
                   if matches!(col.r#type.args[0], Value::Integer(len) if val.len() as i64 != len) => {
-                    panic!("defualt value does not match with the specified fixed length")
+                    throw_err(err.clone(), &span_range, input)?;
                   }
                   ColumnTypeName::Varbit
                   | ColumnTypeName::VarChar
                   if matches!(col.r#type.args[0], Value::Integer(cap) if val.len() as i64 > cap) => {
-                    panic!("defualt value exceeds the specified variable length")
+                    throw_err(err.clone(), &span_range, input)?;
                   }
                   _ => ()
                 };
               },
               Value::Integer(val) => {
+                let err = Err::DataTypeExceeded { raw_type: col.r#type.raw.clone() };
+
                 if !matches!(
                   type_name,
                   ColumnTypeName::SmallSerial
@@ -341,15 +346,15 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                 match type_name {
                   ColumnTypeName::SmallInt
                   if (val > i16::MAX as i64) || (val < i16::MIN as i64) => {
-                    panic!("defualt value exceeds the maximum value of the specified type")
+                    throw_err(err.clone(), &span_range, input)?;
                   }
                   ColumnTypeName::Integer
                   if (val > i32::MAX as i64) || (val < i32::MIN as i64) => {
-                    panic!("defualt value exceeds the maximum value of the specified type")
+                    throw_err(err.clone(), &span_range, input)?;
                   }
                   ColumnTypeName::BigInt
                   if val.overflowing_add(1).1 || val.overflowing_sub(1).1 => {
-                    panic!("defualt value exceeds the maximum value of the specified type")
+                    throw_err(err.clone(), &span_range, input)?;
                   }
                   _ => ()
                 };

@@ -238,7 +238,11 @@ SchemaBlock {
                                 span_range: 211..218,
                                 cols: [
                                     String(
-                                        "id",
+                                        Ident {
+                                            span_range: 211..213,
+                                            raw: "id",
+                                            to_string: "id",
+                                        },
                                     ),
                                 ],
                                 settings: Some(
@@ -505,13 +509,25 @@ SchemaBlock {
                                 span_range: 437..465,
                                 cols: [
                                     String(
-                                        "id",
+                                        Ident {
+                                            span_range: 438..440,
+                                            raw: "id",
+                                            to_string: "id",
+                                        },
                                     ),
                                     String(
-                                        "full_name",
+                                        Ident {
+                                            span_range: 442..451,
+                                            raw: "full_name",
+                                            to_string: "full_name",
+                                        },
                                     ),
                                     String(
-                                        "gender",
+                                        Ident {
+                                            span_range: 453..459,
+                                            raw: "gender",
+                                            to_string: "gender",
+                                        },
                                     ),
                                 ],
                                 settings: Some(

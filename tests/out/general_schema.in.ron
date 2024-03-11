@@ -593,10 +593,18 @@ SchemaBlock {
                                 span_range: 559..605,
                                 cols: [
                                     String(
-                                        "merchant_id",
+                                        Ident {
+                                            span_range: 560..571,
+                                            raw: "merchant_id",
+                                            to_string: "merchant_id",
+                                        },
                                     ),
                                     String(
-                                        "status",
+                                        Ident {
+                                            span_range: 573..579,
+                                            raw: "status",
+                                            to_string: "status",
+                                        },
                                     ),
                                 ],
                                 settings: Some(
@@ -635,7 +643,11 @@ SchemaBlock {
                                 span_range: 608..631,
                                 cols: [
                                     String(
-                                        "id",
+                                        Ident {
+                                            span_range: 608..610,
+                                            raw: "id",
+                                            to_string: "id",
+                                        },
                                     ),
                                 ],
                                 settings: Some(

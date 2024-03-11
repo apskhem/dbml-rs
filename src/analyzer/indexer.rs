@@ -385,7 +385,7 @@ impl IndexedRef {
           let composition_cols = BTreeSet::from_iter(compositions.iter().map(|s| s.to_string.clone()));
           let indexes_cols = BTreeSet::from_iter(def_item.cols.iter().filter_map(|s| {
             match s {
-              IndexesColumnType::String(s) => Some(s.clone()),
+              IndexesColumnType::String(s) => Some(s.to_string.clone()),
               _ => None
             }
           }));

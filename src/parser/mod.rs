@@ -732,18 +732,22 @@ fn parse_indexes_ident(pair: Pair<Rule>) -> ParserResult<IndexesColumnType> {
   match p1.as_rule() {
     Rule::ident => {
       let value = parse_ident(p1)?;
-      Ok(IndexesColumnType::String(value.to_string))
+      Ok(IndexesColumnType::String(value))
     }
     Rule::backquoted_quoted_string => {
       let p2 = p1
+        .clone()
         .into_inner()
         .next()
         .ok_or_else(|| unreachable!("something went wrong at indexes_ident"))?;
 
       match p2.as_rule() {
         Rule::backquoted_quoted_value => {
-          let value = p2.as_str().to_string();
-          Ok(IndexesColumnType::Expr(value))
+          Ok(IndexesColumnType::Expr(Literal {
+            span_range: s2r(p1.as_span()),
+            raw: p1.as_str().to_owned(),
+            value: Value::String(p2.as_str().to_owned())
+          }))
         }
         _ => throw_rules(&[Rule::backquoted_quoted_value], p2)?,
       }

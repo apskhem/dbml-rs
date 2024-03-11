@@ -1,6 +1,6 @@
 use std::str::FromStr;
 
-use super::{Attribute, SpanRange};
+use super::*;
 
 #[derive(Debug, Clone, Default)]
 pub struct IndexesBlock {
@@ -39,8 +39,8 @@ pub struct IndexesSettings {
 
 #[derive(Debug, Clone)]
 pub enum IndexesColumnType {
-  String(String),
-  Expr(String),
+  String(Ident),
+  Expr(Literal),
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]

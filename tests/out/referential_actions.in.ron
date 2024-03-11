@@ -433,10 +433,18 @@ SchemaBlock {
                                 span_range: 393..408,
                                 cols: [
                                     String(
-                                        "id",
+                                        Ident {
+                                            span_range: 394..396,
+                                            raw: "id",
+                                            to_string: "id",
+                                        },
                                     ),
                                     String(
-                                        "name",
+                                        Ident {
+                                            span_range: 398..402,
+                                            raw: "name",
+                                            to_string: "name",
+                                        },
                                     ),
                                 ],
                                 settings: Some(
