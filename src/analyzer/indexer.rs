@@ -1,6 +1,6 @@
-use std::collections::{
-  HashMap,
-  HashSet,
+use alloc::collections::{
+  BTreeMap,
+  BTreeSet,
 };
 
 use super::*;
@@ -8,19 +8,19 @@ use super::*;
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct IndexedSchemaBlock {
   /// Indexed table names and associated columns
-  table_map: HashMap<String, HashSet<String>>,
+  table_map: BTreeMap<String, BTreeSet<String>>,
   /// Indexed enum names and associated variants
-  enum_map: HashMap<String, HashSet<String>>,
+  enum_map: BTreeMap<String, BTreeSet<String>>,
 }
 
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct Indexer {
   /// Indexed table groups map.
-  table_group_map: HashMap<String, HashSet<(String, String)>>,
+  table_group_map: BTreeMap<String, BTreeSet<(String, String)>>,
   /// Indexed schema map.
-  schema_map: HashMap<String, IndexedSchemaBlock>,
+  schema_map: BTreeMap<String, IndexedSchemaBlock>,
   /// Indexed alias map to the schema and table name.
-  table_alias_map: HashMap<String, (String, String)>,
+  table_alias_map: BTreeMap<String, (String, String)>,
 }
 
 impl Indexer {
@@ -46,7 +46,7 @@ impl Indexer {
         throw_err(Err::DuplicatedTableName, &span_range, input)?;
       }
 
-      let mut indexed_cols = HashSet::new();
+      let mut indexed_cols = BTreeSet::new();
       for col in table.cols.iter() {
         match indexed_cols.get(&col.name.to_string) {
           Some(_) => throw_err(Err::DuplicatedColumnName, &col.span_range, input)?,
@@ -111,7 +111,7 @@ impl Indexer {
         throw_err(Err::DuplicatedEnumName, &span_range, input)?;
       }
 
-      let mut value_sets = HashSet::new();
+      let mut value_sets = BTreeSet::new();
       for value in r#enum.values.iter() {
         match value_sets.get(&value.value.to_string) {
           Some(_) => throw_err(Err::DuplicatedEnumValue, &value.span_range, input)?,
@@ -153,7 +153,7 @@ impl Indexer {
         throw_err(Err::DuplicatedTableGroupName, &table_group.ident.span_range, input)?;
       }
 
-      let mut indexed_items = HashSet::new();
+      let mut indexed_items = BTreeSet::new();
       for group_item in &table_group.items {
         let ident = match &group_item.schema {
           Some(item_schema) => {
