@@ -216,30 +216,24 @@ impl Indexer {
     schema: &Option<String>,
     enum_name: &String,
     values: &Vec<String>,
-    input: &str
-  ) -> AnalyzerResult<()> {
+  ) -> (bool, (bool, Vec<bool>)) {
     let schema = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
 
     match self.schema_map.get(&schema) {
       Some(block) => {
         match block.enum_map.get(enum_name) {
           Some(value_set) => {
-            for v in values.iter() {
-              if !value_set.contains(v) {
-                panic!("not found '{}' value in enum '{}'", v, enum_name);
-              }
-            }
+            let results = values
+              .iter()
+              .map(|v| value_set.contains(v.as_str()))
+              .collect();
   
-            Ok(())
+            (true, (true, results))
           },
-          None => {
-            panic!("enum_not_found");
-          }
+          None => (true, (false, vec![false; values.len()]))
         }
       }
-      None => {
-        panic!("schema_not_found");
-      }
+      None => (false, (false, vec![false; values.len()]))
     }
   }
 

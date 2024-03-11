@@ -245,12 +245,6 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                   type_name
                 }
                 Err(_) => {
-                  let default_enum = col.settings
-                    .as_ref()
-                    .map(|s| s.default.clone().map(|d| vec![d.to_string()]))
-                    .flatten()
-                    .unwrap_or_default();
-
                   let splited: Vec<_> = raw_type.split(".").collect();
 
                   let (enum_schema, enum_name) = match splited.len() {
@@ -259,9 +253,23 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                     _ => throw_err(Err::InvalidEnum, &col.r#type.span_range, input)?,
                   };
 
-                  indexer.lookup_enum_values(&enum_schema, &enum_name, &default_enum, input)?;
+                  let (default_enum_span, default_enum) = match &col.settings {
+                    Some(ColumnSettings { attributes, default: Some(default_value), .. }) => {
+                      let default_value_span = attributes.iter()
+                        .find_map(|attr| (attr.key.to_string == "default").then(|| attr.value.clone().unwrap().span_range))
+                        .unwrap(); // FIXME: handle unwrap
 
-                  ColumnTypeName::Enum(enum_name)
+                      (default_value_span, vec![default_value.to_string()])
+                    },
+                    _ => (0..0, vec![])
+                  };
+
+                  match indexer.lookup_enum_values(&enum_schema, &enum_name, &default_enum) {
+                    (false, (_, _)) => throw_err(Err::SchemaNotFound, &col.r#type.span_range, input)?,
+                    (true, (false, _)) => throw_err(Err::EnumNotFound, &col.r#type.span_range, input)?,
+                    (true, (true, f)) if f.iter().any(|f| f == &false) => throw_err(Err::EnumValueNotFound, &default_enum_span, input)?,
+                    _ => ColumnTypeName::Enum(enum_name)
+                  }
                 }
               }
             }
