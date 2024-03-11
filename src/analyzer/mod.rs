@@ -295,9 +295,12 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
           // TODO: add more validation
           if let Some(ColumnSettings { attributes, default: Some(default_value), .. }) = col.settings.clone() {
-            let span_range = attributes.into_iter().find_map(|attr| {
-              (attr.key.to_string == "default").then(|| attr.span_range)
-            }).unwrap(); // FIXME: remove unwrap
+            let span_range = attributes.iter()
+              .find_map(|attr| {
+                (attr.key.to_string == "default").then(|| attr.value.clone().map(|v| v.span_range))
+              })
+              .and_then(|opt_span| opt_span)
+              .unwrap_or_else(|| unreachable!("default value is missing"));
 
             // validate default value association with a col type
             match default_value {

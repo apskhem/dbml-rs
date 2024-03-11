@@ -465,7 +465,6 @@ fn parse_ref_decl(pair: Pair<Rule>) -> ParserResult<RefBlock> {
   unreachable!("something went wrong parsing ref_decl")
 }
 
-// FIXME: to be fixed
 fn parse_ref_stmt(pair: Pair<Rule>) -> ParserResult<RefBlock> {
   let init = RefBlock {
     span_range: s2r(pair.as_span()),
@@ -491,7 +490,9 @@ fn parse_ref_stmt(pair: Pair<Rule>) -> ParserResult<RefBlock> {
             acc.rhs = value;
           }
         }
-        Rule::rel_settings => acc.settings = Some(parse_rel_settings(p1)?),
+        Rule::rel_settings => {
+          acc.settings = Some(parse_rel_settings(p1)?)
+        },
         _ => throw_rules(&[Rule::relation, Rule::ref_ident, Rule::rel_settings], p1)?,
       }
 
