@@ -1,7 +1,7 @@
-use std::{collections::{
+use std::collections::{
   HashMap,
   HashSet,
-}, ops::Deref};
+};
 
 use super::*;
 
@@ -16,11 +16,11 @@ pub struct IndexedSchemaBlock {
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct Indexer {
   /// Indexed table groups map.
-  table_group_map: HashMap<String, HashSet<(Option<String>, String)>>,
+  table_group_map: HashMap<String, HashSet<(String, String)>>,
   /// Indexed schema map.
   schema_map: HashMap<String, IndexedSchemaBlock>,
-  /// Indexed alias map to the schema (optional) and table name.
-  table_alias_map: HashMap<String, (Option<String>, String)>,
+  /// Indexed alias map to the schema and table name.
+  table_alias_map: HashMap<String, (String, String)>,
 }
 
 impl Indexer {
@@ -66,7 +66,7 @@ impl Indexer {
               None => {
                 self
                   .table_alias_map
-                  .insert(alias.to_string.clone(), (Some(schema.clone()), name.to_string.clone()));
+                  .insert(alias.to_string.clone(), (schema.clone(), name.to_string.clone()));
               }
             };
           }
@@ -79,7 +79,7 @@ impl Indexer {
           if let Some(alias) = alias {
             self
               .table_alias_map
-              .insert(alias.to_string.clone(), (Some(schema.clone()), name.to_string.clone()));
+              .insert(alias.to_string.clone(), (schema.clone(), name.to_string.clone()));
           }
 
           self.schema_map.insert(schema, index_block);
@@ -98,7 +98,12 @@ impl Indexer {
   /// - `DuplicatedEnumValue`
   pub(super) fn index_enums(&mut self, enums: &Vec<&EnumBlock>, input: &str) -> AnalyzerResult<()> {
     for r#enum in enums.iter() {
-      let EnumIdent { span_range, schema, name, .. } = r#enum.ident.clone();
+      let EnumIdent {
+        span_range,
+        schema,
+        name,
+        ..
+      } = r#enum.ident.clone();
 
       let schema = schema.clone().map(|s| s.to_string.clone()).unwrap_or_else(|| DEFAULT_SCHEMA.into());
 
@@ -152,7 +157,7 @@ impl Indexer {
       for group_item in &table_group.items {
         let ident = match &group_item.schema {
           Some(item_schema) => {
-            (Some(item_schema.to_string.clone()), group_item.ident_alias.to_string.clone())
+            (item_schema.to_string.clone(), group_item.ident_alias.to_string.clone())
           }
           None => {
             match self.resolve_alias(&group_item.ident_alias.to_string) {
@@ -169,7 +174,7 @@ impl Indexer {
                   throw_err(Err::TableNotFound, &group_item.span_range, input)?;
                 }
 
-                (Some(DEFAULT_SCHEMA.to_string()), group_item.ident_alias.to_string.clone())
+                (DEFAULT_SCHEMA.to_string(), group_item.ident_alias.to_string.clone())
               }
             }
           }
@@ -250,7 +255,7 @@ impl Indexer {
       if let Some(col_set) = block.table_map.get(&table.to_string) {
         let unlisted_fields: Vec<_> = fields
           .iter()
-          .filter(|v| !col_set.contains(v.to_string.deref()))
+          .filter(|v| !col_set.contains(&v.to_string))
           .cloned()
           .collect();
 
@@ -273,7 +278,7 @@ impl Indexer {
   }
 
   /// Gets the schema (if has) and table name from the given alias.
-  pub fn resolve_alias(&self, table_alias: &String) -> Option<&(Option<String>, String)> {
+  pub fn resolve_alias(&self, table_alias: &String) -> Option<&(String, String)> {
     self.table_alias_map.get(table_alias)
   }
 
@@ -282,10 +287,10 @@ impl Indexer {
     match self.resolve_alias(&ident.table.to_string) {
       Some((schema, table)) => RefIdent {
         span_range: ident.span_range.clone(),
-        schema: schema.clone().map(|s| Ident {
-          span_range: 0..0,
-          raw: s.clone(),
-          to_string: s
+        schema: Some(Ident {
+          span_range: 0..0, // FIXME:
+          raw: schema.clone(),
+          to_string: schema.clone()
         }),
         table: Ident {
           span_range: ident.table.span_range.clone(),
