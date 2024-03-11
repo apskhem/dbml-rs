@@ -25,6 +25,12 @@ pub struct Indexer {
 
 impl Indexer {
   /// Collects and validates table identifiers and their fields.
+  /// 
+  /// # Errors
+  /// 
+  /// - `DuplicatedTableName`
+  /// - `DuplicatedColumnName`
+  /// - `DuplicatedAlias`
   pub(super) fn index_table(&mut self, tables: &Vec<&TableBlock>, input: &str) -> AnalyzerResult<()> {
     for table in tables {
       let TableIdent {
@@ -34,6 +40,17 @@ impl Indexer {
         alias,
       } = &table.ident;
 
+      let schema = schema.as_ref().map(|s| s.to_string.clone()).unwrap_or_else(|| DEFAULT_SCHEMA.to_owned());
+
+      let has_dup_ident = self.schema_map
+        .get(&schema)
+        .iter()
+        .any(|item| item.table_map.contains_key(&name.to_string));
+
+      if has_dup_ident {
+        throw_err(Err::DuplicatedTableName, &span_range, input)?;
+      }
+
       let mut indexed_cols = HashSet::new();
       for col in table.cols.iter() {
         match indexed_cols.get(&col.name.to_string) {
@@ -42,8 +59,7 @@ impl Indexer {
         };
       }
 
-      let schema_name = schema.clone().map(|s| s.to_string).unwrap_or_else(|| DEFAULT_SCHEMA.into());
-      match self.schema_map.get_mut(&schema_name) {
+      match self.schema_map.get_mut(&schema) {
         Some(index_block) => {
           index_block.table_map.insert(name.to_string.clone(), indexed_cols);
 
@@ -55,7 +71,7 @@ impl Indexer {
               None => {
                 self
                   .table_alias_map
-                  .insert(alias.to_string.clone(), (schema.clone().map(|s| s.to_string), name.to_string.clone()));
+                  .insert(alias.to_string.clone(), (Some(schema.clone()), name.to_string.clone()));
               }
             };
           }
@@ -68,10 +84,10 @@ impl Indexer {
           if let Some(alias) = alias {
             self
               .table_alias_map
-              .insert(alias.to_string.clone(), (schema.clone().map(|s| s.to_string), name.to_string.clone()));
+              .insert(alias.to_string.clone(), (Some(schema.clone()), name.to_string.clone()));
           }
 
-          self.schema_map.insert(schema_name, index_block);
+          self.schema_map.insert(schema, index_block);
         }
       }
     }
@@ -112,6 +128,12 @@ impl Indexer {
   }
 
   /// Collects and validates table group identifiers and their items.
+  /// 
+  /// # Errors
+  /// 
+  /// - `DuplicatedTableGroupName`
+  /// - `TableNotFound`
+  /// - `DuplicatedTableGroupItem`
   pub(super) fn index_table_groups(
     &mut self,
     table_groups: &Vec<&TableGroupBlock>,
@@ -130,8 +152,21 @@ impl Indexer {
           }
           None => {
             match self.resolve_alias(&group_item.ident_alias.to_string) {
-              Some(ident) => ident.clone(),
-              None => (Some(DEFAULT_SCHEMA.to_string()), group_item.ident_alias.to_string.clone())
+              Some(ident) => {
+                ident.clone()
+              },
+              None => {
+                let has_table = self.schema_map
+                  .get(DEFAULT_SCHEMA)
+                  .iter()
+                  .any(|item| item.table_map.contains_key(&group_item.ident_alias.to_string));
+
+                if !has_table {
+                  throw_err(Err::TableNotFound, &group_item.span_range, input)?;
+                }
+
+                (Some(DEFAULT_SCHEMA.to_string()), group_item.ident_alias.to_string.clone())
+              }
             }
           }
         };
