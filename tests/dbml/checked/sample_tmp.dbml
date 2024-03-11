@@ -23,7 +23,7 @@ Table users {
 }
 
 // Ref: users.(role, age) > orders.(status, number)
-Ref: users.role > orders.status
+// Ref: users.role > orders.status
 // Ref: users.role < orders.tmp
 
 Table posts as P {

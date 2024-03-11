@@ -351,56 +351,87 @@ impl IndexedRef {
     let rhs_ident = indexer.resolve_ref_alias(&self.rhs);
 
     if lhs_ident.compositions.len() != rhs_ident.compositions.len() {
-      panic!("relation composition must have number of fields equal in both side");
+      throw_err(Err::MismatchedCompositeForeignKey, &self.span_range, input)?;
     }
 
     indexer.lookup_table_fields(&lhs_ident.schema, &lhs_ident.table, &lhs_ident.compositions, input)?;
     indexer.lookup_table_fields(&rhs_ident.schema, &rhs_ident.table, &rhs_ident.compositions, input)?;
 
-    let lhs_table = tables
-      .iter()
-      .find(|table| {
-        table.ident.schema.clone().map(|s| s.to_string) == lhs_ident.schema.clone().map(|s| s.to_string)
-        && table.ident.name.to_string == lhs_ident.table.to_string
-      })
-      .ok_or_else(|| panic!("cannot find lhs table"))?;
+    let find_ref_table = |ref_ident: &RefIdent| -> AnalyzerResult<&TableBlock> {
+      tables
+        .iter()
+        .find(|table| {
+          table.ident.schema.clone().map(|s| s.to_string) == ref_ident.schema.clone().map(|s| s.to_string)
+          && table.ident.name.to_string == ref_ident.table.to_string
+        })
+        .map(Ok)
+        .unwrap_or_else(|| throw_err(Err::TableNotFound, &ref_ident.span_range, input))
+    };
+    let find_ref_col = |col_ident: &Ident, table: &TableBlock| -> AnalyzerResult<TableColumn> {
+      let col = table
+        .cols
+        .iter()
+        .find(|col| col.name.to_string == col_ident.to_string);
 
-    let rhs_table = tables
-      .iter()
-      .find(|table| {
-        table.ident.schema.clone().map(|s| s.to_string) == rhs_ident.schema.clone().map(|s| s.to_string)
-        && table.ident.name.to_string == rhs_ident.table.to_string
-      })
-      .ok_or_else(|| panic!("cannot find rhs table"))?;
+      match col {
+        Some(col) => Ok(col.clone()),
+        None => throw_err(Err::ColumnNotFound, &col_ident.span_range, input)
+      }
+    };
+
+    let lhs_table = find_ref_table(&lhs_ident)?;
+    let rhs_table = find_ref_table(&rhs_ident)?;
 
     let field_pairs = lhs_ident
       .compositions
       .iter()
       .zip(rhs_ident.compositions.iter());
 
-    for (l, r) in field_pairs.into_iter() {
-      let l_field = lhs_table
-        .cols
-        .iter()
-        .find(|col| col.name.to_string == l.to_string)
-        .ok_or_else(|| panic!("cannot find l col"))?;
-      let r_field = rhs_table
-        .cols
-        .iter()
-        .find(|col| col.name.to_string == r.to_string)
-        .ok_or_else(|| panic!("cannot find r col"))?;
+    for (l, r) in field_pairs {
+      let l_col = find_ref_col(l, &lhs_table)?;
+      let r_col = find_ref_col(r, &rhs_table)?;
 
-      let l_type = &l_field.r#type;
-      let r_type = &r_field.r#type;
+      let l_type = &l_col.r#type;
+      let r_type = &r_col.r#type;
       if l_type.type_name != r_type.type_name || l_type.args != r_type.args || l_type.arrays != r_type.arrays {
-        panic!("reference (composite) column type is mismatched");
+        let err = Err::MismatchedForeignKeyType {
+          r_ident: r.to_string.clone(),
+          l_ident: l.to_string.clone(),
+          r_type: r_type.raw.clone(),
+          l_type: l.raw.clone()
+        };
+
+        throw_err(err, &self.span_range, input)?;
       }
+
+      match (
+        self.rel.clone(),
+        l_col.settings.clone().is_some_and(|s| s.is_pk || s.is_unique),
+        r_col.settings.clone().is_some_and(|s| s.is_pk || s.is_unique)) {
+        (Relation::One2One, false, false) => {
+          throw_err(Err::InvalidForeignKeyOne2One, &self.lhs.span_range, input)?;
+        }
+        (Relation::Many2Many, false, false) => {
+          throw_err(Err::InvalidForeignKeyMany2Many, &self.lhs.span_range, input)?;
+        }
+        (Relation::One2Many, false, _) => {
+          throw_err(Err::InvalidForeignKey, &self.lhs.span_range, input)?;
+        }
+        (Relation::Many2One, _, false) => {
+          throw_err(Err::InvalidForeignKey, &self.rhs.span_range, input)?;
+        }
+        _ => ()
+      };
+    }
+
+    if self.rel == Relation::Many2Many {
+      // self.lhs.compositions.iter().all(|c| indexer.)
     }
 
     Ok(())
   }
 
-  fn normalized(self) -> Self {
+  fn normalize(self) -> Self {
     match self.rel {
       Relation::One2Many => {
         Self {
@@ -416,9 +447,10 @@ impl IndexedRef {
   }
 
   /// Check if both relations point to the same column.
+  /// Should use after calling `validate_ref_type`.
   pub fn occupy_same_column(&self, other: &Self, indexer: &Indexer) -> bool {
-    let self_normalized = self.clone().normalized();
-    let other_normalized = other.clone().normalized();
+    let self_normalized = self.clone().normalize();
+    let other_normalized = other.clone().normalize();
 
     let self_ident = indexer.resolve_ref_alias(&self.lhs);
     let other_ident = indexer.resolve_ref_alias(&other.lhs);

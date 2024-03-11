@@ -83,6 +83,15 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
     _ => throw_err(Err::ProjectSettingNotFound, &schema_block.span_range, input)?,
   }
 
+  // collect tables
+  let mut indexer = Indexer::default();
+  let mut indexed_refs: Vec<_> = refs.clone().into_iter().cloned().map(IndexedRef::from).collect();
+
+  // start indexing the schema
+  indexer.index_table(&tables, input)?;
+  indexer.index_enums(&enums, input)?;
+  indexer.index_table_groups(&table_groups, input)?;
+
   // index inside the table itself
   for table in &tables {
     let mut tmp_table_indexer = TableIndexer::default();
@@ -172,15 +181,6 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
       }
     }
   }
-
-  // collect tables
-  let mut indexer = Indexer::default();
-  let mut indexed_refs: Vec<_> = refs.clone().into_iter().cloned().map(IndexedRef::from).collect();
-
-  // start indexing the schema
-  indexer.index_table(&tables, input)?;
-  indexer.index_enums(&enums, input)?;
-  indexer.index_table_groups(&table_groups, input)?;
 
   // collect refs from tables
   for table in &tables {
@@ -394,14 +394,8 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
     .collect::<AnalyzerResult<_>>()?;
 
   // validate ref
-  for indexed_ref in indexed_refs.clone().into_iter() {
+  for indexed_ref in indexed_refs.clone() {
     indexed_ref.validate_ref_type(&tables, &indexer, input)?;
-
-    for r in indexed_refs.iter() {
-      if r.lhs.compositions.len() != r.rhs.compositions.len() {
-        throw_err(Err::MismatchedCompositeForeignKey, &indexed_ref.span_range, input)?;
-      }
-    }
 
     let count = indexed_refs
       .iter()

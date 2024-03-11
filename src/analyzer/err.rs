@@ -78,12 +78,16 @@ pub enum Err {
   EnumNotFound,
   #[display(fmt = "Enum value not found")]
   EnumValueNotFound,
-  #[display(fmt = "Mismatched foreign key type")]
-  MismatchedForeignKeyType,
+  #[display(fmt = "Mismatched foreign key type: '{}': '{}' (left) and '{}': '{}' (right) are incompatible", l_ident, l_type, r_ident, r_type)]
+  MismatchedForeignKeyType { r_ident: String, l_ident: String, r_type: String, l_type: String },
+  #[display(fmt = "Invalid foreign key: the referenced column is neither a primary key or a unique key")]
+  InvalidForeignKey,
+  #[display(fmt = "Invalid foreign key: either side of the one-to-one relation must be a primary key or a unique key")]
+  InvalidForeignKeyOne2One,
+  #[display(fmt = "Invalid foreign key: either side of the many-to-many relation must be a composite primary key or a composite unique key")]
+  InvalidForeignKeyMany2Many,
   #[display(fmt = "Mismatched composite foreign key")]
   MismatchedCompositeForeignKey,
-  #[display(fmt = "Unsupported syntax")]
-  UnsupportedSyntax,
 }
 
 pub(super) fn throw_err<T>(err: Err, span_range: &Range<usize>, input: &str) -> AnalyzerResult<T> {
