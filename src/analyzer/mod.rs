@@ -177,9 +177,9 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
   let mut indexed_refs: Vec<_> = refs.clone().into_iter().cloned().map(block::IndexedRefBlock::from).collect();
 
   // start indexing the schema
-  indexer.index_table(&tables, &input)?;
-  indexer.index_enums(&enums)?;
-  indexer.index_table_groups(&table_groups, &input)?;
+  indexer.index_table(&tables, input)?;
+  indexer.index_enums(&enums, input)?;
+  indexer.index_table_groups(&table_groups, input)?;
 
   // collect refs from tables
   for table in &tables {
@@ -386,11 +386,11 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
   // validate ref
   for indexed_ref in indexed_refs.clone().into_iter() {
-    indexed_ref.validate_ref_type(&tables, &indexer, &input)?;
+    indexed_ref.validate_ref_type(&tables, &indexer, input)?;
 
     for r in indexed_refs.iter() {
       if r.lhs.compositions.len() != r.rhs.compositions.len() {
-        throw_err(Err::MismatchedCompositeForeignKey, &indexed_ref.span_range, &input)?;
+        throw_err(Err::MismatchedCompositeForeignKey, &indexed_ref.span_range, input)?;
       }
     }
 
@@ -400,7 +400,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
       .count();
 
     if count != 1 {
-      throw_err(Err::DuplicatedRelation, &indexed_ref.span_range, &input)?;
+      throw_err(Err::DuplicatedRelation, &indexed_ref.span_range, input)?;
     }
   }
 

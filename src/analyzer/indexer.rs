@@ -24,7 +24,8 @@ pub struct Indexer {
 }
 
 impl Indexer {
-  pub fn index_table(&mut self, tables: &Vec<&TableBlock>, input: &str) -> AnalyzerResult<()> {
+  /// Collects and validates table identifiers and their fields.
+  pub(super) fn index_table(&mut self, tables: &Vec<&TableBlock>, input: &str) -> AnalyzerResult<()> {
     for table in tables {
       let TableIdent {
         span_range,
@@ -33,26 +34,28 @@ impl Indexer {
         alias,
       } = &table.ident;
 
-      let mut col_sets = HashSet::new();
+      let mut indexed_cols = HashSet::new();
       for col in table.cols.iter() {
-        match col_sets.get(&col.name.to_string) {
+        match indexed_cols.get(&col.name.to_string) {
           Some(col_name) => throw_err(Err::DuplicatedColumnName, &col.span_range, input)?,
-          None => col_sets.insert(col.name.to_string.clone())
+          None => indexed_cols.insert(col.name.to_string.clone())
         };
       }
 
       let schema_name = schema.clone().map(|s| s.to_string).unwrap_or_else(|| DEFAULT_SCHEMA.into());
       match self.schema_map.get_mut(&schema_name) {
         Some(index_block) => {
-          index_block.table_map.insert(name.to_string.clone(), col_sets);
+          index_block.table_map.insert(name.to_string.clone(), indexed_cols);
 
           if let Some(alias) = alias {
             match self.table_alias_map.get(&alias.to_string) {
-              Some(dup_alias) => panic!("alias_name_dup"),
+              Some(dup_alias) => {
+                throw_err(Err::DuplicatedAlias, &alias.span_range, input)?;
+              },
               None => {
                 self
                   .table_alias_map
-                  .insert(alias.to_string.clone(), (schema.clone().map(|s| s.to_string), name.to_string.clone()))
+                  .insert(alias.to_string.clone(), (schema.clone().map(|s| s.to_string), name.to_string.clone()));
               }
             };
           }
@@ -60,7 +63,7 @@ impl Indexer {
         None => {
           let mut index_block = IndexedSchemaBlock::default();
 
-          index_block.table_map.insert(name.to_string.clone(), col_sets);
+          index_block.table_map.insert(name.to_string.clone(), indexed_cols);
 
           if let Some(alias) = alias {
             self
@@ -76,7 +79,8 @@ impl Indexer {
     Ok(())
   }
 
-  pub fn index_enums(&mut self, enums: &Vec<&EnumBlock>) -> AnalyzerResult<()> {
+  /// Collects and validates enum identifiers and their values.
+  pub(super) fn index_enums(&mut self, enums: &Vec<&EnumBlock>, input: &str) -> AnalyzerResult<()> {
     for r#enum in enums.iter() {
       let EnumIdent { schema, name, .. } = r#enum.ident.clone();
 
@@ -85,71 +89,62 @@ impl Indexer {
 
       for value in r#enum.values.iter() {
         match value_sets.get(&value.value.to_string) {
-          Some(dup_col_name) => panic!("val_dup"),
+          Some(dup_col_name) => throw_err(Err::DuplicatedEnumValue, &value.span_range, input)?,
           None => value_sets.insert(value.value.to_string.clone())
         };
       }
 
-      if let Some(index_block) = self.schema_map.get_mut(&schema_name) {
-        index_block.enum_map.insert(name.to_string.clone(), value_sets);
-      } else {
-        let mut index_block = IndexedSchemaBlock::default();
+      match self.schema_map.get_mut(&schema_name) {
+        Some(index_block) => {
+          index_block.enum_map.insert(name.to_string.clone(), value_sets);
+        }
+        None => {
+          let mut index_block = IndexedSchemaBlock::default();
 
-        index_block.enum_map.insert(name.to_string.clone(), value_sets);
+          index_block.enum_map.insert(name.to_string.clone(), value_sets);
 
-        self.schema_map.insert(schema_name, index_block);
+          self.schema_map.insert(schema_name, index_block);
+        }
       }
     }
 
     Ok(())
   }
 
-  pub fn index_table_groups(
+  /// Collects and validates table group identifiers and their items.
+  pub(super) fn index_table_groups(
     &mut self,
     table_groups: &Vec<&TableGroupBlock>,
     input: &str,
   ) -> AnalyzerResult<()> {
-    for group_each in table_groups.into_iter() {
-      for table in group_each.items.iter() {
-        let ident_alias = table.ident_alias.clone();
-
-        let ident = if let Some(ident) = self.table_alias_map.get(&ident_alias.to_string) {
-          if table.schema.is_some() {
-            panic!("alias_must_not_followed_by_schema")
-          }
-
-          ident.1.clone()
-        } else {
-          ident_alias.to_string
-        };
-
-        self.lookup_table_fields(&table.schema, &Ident { span_range: 0..0, raw: String::new(), to_string: ident }, &vec![])?;
+    for table_group in table_groups {
+      if self.table_group_map.get(&table_group.ident.to_string).is_some() {
+        throw_err(Err::DuplicatedTableGroupName, &table_group.ident.span_range, input)?;
       }
 
-      let mut table_sets = HashSet::new();
-
-      for table_ident in group_each.items.iter() {
-        if let Some(ident) = self.resolve_alias(&table_ident.ident_alias.to_string) {
-          if let Some(_) = table_sets.get(ident) {
-            panic!("table_group_table_dup");
-          } else {
-            table_sets.insert(ident.clone());
+      let mut indexed_items = HashSet::new();
+      for group_item in &table_group.items {
+        let ident = match &group_item.schema {
+          Some(item_schema) => {
+            (Some(item_schema.to_string.clone()), group_item.ident_alias.to_string.clone())
           }
-        } else {
-          let ident = (table_ident.schema.clone(), table_ident.ident_alias.clone());
-          let ident_string = (ident.0.map(|s| s.to_string), ident.1.to_string);
-
-          if let Some(_) = table_sets.get(&ident_string) {
-            panic!("table_group_table_dup");
-          } else {
-            table_sets.insert(ident_string.clone());
+          None => {
+            match self.resolve_alias(&group_item.ident_alias.to_string) {
+              Some(ident) => ident.clone(),
+              None => (None, group_item.ident_alias.to_string.clone())
+            }
           }
-        }
+        };
+
+        match indexed_items.get(&ident) {
+          Some(_) => throw_err(Err::DuplicatedTableGroupItem, &group_item.span_range, input)?,
+          None => indexed_items.insert(ident),
+        };
       }
 
       self
         .table_group_map
-        .insert(group_each.ident.to_string.clone(), table_sets);
+        .insert(table_group.ident.to_string.clone(), indexed_items);
     }
 
     Ok(())
@@ -163,23 +158,26 @@ impl Indexer {
   ) -> AnalyzerResult<()> {
     let schema = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
 
-    if let Some(block) = self.schema_map.get(&schema) {
-      match block.enum_map.get(enum_name) {
-        Some(value_set) => {
-          for v in values.iter() {
-            if !value_set.contains(v) {
-              panic!("not found '{}' value in enum '{}'", v, enum_name);
+    match self.schema_map.get(&schema) {
+      Some(block) => {
+        match block.enum_map.get(enum_name) {
+          Some(value_set) => {
+            for v in values.iter() {
+              if !value_set.contains(v) {
+                panic!("not found '{}' value in enum '{}'", v, enum_name);
+              }
             }
+  
+            Ok(())
+          },
+          None => {
+            panic!("enum_not_found");
           }
-
-          Ok(())
-        },
-        None => {
-          panic!("enum_not_found");
         }
       }
-    } else {
-      panic!("schema_not_found");
+      None => {
+        panic!("schema_not_found");
+      }
     }
   }
 

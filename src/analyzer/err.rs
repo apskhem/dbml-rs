@@ -44,6 +44,10 @@ pub enum Err {
   DuplicatedEnumValue,
   #[display(fmt = "Duplicated table group name")]
   DuplicatedTableGroupName,
+  #[display(fmt = "Duplicated table group item")]
+  DuplicatedTableGroupItem,
+  #[display(fmt = "Duplicated alias")]
+  DuplicatedAlias,
   #[display(fmt = "Conflicted nullable setting: 'null' and 'not null' must not appear within the same setting")]
   ConflictedNullableSetting,
   #[display(fmt = "Project setting not found")]
