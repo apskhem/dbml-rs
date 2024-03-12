@@ -420,7 +420,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
     .collect::<AnalyzerResult<_>>()?;
 
   // validate ref
-  for indexed_ref in indexed_refs.clone() {
+  for indexed_ref in &indexed_refs {
     indexed_ref.validate_ref_type(&tables, &indexer, input)?;
 
     let count = indexed_refs

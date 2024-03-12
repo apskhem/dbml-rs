@@ -184,7 +184,7 @@ pub struct ColumnSettings {
   /// A default value for the column.
   pub default: Option<Value>,
   /// A vector of inline references associated with the column.
-  pub refs: Vec<refs::RefInline>,
+  pub refs: Vec<RefInline>,
 }
 
 /// A struct representing a table identifier.

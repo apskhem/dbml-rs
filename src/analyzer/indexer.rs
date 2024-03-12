@@ -110,10 +110,10 @@ impl Indexer {
         schema,
         name,
         ..
-      } = r#enum.ident.clone();
+      } = &r#enum.ident;
 
       let schema = schema
-        .clone()
+        .as_ref()
         .map(|s| s.to_string.clone())
         .unwrap_or_else(|| DEFAULT_SCHEMA.into());
 
@@ -222,7 +222,7 @@ impl Indexer {
     enum_name: &String,
     values: &Vec<String>,
   ) -> (bool, (bool, Vec<bool>)) {
-    let schema = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.into());
+    let schema = schema.clone().unwrap_or_else(|| DEFAULT_SCHEMA.to_string());
 
     match self.schema_map.get(&schema) {
       Some(block) => {
@@ -357,7 +357,7 @@ impl IndexedRef {
       tables
         .iter()
         .find(|table| {
-          table.ident.schema.clone().map(|s| s.to_string) == ref_ident.schema.clone().map(|s| s.to_string)
+          table.ident.schema.as_ref().map(|s| &s.to_string) == ref_ident.schema.as_ref().map(|s| &s.to_string)
             && table.ident.name.to_string == ref_ident.table.to_string
         })
         .map(Ok)
