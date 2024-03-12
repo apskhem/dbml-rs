@@ -57,43 +57,39 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 175..187,
-                        attributes: [],
                         value: Ident {
                             span_range: 175..184,
                             raw: "\"created\"",
                             to_string: "created",
                         },
-                        note: None,
+                        settings: None,
                     },
                     EnumValue {
                         span_range: 187..199,
-                        attributes: [],
                         value: Ident {
                             span_range: 187..196,
                             raw: "\"running\"",
                             to_string: "running",
                         },
-                        note: None,
+                        settings: None,
                     },
                     EnumValue {
                         span_range: 199..208,
-                        attributes: [],
                         value: Ident {
                             span_range: 199..205,
                             raw: "\"done\"",
                             to_string: "done",
                         },
-                        note: None,
+                        settings: None,
                     },
                     EnumValue {
                         span_range: 208..218,
-                        attributes: [],
                         value: Ident {
                             span_range: 208..217,
                             raw: "\"failure\"",
                             to_string: "failure",
                         },
-                        note: None,
+                        settings: None,
                     },
                 ],
             },
@@ -113,23 +109,21 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 247..264,
-                        attributes: [],
                         value: Ident {
                             span_range: 247..261,
                             raw: "\"Out of Stock\"",
                             to_string: "Out of Stock",
                         },
-                        note: None,
+                        settings: None,
                     },
                     EnumValue {
                         span_range: 264..275,
-                        attributes: [],
                         value: Ident {
                             span_range: 264..274,
                             raw: "\"In Stock\"",
                             to_string: "In Stock",
                         },
-                        note: None,
+                        settings: None,
                     },
                 ],
             },

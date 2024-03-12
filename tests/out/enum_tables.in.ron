@@ -17,112 +17,125 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 20..61,
-                        attributes: [
-                            Attribute {
-                                span_range: 29..60,
-                                key: Ident {
-                                    span_range: 29..33,
-                                    raw: "note",
-                                    to_string: "note",
-                                },
-                                value: Some(
-                                    Literal {
-                                        span_range: 35..60,
-                                        raw: "'Job created and pending'",
-                                        value: String(
-                                            "Job created and pending",
-                                        ),
-                                    },
-                                ),
-                            },
-                        ],
                         value: Ident {
                             span_range: 20..27,
                             raw: "created",
                             to_string: "created",
                         },
-                        note: Some(
-                            "Job created and pending",
+                        settings: Some(
+                            EnumValueSettings {
+                                span_range: 28..61,
+                                attributes: [
+                                    Attribute {
+                                        span_range: 29..60,
+                                        key: Ident {
+                                            span_range: 29..33,
+                                            raw: "note",
+                                            to_string: "note",
+                                        },
+                                        value: Some(
+                                            Literal {
+                                                span_range: 35..60,
+                                                raw: "'Job created and pending'",
+                                                value: String(
+                                                    "Job created and pending",
+                                                ),
+                                            },
+                                        ),
+                                    },
+                                ],
+                                note: Some(
+                                    "Job created and pending",
+                                ),
+                            },
                         ),
                     },
                     EnumValue {
                         span_range: 64..114,
-                        attributes: [
-                            Attribute {
-                                span_range: 73..113,
-                                key: Ident {
-                                    span_range: 73..77,
-                                    raw: "note",
-                                    to_string: "note",
-                                },
-                                value: Some(
-                                    Literal {
-                                        span_range: 79..113,
-                                        raw: "'Waiting for warehouse to process'",
-                                        value: String(
-                                            "Waiting for warehouse to process",
-                                        ),
-                                    },
-                                ),
-                            },
-                        ],
                         value: Ident {
                             span_range: 64..71,
                             raw: "running",
                             to_string: "running",
                         },
-                        note: Some(
-                            "Waiting for warehouse to process",
+                        settings: Some(
+                            EnumValueSettings {
+                                span_range: 72..114,
+                                attributes: [
+                                    Attribute {
+                                        span_range: 73..113,
+                                        key: Ident {
+                                            span_range: 73..77,
+                                            raw: "note",
+                                            to_string: "note",
+                                        },
+                                        value: Some(
+                                            Literal {
+                                                span_range: 79..113,
+                                                raw: "'Waiting for warehouse to process'",
+                                                value: String(
+                                                    "Waiting for warehouse to process",
+                                                ),
+                                            },
+                                        ),
+                                    },
+                                ],
+                                note: Some(
+                                    "Waiting for warehouse to process",
+                                ),
+                            },
                         ),
                     },
                     EnumValue {
                         span_range: 117..124,
-                        attributes: [],
                         value: Ident {
                             span_range: 117..121,
                             raw: "done",
                             to_string: "done",
                         },
-                        note: None,
+                        settings: None,
                     },
                     EnumValue {
                         span_range: 124..132,
-                        attributes: [],
                         value: Ident {
                             span_range: 124..130,
                             raw: "failed",
                             to_string: "failed",
                         },
-                        note: None,
+                        settings: None,
                     },
                     EnumValue {
                         span_range: 132..196,
-                        attributes: [
-                            Attribute {
-                                span_range: 155..195,
-                                key: Ident {
-                                    span_range: 155..159,
-                                    raw: "note",
-                                    to_string: "note",
-                                },
-                                value: Some(
-                                    Literal {
-                                        span_range: 161..195,
-                                        raw: "'Enum label that has white spaces'",
-                                        value: String(
-                                            "Enum label that has white spaces",
-                                        ),
-                                    },
-                                ),
-                            },
-                        ],
                         value: Ident {
                             span_range: 132..153,
                             raw: "\"wait for validation\"",
                             to_string: "wait for validation",
                         },
-                        note: Some(
-                            "Enum label that has white spaces",
+                        settings: Some(
+                            EnumValueSettings {
+                                span_range: 154..196,
+                                attributes: [
+                                    Attribute {
+                                        span_range: 155..195,
+                                        key: Ident {
+                                            span_range: 155..159,
+                                            raw: "note",
+                                            to_string: "note",
+                                        },
+                                        value: Some(
+                                            Literal {
+                                                span_range: 161..195,
+                                                raw: "'Enum label that has white spaces'",
+                                                value: String(
+                                                    "Enum label that has white spaces",
+                                                ),
+                                            },
+                                        ),
+                                    },
+                                ],
+                                note: Some(
+                                    "Enum label that has white spaces",
+                                ),
+                            },
                         ),
                     },
                 ],
@@ -253,63 +266,65 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 310..341,
-                        attributes: [
-                            Attribute {
-                                span_range: 319..340,
-                                key: Ident {
-                                    span_range: 319..323,
-                                    raw: "note",
-                                    to_string: "note",
-                                },
-                                value: Some(
-                                    Literal {
-                                        span_range: 325..340,
-                                        raw: "'Order created'",
-                                        value: String(
-                                            "Order created",
-                                        ),
-                                    },
-                                ),
-                            },
-                        ],
                         value: Ident {
                             span_range: 310..317,
                             raw: "created",
                             to_string: "created",
                         },
-                        note: Some(
-                            "Order created",
+                        settings: Some(
+                            EnumValueSettings {
+                                span_range: 318..341,
+                                attributes: [
+                                    Attribute {
+                                        span_range: 319..340,
+                                        key: Ident {
+                                            span_range: 319..323,
+                                            raw: "note",
+                                            to_string: "note",
+                                        },
+                                        value: Some(
+                                            Literal {
+                                                span_range: 325..340,
+                                                raw: "'Order created'",
+                                                value: String(
+                                                    "Order created",
+                                                ),
+                                            },
+                                        ),
+                                    },
+                                ],
+                                note: Some(
+                                    "Order created",
+                                ),
+                            },
                         ),
                     },
                     EnumValue {
                         span_range: 344..354,
-                        attributes: [],
                         value: Ident {
                             span_range: 344..351,
                             raw: "pending",
                             to_string: "pending",
                         },
-                        note: None,
+                        settings: None,
                     },
                     EnumValue {
                         span_range: 354..367,
-                        attributes: [],
                         value: Ident {
                             span_range: 354..364,
                             raw: "processing",
                             to_string: "processing",
                         },
-                        note: None,
+                        settings: None,
                     },
                     EnumValue {
                         span_range: 367..377,
-                        attributes: [],
                         value: Ident {
                             span_range: 367..376,
                             raw: "completed",
                             to_string: "completed",
                         },
-                        note: None,
+                        settings: None,
                     },
                 ],
             },

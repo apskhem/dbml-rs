@@ -290,72 +290,81 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 338..353,
-                        attributes: [],
                         value: Ident {
                             span_range: 338..350,
                             raw: "out_of_stock",
                             to_string: "out_of_stock",
                         },
-                        note: None,
+                        settings: None,
                     },
                     EnumValue {
                         span_range: 353..380,
-                        attributes: [
-                            Attribute {
-                                span_range: 363..379,
-                                key: Ident {
-                                    span_range: 363..367,
-                                    raw: "note",
-                                    to_string: "note",
-                                },
-                                value: Some(
-                                    Literal {
-                                        span_range: 369..379,
-                                        raw: "'In stock'",
-                                        value: String(
-                                            "In stock",
-                                        ),
-                                    },
-                                ),
-                            },
-                        ],
                         value: Ident {
                             span_range: 353..361,
                             raw: "in_stock",
                             to_string: "in_stock",
                         },
-                        note: Some(
-                            "In stock",
+                        settings: Some(
+                            EnumValueSettings {
+                                span_range: 362..380,
+                                attributes: [
+                                    Attribute {
+                                        span_range: 363..379,
+                                        key: Ident {
+                                            span_range: 363..367,
+                                            raw: "note",
+                                            to_string: "note",
+                                        },
+                                        value: Some(
+                                            Literal {
+                                                span_range: 369..379,
+                                                raw: "'In stock'",
+                                                value: String(
+                                                    "In stock",
+                                                ),
+                                            },
+                                        ),
+                                    },
+                                ],
+                                note: Some(
+                                    "In stock",
+                                ),
+                            },
                         ),
                     },
                     EnumValue {
                         span_range: 383..417,
-                        attributes: [
-                            Attribute {
-                                span_range: 396..416,
-                                key: Ident {
-                                    span_range: 396..400,
-                                    raw: "note",
-                                    to_string: "note",
-                                },
-                                value: Some(
-                                    Literal {
-                                        span_range: 402..416,
-                                        raw: "'less than 20'",
-                                        value: String(
-                                            "less than 20",
-                                        ),
-                                    },
-                                ),
-                            },
-                        ],
                         value: Ident {
                             span_range: 383..394,
                             raw: "running_low",
                             to_string: "running_low",
                         },
-                        note: Some(
-                            "less than 20",
+                        settings: Some(
+                            EnumValueSettings {
+                                span_range: 395..417,
+                                attributes: [
+                                    Attribute {
+                                        span_range: 396..416,
+                                        key: Ident {
+                                            span_range: 396..400,
+                                            raw: "note",
+                                            to_string: "note",
+                                        },
+                                        value: Some(
+                                            Literal {
+                                                span_range: 402..416,
+                                                raw: "'less than 20'",
+                                                value: String(
+                                                    "less than 20",
+                                                ),
+                                            },
+                                        ),
+                                    },
+                                ],
+                                note: Some(
+                                    "less than 20",
+                                ),
+                            },
                         ),
                     },
                 ],

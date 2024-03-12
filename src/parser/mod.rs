@@ -375,21 +375,28 @@ fn parse_enum_value(pair: Pair<Rule>) -> ParserResult<EnumValue> {
     match p1.as_rule() {
       Rule::ident => acc.value = parse_ident(p1)?,
       Rule::enum_settings => {
+        let mut settings = EnumValueSettings {
+          span_range: s2r(p1.as_span()),
+          ..Default::default()
+        };
+
         for p2 in p1.into_inner() {
           match p2.as_rule() {
             Rule::attribute => {
               let attr = parse_attribute(p2)?;
 
               match attr.key.to_string.as_str() {
-                "note" => acc.note = attr.value.clone().map(|v| v.value.to_string()),
+                "note" => settings.note = attr.value.clone().map(|v| v.value.to_string()),
                 _ => (),
               }
 
-              acc.attributes.push(attr);
+              settings.attributes.push(attr);
             }
             _ => throw_rules(&[Rule::attribute], p2)?,
           }
         }
+
+        acc.settings = Some(settings);
       }
       _ => throw_rules(&[Rule::ident, Rule::enum_settings], p1)?,
     }

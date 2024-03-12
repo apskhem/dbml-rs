@@ -114,7 +114,9 @@ impl Indexer {
 
       let mut value_sets = BTreeSet::new();
       for value in r#enum.values.iter() {
-        check_attr_duplicate_keys(&value.attributes, input)?;
+        if let Some(settings) = &value.settings {
+          check_attr_duplicate_keys(&settings.attributes, input)?;
+        }
 
         if !value_sets.insert(value.value.to_string.clone()) {
           throw_err(Err::DuplicateEnumValue, &value.span_range, input)?;

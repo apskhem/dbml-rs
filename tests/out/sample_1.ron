@@ -704,52 +704,55 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 1036..1044,
-                        attributes: [],
                         value: Ident {
                             span_range: 1036..1041,
                             raw: "draft",
                             to_string: "draft",
                         },
-                        note: None,
+                        settings: None,
                     },
                     EnumValue {
                         span_range: 1044..1056,
-                        attributes: [],
                         value: Ident {
                             span_range: 1044..1053,
                             raw: "published",
                             to_string: "published",
                         },
-                        note: None,
+                        settings: None,
                     },
                     EnumValue {
                         span_range: 1056..1094,
-                        attributes: [
-                            Attribute {
-                                span_range: 1065..1093,
-                                key: Ident {
-                                    span_range: 1065..1069,
-                                    raw: "note",
-                                    to_string: "note",
-                                },
-                                value: Some(
-                                    Literal {
-                                        span_range: 1071..1093,
-                                        raw: "'visible via URL only'",
-                                        value: String(
-                                            "visible via URL only",
-                                        ),
-                                    },
-                                ),
-                            },
-                        ],
                         value: Ident {
                             span_range: 1056..1063,
                             raw: "private",
                             to_string: "private",
                         },
-                        note: Some(
-                            "visible via URL only",
+                        settings: Some(
+                            EnumValueSettings {
+                                span_range: 1064..1094,
+                                attributes: [
+                                    Attribute {
+                                        span_range: 1065..1093,
+                                        key: Ident {
+                                            span_range: 1065..1069,
+                                            raw: "note",
+                                            to_string: "note",
+                                        },
+                                        value: Some(
+                                            Literal {
+                                                span_range: 1071..1093,
+                                                raw: "'visible via URL only'",
+                                                value: String(
+                                                    "visible via URL only",
+                                                ),
+                                            },
+                                        ),
+                                    },
+                                ],
+                                note: Some(
+                                    "visible via URL only",
+                                ),
+                            },
                         ),
                     },
                 ],
@@ -770,43 +773,39 @@ SchemaBlock {
                 values: [
                     EnumValue {
                         span_range: 1113..1120,
-                        attributes: [],
                         value: Ident {
                             span_range: 1113..1117,
                             raw: "\"A+\"",
                             to_string: "A+",
                         },
-                        note: None,
+                        settings: None,
                     },
                     EnumValue {
                         span_range: 1120..1126,
-                        attributes: [],
                         value: Ident {
                             span_range: 1120..1123,
                             raw: "\"A\"",
                             to_string: "A",
                         },
-                        note: None,
+                        settings: None,
                     },
                     EnumValue {
                         span_range: 1126..1133,
-                        attributes: [],
                         value: Ident {
                             span_range: 1126..1130,
                             raw: "\"A-\"",
                             to_string: "A-",
                         },
-                        note: None,
+                        settings: None,
                     },
                     EnumValue {
                         span_range: 1133..1147,
-                        attributes: [],
                         value: Ident {
                             span_range: 1133..1146,
                             raw: "\"Not Yet Set\"",
                             to_string: "Not Yet Set",
                         },
-                        note: None,
+                        settings: None,
                     },
                 ],
             },

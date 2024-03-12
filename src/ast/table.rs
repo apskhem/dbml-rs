@@ -169,7 +169,7 @@ impl FromStr for ColumnTypeName {
 pub struct ColumnSettings {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
-  /// A vector of key-value pairs representing properties of the column.
+  /// A vector of key and optional value pairs representing attributes of the column.
   pub attributes: Vec<Attribute>,
   /// A boolean indicating if the column is a primary key.
   pub is_pk: bool,
