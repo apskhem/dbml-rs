@@ -37,6 +37,10 @@ impl Indexer {
   /// - `DuplicateAlias`
   pub(super) fn index_table(&mut self, tables: &Vec<&TableBlock>, input: &str) -> AnalyzerResult<()> {
     for table in tables {
+      if let Some(settings) = &table.settings {
+        check_attr_duplicate_keys(&settings.attributes, input)?;
+      }
+
       let TableIdent {
         span_range,
         schema,
@@ -55,42 +59,29 @@ impl Indexer {
 
       let mut indexed_cols = BTreeSet::new();
       for col in table.cols.iter() {
-        match indexed_cols.get(&col.name.to_string) {
-          Some(_) => throw_err(Err::DuplicateColumnName, &col.span_range, input)?,
-          None => indexed_cols.insert(col.name.to_string.clone()),
-        };
+        if let Some(settings) = &col.settings {
+          check_attr_duplicate_keys(&settings.attributes, input)?;
+        }
+
+        if !indexed_cols.insert(col.name.to_string.clone()) {
+          throw_err(Err::DuplicateColumnName, &col.span_range, input)?;
+        }
       }
 
-      match self.schema_map.get_mut(&schema) {
-        Some(index_block) => {
-          index_block.table_map.insert(name.to_string.clone(), indexed_cols);
+      self
+        .schema_map
+        .entry(schema.clone())
+        .or_insert_with(IndexedSchemaBlock::default)
+        .table_map
+        .insert(name.to_string.clone(), indexed_cols);
 
-          if let Some(alias) = alias {
-            match self.table_alias_map.get(&alias.to_string) {
-              Some(_) => {
-                throw_err(Err::DuplicateAlias, &alias.span_range, input)?;
-              }
-              None => {
-                self
-                  .table_alias_map
-                  .insert(alias.to_string.clone(), (schema.clone(), name.to_string.clone()));
-              }
-            };
-          }
-        }
-        None => {
-          let mut index_block = IndexedSchemaBlock::default();
-
-          index_block.table_map.insert(name.to_string.clone(), indexed_cols);
-
-          if let Some(alias) = alias {
-            self
-              .table_alias_map
-              .insert(alias.to_string.clone(), (schema.clone(), name.to_string.clone()));
-          }
-
-          self.schema_map.insert(schema, index_block);
-        }
+      if let Some(alias) = alias {
+        if let Some(_) = self
+          .table_alias_map
+          .insert(alias.to_string.clone(), (schema.clone(), name.to_string.clone()))
+        {
+          throw_err(Err::DuplicateAlias, &alias.span_range, input)?;
+        };
       }
     }
 
@@ -123,24 +114,19 @@ impl Indexer {
 
       let mut value_sets = BTreeSet::new();
       for value in r#enum.values.iter() {
-        match value_sets.get(&value.value.to_string) {
-          Some(_) => throw_err(Err::DuplicateEnumValue, &value.span_range, input)?,
-          None => value_sets.insert(value.value.to_string.clone()),
-        };
-      }
+        check_attr_duplicate_keys(&value.attributes, input)?;
 
-      match self.schema_map.get_mut(&schema) {
-        Some(index_block) => {
-          index_block.enum_map.insert(name.to_string.clone(), value_sets);
-        }
-        None => {
-          let mut index_block = IndexedSchemaBlock::default();
-
-          index_block.enum_map.insert(name.to_string.clone(), value_sets);
-
-          self.schema_map.insert(schema, index_block);
+        if !value_sets.insert(value.value.to_string.clone()) {
+          throw_err(Err::DuplicateEnumValue, &value.span_range, input)?;
         }
       }
+
+      self
+        .schema_map
+        .entry(schema)
+        .or_insert_with(IndexedSchemaBlock::default)
+        .enum_map
+        .insert(name.to_string.clone(), value_sets);
     }
 
     Ok(())
@@ -183,10 +169,9 @@ impl Indexer {
           }
         };
 
-        match indexed_items.get(&ident) {
-          Some(_) => throw_err(Err::DuplicateTableGroupItem, &group_item.span_range, input)?,
-          None => indexed_items.insert(ident),
-        };
+        if !indexed_items.insert(ident) {
+          throw_err(Err::DuplicateTableGroupItem, &group_item.span_range, input)?;
+        }
       }
 
       self

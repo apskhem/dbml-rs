@@ -119,8 +119,6 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
             .push(BTreeSet::from([col.name.to_string.clone()]))
         }
 
-        check_attr_duplicate_keys(&settings.attributes, input)?;
-
         let filtered: BTreeSet<_> = settings
           .attributes
           .iter()
@@ -173,6 +171,8 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
         match &def.settings {
           Some(settings) => {
+            check_attr_duplicate_keys(&settings.attributes, input)?;
+
             if vec![settings.is_pk, settings.is_unique, settings.r#type.is_some()]
               .into_iter()
               .filter(|x| *x)
@@ -421,6 +421,10 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
   // validate ref
   for indexed_ref in &indexed_refs {
+    if let Some(settings) = &indexed_ref.settings {
+      check_attr_duplicate_keys(&settings.attributes, input)?;
+    }
+
     indexed_ref.validate_ref_type(&tables, &indexer, input)?;
 
     let count = indexed_refs
