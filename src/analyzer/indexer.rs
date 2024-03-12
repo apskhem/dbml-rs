@@ -379,17 +379,17 @@ impl IndexedRef {
     let is_valid_composite = |compositions: &Vec<Ident>, table_indexes: &Option<IndexesBlock>| -> bool {
       table_indexes.as_ref().map(|indexes| {
         indexes.defs.iter().any(|def_item| {
-          let composition_cols = BTreeSet::from_iter(compositions.iter().map(|s| s.to_string.clone()));
-          let indexes_cols = BTreeSet::from_iter(def_item.cols.iter().filter_map(|s| {
-            match s {
-              IndexesColumnType::String(s) => Some(s.to_string.clone()),
-              _ => None
-            }
-          }));
-
           compositions.len() == def_item.cols.len()
           && def_item.settings.as_ref().is_some_and(|s| s.is_pk || s.is_unique)
-          && composition_cols == indexes_cols
+          && eq_elements(
+            compositions.iter().map(|s| &s.to_string),
+            def_item.cols.iter().filter_map(|s| {
+              match s {
+                IndexesColumnType::String(s) => Some(&s.to_string),
+                _ => None
+              }
+            })
+          )
         })
       }).unwrap_or_default()
     };
@@ -421,18 +421,18 @@ impl IndexedRef {
 
       if composition_len == 1 {
         let err = match (
-          self.rel.clone(),
-          l_col.settings.clone().is_some_and(|s| s.is_pk || s.is_unique),
-          r_col.settings.clone().is_some_and(|s| s.is_pk || s.is_unique)) {
-          (Relation::One2One, false, false) => Some(InvalidForeignKeyErr::One2One),
-          (Relation::Many2Many, false, false) => Some(InvalidForeignKeyErr::Many2Many),
-          (Relation::One2Many, false, _) => Some(InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKey),
-          (Relation::Many2One, _, false) => Some(InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKey),
+          &self.rel,
+          l_col.settings.as_ref().is_some_and(|s| s.is_pk || s.is_unique),
+          r_col.settings.as_ref().is_some_and(|s| s.is_pk || s.is_unique)) {
+          (Relation::One2One, false, false) => Some((InvalidForeignKeyErr::One2One, &self.span_range)),
+          (Relation::Many2Many, false, false) => Some((InvalidForeignKeyErr::Many2Many, &self.span_range)),
+          (Relation::One2Many, false, _) => Some((InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKey, &self.lhs.span_range)),
+          (Relation::Many2One, _, false) => Some((InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKey, &self.rhs.span_range)),
           _ => None
         };
 
-        if let Some(err) = err {
-          throw_err(Err::InvalidForeignKey { err }, &self.lhs.span_range, input)?;
+        if let Some((err, span_range)) = err {
+          throw_err(Err::InvalidForeignKey { err }, &span_range, input)?;
         }
       }
     }
@@ -444,18 +444,18 @@ impl IndexedRef {
 
         let err = match self.rel {
           Relation::One2One
-          if !is_valid_lhs && !is_valid_rhs =>  Some(InvalidForeignKeyErr::One2OneComposite),
+          if !is_valid_lhs && !is_valid_rhs =>  Some((InvalidForeignKeyErr::One2OneComposite, &self.span_range)),
           Relation::Many2Many
-          if !is_valid_lhs || !is_valid_rhs => Some(InvalidForeignKeyErr::Many2ManyComposite),
+          if !is_valid_lhs || !is_valid_rhs => Some((InvalidForeignKeyErr::Many2ManyComposite, &self.span_range)),
           Relation::One2Many
-          if !is_valid_lhs => Some(InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKeyComposite),
+          if !is_valid_lhs => Some((InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKeyComposite, &self.lhs.span_range)),
           Relation::Many2One
-          if !is_valid_rhs => Some(InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKeyComposite),
+          if !is_valid_rhs => Some((InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKeyComposite, &self.rhs.span_range)),
           _ => None
         };
 
-        if let Some(err) = err {
-          throw_err(Err::InvalidForeignKey { err }, &self.lhs.span_range, input)?;
+        if let Some((err, span_range)) = err {
+          throw_err(Err::InvalidForeignKey { err }, &span_range, input)?;
         }
       }
       _ => ()
@@ -464,36 +464,50 @@ impl IndexedRef {
     Ok(())
   }
 
-  fn normalize(self) -> Self {
-    match self.rel {
-      Relation::One2Many => {
-        Self {
-          span_range: self.span_range,
-          rel: Relation::Many2One,
-          lhs: self.rhs,
-          rhs: self.lhs,
-          settings: self.settings
-        }
-      }
-      _ => self
-    }
-  }
-
   /// Check if both relations point to the same column.
   /// Should use after calling `validate_ref_type`.
   pub fn occupy_same_column(&self, other: &Self, indexer: &Indexer) -> bool {
-    let self_normalized = self.clone().normalize();
-    let other_normalized = other.clone().normalize();
+    let eq_ident = |lhs: &RefIdent, rhs: &RefIdent| -> bool {
+      lhs.schema.as_ref().map(|s| &s.to_string) == rhs.schema.as_ref().map(|s| &s.to_string)
+      && lhs.table.to_string == rhs.table.to_string
+      && eq_elements(lhs.compositions.iter().map(|s| &s.to_string), rhs.compositions.iter().map(|s| &s.to_string))
+    };
 
-    let self_ident = indexer.resolve_ref_alias(&self.lhs);
-    let other_ident = indexer.resolve_ref_alias(&other.lhs);
+    match (&self.rel, &other.rel) {
+      (Relation::Many2Many, Relation::Many2Many) => {
+        [&self.lhs, &self.rhs].iter().all(|self_side| {
+          [&other.lhs, &other.rhs].iter().any(|other_side| {
+            let self_ident = indexer.resolve_ref_alias(self_side);
+            let other_ident = indexer.resolve_ref_alias(other_side);
 
-    let self_compositions = self_ident.compositions.iter().map(|s| s.to_string.clone()).collect::<Vec<_>>();
-    let other_compositions = other_ident.compositions.iter().map(|s| s.to_string.clone()).collect::<Vec<_>>();
+            eq_ident(&self_ident, &other_ident)
+          })
+        })
+      }
+      _ => {
+        // TODO: add support for one-to-one relation validation
+        let self_occupied_ident = match &self.rel {
+          Relation::Many2One => Some(&self.lhs),
+          Relation::One2Many => Some(&self.rhs),
+          _ => None
+        };
+        let other_occupied_ident = match &other.rel {
+          Relation::Many2One => Some(&other.lhs),
+          Relation::One2Many => Some(&other.rhs),
+          _ => None
+        };
 
-    self_compositions == other_compositions
-    && self_ident.schema.map(|s| s.to_string) == other_ident.schema.map(|s| s.to_string)
-    && self_ident.table.to_string == other_ident.table.to_string
+        match (self_occupied_ident, other_occupied_ident) {
+          (Some(self_ident), Some(other_ident)) => {
+            let self_ident = indexer.resolve_ref_alias(self_ident);
+            let other_ident = indexer.resolve_ref_alias(other_ident);
+
+            eq_ident(&self_ident, &other_ident)
+          }
+          _ => false
+        }
+      }
+    }
   }
 }
 

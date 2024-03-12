@@ -36,8 +36,8 @@ pub enum Err {
   DuplicatedTableName,
   #[display(fmt = "Duplicated column name")]
   DuplicatedColumnName,
-  #[display(fmt = "Duplicated relation")]
-  DuplicatedRelation,
+  #[display(fmt = "Conflict relation")]
+  ConflictRelation,
   #[display(fmt = "Duplicated enum name")]
   DuplicatedEnumName,
   #[display(fmt = "Duplicated enum value")]
@@ -98,7 +98,7 @@ pub enum InvalidForeignKeyErr {
   One2One,
   #[display(fmt = "either side of the composite one-to-one relation must be a composite primary key or a composite unique key")]
   One2OneComposite,
-  #[display(fmt = "Invalid foreign key: both sides of the many-to-many relation must be a primary key or a unique key")]
+  #[display(fmt = "both sides of the many-to-many relation must be a primary key or a unique key")]
   Many2Many,
   #[display(fmt = "both sides of the composite many-to-many relation must be either a composite primary key or a composite unique key")]
   Many2ManyComposite

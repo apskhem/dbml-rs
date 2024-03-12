@@ -403,7 +403,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
       .count();
 
     if count != 1 {
-      throw_err(Err::DuplicatedRelation, &indexed_ref.span_range, input)?;
+      throw_err(Err::ConflictRelation, &indexed_ref.span_range, input)?;
     }
   }
 

@@ -23,16 +23,16 @@ Table users {
 }
 
 // Ref: users.(role, age) <> orders.(status, number)
-// Ref: users.role > orders.status
-// Ref: users.role < orders.tmp
+Ref: users.role > orders.status
+// Ref: orders.tmp < users.role
 
 Table posts as P {
   id integer [pk]
   title varchar
   body text [note: 'Content of the post']
   user_id integer [ref: > users.id]
-  status post_status [default: draft]
-  tmp post_status
+  status post_status [default: draft, unique]
+  tmp post_status [unique]
   created_at timestamp
 }
 
@@ -45,7 +45,7 @@ Table orders {
   ✔️ 2 = shipped, 
   ❌ 3 = cancelled,
   😔 4 = refunded
-  ']
+  ', unique]
 
   indexes {
     (status, number) [unique]

@@ -33,3 +33,7 @@ pub(super) fn check_prop_duplicate_keys(attrs: &Vec<Property>, input: &str) -> A
 
   Ok(())
 }
+
+pub(super) fn eq_elements<T: Eq + Ord>(lhs: impl Iterator<Item = T>, rhs: impl Iterator<Item = T>) -> bool {
+  BTreeSet::from_iter(lhs) == BTreeSet::from_iter(rhs)
+}
