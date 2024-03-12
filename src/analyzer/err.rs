@@ -17,11 +17,11 @@ pub type AnalyzerResult<T> = Result<T, Error<Rule>>;
 
 #[derive(Debug, PartialEq, Eq, Clone, Display)]
 pub enum Err {
-  #[display(fmt = "Nullable primary key is not allowed")]
+  #[display(fmt = "Nullable primary key: a nullable primary is not allowed")]
   NullablePrimaryKey,
-  #[display(fmt = "Array primary key is not allowed")]
+  #[display(fmt = "Array primary key: an array with primary is not allowed")]
   ArrayPrimaryKey,
-  #[display(fmt = "Invalid indexes definition setting: can specify either 'pk', 'unique', or 'type' within a setting")]
+  #[display(fmt = "Invalid indexes setting: can specify either 'pk', 'unique', or 'type' within a setting")]
   InvalidIndexesSetting,
   #[display(fmt = "Duplicate attribute key")]
   DuplicateAttributeKey,
