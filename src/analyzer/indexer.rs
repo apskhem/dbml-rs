@@ -2,6 +2,10 @@ use alloc::collections::{
   BTreeMap,
   BTreeSet,
 };
+use alloc::string::{
+  String,
+  ToString,
+};
 
 use super::*;
 
@@ -43,7 +47,7 @@ impl Indexer {
       let schema = schema
         .as_ref()
         .map(|s| s.to_string.clone())
-        .unwrap_or_else(|| DEFAULT_SCHEMA.to_owned());
+        .unwrap_or_else(|| DEFAULT_SCHEMA.to_string());
 
       if self.contains_table(&schema, &name.to_string) {
         throw_err(Err::DuplicatedTableName, span_range, input)?;

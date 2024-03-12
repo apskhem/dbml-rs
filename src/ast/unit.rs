@@ -1,4 +1,8 @@
-use std::str::FromStr;
+use alloc::string::{
+  String,
+  ToString,
+};
+use core::str::FromStr;
 
 use super::SpanRange;
 

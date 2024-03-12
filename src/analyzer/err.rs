@@ -1,4 +1,8 @@
-use std::ops::Range;
+use alloc::string::{
+  String,
+  ToString,
+};
+use core::ops::Range;
 
 use derive_more::Display;
 use pest::error::{

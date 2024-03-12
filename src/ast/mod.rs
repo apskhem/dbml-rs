@@ -1,5 +1,3 @@
-use std::ops::Range;
-
 pub(crate) type SpanRange = Range<usize>;
 
 mod enums;
@@ -11,6 +9,8 @@ mod schema;
 mod table;
 mod table_group;
 mod unit;
+
+use core::ops::Range;
 
 pub use enums::*;
 pub use indexes::*;

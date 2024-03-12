@@ -1,3 +1,5 @@
+use alloc::vec::Vec;
+
 use super::*;
 
 /// An entire structure of a parsed DBML file.

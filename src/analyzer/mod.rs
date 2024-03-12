@@ -1,5 +1,7 @@
 use alloc::collections::BTreeSet;
-use std::str::FromStr;
+use alloc::string::ToString;
+use alloc::vec::Vec;
+use core::str::FromStr;
 
 use self::err::*;
 use crate::ast::*;

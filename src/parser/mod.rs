@@ -1,7 +1,12 @@
 mod err;
 mod helper;
 
-use std::str::FromStr;
+use alloc::string::{
+  String,
+  ToString,
+};
+use alloc::vec::Vec;
+use core::str::FromStr;
 
 use err::*;
 use pest::iterators::Pair;
@@ -610,7 +615,7 @@ fn parse_note_decl(pair: Pair<Rule>) -> ParserResult<NoteBlock> {
                   span_range: s2r(p1.as_span()),
                   value: Literal {
                     span_range: s2r(p2.as_span()),
-                    raw: p2.as_str().to_owned(),
+                    raw: p2.as_str().to_string(),
                     value: Value::String(value),
                   },
                 }
@@ -694,8 +699,8 @@ fn parse_indexes_ident(pair: Pair<Rule>) -> ParserResult<IndexesColumnType> {
         Rule::backquoted_quoted_value => {
           Ok(IndexesColumnType::Expr(Literal {
             span_range: s2r(p1.as_span()),
-            raw: p1.as_str().to_owned(),
-            value: Value::String(p2.as_str().to_owned()),
+            raw: p1.as_str().to_string(),
+            value: Value::String(p2.as_str().to_string()),
           }))
         }
         _ => throw_rules(&[Rule::backquoted_quoted_value], p2)?,
@@ -892,21 +897,21 @@ pub fn parse_attribute(pair: Pair<Rule>) -> ParserResult<Attribute> {
         if init.key.raw.is_empty() {
           init.key = Ident {
             span_range: s2r(p1.as_span()),
-            raw: p1.as_str().to_owned(),
-            to_string: p1.as_str().to_owned(),
+            raw: p1.as_str().to_string(),
+            to_string: p1.as_str().to_string(),
           };
         } else {
           init.value = Some(Literal {
             span_range: s2r(p1.as_span()),
-            raw: p1.as_str().to_owned(),
-            value: Value::Enum(p1.as_str().to_owned()),
+            raw: p1.as_str().to_string(),
+            value: Value::Enum(p1.as_str().to_string()),
           })
         }
       }
       Rule::value => {
         init.value = Some(Literal {
           span_range: s2r(p1.as_span()),
-          raw: p1.as_str().to_owned(),
+          raw: p1.as_str().to_string(),
           value: parse_value(p1)?,
         })
       }

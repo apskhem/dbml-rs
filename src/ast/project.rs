@@ -1,4 +1,6 @@
-use std::str::FromStr;
+use alloc::string::String;
+use alloc::vec::Vec;
+use core::str::FromStr;
 
 use super::*;
 

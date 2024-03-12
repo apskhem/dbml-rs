@@ -1,3 +1,5 @@
+use alloc::string::ToString;
+
 use pest::error::{
   Error,
   ErrorVariant,

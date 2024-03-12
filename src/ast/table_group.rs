@@ -1,3 +1,5 @@
+use alloc::vec::Vec;
+
 use super::*;
 
 /// A table group allowing to group the related or associated tables together.

@@ -1,7 +1,6 @@
 #![forbid(unsafe_code)]
 #![forbid(clippy::all)]
-
-use std::result::Result;
+#![no_std]
 
 use ast::SchemaBlock;
 use pest::error::Error as ParseError;
