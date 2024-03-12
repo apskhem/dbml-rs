@@ -23,36 +23,36 @@ pub enum Err {
   ArrayPrimaryKey,
   #[display(fmt = "Invalid indexes definition setting: can specify either 'pk', 'unique', or 'type' within a setting")]
   InvalidIndexesSetting,
-  #[display(fmt = "Duplicated attribute key")]
-  DuplicatedAttributeKey,
-  #[display(fmt = "Duplicated property key")]
-  DuplicatedPropertyKey,
-  #[display(fmt = "Duplicated project setting")]
-  DuplicatedProjectSetting,
-  #[display(fmt = "Duplicated primary key")]
-  DuplicatedPrimaryKey,
-  #[display(fmt = "Duplicated unique key")]
-  DuplicatedUniqueKey,
-  #[display(fmt = "Duplicated index key")]
-  DuplicatedIndexKey,
-  #[display(fmt = "Duplicated table name")]
-  DuplicatedTableName,
-  #[display(fmt = "Duplicated column name")]
-  DuplicatedColumnName,
+  #[display(fmt = "Duplicate attribute key")]
+  DuplicateAttributeKey,
+  #[display(fmt = "Duplicate property key")]
+  DuplicatePropertyKey,
+  #[display(fmt = "Duplicate project setting")]
+  DuplicateProjectSetting,
+  #[display(fmt = "Duplicate primary key")]
+  DuplicatePrimaryKey,
+  #[display(fmt = "Duplicate unique key")]
+  DuplicateUniqueKey,
+  #[display(fmt = "Duplicate index key")]
+  DuplicateIndexKey,
+  #[display(fmt = "Duplicate table name")]
+  DuplicateTableName,
+  #[display(fmt = "Duplicate column name")]
+  DuplicateColumnName,
   #[display(fmt = "Conflict relation")]
   ConflictRelation,
-  #[display(fmt = "Duplicated enum name")]
-  DuplicatedEnumName,
-  #[display(fmt = "Duplicated enum value")]
-  DuplicatedEnumValue,
-  #[display(fmt = "Duplicated table group name")]
-  DuplicatedTableGroupName,
-  #[display(fmt = "Duplicated table group item")]
-  DuplicatedTableGroupItem,
-  #[display(fmt = "Duplicated alias")]
-  DuplicatedAlias,
-  #[display(fmt = "Conflicted nullable setting: 'null' and 'not null' must not appear within the same setting")]
-  ConflictedNullableSetting,
+  #[display(fmt = "Duplicate enum name")]
+  DuplicateEnumName,
+  #[display(fmt = "Duplicate enum value")]
+  DuplicateEnumValue,
+  #[display(fmt = "Duplicate table group name")]
+  DuplicateTableGroupName,
+  #[display(fmt = "Duplicate table group item")]
+  DuplicateTableGroupItem,
+  #[display(fmt = "Duplicate alias")]
+  DuplicateAlias,
+  #[display(fmt = "Conflict nullable setting: 'null' and 'not null' must not appear within the same setting")]
+  ConflictNullableSetting,
   #[display(fmt = "Project setting not found")]
   ProjectSettingNotFound,
   #[display(fmt = "Empty indexes block")]

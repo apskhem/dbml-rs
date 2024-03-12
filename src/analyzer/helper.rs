@@ -12,7 +12,7 @@ pub(super) fn check_attr_duplicate_keys(attrs: &Vec<Attribute>, input: &str) -> 
 
   // TODO: handle multiple errs
   if let Some(attr) = dup_keys.first() {
-    throw_err(Err::DuplicatedAttributeKey, &attr.span_range, input)?;
+    throw_err(Err::DuplicateAttributeKey, &attr.span_range, input)?;
   }
 
   Ok(())
@@ -28,7 +28,7 @@ pub(super) fn check_prop_duplicate_keys(attrs: &Vec<Property>, input: &str) -> A
 
   // TODO: handle multiple errs
   if let Some(prop) = dup_keys.first() {
-    throw_err(Err::DuplicatedPropertyKey, &prop.span_range, input)?;
+    throw_err(Err::DuplicatePropertyKey, &prop.span_range, input)?;
   }
 
   Ok(())

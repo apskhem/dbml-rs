@@ -32,9 +32,9 @@ impl Indexer {
   ///
   /// # Errors
   ///
-  /// - `DuplicatedTableName`
-  /// - `DuplicatedColumnName`
-  /// - `DuplicatedAlias`
+  /// - `DuplicateTableName`
+  /// - `DuplicateColumnName`
+  /// - `DuplicateAlias`
   pub(super) fn index_table(&mut self, tables: &Vec<&TableBlock>, input: &str) -> AnalyzerResult<()> {
     for table in tables {
       let TableIdent {
@@ -50,13 +50,13 @@ impl Indexer {
         .unwrap_or_else(|| DEFAULT_SCHEMA.to_string());
 
       if self.contains_table(&schema, &name.to_string) {
-        throw_err(Err::DuplicatedTableName, span_range, input)?;
+        throw_err(Err::DuplicateTableName, span_range, input)?;
       }
 
       let mut indexed_cols = BTreeSet::new();
       for col in table.cols.iter() {
         match indexed_cols.get(&col.name.to_string) {
-          Some(_) => throw_err(Err::DuplicatedColumnName, &col.span_range, input)?,
+          Some(_) => throw_err(Err::DuplicateColumnName, &col.span_range, input)?,
           None => indexed_cols.insert(col.name.to_string.clone()),
         };
       }
@@ -68,7 +68,7 @@ impl Indexer {
           if let Some(alias) = alias {
             match self.table_alias_map.get(&alias.to_string) {
               Some(_) => {
-                throw_err(Err::DuplicatedAlias, &alias.span_range, input)?;
+                throw_err(Err::DuplicateAlias, &alias.span_range, input)?;
               }
               None => {
                 self
@@ -101,8 +101,8 @@ impl Indexer {
   ///
   /// # Errors
   ///
-  /// - `DuplicatedEnumName`
-  /// - `DuplicatedEnumValue`
+  /// - `DuplicateEnumName`
+  /// - `DuplicateEnumValue`
   pub(super) fn index_enums(&mut self, enums: &Vec<&EnumBlock>, input: &str) -> AnalyzerResult<()> {
     for r#enum in enums.iter() {
       let EnumIdent {
@@ -118,13 +118,13 @@ impl Indexer {
         .unwrap_or_else(|| DEFAULT_SCHEMA.into());
 
       if self.contains_enum(&schema, &name.to_string) {
-        throw_err(Err::DuplicatedEnumName, &span_range, input)?;
+        throw_err(Err::DuplicateEnumName, &span_range, input)?;
       }
 
       let mut value_sets = BTreeSet::new();
       for value in r#enum.values.iter() {
         match value_sets.get(&value.value.to_string) {
-          Some(_) => throw_err(Err::DuplicatedEnumValue, &value.span_range, input)?,
+          Some(_) => throw_err(Err::DuplicateEnumValue, &value.span_range, input)?,
           None => value_sets.insert(value.value.to_string.clone()),
         };
       }
@@ -150,13 +150,13 @@ impl Indexer {
   ///
   /// # Errors
   ///
-  /// - `DuplicatedTableGroupName`
+  /// - `DuplicateTableGroupName`
   /// - `TableNotFound`
-  /// - `DuplicatedTableGroupItem`
+  /// - `DuplicateTableGroupItem`
   pub(super) fn index_table_groups(&mut self, table_groups: &Vec<&TableGroupBlock>, input: &str) -> AnalyzerResult<()> {
     for table_group in table_groups {
       if self.table_group_map.get(&table_group.ident.to_string).is_some() {
-        throw_err(Err::DuplicatedTableGroupName, &table_group.ident.span_range, input)?;
+        throw_err(Err::DuplicateTableGroupName, &table_group.ident.span_range, input)?;
       }
 
       let mut indexed_items = BTreeSet::new();
@@ -184,7 +184,7 @@ impl Indexer {
         };
 
         match indexed_items.get(&ident) {
-          Some(_) => throw_err(Err::DuplicatedTableGroupItem, &group_item.span_range, input)?,
+          Some(_) => throw_err(Err::DuplicateTableGroupItem, &group_item.span_range, input)?,
           None => indexed_items.insert(ident),
         };
       }

@@ -75,7 +75,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
   // check project block
   if project.len() > 1 {
-    throw_err(Err::DuplicatedProjectSetting, &schema_block.span_range, input)?;
+    throw_err(Err::DuplicateProjectSetting, &schema_block.span_range, input)?;
   }
   match project.first() {
     Some(project_block) => {
@@ -102,7 +102,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
       if let Some(settings) = &col.settings {
         if settings.is_pk {
           if !tmp_table_indexer.pk_list.is_empty() {
-            throw_err(Err::DuplicatedPrimaryKey, &col.span_range, input)?;
+            throw_err(Err::DuplicatePrimaryKey, &col.span_range, input)?;
           }
           if settings.nullable == Some(Nullable::Null) {
             throw_err(Err::NullablePrimaryKey, &col.span_range, input)?;
@@ -129,7 +129,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           .collect();
 
         if filtered.len() == 2 {
-          throw_err(Err::ConflictedNullableSetting, &settings.span_range, input)?;
+          throw_err(Err::ConflictNullableSetting, &settings.span_range, input)?;
         }
       }
 
@@ -184,7 +184,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
             if settings.is_pk {
               if !tmp_table_indexer.pk_list.is_empty() {
-                throw_err(Err::DuplicatedPrimaryKey, &def.span_range, input)?;
+                throw_err(Err::DuplicatePrimaryKey, &def.span_range, input)?;
               }
 
               tmp_table_indexer.pk_list.extend(ident_strings.clone())
@@ -194,7 +194,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                 .iter()
                 .any(|uniq_item| idents.iter().all(|id| uniq_item.contains(&id.to_string)))
               {
-                throw_err(Err::DuplicatedUniqueKey, &def.span_range, input)?;
+                throw_err(Err::DuplicateUniqueKey, &def.span_range, input)?;
               }
 
               tmp_table_indexer
@@ -208,7 +208,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                 .iter()
                 .any(|(idx_item, idx_type)| idx_item == &ident_strings && idx_type == &settings.r#type)
               {
-                throw_err(Err::DuplicatedIndexKey, &def.span_range, input)?;
+                throw_err(Err::DuplicateIndexKey, &def.span_range, input)?;
               }
 
               tmp_table_indexer
@@ -222,7 +222,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
               .iter()
               .any(|(idx_item, _)| idx_item == &ident_strings)
             {
-              throw_err(Err::DuplicatedIndexKey, &def.span_range, input)?;
+              throw_err(Err::DuplicateIndexKey, &def.span_range, input)?;
             }
 
             tmp_table_indexer.indexed_list.push((ident_strings, None))
