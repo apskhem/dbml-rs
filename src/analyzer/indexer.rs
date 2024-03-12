@@ -474,7 +474,8 @@ impl IndexedRef {
     };
 
     match (&self.rel, &other.rel) {
-      (Relation::Many2Many, Relation::Many2Many) => {
+      (Relation::Many2Many, Relation::Many2Many)
+      | (Relation::One2One, Relation::One2One) => {
         [&self.lhs, &self.rhs].iter().all(|self_side| {
           [&other.lhs, &other.rhs].iter().any(|other_side| {
             let self_ident = indexer.resolve_ref_alias(self_side);
@@ -513,21 +514,12 @@ impl IndexedRef {
 
 impl From<RefBlock> for IndexedRef {
   fn from(ref_block: RefBlock) -> Self {
-    let RefBlock {
-      rel,
-      lhs,
-      rhs,
-      settings,
-      span_range,
-      name
-    } = ref_block;
-
     Self {
-      span_range,
-      rel,
-      lhs,
-      rhs,
-      settings,
+      span_range: ref_block.span_range,
+      rel: ref_block.rel,
+      lhs: ref_block.lhs,
+      rhs: ref_block.rhs,
+      settings: ref_block.settings,
     }
   }
 }
