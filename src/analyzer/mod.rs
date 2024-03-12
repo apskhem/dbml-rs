@@ -125,7 +125,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           .attributes
           .iter()
           .filter(|&a| ["not null", "null"].contains(&a.key.to_string.as_str()))
-          .map(|a| a.key.to_string.clone())
+          .map(|a| &a.key.to_string)
           .collect();
 
         if filtered.len() == 2 {
@@ -295,7 +295,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                     Some(ColumnSettings { attributes, default: Some(default_value), .. }) => {
                       let default_value_span = attributes.iter()
                         .find_map(|attr| {
-                          (attr.key.to_string == "default").then(|| attr.value.clone().map(|v| v.span_range))
+                          (attr.key.to_string == "default").then(|| attr.value.as_ref().map(|v| &v.span_range))
                         })
                         .and_then(|opt_span| opt_span)
                         .unwrap_or_else(|| unreachable!("default value is missing"));
@@ -318,10 +318,10 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           };
 
           // TODO: add more validation
-          if let Some(ColumnSettings { attributes, default: Some(default_value), .. }) = col.settings.clone() {
+          if let Some(ColumnSettings { attributes, default: Some(default_value), .. }) = &col.settings {
             let span_range = attributes.iter()
               .find_map(|attr| {
-                (attr.key.to_string == "default").then(|| attr.value.clone().map(|v| v.span_range))
+                (attr.key.to_string == "default").then(|| attr.value.as_ref().map(|v| &v.span_range))
               })
               .and_then(|opt_span| opt_span)
               .unwrap_or_else(|| unreachable!("default value is missing"));
@@ -375,11 +375,11 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
                 match type_name {
                   ColumnTypeName::SmallInt
-                  if (val > i16::MAX as i64) || (val < i16::MIN as i64) => {
+                  if (*val > i16::MAX as i64) || (*val < i16::MIN as i64) => {
                     throw_err(err.clone(), &span_range, input)?;
                   }
                   ColumnTypeName::Integer
-                  if (val > i32::MAX as i64) || (val < i32::MIN as i64) => {
+                  if (*val > i32::MAX as i64) || (*val < i32::MIN as i64) => {
                     throw_err(err.clone(), &span_range, input)?;
                   }
                   ColumnTypeName::BigInt
