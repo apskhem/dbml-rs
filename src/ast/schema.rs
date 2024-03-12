@@ -28,52 +28,72 @@ pub enum TopLevelBlock {
 
 impl<'a> SchemaBlock<'a> {
   pub fn project(&self) -> Vec<&ProjectBlock> {
-    self.blocks.iter().filter_map(|block| {
-      if let TopLevelBlock::Project(project) = block {
-        Some(project)
-      } else {
-        None
-      }
-    }).collect()
+    self
+      .blocks
+      .iter()
+      .filter_map(|block| {
+        if let TopLevelBlock::Project(project) = block {
+          Some(project)
+        } else {
+          None
+        }
+      })
+      .collect()
   }
 
   pub fn tables(&self) -> Vec<&TableBlock> {
-    self.blocks.iter().filter_map(|block| {
-      if let TopLevelBlock::Table(table) = block {
-        Some(table)
-      } else {
-        None
-      }
-    }).collect()
+    self
+      .blocks
+      .iter()
+      .filter_map(|block| {
+        if let TopLevelBlock::Table(table) = block {
+          Some(table)
+        } else {
+          None
+        }
+      })
+      .collect()
   }
 
   pub fn table_groups(&self) -> Vec<&TableGroupBlock> {
-    self.blocks.iter().filter_map(|block| {
-      if let TopLevelBlock::TableGroup(table_group) = block {
-        Some(table_group)
-      } else {
-        None
-      }
-    }).collect()
+    self
+      .blocks
+      .iter()
+      .filter_map(|block| {
+        if let TopLevelBlock::TableGroup(table_group) = block {
+          Some(table_group)
+        } else {
+          None
+        }
+      })
+      .collect()
   }
 
   pub fn refs(&self) -> Vec<&RefBlock> {
-    self.blocks.iter().filter_map(|block| {
-      if let TopLevelBlock::Ref(reference) = block {
-        Some(reference)
-      } else {
-        None
-      }
-    }).collect()
+    self
+      .blocks
+      .iter()
+      .filter_map(|block| {
+        if let TopLevelBlock::Ref(reference) = block {
+          Some(reference)
+        } else {
+          None
+        }
+      })
+      .collect()
   }
 
   pub fn enums(&self) -> Vec<&EnumBlock> {
-    self.blocks.iter().filter_map(|block| {
-      if let TopLevelBlock::Enum(enum_block) = block {
-        Some(enum_block)
-      } else {
-        None
-      }
-    }).collect()
+    self
+      .blocks
+      .iter()
+      .filter_map(|block| {
+        if let TopLevelBlock::Enum(enum_block) = block {
+          Some(enum_block)
+        } else {
+          None
+        }
+      })
+      .collect()
   }
 }

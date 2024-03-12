@@ -5,8 +5,6 @@ use std::path::{
   PathBuf,
 };
 
-
-
 const DBML_DIR: &str = "tests/dbml";
 const OUT_DIR: &str = "tests/out";
 const OUT_CHECKED_DIR: &str = "tests/out/checked";

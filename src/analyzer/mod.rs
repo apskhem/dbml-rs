@@ -1,5 +1,4 @@
 use alloc::collections::BTreeSet;
-
 use std::str::FromStr;
 
 use self::err::*;
@@ -31,7 +30,7 @@ pub struct TableRef {
 
 /// Performs semantic checks of the unsanitized AST and returns an indexed metadata.
 /// This function also mutates the internal structure of the AST by changing column types after validating.
-/// 
+///
 ///
 /// # Arguments
 ///
@@ -79,7 +78,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
   match project.first() {
     Some(project_block) => {
       check_prop_duplicate_keys(&project_block.properties, input)?;
-    },
+    }
     _ => throw_err(Err::ProjectSettingNotFound, &schema_block.span_range, input)?,
   }
 
@@ -109,16 +108,19 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           if !col.r#type.arrays.is_empty() {
             throw_err(Err::ArrayPrimaryKey, &col.span_range, input)?;
           }
-  
+
           tmp_table_indexer.pk_list.push(col.name.to_string.clone())
         }
         if settings.is_unique {
-          tmp_table_indexer.unique_list.push(BTreeSet::from([col.name.to_string.clone()]))
+          tmp_table_indexer
+            .unique_list
+            .push(BTreeSet::from([col.name.to_string.clone()]))
         }
 
         check_attr_duplicate_keys(&settings.attributes, input)?;
 
-        let filtered: BTreeSet<_> = settings.attributes
+        let filtered: BTreeSet<_> = settings
+          .attributes
           .iter()
           .filter(|&a| ["not null", "null"].contains(&a.key.to_string.as_str()))
           .map(|a| a.key.to_string.clone())
@@ -152,7 +154,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           .filter_map(|id| {
             match id {
               IndexesColumnType::String(s) => Some(s),
-              _ => None
+              _ => None,
             }
           })
           .cloned()
@@ -169,10 +171,15 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
         match &def.settings {
           Some(settings) => {
-            if vec![settings.is_pk, settings.is_unique, settings.r#type.is_some()].into_iter().filter(|x| *x).count() > 1 {
+            if vec![settings.is_pk, settings.is_unique, settings.r#type.is_some()]
+              .into_iter()
+              .filter(|x| *x)
+              .count()
+              > 1
+            {
               throw_err(Err::InvalidIndexesSetting, &settings.span_range, input)?;
             }
-            
+
             if settings.is_pk {
               if !tmp_table_indexer.pk_list.is_empty() {
                 throw_err(Err::DuplicatedPrimaryKey, &def.span_range, input)?;
@@ -180,28 +187,44 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
               tmp_table_indexer.pk_list.extend(ident_strings.clone())
             } else if settings.is_unique {
-              if tmp_table_indexer.unique_list.iter().any(|uniq_item| idents.iter().all(|id| uniq_item.contains(&id.to_string))) {
+              if tmp_table_indexer
+                .unique_list
+                .iter()
+                .any(|uniq_item| idents.iter().all(|id| uniq_item.contains(&id.to_string)))
+              {
                 throw_err(Err::DuplicatedUniqueKey, &def.span_range, input)?;
               }
 
-              tmp_table_indexer.unique_list.push(ident_strings.clone().into_iter().collect())
+              tmp_table_indexer
+                .unique_list
+                .push(ident_strings.clone().into_iter().collect())
             }
 
             if settings.r#type.is_some() {
-              if tmp_table_indexer.indexed_list.iter().any(|(idx_item, idx_type)| idx_item == &ident_strings && idx_type == &settings.r#type) {
+              if tmp_table_indexer
+                .indexed_list
+                .iter()
+                .any(|(idx_item, idx_type)| idx_item == &ident_strings && idx_type == &settings.r#type)
+              {
                 throw_err(Err::DuplicatedIndexKey, &def.span_range, input)?;
               }
 
-              tmp_table_indexer.indexed_list.push((ident_strings, settings.r#type.clone()));
+              tmp_table_indexer
+                .indexed_list
+                .push((ident_strings, settings.r#type.clone()));
             }
           }
           None => {
-            if tmp_table_indexer.indexed_list.iter().any(|(idx_item, _)| idx_item == &ident_strings) {
+            if tmp_table_indexer
+              .indexed_list
+              .iter()
+              .any(|(idx_item, _)| idx_item == &ident_strings)
+            {
               throw_err(Err::DuplicatedIndexKey, &def.span_range, input)?;
             }
 
             tmp_table_indexer.indexed_list.push((ident_strings, None))
-          },
+          }
         };
       }
     }
@@ -408,8 +431,5 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
     }
   }
 
-  Ok(AnalyzedIndexer {
-    indexed_refs,
-    indexer
-  })
+  Ok(AnalyzedIndexer { indexed_refs, indexer })
 }

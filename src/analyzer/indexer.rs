@@ -25,9 +25,9 @@ pub struct Indexer {
 
 impl Indexer {
   /// Collects and validates table identifiers and their fields.
-  /// 
+  ///
   /// # Errors
-  /// 
+  ///
   /// - `DuplicatedTableName`
   /// - `DuplicatedColumnName`
   /// - `DuplicatedAlias`
@@ -40,7 +40,10 @@ impl Indexer {
         alias,
       } = &table.ident;
 
-      let schema = schema.as_ref().map(|s| s.to_string.clone()).unwrap_or_else(|| DEFAULT_SCHEMA.to_owned());
+      let schema = schema
+        .as_ref()
+        .map(|s| s.to_string.clone())
+        .unwrap_or_else(|| DEFAULT_SCHEMA.to_owned());
 
       if self.contains_table(&schema, &name.to_string) {
         throw_err(Err::DuplicatedTableName, span_range, input)?;
@@ -50,7 +53,7 @@ impl Indexer {
       for col in table.cols.iter() {
         match indexed_cols.get(&col.name.to_string) {
           Some(_) => throw_err(Err::DuplicatedColumnName, &col.span_range, input)?,
-          None => indexed_cols.insert(col.name.to_string.clone())
+          None => indexed_cols.insert(col.name.to_string.clone()),
         };
       }
 
@@ -62,7 +65,7 @@ impl Indexer {
             match self.table_alias_map.get(&alias.to_string) {
               Some(_) => {
                 throw_err(Err::DuplicatedAlias, &alias.span_range, input)?;
-              },
+              }
               None => {
                 self
                   .table_alias_map
@@ -91,9 +94,9 @@ impl Indexer {
   }
 
   /// Collects and validates enum identifiers and their values.
-  /// 
+  ///
   /// # Errors
-  /// 
+  ///
   /// - `DuplicatedEnumName`
   /// - `DuplicatedEnumValue`
   pub(super) fn index_enums(&mut self, enums: &Vec<&EnumBlock>, input: &str) -> AnalyzerResult<()> {
@@ -105,7 +108,10 @@ impl Indexer {
         ..
       } = r#enum.ident.clone();
 
-      let schema = schema.clone().map(|s| s.to_string.clone()).unwrap_or_else(|| DEFAULT_SCHEMA.into());
+      let schema = schema
+        .clone()
+        .map(|s| s.to_string.clone())
+        .unwrap_or_else(|| DEFAULT_SCHEMA.into());
 
       if self.contains_enum(&schema, &name.to_string) {
         throw_err(Err::DuplicatedEnumName, &span_range, input)?;
@@ -115,7 +121,7 @@ impl Indexer {
       for value in r#enum.values.iter() {
         match value_sets.get(&value.value.to_string) {
           Some(_) => throw_err(Err::DuplicatedEnumValue, &value.span_range, input)?,
-          None => value_sets.insert(value.value.to_string.clone())
+          None => value_sets.insert(value.value.to_string.clone()),
         };
       }
 
@@ -137,17 +143,13 @@ impl Indexer {
   }
 
   /// Collects and validates table group identifiers and their items.
-  /// 
+  ///
   /// # Errors
-  /// 
+  ///
   /// - `DuplicatedTableGroupName`
   /// - `TableNotFound`
   /// - `DuplicatedTableGroupItem`
-  pub(super) fn index_table_groups(
-    &mut self,
-    table_groups: &Vec<&TableGroupBlock>,
-    input: &str,
-  ) -> AnalyzerResult<()> {
+  pub(super) fn index_table_groups(&mut self, table_groups: &Vec<&TableGroupBlock>, input: &str) -> AnalyzerResult<()> {
     for table_group in table_groups {
       if self.table_group_map.get(&table_group.ident.to_string).is_some() {
         throw_err(Err::DuplicatedTableGroupName, &table_group.ident.span_range, input)?;
@@ -156,16 +158,13 @@ impl Indexer {
       let mut indexed_items = BTreeSet::new();
       for group_item in &table_group.items {
         let ident = match &group_item.schema {
-          Some(item_schema) => {
-            (item_schema.to_string.clone(), group_item.ident_alias.to_string.clone())
-          }
+          Some(item_schema) => (item_schema.to_string.clone(), group_item.ident_alias.to_string.clone()),
           None => {
             match self.resolve_alias(&group_item.ident_alias.to_string) {
-              Some(ident) => {
-                ident.clone()
-              },
+              Some(ident) => ident.clone(),
               None => {
-                let has_table = self.schema_map
+                let has_table = self
+                  .schema_map
                   .get(DEFAULT_SCHEMA)
                   .iter()
                   .any(|item| item.table_map.contains_key(&group_item.ident_alias.to_string));
@@ -196,7 +195,8 @@ impl Indexer {
 
   /// Checks if the specified table identifier exists.
   pub fn contains_table(&self, schema: &String, name: &String) -> bool {
-    self.schema_map
+    self
+      .schema_map
       .get(schema)
       .iter()
       .any(|item| item.table_map.contains_key(name))
@@ -204,7 +204,8 @@ impl Indexer {
 
   /// Checks if the specified enum identifier exists.
   pub fn contains_enum(&self, schema: &String, name: &String) -> bool {
-    self.schema_map
+    self
+      .schema_map
       .get(schema)
       .iter()
       .any(|item| item.enum_map.contains_key(name))
@@ -223,17 +224,14 @@ impl Indexer {
       Some(block) => {
         match block.enum_map.get(enum_name) {
           Some(value_set) => {
-            let results = values
-              .iter()
-              .map(|v| value_set.contains(v.as_str()))
-              .collect();
-  
+            let results = values.iter().map(|v| value_set.contains(v.as_str())).collect();
+
             (true, (true, results))
-          },
-          None => (true, (false, vec![false; values.len()]))
+          }
+          None => (true, (false, vec![false; values.len()])),
         }
       }
-      None => (false, (false, vec![false; values.len()]))
+      None => (false, (false, vec![false; values.len()])),
     }
   }
 
@@ -243,10 +241,13 @@ impl Indexer {
     schema: &Option<Ident>,
     table: &Ident,
     fields: &Vec<Ident>,
-    input: &str
+    input: &str,
   ) -> AnalyzerResult<()> {
     let schema_span = schema.clone().map(|s| s.span_range).unwrap_or_default();
-    let schema = schema.clone().map(|s| s.to_string).unwrap_or_else(|| DEFAULT_SCHEMA.into());
+    let schema = schema
+      .clone()
+      .map(|s| s.to_string)
+      .unwrap_or_else(|| DEFAULT_SCHEMA.into());
 
     match self.schema_map.get(&schema) {
       Some(block) => {
@@ -264,10 +265,10 @@ impl Indexer {
 
             Ok(())
           }
-          None => throw_err(Err::TableNotFound, &table.span_range, input)
+          None => throw_err(Err::TableNotFound, &table.span_range, input),
         }
       }
-      None => throw_err(Err::SchemaNotFound, &schema_span, input)
+      None => throw_err(Err::SchemaNotFound, &schema_span, input),
     }
   }
 
@@ -279,20 +280,22 @@ impl Indexer {
   /// Gets a new ref block if it is pointing to an alias.
   pub fn resolve_ref_alias(&self, ident: &RefIdent) -> RefIdent {
     match self.resolve_alias(&ident.table.to_string) {
-      Some((schema, table)) => RefIdent {
-        span_range: ident.span_range.clone(),
-        schema: Some(Ident {
-          span_range: 0..0, // FIXME:
-          raw: schema.clone(),
-          to_string: schema.clone()
-        }),
-        table: Ident {
-          span_range: ident.table.span_range.clone(),
-          raw: table.clone(),
-          to_string: table.clone()
-        },
-        compositions: ident.compositions.clone(),
-      },
+      Some((schema, table)) => {
+        RefIdent {
+          span_range: ident.span_range.clone(),
+          schema: Some(Ident {
+            span_range: 0..0, // FIXME:
+            raw: schema.clone(),
+            to_string: schema.clone(),
+          }),
+          table: Ident {
+            span_range: ident.table.span_range.clone(),
+            raw: table.clone(),
+            to_string: table.clone(),
+          },
+          compositions: ident.compositions.clone(),
+        }
+      }
       None => ident.clone(),
     }
   }
@@ -310,11 +313,7 @@ pub struct IndexedRef {
 }
 
 impl IndexedRef {
-  pub fn from_inline(
-    ref_blocks: Vec<RefInline>,
-    table_ident: &TableIdent,
-    col_name: &Ident,
-  ) -> Vec<Self> {
+  pub fn from_inline(ref_blocks: Vec<RefInline>, table_ident: &TableIdent, col_name: &Ident) -> Vec<Self> {
     ref_blocks
       .into_iter()
       .map(|ref_block| {
@@ -338,12 +337,7 @@ impl IndexedRef {
       .collect()
   }
 
-  pub fn validate_ref_type(
-    &self,
-    tables: &Vec<TableBlock>,
-    indexer: &Indexer,
-    input: &str,
-  ) -> AnalyzerResult<()> {
+  pub fn validate_ref_type(&self, tables: &Vec<TableBlock>, indexer: &Indexer, input: &str) -> AnalyzerResult<()> {
     let lhs_ident = indexer.resolve_ref_alias(&self.lhs);
     let rhs_ident = indexer.resolve_ref_alias(&self.rhs);
 
@@ -360,47 +354,44 @@ impl IndexedRef {
         .iter()
         .find(|table| {
           table.ident.schema.clone().map(|s| s.to_string) == ref_ident.schema.clone().map(|s| s.to_string)
-          && table.ident.name.to_string == ref_ident.table.to_string
+            && table.ident.name.to_string == ref_ident.table.to_string
         })
         .map(Ok)
         .unwrap_or_else(|| throw_err(Err::TableNotFound, &ref_ident.span_range, input))
     };
     let find_ref_col = |col_ident: &Ident, table: &TableBlock| -> AnalyzerResult<TableColumn> {
-      let col = table
-        .cols
-        .iter()
-        .find(|col| col.name.to_string == col_ident.to_string);
+      let col = table.cols.iter().find(|col| col.name.to_string == col_ident.to_string);
 
       match col {
         Some(col) => Ok(col.clone()),
-        None => throw_err(Err::ColumnNotFound, &col_ident.span_range, input)
+        None => throw_err(Err::ColumnNotFound, &col_ident.span_range, input),
       }
     };
     let is_valid_composite = |compositions: &Vec<Ident>, table_indexes: &Option<IndexesBlock>| -> bool {
-      table_indexes.as_ref().map(|indexes| {
-        indexes.defs.iter().any(|def_item| {
-          compositions.len() == def_item.cols.len()
-          && def_item.settings.as_ref().is_some_and(|s| s.is_pk || s.is_unique)
-          && eq_elements(
-            compositions.iter().map(|s| &s.to_string),
-            def_item.cols.iter().filter_map(|s| {
-              match s {
-                IndexesColumnType::String(s) => Some(&s.to_string),
-                _ => None
-              }
-            })
-          )
+      table_indexes
+        .as_ref()
+        .map(|indexes| {
+          indexes.defs.iter().any(|def_item| {
+            compositions.len() == def_item.cols.len()
+              && def_item.settings.as_ref().is_some_and(|s| s.is_pk || s.is_unique)
+              && eq_elements(
+                compositions.iter().map(|s| &s.to_string),
+                def_item.cols.iter().filter_map(|s| {
+                  match s {
+                    IndexesColumnType::String(s) => Some(&s.to_string),
+                    _ => None,
+                  }
+                }),
+              )
+          })
         })
-      }).unwrap_or_default()
+        .unwrap_or_default()
     };
 
     let lhs_table = find_ref_table(&lhs_ident)?;
     let rhs_table = find_ref_table(&rhs_ident)?;
 
-    let field_pairs = lhs_ident
-      .compositions
-      .iter()
-      .zip(rhs_ident.compositions.iter());
+    let field_pairs = lhs_ident.compositions.iter().zip(rhs_ident.compositions.iter());
 
     for (l, r) in field_pairs {
       let l_col = find_ref_col(l, lhs_table)?;
@@ -413,7 +404,7 @@ impl IndexedRef {
           r_ident: r.to_string.clone(),
           l_ident: l.to_string.clone(),
           r_type: r_type.raw.clone(),
-          l_type: l.raw.clone()
+          l_type: l.raw.clone(),
         };
 
         throw_err(err, &self.span_range, input)?;
@@ -423,12 +414,17 @@ impl IndexedRef {
         let err = match (
           &self.rel,
           l_col.settings.as_ref().is_some_and(|s| s.is_pk || s.is_unique),
-          r_col.settings.as_ref().is_some_and(|s| s.is_pk || s.is_unique)) {
+          r_col.settings.as_ref().is_some_and(|s| s.is_pk || s.is_unique),
+        ) {
           (Relation::One2One, false, false) => Some((InvalidForeignKeyErr::One2One, &self.span_range)),
           (Relation::Many2Many, false, false) => Some((InvalidForeignKeyErr::Many2Many, &self.span_range)),
-          (Relation::One2Many, false, _) => Some((InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKey, &self.lhs.span_range)),
-          (Relation::Many2One, _, false) => Some((InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKey, &self.rhs.span_range)),
-          _ => None
+          (Relation::One2Many, false, _) => {
+            Some((InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKey, &self.lhs.span_range))
+          }
+          (Relation::Many2One, _, false) => {
+            Some((InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKey, &self.rhs.span_range))
+          }
+          _ => None,
         };
 
         if let Some((err, span_range)) = err {
@@ -443,22 +439,32 @@ impl IndexedRef {
         let is_valid_rhs = is_valid_composite(&self.rhs.compositions, &rhs_table.indexes);
 
         let err = match self.rel {
-          Relation::One2One
-          if !is_valid_lhs && !is_valid_rhs =>  Some((InvalidForeignKeyErr::One2OneComposite, &self.span_range)),
-          Relation::Many2Many
-          if !is_valid_lhs || !is_valid_rhs => Some((InvalidForeignKeyErr::Many2ManyComposite, &self.span_range)),
-          Relation::One2Many
-          if !is_valid_lhs => Some((InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKeyComposite, &self.lhs.span_range)),
-          Relation::Many2One
-          if !is_valid_rhs => Some((InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKeyComposite, &self.rhs.span_range)),
-          _ => None
+          Relation::One2One if !is_valid_lhs && !is_valid_rhs => {
+            Some((InvalidForeignKeyErr::One2OneComposite, &self.span_range))
+          }
+          Relation::Many2Many if !is_valid_lhs || !is_valid_rhs => {
+            Some((InvalidForeignKeyErr::Many2ManyComposite, &self.span_range))
+          }
+          Relation::One2Many if !is_valid_lhs => {
+            Some((
+              InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKeyComposite,
+              &self.lhs.span_range,
+            ))
+          }
+          Relation::Many2One if !is_valid_rhs => {
+            Some((
+              InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKeyComposite,
+              &self.rhs.span_range,
+            ))
+          }
+          _ => None,
         };
 
         if let Some((err, span_range)) = err {
           throw_err(Err::InvalidForeignKey { err }, span_range, input)?;
         }
       }
-      _ => ()
+      _ => (),
     };
 
     Ok(())
@@ -469,13 +475,15 @@ impl IndexedRef {
   pub fn occupy_same_column(&self, other: &Self, indexer: &Indexer) -> bool {
     let eq_ident = |lhs: &RefIdent, rhs: &RefIdent| -> bool {
       lhs.schema.as_ref().map(|s| &s.to_string) == rhs.schema.as_ref().map(|s| &s.to_string)
-      && lhs.table.to_string == rhs.table.to_string
-      && eq_elements(lhs.compositions.iter().map(|s| &s.to_string), rhs.compositions.iter().map(|s| &s.to_string))
+        && lhs.table.to_string == rhs.table.to_string
+        && eq_elements(
+          lhs.compositions.iter().map(|s| &s.to_string),
+          rhs.compositions.iter().map(|s| &s.to_string),
+        )
     };
 
     match (&self.rel, &other.rel) {
-      (Relation::Many2Many, Relation::Many2Many)
-      | (Relation::One2One, Relation::One2One) => {
+      (Relation::Many2Many, Relation::Many2Many) | (Relation::One2One, Relation::One2One) => {
         [&self.lhs, &self.rhs].iter().all(|self_side| {
           [&other.lhs, &other.rhs].iter().any(|other_side| {
             let self_ident = indexer.resolve_ref_alias(self_side);
@@ -490,12 +498,12 @@ impl IndexedRef {
         let self_occupied_ident = match &self.rel {
           Relation::Many2One => Some(&self.lhs),
           Relation::One2Many => Some(&self.rhs),
-          _ => None
+          _ => None,
         };
         let other_occupied_ident = match &other.rel {
           Relation::Many2One => Some(&other.lhs),
           Relation::One2Many => Some(&other.rhs),
-          _ => None
+          _ => None,
         };
 
         match (self_occupied_ident, other_occupied_ident) {
@@ -505,7 +513,7 @@ impl IndexedRef {
 
             eq_ident(&self_ident, &other_ident)
           }
-          _ => false
+          _ => false,
         }
       }
     }

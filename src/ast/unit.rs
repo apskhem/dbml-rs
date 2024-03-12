@@ -21,20 +21,20 @@ pub struct Ident {
 pub struct Attribute {
   pub span_range: SpanRange,
   pub key: Ident,
-  pub value: Option<Literal>
+  pub value: Option<Literal>,
 }
 
 #[derive(Debug, Clone)]
 pub struct Property {
   pub span_range: SpanRange,
   pub key: Ident,
-  pub value: Literal
+  pub value: Literal,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub enum Nullable {
   NotNull,
-  Null
+  Null,
 }
 
 /// Represents settings and arguments values.
@@ -79,7 +79,7 @@ impl ToString for Value {
 }
 
 #[derive(Debug, Clone)]
-pub struct  NoteBlock {
+pub struct NoteBlock {
   pub span_range: SpanRange,
-  pub value: Literal
+  pub value: Literal,
 }

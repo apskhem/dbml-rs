@@ -1,7 +1,6 @@
 use std::ops::Range;
 
 use derive_more::Display;
-
 use pest::error::{
   Error,
   ErrorVariant,
@@ -58,15 +57,26 @@ pub enum Err {
   InvalidEnum,
   #[display(fmt = "Invalid data type")]
   InvalidDataType,
-  #[display(fmt = "Invalid data type arguments: '{}' requires only {} argument(s)", raw_type, n_arg)]
+  #[display(
+    fmt = "Invalid data type arguments: '{}' requires only {} argument(s)",
+    raw_type,
+    n_arg
+  )]
   InvalidDataTypeArguments { raw_type: String, n_arg: u32 },
   #[display(fmt = "Invalid argument value: the value for the argument is not integer")]
   InvalidArgumentValue,
-  #[display(fmt = "Invalid default value: the defualt value '{}' is not associated with '{}'", raw_value, raw_type)]
+  #[display(
+    fmt = "Invalid default value: the defualt value '{}' is not associated with '{}'",
+    raw_value,
+    raw_type
+  )]
   InvalidDefaultValue { raw_value: String, raw_type: String },
   #[display(fmt = "Default null in non-nullable: the default value cannot be null in non-nullable field")]
   DefaultNullInNonNullable,
-  #[display(fmt = "Data type exceeded: the default value exceeds the maximum value of '{}'", raw_type)]
+  #[display(
+    fmt = "Data type exceeded: the default value exceeds the maximum value of '{}'",
+    raw_type
+  )]
   DataTypeExceeded { raw_type: String },
   #[display(fmt = "Table group not found")]
   TableGroupNotFound,
@@ -80,8 +90,19 @@ pub enum Err {
   EnumNotFound,
   #[display(fmt = "Enum value not found")]
   EnumValueNotFound,
-  #[display(fmt = "Mismatched foreign key type: '{}': '{}' (left) and '{}': '{}' (right) are incompatible", l_ident, l_type, r_ident, r_type)]
-  MismatchedForeignKeyType { r_ident: String, l_ident: String, r_type: String, l_type: String },
+  #[display(
+    fmt = "Mismatched foreign key type: '{}': '{}' (left) and '{}': '{}' (right) are incompatible",
+    l_ident,
+    l_type,
+    r_ident,
+    r_type
+  )]
+  MismatchedForeignKeyType {
+    r_ident: String,
+    l_ident: String,
+    r_type: String,
+    l_type: String,
+  },
   #[display(fmt = "Invalid foreign key: {}", err)]
   InvalidForeignKey { err: InvalidForeignKeyErr },
   #[display(fmt = "Mismatched composite foreign key")]
@@ -96,12 +117,16 @@ pub enum InvalidForeignKeyErr {
   NitherUniqueKeyNorPrimaryKeyComposite,
   #[display(fmt = "either side of the one-to-one relation must be a primary key or a unique key")]
   One2One,
-  #[display(fmt = "either side of the composite one-to-one relation must be a composite primary key or a composite unique key")]
+  #[display(
+    fmt = "either side of the composite one-to-one relation must be a composite primary key or a composite unique key"
+  )]
   One2OneComposite,
   #[display(fmt = "both sides of the many-to-many relation must be a primary key or a unique key")]
   Many2Many,
-  #[display(fmt = "both sides of the composite many-to-many relation must be either a composite primary key or a composite unique key")]
-  Many2ManyComposite
+  #[display(
+    fmt = "both sides of the composite many-to-many relation must be either a composite primary key or a composite unique key"
+  )]
+  Many2ManyComposite,
 }
 
 pub(super) fn throw_err<T>(err: Err, span_range: &Range<usize>, input: &str) -> AnalyzerResult<T> {

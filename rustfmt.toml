@@ -1,4 +1,4 @@
-max_width = 100
+max_width = 120
 reorder_imports = true
 tab_spaces = 2
 trailing_comma = "Vertical"
@@ -8,3 +8,7 @@ control_brace_style = "AlwaysSameLine"
 imports_layout = "Vertical"
 imports_granularity = "Module"
 group_imports = "StdExternalCrate"
+reorder_impl_items = true
+force_multiline_blocks = true
+use_field_init_shorthand = true
+use_try_shorthand = true

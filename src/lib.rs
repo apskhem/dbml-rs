@@ -23,8 +23,10 @@ pub(crate) mod utils;
 pub mod utils;
 
 pub use analyzer::*;
-pub use parser::Rule;
-pub use parser::parse as parse_dbml_unchecked;
+pub use parser::{
+  parse as parse_dbml_unchecked,
+  Rule,
+};
 
 /// Default database schema if not specified in a DBML file.
 pub const DEFAULT_SCHEMA: &str = "public";

@@ -89,7 +89,7 @@ impl ToString for ReferentialAction {
       Self::Cascade => "cascade",
       Self::Restrict => "restrict",
       Self::SetNull => "set null",
-      Self::SetDefault => "set default"
+      Self::SetDefault => "set default",
     };
 
     s.to_string()
