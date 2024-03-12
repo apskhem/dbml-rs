@@ -85,7 +85,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
   // collect tables
   let mut indexer = Indexer::default();
-  let mut indexed_refs: Vec<_> = refs.clone().into_iter().cloned().map(IndexedRef::from).collect();
+  let mut indexed_refs: Vec<_> = refs.into_iter().cloned().map(IndexedRef::from).collect();
 
   // start indexing the schema
   indexer.index_table(&tables, input)?;
@@ -96,6 +96,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
   for table in &tables {
     let mut tmp_table_indexer = TableIndexer::default();
 
+    // validate columns
     for col in &table.cols {
       if let Some(settings) = &col.settings {
         if settings.is_pk {
@@ -126,8 +127,18 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           throw_err(Err::ConflictedNullableSetting, &settings.span_range, input)?;
         }
       }
+
+      // collect refs from columns
+      let indexed_ref = IndexedRef::from_inline(
+        col.settings.clone().map(|s| s.refs).unwrap_or_default(),
+        &table.ident,
+        &col.name,
+      );
+
+      indexed_refs.extend(indexed_ref);
     }
 
+    // validate indexes block
     if let Some(indexes_block) = &table.indexes {
       for def in &indexes_block.defs {
         if def.cols.is_empty() {
@@ -192,19 +203,6 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
           },
         };
       }
-    }
-  }
-
-  // collect refs from tables
-  for table in &tables {
-    for col in &table.cols {
-      let indexed_ref = IndexedRef::from_inline(
-        col.settings.clone().map(|s| s.refs).unwrap_or_default(),
-        table.ident.clone(),
-        col.name.clone(),
-      );
-
-      indexed_refs.extend(indexed_ref);
     }
   }
 

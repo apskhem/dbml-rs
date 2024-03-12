@@ -82,14 +82,26 @@ pub enum Err {
   EnumValueNotFound,
   #[display(fmt = "Mismatched foreign key type: '{}': '{}' (left) and '{}': '{}' (right) are incompatible", l_ident, l_type, r_ident, r_type)]
   MismatchedForeignKeyType { r_ident: String, l_ident: String, r_type: String, l_type: String },
-  #[display(fmt = "Invalid foreign key: the referenced column is neither a primary key or a unique key")]
-  InvalidForeignKey,
-  #[display(fmt = "Invalid foreign key: either side of the one-to-one relation must be a primary key or a unique key")]
-  InvalidForeignKeyOne2One,
-  #[display(fmt = "Invalid foreign key: either side of the many-to-many relation must be a composite primary key or a composite unique key")]
-  InvalidForeignKeyMany2Many,
+  #[display(fmt = "Invalid foreign key: {}", err)]
+  InvalidForeignKey { err: InvalidForeignKeyErr },
   #[display(fmt = "Mismatched composite foreign key")]
   MismatchedCompositeForeignKey,
+}
+
+#[derive(Debug, PartialEq, Eq, Clone, Display)]
+pub enum InvalidForeignKeyErr {
+  #[display(fmt = "the referenced column is neither a primary key or a unique key")]
+  NitherUniqueKeyNorPrimaryKey,
+  #[display(fmt = "the referenced column is neither a composite primary key or a composite unique key")]
+  NitherUniqueKeyNorPrimaryKeyComposite,
+  #[display(fmt = "either side of the one-to-one relation must be a primary key or a unique key")]
+  One2One,
+  #[display(fmt = "either side of the composite one-to-one relation must be a composite primary key or a composite unique key")]
+  One2OneComposite,
+  #[display(fmt = "Invalid foreign key: both sides of the many-to-many relation must be a primary key or a unique key")]
+  Many2Many,
+  #[display(fmt = "both sides of the composite many-to-many relation must be either a composite primary key or a composite unique key")]
+  Many2ManyComposite
 }
 
 pub(super) fn throw_err<T>(err: Err, span_range: &Range<usize>, input: &str) -> AnalyzerResult<T> {

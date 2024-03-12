@@ -312,22 +312,19 @@ pub struct IndexedRef {
 impl IndexedRef {
   pub fn from_inline(
     ref_blocks: Vec<RefInline>,
-    table_ident: TableIdent,
-    col_name: Ident,
+    table_ident: &TableIdent,
+    col_name: &Ident,
   ) -> Vec<Self> {
     ref_blocks
       .into_iter()
       .map(|ref_block| {
-        let table_ident = table_ident.clone();
-        let col_name = col_name.clone();
-
         let RefInline { span_range, rel, rhs } = ref_block;
 
         let lhs = RefIdent {
           span_range: span_range.clone(),
           schema: table_ident.schema.clone(),
           table: table_ident.name.clone(),
-          compositions: vec![col_name],
+          compositions: vec![col_name.clone()],
         };
 
         Self {
@@ -379,7 +376,7 @@ impl IndexedRef {
         None => throw_err(Err::ColumnNotFound, &col_ident.span_range, input)
       }
     };
-    let is_valid_many2many_composite = |compositions: &Vec<Ident>, table_indexes: &Option<IndexesBlock>| -> bool {
+    let is_valid_composite = |compositions: &Vec<Ident>, table_indexes: &Option<IndexesBlock>| -> bool {
       table_indexes.as_ref().map(|indexes| {
         indexes.defs.iter().any(|def_item| {
           let composition_cols = BTreeSet::from_iter(compositions.iter().map(|s| s.to_string.clone()));
@@ -422,34 +419,47 @@ impl IndexedRef {
         throw_err(err, &self.span_range, input)?;
       }
 
-      match (
-        self.rel.clone(),
-        l_col.settings.clone().is_some_and(|s| s.is_pk || s.is_unique),
-        r_col.settings.clone().is_some_and(|s| s.is_pk || s.is_unique)) {
-        (Relation::One2One, false, false) => {
-          throw_err(Err::InvalidForeignKeyOne2One, &self.lhs.span_range, input)?;
-        }
-        (Relation::Many2Many, false, false) if composition_len == 1 => {
-          throw_err(Err::InvalidForeignKeyMany2Many, &self.span_range, input)?;
-        }
-        (Relation::One2Many, false, _) => {
-          throw_err(Err::InvalidForeignKey, &self.lhs.span_range, input)?;
-        }
-        (Relation::Many2One, _, false) => {
-          throw_err(Err::InvalidForeignKey, &self.rhs.span_range, input)?;
-        }
-        _ => ()
-      };
-    }
+      if composition_len == 1 {
+        let err = match (
+          self.rel.clone(),
+          l_col.settings.clone().is_some_and(|s| s.is_pk || s.is_unique),
+          r_col.settings.clone().is_some_and(|s| s.is_pk || s.is_unique)) {
+          (Relation::One2One, false, false) => Some(InvalidForeignKeyErr::One2One),
+          (Relation::Many2Many, false, false) => Some(InvalidForeignKeyErr::Many2Many),
+          (Relation::One2Many, false, _) => Some(InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKey),
+          (Relation::Many2One, _, false) => Some(InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKey),
+          _ => None
+        };
 
-    if self.rel == Relation::Many2Many && composition_len > 1 {
-      let is_valid_lhs = is_valid_many2many_composite(&self.lhs.compositions, &lhs_table.indexes);
-      let is_valid_rhs = is_valid_many2many_composite(&self.rhs.compositions, &rhs_table.indexes);
-
-      if !is_valid_lhs && !is_valid_rhs {
-        throw_err(Err::InvalidForeignKeyMany2Many, &self.span_range, input)?;
+        if let Some(err) = err {
+          throw_err(Err::InvalidForeignKey { err }, &self.lhs.span_range, input)?;
+        }
       }
     }
+
+    match composition_len {
+      2.. => {
+        let is_valid_lhs = is_valid_composite(&self.lhs.compositions, &lhs_table.indexes);
+        let is_valid_rhs = is_valid_composite(&self.rhs.compositions, &rhs_table.indexes);
+
+        let err = match self.rel {
+          Relation::One2One
+          if !is_valid_lhs && !is_valid_rhs =>  Some(InvalidForeignKeyErr::One2OneComposite),
+          Relation::Many2Many
+          if !is_valid_lhs || !is_valid_rhs => Some(InvalidForeignKeyErr::Many2ManyComposite),
+          Relation::One2Many
+          if !is_valid_lhs => Some(InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKeyComposite),
+          Relation::Many2One
+          if !is_valid_rhs => Some(InvalidForeignKeyErr::NitherUniqueKeyNorPrimaryKeyComposite),
+          _ => None
+        };
+
+        if let Some(err) = err {
+          throw_err(Err::InvalidForeignKey { err }, &self.lhs.span_range, input)?;
+        }
+      }
+      _ => ()
+    };
 
     Ok(())
   }
