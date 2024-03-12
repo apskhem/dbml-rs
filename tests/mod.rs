@@ -5,7 +5,7 @@ use std::path::{
   PathBuf,
 };
 
-use pest::error::LineColLocation;
+
 
 const DBML_DIR: &str = "tests/dbml";
 const OUT_DIR: &str = "tests/out";
@@ -27,7 +27,7 @@ fn read_dbml_dir<P: AsRef<Path>>(dir_path: P) -> Result<Vec<PathBuf>> {
 }
 
 fn create_out_dir() -> Result<()> {
-  if !fs::metadata(OUT_DIR).is_ok() {
+  if fs::metadata(OUT_DIR).is_err() {
     fs::create_dir(OUT_DIR)?;
   }
 

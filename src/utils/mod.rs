@@ -43,11 +43,11 @@ pub fn get_table_refs(table_ident: &TableIdent, analyzed_indexer: &AnalyzedIndex
     let lhs_ident = analyzed_indexer.indexer.resolve_ref_alias(&ref_block.lhs);
     let rhs_ident = analyzed_indexer.indexer.resolve_ref_alias(&ref_block.rhs);
 
-    if eq(&table_ident, &lhs_ident) && eq(&table_ident, &rhs_ident) {
+    if eq(table_ident, &lhs_ident) && eq(table_ident, &rhs_ident) {
       ref_self_blocks.push(ref_block.clone())
-    } else if eq(&table_ident, &lhs_ident) {
+    } else if eq(table_ident, &lhs_ident) {
       ref_to_blocks.push(ref_block.clone())
-    } else if eq(&table_ident, &rhs_ident) {
+    } else if eq(table_ident, &rhs_ident) {
       ref_by_blocks.push(ref_block.clone())
     }
   }

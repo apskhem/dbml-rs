@@ -63,7 +63,7 @@ pub fn parse(input: &str) -> ParserResult<SchemaBlock> {
 fn parse_schema<'a>(pair: Pair<Rule>, input: &'a str) -> ParserResult<SchemaBlock<'a>> {
   let init = SchemaBlock {
     span_range: s2r(pair.as_span()),
-    input: &input,
+    input,
     ..Default::default()
   };
 
@@ -392,7 +392,6 @@ fn parse_enum_decl(pair: Pair<Rule>) -> ParserResult<EnumBlock> {
 fn parse_enum_block(pair: Pair<Rule>) -> ParserResult<Vec<EnumValue>> {
   pair
     .into_inner()
-    .into_iter()
     .map(|p1| {
       match p1.as_rule() {
         Rule::enum_value => Ok(parse_enum_value(p1)?),

@@ -120,7 +120,8 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
         let filtered: BTreeSet<_> = settings.attributes
           .iter()
-          .filter_map(|a| ["not null", "null"].contains(&a.key.to_string.as_str()).then(|| a.key.to_string.clone()))
+          .filter(|&a| ["not null", "null"].contains(&a.key.to_string.as_str()))
+          .map(|a| a.key.to_string.clone())
           .collect();
 
         if filtered.len() == 2 {
@@ -160,7 +161,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
 
         for ident in &def.cols {
           if let IndexesColumnType::String(col_name) = ident {
-            if table.cols.iter().find(|col| col.name.to_string == col_name.to_string).is_none() {
+            if !table.cols.iter().any(|col| col.name.to_string == col_name.to_string) {
               throw_err(Err::ColumnNotFound, &col_name.span_range, input)?;
             }
           }
@@ -257,7 +258,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                   type_name
                 }
                 Err(_) => {
-                  let splited: Vec<_> = raw_type.split(".").collect();
+                  let splited: Vec<_> = raw_type.split('.').collect();
 
                   let (enum_schema, enum_name) = match splited.len() {
                     1 => (None, raw_type),

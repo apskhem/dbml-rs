@@ -77,24 +77,22 @@ impl FromStr for ReferentialAction {
       "restrict" => Ok(Self::Restrict),
       "set null" => Ok(Self::SetNull),
       "set default" => Ok(Self::SetDefault),
-      _ => Err(format!("invalid referential action")),
+      _ => Err("invalid referential action".to_string()),
     }
   }
 }
 
 impl ToString for ReferentialAction {
   fn to_string(&self) -> String {
-    match self {
-      Self::NoAction => {
-        format!("no action")
-      }
-      Self::Cascade => format!("cascade"),
-      Self::Restrict => format!("restrict"),
-      Self::SetNull => format!("set null"),
-      Self::SetDefault => {
-        format!("set default")
-      }
-    }
+    let s = match self {
+      Self::NoAction => "no action",
+      Self::Cascade => "cascade",
+      Self::Restrict => "restrict",
+      Self::SetNull => "set null",
+      Self::SetDefault => "set default"
+    };
+
+    s.to_string()
   }
 }
 

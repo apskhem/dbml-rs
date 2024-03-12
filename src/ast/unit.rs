@@ -73,7 +73,7 @@ impl ToString for Value {
       Self::Bool(v) => format!("{v}"),
       Self::HexColor(v) => v.clone(),
       Self::Expr(v) => v.clone(),
-      Self::Null => format!("null"),
+      Self::Null => "null".to_string(),
     }
   }
 }

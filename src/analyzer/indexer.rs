@@ -43,7 +43,7 @@ impl Indexer {
       let schema = schema.as_ref().map(|s| s.to_string.clone()).unwrap_or_else(|| DEFAULT_SCHEMA.to_owned());
 
       if self.contains_table(&schema, &name.to_string) {
-        throw_err(Err::DuplicatedTableName, &span_range, input)?;
+        throw_err(Err::DuplicatedTableName, span_range, input)?;
       }
 
       let mut indexed_cols = BTreeSet::new();
@@ -403,8 +403,8 @@ impl IndexedRef {
       .zip(rhs_ident.compositions.iter());
 
     for (l, r) in field_pairs {
-      let l_col = find_ref_col(l, &lhs_table)?;
-      let r_col = find_ref_col(r, &rhs_table)?;
+      let l_col = find_ref_col(l, lhs_table)?;
+      let r_col = find_ref_col(r, rhs_table)?;
 
       let l_type = &l_col.r#type;
       let r_type = &r_col.r#type;
@@ -432,7 +432,7 @@ impl IndexedRef {
         };
 
         if let Some((err, span_range)) = err {
-          throw_err(Err::InvalidForeignKey { err }, &span_range, input)?;
+          throw_err(Err::InvalidForeignKey { err }, span_range, input)?;
         }
       }
     }
@@ -455,7 +455,7 @@ impl IndexedRef {
         };
 
         if let Some((err, span_range)) = err {
-          throw_err(Err::InvalidForeignKey { err }, &span_range, input)?;
+          throw_err(Err::InvalidForeignKey { err }, span_range, input)?;
         }
       }
       _ => ()
