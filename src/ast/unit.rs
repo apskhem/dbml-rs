@@ -6,35 +6,51 @@ use core::str::FromStr;
 
 use super::SpanRange;
 
-/// A String literal.
+/// Represents a string literal.
 #[derive(Debug, Clone)]
 pub struct Literal {
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
+  /// The value associated with the literal.
   pub raw: String,
+  /// The value associated with the literal.
   pub value: Value,
 }
 
+/// Represents an identifier.
 #[derive(Debug, Clone, Default)]
 pub struct Ident {
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
+  /// The raw string value of the identifier.
   pub raw: String,
+  /// The string representation of the identifier.
   pub to_string: String,
 }
 
+/// Represents an attribute with a key-value pair. It can have solely key without specified any value.
 #[derive(Debug, Clone, Default)]
 pub struct Attribute {
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
+  /// The key of the attribute.
   pub key: Ident,
+  /// The value associated with the attribute, if any.
   pub value: Option<Literal>,
 }
 
+/// Represents a key-value property.
 #[derive(Debug, Clone)]
 pub struct Property {
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
+  /// Identifier representing the key of the property.
   pub key: Ident,
+  /// Literal value associated with the property.
   pub value: Literal,
 }
 
+/// Represents whether a value is explicitly specified as either null or not null.
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub enum Nullable {
   NotNull,
@@ -82,8 +98,11 @@ impl ToString for Value {
   }
 }
 
+/// Represents a note block.
 #[derive(Debug, Clone)]
 pub struct NoteBlock {
+  /// The range of the span in the source text.
   pub span_range: SpanRange,
+  /// The literal value associated with the note block. It must be a string literal.
   pub value: Literal,
 }

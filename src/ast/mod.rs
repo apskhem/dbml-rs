@@ -2,7 +2,6 @@ pub(crate) type SpanRange = Range<usize>;
 
 mod enums;
 mod indexes;
-mod meta;
 mod project;
 mod refs;
 mod schema;
@@ -14,7 +13,6 @@ use core::ops::Range;
 
 pub use enums::*;
 pub use indexes::*;
-pub use meta::*;
 pub use project::*;
 pub use refs::*;
 pub use schema::*;

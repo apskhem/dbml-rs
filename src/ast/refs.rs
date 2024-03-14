@@ -105,6 +105,7 @@ impl ToString for ReferentialAction {
 pub struct RefSettings {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
+  /// A vector of key and optional value pairs representing attributes of the ref.
   pub attributes: Vec<Attribute>,
   pub on_delete: Option<ReferentialAction>,
   pub on_update: Option<ReferentialAction>,

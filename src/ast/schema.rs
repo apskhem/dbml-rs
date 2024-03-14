@@ -2,7 +2,7 @@ use alloc::vec::Vec;
 
 use super::*;
 
-/// An entire structure of a parsed DBML file.
+/// Represents the entire structure of a parsed DBML file.
 #[derive(Debug, Clone, Default)]
 pub struct SchemaBlock<'a> {
   /// The span range of the entire parsed DBML structure in the source text.

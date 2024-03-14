@@ -4,16 +4,16 @@ use core::str::FromStr;
 
 use super::*;
 
-/// A struct representing a block of table.
+/// Represents a block of table.
 #[derive(Debug, Clone, Default)]
 pub struct TableBlock {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
   /// Columns or fields of the table.
   pub cols: Vec<TableColumn>,
-  /// Identifier for the table.
+  /// The identifier for the table.
   pub ident: TableIdent,
-  /// The note for the table.
+  /// The note block associated with the table block.
   pub note: Option<NoteBlock>,
   /// The indexes block.
   pub indexes: Option<IndexesBlock>,
@@ -21,16 +21,16 @@ pub struct TableBlock {
   pub settings: Option<TableSettings>,
 }
 
-/// A struct representing settings of the table.
+/// Represents settings of the table.
 #[derive(Debug, Clone, Default)]
 pub struct TableSettings {
   /// The range of the span in the source text.
   pub span_range: SpanRange,
-  /// A vector of key-value pairs representing properties of the table.
+  /// A vector of key and optional value pairs representing attributes of the table.
   pub attributes: Vec<Attribute>,
 }
 
-/// A struct representing a single column or field of the table.
+/// Represents a single column or field of the table.
 #[derive(Debug, Clone, Default)]
 pub struct TableColumn {
   /// The range of the span in the source text.
@@ -43,7 +43,7 @@ pub struct TableColumn {
   pub settings: Option<ColumnSettings>,
 }
 
-/// A struct representing details of the table column.
+/// Represents details of the table column.
 #[derive(Debug, Clone, Default)]
 pub struct ColumnType {
   /// The range of the span in the source text.
@@ -164,7 +164,7 @@ impl FromStr for ColumnTypeName {
   }
 }
 
-/// A struct representing settings of a column.
+/// Represents settings of a column.
 #[derive(Debug, Clone, Default)]
 pub struct ColumnSettings {
   /// The range of the span in the source text.
@@ -187,7 +187,7 @@ pub struct ColumnSettings {
   pub refs: Vec<RefInline>,
 }
 
-/// A struct representing a table identifier.
+/// Represents a table identifier.
 #[derive(Debug, Clone, Default)]
 pub struct TableIdent {
   /// The range of the span in the source text.

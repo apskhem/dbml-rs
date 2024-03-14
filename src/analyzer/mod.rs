@@ -232,7 +232,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
     }
   }
 
-  // validate table type
+  // validate table column types
   let tables = tables
     .into_iter()
     .map(|table| {
@@ -242,11 +242,10 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
         .map(|col| {
           let type_name = col.r#type.type_name;
 
-          if type_name == ColumnTypeName::Undef {
-            unreachable!("undef field type must not appear");
-          }
-
           let type_name = match type_name {
+            ColumnTypeName::Undef => {
+              unreachable!("undef field type must not appear");
+            }
             ColumnTypeName::Raw(raw_type) => {
               match ColumnTypeName::from_str(&raw_type) {
                 Ok(type_name) => {
@@ -332,16 +331,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
               Value::String(val) => {
                 let err = Err::InvalidDefaultValue { raw_value: val.clone(), raw_type: col.r#type.raw.clone() };
 
-                if !matches!(
-                  type_name,
-                  ColumnTypeName::Bit
-                  | ColumnTypeName::Varbit
-                  | ColumnTypeName::Char
-                  | ColumnTypeName::VarChar
-                  | ColumnTypeName::Enum(_)
-                ) {
-                  throw_err(err.clone(), &span_range, input)?;
-                }
+                // TODO: validate which type can be strings
 
                 // validate fixed and variable length data type
                 match type_name {
@@ -361,17 +351,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
               Value::Integer(val) => {
                 let err = Err::DataTypeExceeded { raw_type: col.r#type.raw.clone() };
 
-                if !matches!(
-                  type_name,
-                  ColumnTypeName::SmallSerial
-                  | ColumnTypeName::Serial
-                  | ColumnTypeName::BigSerial
-                  | ColumnTypeName::SmallInt
-                  | ColumnTypeName::Integer
-                  | ColumnTypeName::BigInt
-                ) {
-                  throw_err(Err::InvalidDefaultValue { raw_value: val.to_string(), raw_type: col.r#type.raw.clone() }, &span_range, input)?;
-                }
+                // TODO: validate which type can be numbers
 
                 match type_name {
                   ColumnTypeName::SmallInt

@@ -9,6 +9,7 @@ use alloc::string::{
 
 use super::*;
 
+/// Represents tables and enums within a given schema name.
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct IndexedSchemaBlock {
   /// Indexed table names and associated columns
@@ -17,6 +18,8 @@ pub struct IndexedSchemaBlock {
   enum_map: BTreeMap<String, BTreeSet<String>>,
 }
 
+/// Represents various types of items for indexing identifiers
+/// including aliases, schema groupings, and table groups.
 #[derive(Debug, PartialEq, Clone, Default)]
 pub struct Indexer {
   /// Indexed table groups map.
@@ -521,4 +524,15 @@ impl From<RefBlock> for IndexedRef {
       settings: ref_block.settings,
     }
   }
+}
+
+/// Represents indexed meta data during parsing.
+#[derive(Debug, PartialEq, Clone, Default)]
+pub struct TableIndexer {
+  /// A list of primary column names (composition applicable).
+  pub pk_list: Vec<String>,
+  /// A list of column names with unique constraint  (composition applicable).
+  pub unique_list: Vec<BTreeSet<String>>,
+  /// A list of indexed column names (composition applicable).
+  pub indexed_list: Vec<(Vec<String>, Option<IndexesType>)>,
 }
