@@ -278,12 +278,12 @@ impl Indexer {
         RefIdent {
           span_range: ident.span_range.clone(),
           schema: Some(Ident {
-            span_range: 0..0, // FIXME:
+            span_range: ident.span_range.clone(),
             raw: schema.clone(),
             to_string: schema.clone(),
           }),
           table: Ident {
-            span_range: ident.table.span_range.clone(),
+            span_range: ident.span_range.clone(),
             raw: table.clone(),
             to_string: table.clone(),
           },
