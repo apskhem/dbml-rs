@@ -280,12 +280,12 @@ SchemaBlock {
                 span_range: 307..447,
                 ident: EnumIdent {
                     span_range: 312..328,
+                    schema: None,
                     name: Ident {
                         span_range: 312..327,
                         raw: "products_status",
                         to_string: "products_status",
                     },
-                    schema: None,
                 },
                 values: [
                     EnumValue {

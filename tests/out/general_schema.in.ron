@@ -7,12 +7,12 @@ SchemaBlock {
                 span_range: 0..69,
                 ident: EnumIdent {
                     span_range: 5..21,
+                    schema: None,
                     name: Ident {
                         span_range: 5..20,
                         raw: "\"orders_status\"",
                         to_string: "orders_status",
                     },
-                    schema: None,
                 },
                 values: [
                     EnumValue {
@@ -59,12 +59,12 @@ SchemaBlock {
                 span_range: 71..126,
                 ident: EnumIdent {
                     span_range: 76..93,
+                    schema: None,
                     name: Ident {
                         span_range: 76..92,
                         raw: "\"product status\"",
                         to_string: "product status",
                     },
-                    schema: None,
                 },
                 values: [
                     EnumValue {

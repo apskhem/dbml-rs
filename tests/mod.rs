@@ -5,9 +5,7 @@ use std::path::{
   PathBuf,
 };
 
-const DBML_DIR: &str = "tests/dbml";
 const OUT_DIR: &str = "tests/out";
-const OUT_CHECKED_DIR: &str = "tests/out/checked";
 
 fn read_dbml_dir<P: AsRef<Path>>(dir_path: P) -> Result<Vec<PathBuf>> {
   let mut out = vec![];
@@ -36,9 +34,9 @@ fn create_out_dir() -> Result<()> {
 fn parse_dbml_unchecked() -> Result<()> {
   create_out_dir()?;
 
-  let testing_dbml_files = read_dbml_dir(DBML_DIR)?;
+  let testing_dbml_paths = read_dbml_dir("tests/dbml")?;
 
-  for path in testing_dbml_files {
+  for path in testing_dbml_paths {
     let content = fs::read_to_string(&path)?;
     let parsed =
       dbml_rs::parse_dbml_unchecked(&content).unwrap_or_else(|err| panic!("{}", err.with_path(path.to_str().unwrap())));
@@ -51,6 +49,21 @@ fn parse_dbml_unchecked() -> Result<()> {
     let out_file_path = format!("{}/{}", OUT_DIR, out_file_name);
 
     fs::write(out_file_path, out_content)?;
+  }
+
+  Ok(())
+}
+  
+#[test]
+fn parse_dbml_validator() -> Result<()> {
+  let testing_dbml_paths = read_dbml_dir("tests/dbml/validator")?;
+
+  for path in testing_dbml_paths {
+    let content = fs::read_to_string(&path)?;
+
+    if let Ok(_) = dbml_rs::parse_dbml(&content) {
+      panic!("{:?}: validation unexpected", path)
+    }
   }
 
   Ok(())

@@ -694,12 +694,12 @@ SchemaBlock {
                 span_range: 1015..1096,
                 ident: EnumIdent {
                     span_range: 1020..1032,
+                    schema: None,
                     name: Ident {
                         span_range: 1020..1031,
                         raw: "post_status",
                         to_string: "post_status",
                     },
-                    schema: None,
                 },
                 values: [
                     EnumValue {
@@ -763,12 +763,12 @@ SchemaBlock {
                 span_range: 1098..1148,
                 ident: EnumIdent {
                     span_range: 1103..1109,
+                    schema: None,
                     name: Ident {
                         span_range: 1103..1108,
                         raw: "grade",
                         to_string: "grade",
                     },
-                    schema: None,
                 },
                 values: [
                     EnumValue {
