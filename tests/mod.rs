@@ -30,6 +30,9 @@ fn create_out_dir() -> Result<()> {
   Ok(())
 }
 
+/// Run with UPDATE_DBML_OUTPUT=1 to update the expected output files
+/// e.g. (on Linux or macOS)
+/// UPDATE_DBML_OUTPUT=1 cargo test
 #[test]
 fn parse_dbml_unchecked() -> Result<()> {
   create_out_dir()?;
@@ -48,7 +51,23 @@ fn parse_dbml_unchecked() -> Result<()> {
     let out_file_name = out_file_path.file_name().unwrap().to_str().unwrap();
     let out_file_path = format!("{}/{}", OUT_DIR, out_file_name);
 
-    fs::write(out_file_path, out_content)?;
+    let update = match std::env::var("UPDATE_DBML_OUTPUT") {
+      Ok(v) => v == "1",
+      _ => false
+    };
+    if update {
+      fs::write(out_file_path, out_content)?;
+    } else {
+      let expected = fs::read_to_string(&out_file_path).or_else(|e| {
+        match e.kind() {
+          std::io::ErrorKind::NotFound => {
+            Ok("no output file".to_string())
+          },
+          e => Err(e)
+        }
+      })?;
+      assert_eq!(out_content, expected, "Unexpected output for {:?}", path);
+    }
   }
 
   Ok(())

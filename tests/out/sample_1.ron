@@ -62,6 +62,7 @@ SchemaBlock {
                     raw: "order",
                     to_string: "order",
                 },
+                note: None,
                 items: [
                     TableGroupItem {
                         span_range: 152..164,
@@ -97,6 +98,7 @@ SchemaBlock {
                         },
                     },
                 ],
+                settings: None,
             },
         ),
         Table(

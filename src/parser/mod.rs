@@ -175,7 +175,7 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
         }
       }
       Rule::block_settings => {
-        acc.settings = Some(parse_block_settings(p1)?);
+        acc.settings = Some(parse_table_settings(p1)?);
       }
       _ => {
         throw_rules(
@@ -194,23 +194,19 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
   })
 }
 
-fn parse_block_settings(pair: Pair<Rule>) -> ParserResult<TableSettings> {
-  let mut init = TableSettings {
+fn parse_table_settings(pair: Pair<Rule>) -> ParserResult<TableSettings> {
+  Ok(TableSettings {
     span_range: s2r(pair.as_span()),
-    ..Default::default()
-  };
-
-  init.attributes = pair
-    .into_inner()
-    .map(|p1| {
-      match p1.as_rule() {
-        Rule::attribute => parse_attribute(p1),
-        _ => throw_rules(&[Rule::attribute], p1),
-      }
-    })
-    .collect::<ParserResult<_>>()?;
-
-  Ok(init)
+    attributes: pair
+      .into_inner()
+      .map(|p1| {
+        match p1.as_rule() {
+          Rule::attribute => parse_attribute(p1),
+          _ => throw_rules(&[Rule::attribute], p1),
+        }
+      })
+      .collect::<ParserResult<_>>()?,
+  })
 }
 
 fn parse_table_col(pair: Pair<Rule>) -> ParserResult<TableColumn> {
@@ -548,14 +544,33 @@ fn parse_table_group_decl(pair: Pair<Rule>) -> ParserResult<TableGroupBlock> {
 
               acc.items.push(init)
             }
-            _ => throw_rules(&[Rule::decl_ident], p2)?,
+            Rule::note_decl => acc.note = Some(parse_note_decl(p2)?),
+            _ => throw_rules(&[Rule::decl_ident, Rule::note_decl], p2)?,
           }
         }
       }
-      _ => throw_rules(&[Rule::ident, Rule::table_group_block], p1)?,
+      Rule::block_settings => {
+        acc.settings = Some(parse_table_group_settings(p1)?);
+      }
+      _ => throw_rules(&[Rule::ident, Rule::table_group_block, Rule::block_settings], p1)?,
     }
 
     Ok(acc)
+  })
+}
+
+fn parse_table_group_settings(pair: Pair<Rule>) -> ParserResult<TableGroupSettings> {
+  Ok(TableGroupSettings {
+    span_range: s2r(pair.as_span()),
+    attributes: pair
+      .into_inner()
+      .map(|p1| {
+        match p1.as_rule() {
+          Rule::attribute => parse_attribute(p1),
+          _ => throw_rules(&[Rule::attribute], p1),
+        }
+      })
+      .collect::<ParserResult<_>>()?,
   })
 }
 

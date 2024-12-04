@@ -889,9 +889,10 @@ SchemaBlock {
                     raw: "g1",
                     to_string: "g1",
                 },
+                note: None,
                 items: [
                     TableGroupItem {
-                        span_range: 828..833,
+                        span_range: 828..836,
                         schema: None,
                         ident_alias: Ident {
                             span_range: 828..833,
@@ -900,7 +901,7 @@ SchemaBlock {
                         },
                     },
                     TableGroupItem {
-                        span_range: 836..845,
+                        span_range: 836..846,
                         schema: None,
                         ident_alias: Ident {
                             span_range: 836..845,
@@ -909,6 +910,7 @@ SchemaBlock {
                         },
                     },
                 ],
+                settings: None,
             },
         ),
         TableGroup(
@@ -919,9 +921,10 @@ SchemaBlock {
                     raw: "g2",
                     to_string: "g2",
                 },
+                note: None,
                 items: [
                     TableGroupItem {
-                        span_range: 867..876,
+                        span_range: 867..879,
                         schema: None,
                         ident_alias: Ident {
                             span_range: 867..876,
@@ -930,7 +933,7 @@ SchemaBlock {
                         },
                     },
                     TableGroupItem {
-                        span_range: 879..885,
+                        span_range: 879..886,
                         schema: None,
                         ident_alias: Ident {
                             span_range: 879..885,
@@ -939,6 +942,7 @@ SchemaBlock {
                         },
                     },
                 ],
+                settings: None,
             },
         ),
         Table(
