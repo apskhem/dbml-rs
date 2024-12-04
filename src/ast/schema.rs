@@ -22,6 +22,8 @@ pub enum TopLevelBlock {
   Table(TableBlock),
   /// Represents a table group block in the DBML file.
   TableGroup(TableGroupBlock),
+  /// Represents a note block in the DBML file.
+  Note(NoteBlock),
   /// Represents a reference block in the DBML file.
   Ref(RefBlock),
   /// Represents an enum block in the DBML file.

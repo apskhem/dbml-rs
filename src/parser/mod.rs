@@ -78,6 +78,7 @@ fn parse_schema<'a>(pair: Pair<Rule>, input: &'a str) -> ParserResult<SchemaBloc
       Rule::table_decl => acc.blocks.push(TopLevelBlock::Table(parse_table_decl(p1)?)),
       Rule::enum_decl => acc.blocks.push(TopLevelBlock::Enum(parse_enum_decl(p1)?)),
       Rule::ref_decl => acc.blocks.push(TopLevelBlock::Ref(parse_ref_decl(p1)?)),
+      Rule::note_decl => acc.blocks.push(TopLevelBlock::Note(parse_note_decl(p1)?)),
       Rule::table_group_decl => acc.blocks.push(TopLevelBlock::TableGroup(parse_table_group_decl(p1)?)),
       Rule::EOI => (),
       _ => {
