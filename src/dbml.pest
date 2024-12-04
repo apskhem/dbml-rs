@@ -22,7 +22,7 @@ ident = { var | double_quoted_string }
 
 // attributes and properties
 property = { spaced_var ~ ":" ~ (value | spaced_var) }
-attribute = { spaced_var ~ (":" ~ (value | spaced_var))? }
+attribute = { spaced_var ~ (":" ~ (value | spaced_var | double_quoted_string))? }
 block_settings = { "[" ~ (attribute ~ ("," ~ attribute)*)? ~ "]" }
 
 // values

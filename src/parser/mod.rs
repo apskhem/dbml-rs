@@ -938,7 +938,14 @@ pub fn parse_attribute(pair: Pair<Rule>) -> ParserResult<Attribute> {
           value: parse_value(p1)?,
         })
       }
-      _ => throw_rules(&[Rule::value, Rule::spaced_var], p1)?,
+      Rule::double_quoted_string => {
+        init.value = Some(Literal {
+          span_range: s2r(p1.as_span()),
+          raw: p1.as_str().to_string(),
+          value: Value::String(p1.into_inner().as_str().to_string()),
+        })
+      }
+      _ => throw_rules(&[Rule::value, Rule::spaced_var, Rule::double_quoted_string], p1)?,
     }
   }
 
