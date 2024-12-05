@@ -2,6 +2,8 @@ Table sal_emp {
   name text
   pay_by_quarter "int[]" [not null]
   schedule "text[][]" [null]
+  unquoted text[] [not null]
+  mixed "character varying"[]
 }
 
 Table tictactoe {

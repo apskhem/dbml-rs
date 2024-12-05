@@ -229,6 +229,14 @@ fn parse_table_col(pair: Pair<Rule>) -> ParserResult<TableColumn> {
   })
 }
 
+fn build_type_name_with_schema(schema: Option<&Ident>, type_name: Pair<Rule>) -> String {
+  let mut type_name = type_name.as_str().to_string();
+  if let Some(schema) = schema {
+    type_name = format!("{}.{}", schema.to_string, type_name);
+  }
+  type_name
+}
+
 fn parse_col_type(pair: Pair<Rule>) -> ParserResult<ColumnType> {
   let mut out = ColumnType {
     span_range: s2r(pair.as_span()),
@@ -236,12 +244,19 @@ fn parse_col_type(pair: Pair<Rule>) -> ParserResult<ColumnType> {
     ..Default::default()
   };
 
+  let mut schema = None;
+
   for p1 in pair.into_inner() {
     match p1.as_rule() {
+      Rule::ident => {
+        schema = Some(parse_ident(p1)?);
+      }
       Rule::col_type_quoted | Rule::col_type_unquoted => {
         for p2 in p1.into_inner() {
           match p2.as_rule() {
-            Rule::var | Rule::spaced_var => out.type_name = ColumnTypeName::Raw(p2.as_str().to_string()),
+            Rule::var | Rule::spaced_var => {
+              out.type_name = ColumnTypeName::Raw(build_type_name_with_schema(schema.as_ref(), p2))
+            }
             Rule::col_type_arg => out.args = parse_col_type_arg(p2)?,
             Rule::col_type_array => {
               let val = p2.into_inner().try_fold(None, |_, p3| {

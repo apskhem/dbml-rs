@@ -14,8 +14,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 24..29,
-                            raw: "int\n\t",
+                            span_range: 24..27,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -32,8 +32,8 @@ SchemaBlock {
                             to_string: "full_name",
                         },
                         type: ColumnType {
-                            span_range: 39..49,
-                            raw: "varchar\n  ",
+                            span_range: 39..46,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -50,8 +50,8 @@ SchemaBlock {
                             to_string: "created_at",
                         },
                         type: ColumnType {
-                            span_range: 60..72,
-                            raw: "timestamp\n  ",
+                            span_range: 60..69,
+                            raw: "timestamp",
                             type_name: Raw(
                                 "timestamp",
                             ),
@@ -68,8 +68,8 @@ SchemaBlock {
                             to_string: "country_code",
                         },
                         type: ColumnType {
-                            span_range: 85..89,
-                            raw: "int\n",
+                            span_range: 85..88,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -112,8 +112,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 115..122,
-                            raw: "int \n  ",
+                            span_range: 115..118,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -130,8 +130,8 @@ SchemaBlock {
                             to_string: "merchant_name",
                         },
                         type: ColumnType {
-                            span_range: 136..145,
-                            raw: "varchar\n\t",
+                            span_range: 136..143,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -148,8 +148,8 @@ SchemaBlock {
                             to_string: "country_code",
                         },
                         type: ColumnType {
-                            span_range: 158..164,
-                            raw: "int\n  ",
+                            span_range: 158..161,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -166,8 +166,8 @@ SchemaBlock {
                             to_string: "created at",
                         },
                         type: ColumnType {
-                            span_range: 177..187,
-                            raw: "varchar\n  ",
+                            span_range: 177..184,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -184,8 +184,8 @@ SchemaBlock {
                             to_string: "admin_id",
                         },
                         type: ColumnType {
-                            span_range: 196..200,
-                            raw: "int ",
+                            span_range: 196..199,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),

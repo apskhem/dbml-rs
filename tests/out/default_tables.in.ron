@@ -14,8 +14,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 20..24,
-                            raw: "int ",
+                            span_range: 20..23,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -75,8 +75,8 @@ SchemaBlock {
                             to_string: "user_id",
                         },
                         type: ColumnType {
-                            span_range: 53..57,
-                            raw: "int ",
+                            span_range: 53..56,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -126,8 +126,8 @@ SchemaBlock {
                             to_string: "status",
                         },
                         type: ColumnType {
-                            span_range: 85..93,
-                            raw: "varchar ",
+                            span_range: 85..92,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -178,8 +178,8 @@ SchemaBlock {
                             to_string: "created_at",
                         },
                         type: ColumnType {
-                            span_range: 129..137,
-                            raw: "varchar ",
+                            span_range: 129..136,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -250,8 +250,8 @@ SchemaBlock {
                             to_string: "order_id",
                         },
                         type: ColumnType {
-                            span_range: 190..196,
-                            raw: "int\n  ",
+                            span_range: 190..193,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -268,8 +268,8 @@ SchemaBlock {
                             to_string: "product_id",
                         },
                         type: ColumnType {
-                            span_range: 207..213,
-                            raw: "int\n  ",
+                            span_range: 207..210,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -286,8 +286,8 @@ SchemaBlock {
                             to_string: "quantity",
                         },
                         type: ColumnType {
-                            span_range: 222..226,
-                            raw: "int\n",
+                            span_range: 222..225,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -324,8 +324,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 251..255,
-                            raw: "int ",
+                            span_range: 251..254,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -364,8 +364,8 @@ SchemaBlock {
                             to_string: "name",
                         },
                         type: ColumnType {
-                            span_range: 267..275,
-                            raw: "varchar ",
+                            span_range: 267..274,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -412,8 +412,8 @@ SchemaBlock {
                             to_string: "merchant_id",
                         },
                         type: ColumnType {
-                            span_range: 305..309,
-                            raw: "int ",
+                            span_range: 305..308,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -454,8 +454,8 @@ SchemaBlock {
                             to_string: "price",
                         },
                         type: ColumnType {
-                            span_range: 328..334,
-                            raw: "float ",
+                            span_range: 328..333,
+                            raw: "float",
                             type_name: Raw(
                                 "float",
                             ),
@@ -506,8 +506,8 @@ SchemaBlock {
                             to_string: "stock",
                         },
                         type: ColumnType {
-                            span_range: 360..368,
-                            raw: "boolean ",
+                            span_range: 360..367,
+                            raw: "boolean",
                             type_name: Raw(
                                 "boolean",
                             ),
@@ -558,8 +558,8 @@ SchemaBlock {
                             to_string: "expiration",
                         },
                         type: ColumnType {
-                            span_range: 397..402,
-                            raw: "date ",
+                            span_range: 397..401,
+                            raw: "date",
                             type_name: Raw(
                                 "date",
                             ),

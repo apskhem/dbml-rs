@@ -1,6 +1,6 @@
 SchemaBlock {
-    span_range: 0..430,
-    input: "Table users {\n  id int [primary key]\n  full_name varchar\n  email varchar [unique]\n  gender varchar\n  date_of_birth varchar\n  created_at varchar\n  country_code int \n  active boolean [not null]\n  \n  indexes {\n    (id) [unique, note: 'index note']\n    full_name [name: 'User Name']\n    (email,created_at) [type: hash]\n    `now()`\n    (active, `lower(full_name)`)\n    (`getdate()`, `upper(gender)`)\n    (`reverse(country_code)`)\n  }\n}",
+    span_range: 0..431,
+    input: "Table users {\n  id int [primary key]\n  full_name varchar\n  email varchar [unique]\n  gender varchar\n  date_of_birth varchar\n  created_at varchar\n  country_code int \n  active boolean [not null]\n  \n  indexes {\n    (id) [unique, note: 'index note']\n    full_name [name: 'User Name']\n    (email,created_at) [type: hash]\n    `now()`\n    (active, `lower(full_name)`)\n    (`getdate()`, `upper(gender)`)\n    (`reverse(country_code)`)\n  }\n}\n",
     blocks: [
         Table(
             TableBlock {
@@ -14,8 +14,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 19..23,
-                            raw: "int ",
+                            span_range: 19..22,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -54,8 +54,8 @@ SchemaBlock {
                             to_string: "full_name",
                         },
                         type: ColumnType {
-                            span_range: 49..59,
-                            raw: "varchar\n  ",
+                            span_range: 49..56,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -72,8 +72,8 @@ SchemaBlock {
                             to_string: "email",
                         },
                         type: ColumnType {
-                            span_range: 65..73,
-                            raw: "varchar ",
+                            span_range: 65..72,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -112,8 +112,8 @@ SchemaBlock {
                             to_string: "gender",
                         },
                         type: ColumnType {
-                            span_range: 91..101,
-                            raw: "varchar\n  ",
+                            span_range: 91..98,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -130,8 +130,8 @@ SchemaBlock {
                             to_string: "date_of_birth",
                         },
                         type: ColumnType {
-                            span_range: 115..125,
-                            raw: "varchar\n  ",
+                            span_range: 115..122,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -148,8 +148,8 @@ SchemaBlock {
                             to_string: "created_at",
                         },
                         type: ColumnType {
-                            span_range: 136..146,
-                            raw: "varchar\n  ",
+                            span_range: 136..143,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -166,8 +166,8 @@ SchemaBlock {
                             to_string: "country_code",
                         },
                         type: ColumnType {
-                            span_range: 159..166,
-                            raw: "int \n  ",
+                            span_range: 159..162,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -184,8 +184,8 @@ SchemaBlock {
                             to_string: "active",
                         },
                         type: ColumnType {
-                            span_range: 173..181,
-                            raw: "boolean ",
+                            span_range: 173..180,
+                            raw: "boolean",
                             type_name: Raw(
                                 "boolean",
                             ),

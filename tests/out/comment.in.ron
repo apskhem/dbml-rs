@@ -14,8 +14,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 27..31,
-                            raw: "int ",
+                            span_range: 27..30,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -54,8 +54,8 @@ SchemaBlock {
                             to_string: "user_id",
                         },
                         type: ColumnType {
-                            span_range: 61..65,
-                            raw: "int ",
+                            span_range: 61..64,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -105,8 +105,8 @@ SchemaBlock {
                             to_string: "status",
                         },
                         type: ColumnType {
-                            span_range: 93..101,
-                            raw: "varchar ",
+                            span_range: 93..100,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -155,8 +155,8 @@ SchemaBlock {
                             to_string: "created_at",
                         },
                         type: ColumnType {
-                            span_range: 143..151,
-                            raw: "varchar ",
+                            span_range: 143..150,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),

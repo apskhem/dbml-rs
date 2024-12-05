@@ -113,8 +113,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 236..244,
-                            raw: "integer ",
+                            span_range: 236..243,
+                            raw: "integer",
                             type_name: Raw(
                                 "integer",
                             ),
@@ -153,8 +153,8 @@ SchemaBlock {
                             to_string: "age",
                         },
                         type: ColumnType {
-                            span_range: 255..263,
-                            raw: "integer ",
+                            span_range: 255..262,
+                            raw: "integer",
                             type_name: Raw(
                                 "integer",
                             ),
@@ -225,8 +225,8 @@ SchemaBlock {
                             to_string: "role",
                         },
                         type: ColumnType {
-                            span_range: 317..327,
-                            raw: "varchar\n  ",
+                            span_range: 317..324,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -243,8 +243,8 @@ SchemaBlock {
                             to_string: "created_at",
                         },
                         type: ColumnType {
-                            span_range: 338..350,
-                            raw: "timestamp\n  ",
+                            span_range: 338..347,
+                            raw: "timestamp",
                             type_name: Raw(
                                 "timestamp",
                             ),
@@ -261,8 +261,8 @@ SchemaBlock {
                             to_string: "referral_id",
                         },
                         type: ColumnType {
-                            span_range: 362..370,
-                            raw: "integer ",
+                            span_range: 362..369,
+                            raw: "integer",
                             type_name: Raw(
                                 "integer",
                             ),
@@ -350,8 +350,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 421..429,
-                            raw: "integer ",
+                            span_range: 421..428,
+                            raw: "integer",
                             type_name: Raw(
                                 "integer",
                             ),
@@ -390,8 +390,8 @@ SchemaBlock {
                             to_string: "title",
                         },
                         type: ColumnType {
-                            span_range: 442..452,
-                            raw: "varchar\n  ",
+                            span_range: 442..449,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -408,8 +408,8 @@ SchemaBlock {
                             to_string: "body",
                         },
                         type: ColumnType {
-                            span_range: 457..462,
-                            raw: "text ",
+                            span_range: 457..461,
+                            raw: "text",
                             type_name: Raw(
                                 "text",
                             ),
@@ -458,8 +458,8 @@ SchemaBlock {
                             to_string: "user_id",
                         },
                         type: ColumnType {
-                            span_range: 502..510,
-                            raw: "integer ",
+                            span_range: 502..509,
+                            raw: "integer",
                             type_name: Raw(
                                 "integer",
                             ),
@@ -509,8 +509,8 @@ SchemaBlock {
                             to_string: "status",
                         },
                         type: ColumnType {
-                            span_range: 537..549,
-                            raw: "post_status ",
+                            span_range: 537..548,
+                            raw: "post_status",
                             type_name: Raw(
                                 "post_status",
                             ),
@@ -561,8 +561,8 @@ SchemaBlock {
                             to_string: "created_at",
                         },
                         type: ColumnType {
-                            span_range: 579..589,
-                            raw: "timestamp\n",
+                            span_range: 579..588,
+                            raw: "timestamp",
                             type_name: Raw(
                                 "timestamp",
                             ),
@@ -605,8 +605,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 612..620,
-                            raw: "integer ",
+                            span_range: 612..619,
+                            raw: "integer",
                             type_name: Raw(
                                 "integer",
                             ),
@@ -645,8 +645,8 @@ SchemaBlock {
                             to_string: "status",
                         },
                         type: ColumnType {
-                            span_range: 634..642,
-                            raw: "varchar ",
+                            span_range: 634..641,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
