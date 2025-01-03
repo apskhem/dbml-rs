@@ -153,8 +153,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 218..226,
-                            raw: "integer ",
+                            span_range: 218..225,
+                            raw: "integer",
                             type_name: Raw(
                                 "integer",
                             ),
@@ -193,8 +193,8 @@ SchemaBlock {
                             to_string: "status",
                         },
                         type: ColumnType {
-                            span_range: 240..251,
-                            raw: "job_status ",
+                            span_range: 240..250,
+                            raw: "job_status",
                             type_name: Raw(
                                 "job_status",
                             ),
@@ -341,8 +341,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 400..404,
-                            raw: "int ",
+                            span_range: 400..403,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -359,8 +359,8 @@ SchemaBlock {
                             to_string: "PK",
                         },
                         type: ColumnType {
-                            span_range: 407..416,
-                            raw: "unique\n  ",
+                            span_range: 407..413,
+                            raw: "unique",
                             type_name: Raw(
                                 "unique",
                             ),
@@ -395,8 +395,8 @@ SchemaBlock {
                             to_string: "created_at",
                         },
                         type: ColumnType {
-                            span_range: 451..459,
-                            raw: "varchar\n",
+                            span_range: 451..458,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),

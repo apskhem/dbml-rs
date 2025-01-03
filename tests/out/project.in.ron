@@ -140,8 +140,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 322..326,
-                            raw: "int ",
+                            span_range: 322..325,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -189,8 +189,8 @@ SchemaBlock {
                             to_string: "user_id",
                         },
                         type: ColumnType {
-                            span_range: 354..358,
-                            raw: "int ",
+                            span_range: 354..357,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -240,8 +240,8 @@ SchemaBlock {
                             to_string: "status",
                         },
                         type: ColumnType {
-                            span_range: 388..404,
-                            raw: "orders_status\n  ",
+                            span_range: 388..401,
+                            raw: "orders_status",
                             type_name: Raw(
                                 "orders_status",
                             ),
@@ -258,8 +258,8 @@ SchemaBlock {
                             to_string: "created_at",
                         },
                         type: ColumnType {
-                            span_range: 417..425,
-                            raw: "varchar\n",
+                            span_range: 417..424,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -319,8 +319,8 @@ SchemaBlock {
                             to_string: "order_id",
                         },
                         type: ColumnType {
-                            span_range: 463..469,
-                            raw: "int\n  ",
+                            span_range: 463..466,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -337,8 +337,8 @@ SchemaBlock {
                             to_string: "product_id",
                         },
                         type: ColumnType {
-                            span_range: 482..488,
-                            raw: "int\n  ",
+                            span_range: 482..485,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -355,8 +355,8 @@ SchemaBlock {
                             to_string: "quantity",
                         },
                         type: ColumnType {
-                            span_range: 499..503,
-                            raw: "int ",
+                            span_range: 499..502,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -427,8 +427,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 545..549,
-                            raw: "int ",
+                            span_range: 545..548,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -467,8 +467,8 @@ SchemaBlock {
                             to_string: "name",
                         },
                         type: ColumnType {
-                            span_range: 563..573,
-                            raw: "varchar\n  ",
+                            span_range: 563..570,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -485,8 +485,8 @@ SchemaBlock {
                             to_string: "merchant_id",
                         },
                         type: ColumnType {
-                            span_range: 587..591,
-                            raw: "int ",
+                            span_range: 587..590,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -527,8 +527,8 @@ SchemaBlock {
                             to_string: "price",
                         },
                         type: ColumnType {
-                            span_range: 612..618,
-                            raw: "int\n  ",
+                            span_range: 612..615,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -563,8 +563,8 @@ SchemaBlock {
                             to_string: "created_at",
                         },
                         type: ColumnType {
-                            span_range: 659..668,
-                            raw: "datetime ",
+                            span_range: 659..667,
+                            raw: "datetime",
                             type_name: Raw(
                                 "datetime",
                             ),
@@ -743,8 +743,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 810..814,
-                            raw: "int ",
+                            span_range: 810..813,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -783,8 +783,8 @@ SchemaBlock {
                             to_string: "full_name",
                         },
                         type: ColumnType {
-                            span_range: 833..843,
-                            raw: "varchar\n  ",
+                            span_range: 833..840,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -801,8 +801,8 @@ SchemaBlock {
                             to_string: "email",
                         },
                         type: ColumnType {
-                            span_range: 851..859,
-                            raw: "varchar ",
+                            span_range: 851..858,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -841,8 +841,8 @@ SchemaBlock {
                             to_string: "gender",
                         },
                         type: ColumnType {
-                            span_range: 879..889,
-                            raw: "varchar\n  ",
+                            span_range: 879..886,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -859,8 +859,8 @@ SchemaBlock {
                             to_string: "date_of_birth",
                         },
                         type: ColumnType {
-                            span_range: 905..915,
-                            raw: "varchar\n  ",
+                            span_range: 905..912,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -877,8 +877,8 @@ SchemaBlock {
                             to_string: "created_at",
                         },
                         type: ColumnType {
-                            span_range: 928..938,
-                            raw: "varchar\n  ",
+                            span_range: 928..935,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -895,8 +895,8 @@ SchemaBlock {
                             to_string: "country_code",
                         },
                         type: ColumnType {
-                            span_range: 953..957,
-                            raw: "int\n",
+                            span_range: 953..956,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -929,9 +929,10 @@ SchemaBlock {
                     raw: "g1",
                     to_string: "g1",
                 },
+                note: None,
                 items: [
                     TableGroupItem {
-                        span_range: 978..983,
+                        span_range: 978..986,
                         schema: None,
                         ident_alias: Ident {
                             span_range: 978..983,
@@ -940,7 +941,7 @@ SchemaBlock {
                         },
                     },
                     TableGroupItem {
-                        span_range: 986..995,
+                        span_range: 986..996,
                         schema: None,
                         ident_alias: Ident {
                             span_range: 986..995,
@@ -949,6 +950,7 @@ SchemaBlock {
                         },
                     },
                 ],
+                settings: None,
             },
         ),
         TableGroup(
@@ -959,9 +961,10 @@ SchemaBlock {
                     raw: "g2",
                     to_string: "g2",
                 },
+                note: None,
                 items: [
                     TableGroupItem {
-                        span_range: 1017..1026,
+                        span_range: 1017..1029,
                         schema: None,
                         ident_alias: Ident {
                             span_range: 1017..1026,
@@ -970,7 +973,7 @@ SchemaBlock {
                         },
                     },
                     TableGroupItem {
-                        span_range: 1029..1035,
+                        span_range: 1029..1036,
                         schema: None,
                         ident_alias: Ident {
                             span_range: 1029..1035,
@@ -979,6 +982,7 @@ SchemaBlock {
                         },
                     },
                 ],
+                settings: None,
             },
         ),
         Table(
@@ -993,8 +997,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 1066..1070,
-                            raw: "int ",
+                            span_range: 1066..1069,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -1033,8 +1037,8 @@ SchemaBlock {
                             to_string: "merchant_name",
                         },
                         type: ColumnType {
-                            span_range: 1093..1103,
-                            raw: "varchar\n  ",
+                            span_range: 1093..1100,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -1051,8 +1055,8 @@ SchemaBlock {
                             to_string: "country_code",
                         },
                         type: ColumnType {
-                            span_range: 1118..1124,
-                            raw: "int\n  ",
+                            span_range: 1118..1121,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -1069,8 +1073,8 @@ SchemaBlock {
                             to_string: "created_at",
                         },
                         type: ColumnType {
-                            span_range: 1137..1147,
-                            raw: "varchar\n  ",
+                            span_range: 1137..1144,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -1087,8 +1091,8 @@ SchemaBlock {
                             to_string: "admin_id",
                         },
                         type: ColumnType {
-                            span_range: 1158..1162,
-                            raw: "int\n",
+                            span_range: 1158..1161,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -1125,8 +1129,8 @@ SchemaBlock {
                             to_string: "code",
                         },
                         type: ColumnType {
-                            span_range: 1194..1198,
-                            raw: "int ",
+                            span_range: 1194..1197,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -1165,8 +1169,8 @@ SchemaBlock {
                             to_string: "name",
                         },
                         type: ColumnType {
-                            span_range: 1212..1222,
-                            raw: "varchar\n  ",
+                            span_range: 1212..1219,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -1183,8 +1187,8 @@ SchemaBlock {
                             to_string: "continent_name",
                         },
                         type: ColumnType {
-                            span_range: 1239..1247,
-                            raw: "varchar\n",
+                            span_range: 1239..1246,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),

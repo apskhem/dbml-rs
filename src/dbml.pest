@@ -1,9 +1,6 @@
 WHITESPACE = _{ " " | "\t" | NEWLINE }
 COMMENT = _{ single_line_comment | multi_line_comment }
 
-// whitespaces and comments
-wsc = _{ WHITESPACE | COMMENT }
-
 // comments
 single_line_comment = { "//" ~ (!NEWLINE ~ ANY)* }
 multi_line_comment = { "/*" ~ (!"*/" ~ ANY)* ~ "*/" }
@@ -25,7 +22,7 @@ ident = { var | double_quoted_string }
 
 // attributes and properties
 property = { spaced_var ~ ":" ~ (value | spaced_var) }
-attribute = { spaced_var ~ (":" ~ (value | spaced_var))? }
+attribute = { spaced_var ~ (":" ~ (value | spaced_var | double_quoted_string))? }
 block_settings = { "[" ~ (attribute ~ ("," ~ attribute)*)? ~ "]" }
 
 // values
@@ -76,20 +73,20 @@ col_attribute = { ref_inline | attribute }
 col_settings = { "[" ~ (col_attribute ~ ("," ~ col_attribute)*)? ~ "]" }
 col_type_arg = { "(" ~ (value ~ ("," ~ value)*)? ~ ")" }
 col_type_array = { "[" ~ integer? ~ "]" }
-col_type_unquoted = { var ~ col_type_arg? }
-col_type_quoted = { "\"" ~ spaced_var ~ col_type_arg? ~ col_type_array* ~ "\"" }
-col_type = { col_type_unquoted | col_type_quoted }
+col_type_unquoted = ${ var ~ col_type_arg? ~ col_type_array* }
+col_type_quoted = ${ "\"" ~ spaced_var ~ col_type_arg? ~ col_type_array* ~ "\"" ~ col_type_array* }
+col_type = ${ (ident ~ ".")? ~ (col_type_quoted | col_type_unquoted ) }
 table_col = { ident ~ col_type ~ col_settings? }
 table_block = { "{" ~ (table_col | note_decl | indexes_decl)* ~ "}" }
 table_alias = { ^"as " ~ ident }
 table_decl = { ^"Table " ~ decl_ident ~ table_alias? ~ block_settings?  ~ table_block }
 
 // table group block
-table_group_block = ${ "{" ~ wsc* ~ (decl_ident ~ wsc*)* ~ "}" }
-table_group_decl = { ^"TableGroup " ~ ident ~ table_group_block }
+table_group_block = { "{" ~ (note_decl | decl_ident)* ~ "}" }
+table_group_decl = { ^"TableGroup " ~ ident ~ block_settings? ~ table_group_block }
 
 // project block
 project_block = { "{" ~ (note_decl | property)* ~ "}" }
 project_decl = { ^"Project " ~ ident ~ project_block }
 
-schema = { SOI ~ (project_decl | table_decl | enum_decl | ref_decl | table_group_decl)* ~ EOI }
+schema = { SOI ~ (project_decl | table_decl | enum_decl | ref_decl | table_group_decl | note_decl)* ~ EOI }

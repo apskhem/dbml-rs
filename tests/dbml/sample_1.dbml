@@ -3,6 +3,10 @@ Project project_name {
   Note: 'Description of the project'
 }
 
+Note {
+  'A top level sticky note'
+}
+
 TableGroup order {
   public.users // users
   // posts

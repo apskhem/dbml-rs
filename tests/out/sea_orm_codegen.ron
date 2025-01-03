@@ -43,8 +43,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 77..81,
-                            raw: "int ",
+                            span_range: 77..80,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -92,8 +92,8 @@ SchemaBlock {
                             to_string: "name",
                         },
                         type: ColumnType {
-                            span_range: 104..109,
-                            raw: "text ",
+                            span_range: 104..108,
+                            raw: "text",
                             type_name: Raw(
                                 "text",
                             ),
@@ -154,8 +154,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 139..143,
-                            raw: "int ",
+                            span_range: 139..142,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -203,8 +203,8 @@ SchemaBlock {
                             to_string: "name",
                         },
                         type: ColumnType {
-                            span_range: 166..176,
-                            raw: "varchar\n  ",
+                            span_range: 166..173,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -221,8 +221,8 @@ SchemaBlock {
                             to_string: "fruit_id",
                         },
                         type: ColumnType {
-                            span_range: 185..190,
-                            raw: "text ",
+                            span_range: 185..189,
+                            raw: "text",
                             type_name: Raw(
                                 "text",
                             ),
@@ -304,8 +304,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 236..240,
-                            raw: "int ",
+                            span_range: 236..239,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -353,8 +353,8 @@ SchemaBlock {
                             to_string: "name",
                         },
                         type: ColumnType {
-                            span_range: 263..273,
-                            raw: "varchar\n  ",
+                            span_range: 263..270,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -371,8 +371,8 @@ SchemaBlock {
                             to_string: "cake_id",
                         },
                         type: ColumnType {
-                            span_range: 281..285,
-                            raw: "int ",
+                            span_range: 281..284,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -454,8 +454,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 332..336,
-                            raw: "int ",
+                            span_range: 332..335,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -503,8 +503,8 @@ SchemaBlock {
                             to_string: "name",
                         },
                         type: ColumnType {
-                            span_range: 359..367,
-                            raw: "varchar\n",
+                            span_range: 359..366,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -541,8 +541,8 @@ SchemaBlock {
                             to_string: "cake_id",
                         },
                         type: ColumnType {
-                            span_range: 401..407,
-                            raw: "int\n  ",
+                            span_range: 401..404,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -559,8 +559,8 @@ SchemaBlock {
                             to_string: "filling_id",
                         },
                         type: ColumnType {
-                            span_range: 418..425,
-                            raw: "int\n\n  ",
+                            span_range: 418..421,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),

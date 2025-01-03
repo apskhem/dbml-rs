@@ -17,6 +17,8 @@ Table "users" {
   "pjs2" job_status
   "pg" schemaB.gender
   "pg2" gender
+  "pg3" schemaB."gender"
+  "pg4" "schemaB"."gender"
 }
 
 Table "products" {

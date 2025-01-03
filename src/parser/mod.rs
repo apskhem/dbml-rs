@@ -78,6 +78,7 @@ fn parse_schema<'a>(pair: Pair<Rule>, input: &'a str) -> ParserResult<SchemaBloc
       Rule::table_decl => acc.blocks.push(TopLevelBlock::Table(parse_table_decl(p1)?)),
       Rule::enum_decl => acc.blocks.push(TopLevelBlock::Enum(parse_enum_decl(p1)?)),
       Rule::ref_decl => acc.blocks.push(TopLevelBlock::Ref(parse_ref_decl(p1)?)),
+      Rule::note_decl => acc.blocks.push(TopLevelBlock::Note(parse_note_decl(p1)?)),
       Rule::table_group_decl => acc.blocks.push(TopLevelBlock::TableGroup(parse_table_group_decl(p1)?)),
       Rule::EOI => (),
       _ => {
@@ -174,7 +175,7 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
         }
       }
       Rule::block_settings => {
-        acc.settings = Some(parse_block_settings(p1)?);
+        acc.settings = Some(parse_table_settings(p1)?);
       }
       _ => {
         throw_rules(
@@ -193,23 +194,19 @@ fn parse_table_decl(pair: Pair<Rule>) -> ParserResult<TableBlock> {
   })
 }
 
-fn parse_block_settings(pair: Pair<Rule>) -> ParserResult<TableSettings> {
-  let mut init = TableSettings {
+fn parse_table_settings(pair: Pair<Rule>) -> ParserResult<TableSettings> {
+  Ok(TableSettings {
     span_range: s2r(pair.as_span()),
-    ..Default::default()
-  };
-
-  init.attributes = pair
-    .into_inner()
-    .map(|p1| {
-      match p1.as_rule() {
-        Rule::attribute => parse_attribute(p1),
-        _ => throw_rules(&[Rule::attribute], p1),
-      }
-    })
-    .collect::<ParserResult<_>>()?;
-
-  Ok(init)
+    attributes: pair
+      .into_inner()
+      .map(|p1| {
+        match p1.as_rule() {
+          Rule::attribute => parse_attribute(p1),
+          _ => throw_rules(&[Rule::attribute], p1),
+        }
+      })
+      .collect::<ParserResult<_>>()?,
+  })
 }
 
 fn parse_table_col(pair: Pair<Rule>) -> ParserResult<TableColumn> {
@@ -232,6 +229,14 @@ fn parse_table_col(pair: Pair<Rule>) -> ParserResult<TableColumn> {
   })
 }
 
+fn build_type_name_with_schema(schema: Option<&Ident>, type_name: Pair<Rule>) -> String {
+  let mut type_name = type_name.as_str().to_string();
+  if let Some(schema) = schema {
+    type_name = format!("{}.{}", schema.to_string, type_name);
+  }
+  type_name
+}
+
 fn parse_col_type(pair: Pair<Rule>) -> ParserResult<ColumnType> {
   let mut out = ColumnType {
     span_range: s2r(pair.as_span()),
@@ -239,12 +244,19 @@ fn parse_col_type(pair: Pair<Rule>) -> ParserResult<ColumnType> {
     ..Default::default()
   };
 
+  let mut schema = None;
+
   for p1 in pair.into_inner() {
     match p1.as_rule() {
+      Rule::ident => {
+        schema = Some(parse_ident(p1)?);
+      }
       Rule::col_type_quoted | Rule::col_type_unquoted => {
         for p2 in p1.into_inner() {
           match p2.as_rule() {
-            Rule::var | Rule::spaced_var => out.type_name = ColumnTypeName::Raw(p2.as_str().to_string()),
+            Rule::var | Rule::spaced_var => {
+              out.type_name = ColumnTypeName::Raw(build_type_name_with_schema(schema.as_ref(), p2))
+            }
             Rule::col_type_arg => out.args = parse_col_type_arg(p2)?,
             Rule::col_type_array => {
               let val = p2.into_inner().try_fold(None, |_, p3| {
@@ -547,14 +559,33 @@ fn parse_table_group_decl(pair: Pair<Rule>) -> ParserResult<TableGroupBlock> {
 
               acc.items.push(init)
             }
-            _ => throw_rules(&[Rule::decl_ident], p2)?,
+            Rule::note_decl => acc.note = Some(parse_note_decl(p2)?),
+            _ => throw_rules(&[Rule::decl_ident, Rule::note_decl], p2)?,
           }
         }
       }
-      _ => throw_rules(&[Rule::ident, Rule::table_group_block], p1)?,
+      Rule::block_settings => {
+        acc.settings = Some(parse_table_group_settings(p1)?);
+      }
+      _ => throw_rules(&[Rule::ident, Rule::table_group_block, Rule::block_settings], p1)?,
     }
 
     Ok(acc)
+  })
+}
+
+fn parse_table_group_settings(pair: Pair<Rule>) -> ParserResult<TableGroupSettings> {
+  Ok(TableGroupSettings {
+    span_range: s2r(pair.as_span()),
+    attributes: pair
+      .into_inner()
+      .map(|p1| {
+        match p1.as_rule() {
+          Rule::attribute => parse_attribute(p1),
+          _ => throw_rules(&[Rule::attribute], p1),
+        }
+      })
+      .collect::<ParserResult<_>>()?,
   })
 }
 
@@ -922,7 +953,14 @@ pub fn parse_attribute(pair: Pair<Rule>) -> ParserResult<Attribute> {
           value: parse_value(p1)?,
         })
       }
-      _ => throw_rules(&[Rule::value, Rule::spaced_var], p1)?,
+      Rule::double_quoted_string => {
+        init.value = Some(Literal {
+          span_range: s2r(p1.as_span()),
+          raw: p1.as_str().to_string(),
+          value: Value::String(p1.into_inner().as_str().to_string()),
+        })
+      }
+      _ => throw_rules(&[Rule::value, Rule::spaced_var, Rule::double_quoted_string], p1)?,
     }
   }
 

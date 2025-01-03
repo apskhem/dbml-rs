@@ -13,7 +13,14 @@ Table merchants {
   admin_id int [ref: > U.id] // inline relationship (many-to-one)
 }
 
-TableGroup g1 {
+TableGroup g1 [color: #abcdef] {
   users
   merchants
+
+  note: 'A table group description'
+}
+
+
+Note {
+   'Some note'
 }

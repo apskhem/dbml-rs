@@ -14,8 +14,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 24..28,
-                            raw: "int ",
+                            span_range: 24..27,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -63,8 +63,8 @@ SchemaBlock {
                             to_string: "user_id",
                         },
                         type: ColumnType {
-                            span_range: 56..60,
-                            raw: "int ",
+                            span_range: 56..59,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -114,8 +114,8 @@ SchemaBlock {
                             to_string: "status",
                         },
                         type: ColumnType {
-                            span_range: 90..111,
-                            raw: "orders_status_enum\n  ",
+                            span_range: 90..108,
+                            raw: "orders_status_enum",
                             type_name: Raw(
                                 "orders_status_enum",
                             ),
@@ -174,8 +174,8 @@ SchemaBlock {
                             to_string: "order_id",
                         },
                         type: ColumnType {
-                            span_range: 175..181,
-                            raw: "int\n  ",
+                            span_range: 175..178,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -192,8 +192,8 @@ SchemaBlock {
                             to_string: "product_id",
                         },
                         type: ColumnType {
-                            span_range: 194..200,
-                            raw: "int\n  ",
+                            span_range: 194..197,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -232,8 +232,8 @@ SchemaBlock {
                             to_string: "quantity",
                         },
                         type: ColumnType {
-                            span_range: 241..245,
-                            raw: "int ",
+                            span_range: 241..244,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -304,8 +304,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 287..293,
-                            raw: "int\n  ",
+                            span_range: 287..290,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -369,8 +369,8 @@ SchemaBlock {
                             to_string: "created_at",
                         },
                         type: ColumnType {
-                            span_range: 352..361,
-                            raw: "datetime ",
+                            span_range: 352..360,
+                            raw: "datetime",
                             type_name: Raw(
                                 "datetime",
                             ),
@@ -487,8 +487,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 437..441,
-                            raw: "int ",
+                            span_range: 437..440,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -602,8 +602,8 @@ SchemaBlock {
                             to_string: "date_of_birth",
                         },
                         type: ColumnType {
-                            span_range: 529..540,
-                            raw: "datetime\n  ",
+                            span_range: 529..537,
+                            raw: "datetime",
                             type_name: Raw(
                                 "datetime",
                             ),
@@ -620,8 +620,8 @@ SchemaBlock {
                             to_string: "created_at",
                         },
                         type: ColumnType {
-                            span_range: 553..562,
-                            raw: "datetime ",
+                            span_range: 553..561,
+                            raw: "datetime",
                             type_name: Raw(
                                 "datetime",
                             ),
@@ -672,8 +672,8 @@ SchemaBlock {
                             to_string: "country_code",
                         },
                         type: ColumnType {
-                            span_range: 598..602,
-                            raw: "int ",
+                            span_range: 598..601,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -734,8 +734,8 @@ SchemaBlock {
                             to_string: "code",
                         },
                         type: ColumnType {
-                            span_range: 645..649,
-                            raw: "int ",
+                            span_range: 645..648,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),

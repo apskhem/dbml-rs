@@ -1,6 +1,6 @@
 SchemaBlock {
-    span_range: 0..291,
-    input: "Table users as U {\n  id int\n\tfull_name varchar\n  created_at timestamp\n  country_code int\n}\n\nTable merchants {\n  id int \n  merchant_name varchar\n\tcountry_code int\n  \"created at\" varchar\n  admin_id int [ref: > U.id] // inline relationship (many-to-one)\n}\n\nTableGroup g1 {\n  users\n  merchants\n}",
+    span_range: 0..372,
+    input: "Table users as U {\n  id int\n\tfull_name varchar\n  created_at timestamp\n  country_code int\n}\n\nTable merchants {\n  id int \n  merchant_name varchar\n\tcountry_code int\n  \"created at\" varchar\n  admin_id int [ref: > U.id] // inline relationship (many-to-one)\n}\n\nTableGroup g1 [color: #abcdef] {\n  users\n  merchants\n\n  note: 'A table group description'\n}\n\n\nNote {\n   'Some note'\n}\n",
     blocks: [
         Table(
             TableBlock {
@@ -14,8 +14,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 24..29,
-                            raw: "int\n\t",
+                            span_range: 24..27,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -32,8 +32,8 @@ SchemaBlock {
                             to_string: "full_name",
                         },
                         type: ColumnType {
-                            span_range: 39..49,
-                            raw: "varchar\n  ",
+                            span_range: 39..46,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -50,8 +50,8 @@ SchemaBlock {
                             to_string: "created_at",
                         },
                         type: ColumnType {
-                            span_range: 60..72,
-                            raw: "timestamp\n  ",
+                            span_range: 60..69,
+                            raw: "timestamp",
                             type_name: Raw(
                                 "timestamp",
                             ),
@@ -68,8 +68,8 @@ SchemaBlock {
                             to_string: "country_code",
                         },
                         type: ColumnType {
-                            span_range: 85..89,
-                            raw: "int\n",
+                            span_range: 85..88,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -112,8 +112,8 @@ SchemaBlock {
                             to_string: "id",
                         },
                         type: ColumnType {
-                            span_range: 115..122,
-                            raw: "int \n  ",
+                            span_range: 115..118,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -130,8 +130,8 @@ SchemaBlock {
                             to_string: "merchant_name",
                         },
                         type: ColumnType {
-                            span_range: 136..145,
-                            raw: "varchar\n\t",
+                            span_range: 136..143,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -148,8 +148,8 @@ SchemaBlock {
                             to_string: "country_code",
                         },
                         type: ColumnType {
-                            span_range: 158..164,
-                            raw: "int\n  ",
+                            span_range: 158..161,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -166,8 +166,8 @@ SchemaBlock {
                             to_string: "created at",
                         },
                         type: ColumnType {
-                            span_range: 177..187,
-                            raw: "varchar\n  ",
+                            span_range: 177..184,
+                            raw: "varchar",
                             type_name: Raw(
                                 "varchar",
                             ),
@@ -184,8 +184,8 @@ SchemaBlock {
                             to_string: "admin_id",
                         },
                         type: ColumnType {
-                            span_range: 196..200,
-                            raw: "int ",
+                            span_range: 196..199,
+                            raw: "int",
                             type_name: Raw(
                                 "int",
                             ),
@@ -245,32 +245,80 @@ SchemaBlock {
         ),
         TableGroup(
             TableGroupBlock {
-                span_range: 254..291,
+                span_range: 254..345,
                 ident: Ident {
                     span_range: 265..267,
                     raw: "g1",
                     to_string: "g1",
                 },
+                note: Some(
+                    NoteBlock {
+                        span_range: 310..343,
+                        value: Literal {
+                            span_range: 316..343,
+                            raw: "'A table group description'",
+                            value: String(
+                                "A table group description",
+                            ),
+                        },
+                    },
+                ),
                 items: [
                     TableGroupItem {
-                        span_range: 272..277,
+                        span_range: 289..297,
                         schema: None,
                         ident_alias: Ident {
-                            span_range: 272..277,
+                            span_range: 289..294,
                             raw: "users",
                             to_string: "users",
                         },
                     },
                     TableGroupItem {
-                        span_range: 280..289,
+                        span_range: 297..310,
                         schema: None,
                         ident_alias: Ident {
-                            span_range: 280..289,
+                            span_range: 297..306,
                             raw: "merchants",
                             to_string: "merchants",
                         },
                     },
                 ],
+                settings: Some(
+                    TableGroupSettings {
+                        span_range: 268..284,
+                        attributes: [
+                            Attribute {
+                                span_range: 269..283,
+                                key: Ident {
+                                    span_range: 269..274,
+                                    raw: "color",
+                                    to_string: "color",
+                                },
+                                value: Some(
+                                    Literal {
+                                        span_range: 276..283,
+                                        raw: "#abcdef",
+                                        value: HexColor(
+                                            "#abcdef",
+                                        ),
+                                    },
+                                ),
+                            },
+                        ],
+                    },
+                ),
+            },
+        ),
+        Note(
+            NoteBlock {
+                span_range: 348..371,
+                value: Literal {
+                    span_range: 358..369,
+                    raw: "'Some note'",
+                    value: String(
+                        "Some note",
+                    ),
+                },
             },
         ),
     ],
