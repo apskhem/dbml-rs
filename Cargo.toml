@@ -1,6 +1,6 @@
 [package]
 name = "dbml-rs"
-version = "1.0.0-rc.1"
+version = "1.0.0"
 edition = "2021"
 description = "A DBML Parser for Rust."
 license = "MIT OR Apache-2.0"
