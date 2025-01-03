@@ -14,13 +14,15 @@ mod indexer;
 use helper::*;
 use indexer::*;
 
-#[derive(Debug, Clone, Default)]
+/// Represents a struct of indexing information after analyzing.
+#[derive(Debug, Clone)]
 pub struct AnalyzedIndexer {
   pub indexed_refs: Vec<IndexedRef>,
   pub indexer: Indexer,
 }
 
 /// Represents a reference to a table, indicating relationships between tables.
+#[derive(Debug, Clone)]
 pub struct TableRef {
   /// References that this table points to, such as foreign keys in its fields.
   pub ref_to: Vec<IndexedRef>,
@@ -67,17 +69,17 @@ pub struct TableRef {
 /// ```
 pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
   let input = schema_block.input;
-  let project = schema_block.project();
+  let projects = schema_block.projects();
   let tables = schema_block.tables();
   let table_groups = schema_block.table_groups();
   let refs = schema_block.refs();
   let enums = schema_block.enums();
 
   // check project block
-  if project.len() > 1 {
+  if projects.len() > 1 {
     throw_err(Err::DuplicateProjectSetting, &schema_block.span_range, input)?;
   }
-  match project.first() {
+  match projects.first() {
     Some(project_block) => {
       check_prop_duplicate_keys(&project_block.properties, input)?;
     }

@@ -27,7 +27,9 @@ SchemaBlock {
                     raw: "project_name",
                     to_string: "project_name",
                 },
-                database_type: PostgreSQL,
+                database_type: Some(
+                    PostgreSQL,
+                ),
                 note: Some(
                     NoteBlock {
                         span_range: 55..89,

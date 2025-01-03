@@ -27,7 +27,9 @@ SchemaBlock {
                     raw: "sea_orm_codegen",
                     to_string: "sea_orm_codegen",
                 },
-                database_type: PostgreSQL,
+                database_type: Some(
+                    PostgreSQL,
+                ),
                 note: None,
             },
         ),

@@ -27,7 +27,9 @@ SchemaBlock {
                     raw: "ecommerce",
                     to_string: "ecommerce",
                 },
-                database_type: PostgreSQL,
+                database_type: Some(
+                    PostgreSQL,
+                ),
                 note: Some(
                     NoteBlock {
                         span_range: 22..116,

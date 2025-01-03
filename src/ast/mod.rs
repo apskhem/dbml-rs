@@ -1,3 +1,5 @@
+//! Collections of AST Nodes.
+
 pub(crate) type SpanRange = Range<usize>;
 
 mod enums;

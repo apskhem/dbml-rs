@@ -118,7 +118,7 @@ fn parse_project_decl(pair: Pair<Rule>) -> ParserResult<ProjectBlock> {
                 "database_type" => {
                   if let Value::String(db_name) = prop.value.value.clone() {
                     acc.database_type = match DatabaseType::from_str(&db_name) {
-                      Ok(val) => val,
+                      Ok(val) => Some(val),
                       Err(msg) => throw_msg(msg, p2)?,
                     }
                   }

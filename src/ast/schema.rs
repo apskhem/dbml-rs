@@ -31,7 +31,7 @@ pub enum TopLevelBlock {
 }
 
 impl<'a> SchemaBlock<'a> {
-  pub fn project(&self) -> Vec<&ProjectBlock> {
+  pub fn projects(&self) -> Vec<&ProjectBlock> {
     self
       .blocks
       .iter()
