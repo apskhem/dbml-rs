@@ -79,11 +79,8 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
   if projects.len() > 1 {
     throw_err(Err::DuplicateProjectSetting, &schema_block.span_range, input)?;
   }
-  match projects.first() {
-    Some(project_block) => {
-      check_prop_duplicate_keys(&project_block.properties, input)?;
-    }
-    _ => throw_err(Err::ProjectSettingNotFound, &schema_block.span_range, input)?,
+  if let Some(project_block) = projects.first() {
+    check_prop_duplicate_keys(&project_block.properties, input)?;
   }
 
   // collect tables
@@ -153,11 +150,9 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
         let idents: Vec<_> = def
           .cols
           .iter()
-          .filter_map(|id| {
-            match id {
-              IndexesColumnType::String(s) => Some(s),
-              _ => None,
-            }
+          .filter_map(|id| match id {
+            IndexesColumnType::String(s) => Some(s),
+            _ => None,
           })
           .cloned()
           .collect();
@@ -280,7 +275,7 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
                       throw_err(Err::InvalidArgumentValue, &col.r#type.span_range, input)?;
                     }
                   }
-                  
+
                   type_name
                 }
                 Err(_) => {
