@@ -2,7 +2,7 @@
 name = "dbml-rs"
 version = "1.0.0"
 edition = "2021"
-description = "A DBML Parser for Rust."
+description = "A DBML parser for Rust."
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/apskhem/dbml-rs"
 readme = "README.md"

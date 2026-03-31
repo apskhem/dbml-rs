@@ -50,7 +50,7 @@ pub struct Property {
   pub value: Literal,
 }
 
-/// Represents whether a value is explicitly specified as either null or not null.
+/// Represents whether a value is explicitly specified as either `null` or `not null`.
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub enum Nullable {
   NotNull,

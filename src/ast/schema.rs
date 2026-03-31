@@ -73,6 +73,20 @@ impl<'a> SchemaBlock<'a> {
       .collect()
   }
 
+  pub fn notes(&self) -> Vec<&NoteBlock> {
+    self
+      .blocks
+      .iter()
+      .filter_map(|block| {
+        if let TopLevelBlock::Note(note_block) = block {
+          Some(note_block)
+        } else {
+          None
+        }
+      })
+      .collect()
+  }
+
   pub fn refs(&self) -> Vec<&RefBlock> {
     self
       .blocks

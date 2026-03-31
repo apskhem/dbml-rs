@@ -13,7 +13,6 @@ pub struct TableGroupBlock {
   pub note: Option<NoteBlock>,
   /// The list of table identifiers inside the group.
   pub items: Vec<TableGroupItem>,
-
   /// The settings for the table group.
   pub settings: Option<TableGroupSettings>,
 }

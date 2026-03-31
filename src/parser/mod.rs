@@ -88,6 +88,7 @@ fn parse_schema<'a>(pair: Pair<Rule>, input: &'a str) -> ParserResult<SchemaBloc
             Rule::table_decl,
             Rule::enum_decl,
             Rule::ref_decl,
+            Rule::note_block,
             Rule::table_group_decl,
           ],
           p1,
