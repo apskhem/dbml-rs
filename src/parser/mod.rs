@@ -9,8 +9,8 @@ use alloc::vec::Vec;
 use core::str::FromStr;
 
 use err::*;
-use pest::iterators::Pair;
 use pest::Parser;
+use pest::iterators::Pair;
 
 use self::helper::*;
 use crate::ast::*;
@@ -54,7 +54,7 @@ struct DBMLParser;
 /// let ast = result.unwrap();
 /// // Now `ast` contains the unsanitized abstract syntax tree (AST) of the parsed DBML text.
 /// ```
-pub fn parse(input: &str) -> ParserResult<SchemaBlock> {
+pub fn parse(input: &str) -> ParserResult<SchemaBlock<'_>> {
   let pair = DBMLParser::parse(Rule::schema, input)?
     .next()
     .ok_or_else(|| unreachable!("unhandled parsing error"))?;
@@ -658,7 +658,7 @@ fn parse_note_decl(pair: Pair<Rule>) -> ParserResult<NoteBlock> {
                     value: Value::String(value),
                   },
                 }
-              })
+              });
             }
             _ => throw_rules(&[Rule::string_value], p2)?,
           }

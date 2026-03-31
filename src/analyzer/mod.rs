@@ -4,8 +4,8 @@ use alloc::vec::Vec;
 use core::str::FromStr;
 
 use self::err::*;
-use crate::ast::*;
 use crate::DEFAULT_SCHEMA;
+use crate::ast::*;
 
 mod err;
 mod helper;
@@ -150,9 +150,11 @@ pub fn analyze(schema_block: &SchemaBlock) -> AnalyzerResult<AnalyzedIndexer> {
         let idents: Vec<_> = def
           .cols
           .iter()
-          .filter_map(|id| match id {
-            IndexesColumnType::String(s) => Some(s),
-            _ => None,
+          .filter_map(|id| {
+            match id {
+              IndexesColumnType::String(s) => Some(s),
+              _ => None,
+            }
           })
           .cloned()
           .collect();

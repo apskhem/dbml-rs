@@ -8,7 +8,7 @@ use super::*;
 #[derive(Debug, Clone)]
 pub enum DatabaseType {
   PostgreSQL,
-  Unknown(String)
+  Unknown(String),
 }
 
 impl FromStr for DatabaseType {
