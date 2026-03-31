@@ -1,14 +1,8 @@
-use alloc::string::{
-  String,
-  ToString,
-};
+use alloc::string::{String, ToString};
 use core::ops::Range;
 
 use derive_more::Display;
-use pest::error::{
-  Error,
-  ErrorVariant,
-};
+use pest::error::{Error, ErrorVariant};
 use pest::Span;
 
 use crate::parser::Rule;
@@ -53,8 +47,6 @@ pub enum Err {
   DuplicateAlias,
   #[display(fmt = "Conflict nullable setting: 'null' and 'not null' must not appear within the same setting")]
   ConflictNullableSetting,
-  #[display(fmt = "Project setting not found")]
-  ProjectSettingNotFound,
   #[display(fmt = "Empty indexes block")]
   EmptyIndexesBlock,
   #[display(fmt = "Invalid enum")]

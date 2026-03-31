@@ -1,12 +1,12 @@
-Table A as A {
+Table "A" as "A" {
     id int [primary key]
 }
 
-Table "B" as B {
+Table "B" as "A" {
     id int [primary key]
 }
 
-Table C as "C" {
+Table "C" as "C" {
     id int [primary key]
 }
 
